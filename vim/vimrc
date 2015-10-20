@@ -2,6 +2,30 @@ set nocompatible
 filetype plugin on
 syntax on
 filetype plugin indent on
+let mapleader = ","
+set mouse=a
+
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Hide buffers instead of closing them
+set hidden
+
+" Show line numbers
+set number
+
+" Highlight search terms
+set hlsearch
+
+" Show search matches as you type
+set incsearch
+
+" Don't use old ways of protecting against data loss
+set nobackup
+set noswapfile
+
+set pastetoggle=<leader>p
 
 let g:netrw_liststyle=3
 execute pathogen#infect()
@@ -28,9 +52,6 @@ set listchars=eol:¬,tab:>>,trail:.,extends:>,precedes:<
 " NERDTree settings
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$']
-
-" Show line numbers
-set number
 
 " Remove trailing whitespace for certain filetypes
 fun! <SID>StripTrailingWhitespaces()
