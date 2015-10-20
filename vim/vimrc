@@ -27,6 +27,7 @@ set listchars=eol:¬,tab:>>,trail:.,extends:>,precedes:<
 
 " NERDTree settings
 map <C-n> :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['\.pyc$']
 
 " Show line numbers
 set number
@@ -39,7 +40,8 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,vim autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,vim autocmd BufWritePre
+        \ <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Disable arrow keys
 noremap <Up> <NOP>
