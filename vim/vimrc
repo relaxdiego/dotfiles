@@ -1,0 +1,51 @@
+set nocompatible
+filetype plugin on
+syntax on
+filetype plugin indent on
+
+let g:netrw_liststyle=3
+execute pathogen#infect()
+
+" Set indentation preferences
+"   ts  = 'number of spaces that <Tab> in file uses'
+"   sts = 'number of spaces that <Tab> uses while editing'
+"   sw  = 'number of spaces to use for (auto)indent step'
+" for details see: vimdoc.sourceforge.net/htmldoc/quickref.html#option-list
+set expandtab
+autocmd Filetype html setlocal ts=2 sts=2 sw=2
+autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+autocmd Filetype python setlocal ts=4 sts=4 sw=4
+
+" Show column rulers
+set colorcolumn=72,80
+highlight ColorColumn ctermbg=darkgray guibg=darkgray
+
+
+" Show whitespace
+set list
+set listchars=eol:¬,tab:>>,trail:.,extends:>,precedes:<
+
+" NERDTree keyboard shortcut
+map <C-n> :NERDTreeToggle<CR>
+
+" Show line numbers
+set number
+
+" Remove trailing whitespace for certain filetypes
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd FileType c,cpp,java,php,ruby,html,python autocmd BufWritePre <buffer>
+:call <SID>StripTrailingWhitespaces()
+
+
+" Disable arrow keys
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
