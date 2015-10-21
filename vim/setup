@@ -113,6 +113,15 @@ if ! [ -d $plugin_path ]; then
 fi
 
 
+# colorshemes plugin
+
+plugin_path=$bundle_path/vim-colorschemes
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing vim-colorschemes"
+    git clone https://github.com/relaxdiego/vim-colorschemes $plugin_path
+fi
+
 
 
 # Generate the docs for all plugins

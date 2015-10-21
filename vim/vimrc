@@ -1,10 +1,12 @@
 set nocompatible
-filetype plugin on
-syntax on
 filetype plugin indent on
+syntax on
+execute pathogen#infect()
 let mapleader=","
 set mouse=a
 set nowrap
+colorscheme hybrid
+
 
 " Treat all numerals as decimal even if zero padded
 set nrformats=
@@ -31,7 +33,6 @@ set noswapfile
 
 set pastetoggle=<leader>p
 
-execute pathogen#infect()
 
 " Set indentation preferences
 "   ts='number of spaces that <Tab> in file uses'
@@ -48,7 +49,6 @@ autocmd Filetype sh setlocal ts=4 sts=4 sw=4
 
 " Show column rulers
 set colorcolumn=72,80
-highlight ColorColumn ctermbg=darkgray guibg=darkgray
 
 
 " Show whitespace
@@ -64,7 +64,8 @@ autocmd BufWritePost *.py call Flake8()
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
 nmap <leader>nt :NERDTreeToggle<CR>
-let NERDTreeIgnore=['\.pyc$']
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.pyc$','^\.DS_Store$']
 
 " Might as well set the built in Explorer too
 let g:netrw_liststyle=3
@@ -98,6 +99,7 @@ let g:ctrlp_working_path_mode=''
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
 set wildignore+=.DS_Store
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+set wildignore+=tags
 
 let g:ctrlp_custom_ignore={
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
