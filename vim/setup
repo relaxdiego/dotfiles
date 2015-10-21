@@ -1,8 +1,27 @@
 #!/usr/bin/env bash
 
+echo "Setting up vim dotfile and plugins"
+
+dotfiles_repo=$HOME/dotfiles
+
+vimrc_source_path=$dotfiles_repo/vim/vimrc
+vimrc_symlink_path=$HOME/.vimrc
+vimrc_backup_path=$HOME/.vimrc_old
+
+if ! [ "$(readlink $vimrc_symlink_path)" = "$vimrc_source_path" ]; then
+
+    if [ -e $vimrc_symlink_path ]; then
+        echo "Moving current $vimrc_symlink_path to $vimrc_backup_path"
+        mv $vimrc_symlink_path $vimrc_backup_path
+    fi
+
+    echo "Symlinking $vimrc_symlink_path to $vimrc_source_path"
+    ln -s $vimrc_source_path $vimrc_symlink_path
+fi
+
 echo "Ensuring vim plugins and docs"
 
-dotvim_path=~/.vim
+dotvim_path=$HOME/.vim
 bundle_path=$dotvim_path/bundle
 autoload_path=$dotvim_path/autoload
 mkdir -p $bundle_path $autoload_path
