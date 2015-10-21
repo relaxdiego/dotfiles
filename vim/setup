@@ -83,6 +83,25 @@ if ! [ -d $plugin_path ]; then
 fi
 
 
+# vim-rpsec plugin
+
+plugin_path=$bundle_path/vim-rspec
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing vim-rspec"
+    git clone https://github.com/thoughtbot/vim-rspec $plugin_path
+fi
+
+
+# surround plugin
+
+plugin_path=$bundle_path/vim-surround
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing vim-surround"
+    git clone https://github.com/tpope/vim-surround $plugin_path
+fi
+
 
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
