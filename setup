@@ -3,4 +3,5 @@
 tmux/setup
 tmuxinator/setup
 ag/setup
+ctags/setup
 vim/setup
