@@ -7,6 +7,8 @@ set mouse=a
 set nowrap
 colorscheme hybrid
 
+" Press 'jj' quickly in insert mode instead of Esc
+imap jj <Esc>
 
 " Treat all numerals as decimal even if zero padded
 set nrformats=
