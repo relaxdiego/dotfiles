@@ -73,6 +73,17 @@ if [ $? == 1 ]; then
 fi
 
 
+# Ag plugin
+
+plugin_path=$bundle_path/ag.vim
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing ag.vim"
+    git clone https://github.com/rking/ag.vim $plugin_path
+fi
+
+
+
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
 vim +Helptags +q
