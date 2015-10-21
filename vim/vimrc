@@ -31,10 +31,6 @@ set noswapfile
 
 set pastetoggle=<leader>p
 
-" Run flake8 when saving a python file
-autocmd BufWritePost *.py call Flake8()
-
-let g:netrw_liststyle=3
 execute pathogen#infect()
 
 " Set indentation preferences
@@ -43,9 +39,12 @@ execute pathogen#infect()
 "   sw='number of spaces to use for (auto)indent step'
 " for details see: vimdoc.sourceforge.net/htmldoc/quickref.html#option-list
 set expandtab
+set ts=4 sw=4
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
+autocmd Filetype sh setlocal ts=4 sts=4 sw=4
+
 
 " Show column rulers
 set colorcolumn=72,80
@@ -56,10 +55,20 @@ highlight ColorColumn ctermbg=darkgray guibg=darkgray
 set list
 set listchars=eol:¬,tab:>>,trail:.,extends:>,precedes:<
 
+
+" vim-flake8
+" Run flake8 when saving a python file
+autocmd BufWritePost *.py call Flake8()
+
+
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
 nmap <silent> <leader>nt :NERDTree<CR>
 let NERDTreeIgnore=['\.pyc$']
+
+" Might as well set the built in Explorer too
+let g:netrw_liststyle=3
+
 
 " Remove trailing whitespace for certain filetypes
 fun! <SID>StripTrailingWhitespaces()
@@ -69,8 +78,9 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,vim autocmd BufWritePre
+autocmd FileType c,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
         \ <buffer> :call <SID>StripTrailingWhitespaces()
+
 
 " Disable arrow keys
 noremap <Up> <NOP>
@@ -78,8 +88,8 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+
 " Setting for ctrlp plugin
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_map='<c-p>'
 let g:ctrlp_max_files=0
 let g:ctrlp_max_depth=40

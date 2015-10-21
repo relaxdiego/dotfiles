@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+echo "Ensuring vim plugins and docs"
+
+dotvim_path=~/.vim
+bundle_path=$dotvim_path/bundle
+autoload_path=$dotvim_path/autoload
+mkdir -p $bundle_path $autoload_path
+
+# Install pathogen (plugin manager)
+
+pathogen_path=$autoload_path/pathogen.vim
+
+if ! [ -f $pathogen_path ]; then
+    echo "Installing pathogen"
+    curl -LSso $pathogen_path https://tpo.pe/pathogen.vim
+fi
+
+
+# ctrlp plugin
+
+plugin_path=$bundle_path/ctrlp.vim
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing ctrlp"
+    git clone https://github.com/kien/ctrlp.vim.git $plugin_path
+fi
+
+
+# NERDTree plugin
+
+plugin_path=$bundle_path/nerdtree
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing NERDTree"
+    git clone https://github.com/scrooloose/nerdtree.git $plugin_path
+fi
+
+
+# vim-flake8 plugin
+
+plugin_path=$bundle_path/vim-flake8
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing vim-flake8"
+    git clone https://github.com/nvie/vim-flake8 $plugin_path
+fi
+
+pip list | grep flake8 > /dev/null
+
+if [ $? == 1 ]; then
+    echo "Installing flake8"
+    pip install flake8
+fi
+
+
+# Generate the docs for all plugins
+echo "Running 'Helptags' command"
+vim +Helptags +q
