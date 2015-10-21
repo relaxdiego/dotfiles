@@ -103,6 +103,18 @@ if ! [ -d $plugin_path ]; then
 fi
 
 
+# tagbar plugin
+
+plugin_path=$bundle_path/tagbar
+
+if ! [ -d $plugin_path ]; then
+    echo "Installing tagbar"
+    git clone https://github.com/majutsushi/tagbar $plugin_path
+fi
+
+
+
+
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
 vim +Helptags +q
