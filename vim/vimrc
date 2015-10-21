@@ -2,8 +2,12 @@ set nocompatible
 filetype plugin on
 syntax on
 filetype plugin indent on
-let mapleader = ","
+let mapleader=","
 set mouse=a
+set nowrap
+
+" Treat all numerals as decimal even if zero padded
+set nrformats=
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -27,13 +31,16 @@ set noswapfile
 
 set pastetoggle=<leader>p
 
+" Run flake8 when saving a python file
+autocmd BufWritePost *.py call Flake8()
+
 let g:netrw_liststyle=3
 execute pathogen#infect()
 
 " Set indentation preferences
-"   ts  = 'number of spaces that <Tab> in file uses'
-"   sts = 'number of spaces that <Tab> uses while editing'
-"   sw  = 'number of spaces to use for (auto)indent step'
+"   ts='number of spaces that <Tab> in file uses'
+"   sts='number of spaces that <Tab> uses while editing'
+"   sw='number of spaces to use for (auto)indent step'
 " for details see: vimdoc.sourceforge.net/htmldoc/quickref.html#option-list
 set expandtab
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
@@ -50,13 +57,14 @@ set list
 set listchars=eol:¬,tab:>>,trail:.,extends:>,precedes:<
 
 " NERDTree settings
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$']
+" map <C-n> :NERDTreeToggle<CR>
+nmap <silent> <leader>nt :NERDTree<CR>
+let NERDTreeIgnore=['\.pyc$']
 
 " Remove trailing whitespace for certain filetypes
 fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
+    let l=line(".")
+    let c=col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
@@ -72,15 +80,16 @@ noremap <Right> <NOP>
 
 " Setting for ctrlp plugin
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 40
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = ''
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_map='<c-p>'
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=40
+let g:ctrlp_cmd='CtrlP'
+let g:ctrlp_working_path_mode=''
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
+set wildignore+=.DS_Store
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
 
-let g:ctrlp_custom_ignore = {
+let g:ctrlp_custom_ignore={
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'coverage':  '\v(htmlcov|\.?coverage)$',
   \ 'file': '\v\.(exe|so|dll)$',
