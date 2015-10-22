@@ -17,11 +17,18 @@ if ! hash ag 2>/dev/null; then
             echo "ERROR: I don't know what package manager you're using!"
             exit 1
         fi
+    elif [[ "$unamestr" == 'Linux' ]]; then
+        if hash apt-get 1>&2>/dev/null; then
+            sudo apt-get -y install silversearcher-ag
+        elif hash yum 1>&2>/dev/null; then
+            sudo yum -y install the_silver_searcher
+        else
+            echo "ERROR: I don't know what package manager you're using!"
+            exit 1
+        fi
     else
         echo "ERROR: I don't support installation for this OS yet!"
         exit 1
     fi
 
 fi
-
-
