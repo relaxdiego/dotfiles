@@ -1,30 +1,20 @@
 #!/usr/bin/env bash
 healthy=true
 
-# Check python
-if ! hash python 2>/dev/null; then
-    echo "MISSING: Python"
-    healthy=false
-fi
+check_dep () {
+    dep=$1
+    depname=${2:-$1}
 
-# Check pip
-if ! hash pip 2>/dev/null; then
-    echo "MISSING: pip"
-    healthy=false
-fi
+    if ! hash $dep 2>/dev/null; then
+        echo "MISSING: $depname"
+        healthy=false
+    fi
+}
 
-# Check ruby
-if ! hash ruby 2>/dev/null; then
-    echo "MISSING: ruby"
-    healthy=false
-fi
-
-# Check rubygems
-if ! hash gem 2>/dev/null; then
-    echo "MISSING: rubygems"
-    healthy=false
-fi
-
+check_dep python
+check_dep pip
+check_dep ruby
+check_dep gem rubygems
 
 if [ "$healthy" = false ]; then
     echo "Please fix the missing dependencies and try again"
