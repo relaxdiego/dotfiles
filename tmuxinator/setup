@@ -23,7 +23,7 @@ gem list | grep tmuxinator > /dev/null
 
 if [ $? == 1 ]; then
     echo "Installing tmuxinator"
-    gem install tmuxinator
+    gem install tmuxinator --no-ri --no-rdoc
 fi
 
 
