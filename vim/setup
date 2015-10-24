@@ -2,7 +2,8 @@
 
 echo "Setting up vim dotfile and plugins"
 
-dotfiles_repo=$HOME/dotfiles
+dotfiles_repo=$(utils/repo_path)
+echo "Dotfiles repo is in $dotfiles_repo"
 
 vimrc_source_path=$dotfiles_repo/vim/vimrc
 vimrc_symlink_path=$HOME/.vimrc
@@ -17,6 +18,8 @@ if ! [ "$(readlink $vimrc_symlink_path)" = "$vimrc_source_path" ]; then
 
     echo "Symlinking $vimrc_symlink_path to $vimrc_source_path"
     ln -s $vimrc_source_path $vimrc_symlink_path
+else
+    echo "$vimrc_symlink_path points correctly to $vimrc_source_path"
 fi
 
 echo "Ensuring vim plugins and docs"

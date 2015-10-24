@@ -2,7 +2,8 @@
 
 echo "Setting up tmuxinator"
 
-dotfiles_repo=$HOME/dotfiles
+dotfiles_repo=$(utils/repo_path)
+echo "Dotfiles repo is in $dotfiles_repo"
 
 source_path=$dotfiles_repo/tmuxinator/yamls
 symlink_path=$HOME/.tmuxinator
