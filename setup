@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+set -e
+
+utils/doctor
 
 tmux/setup
 tmuxinator/setup

@@ -36,34 +36,28 @@ if ! [ -f $pathogen_path ]; then
 fi
 
 
+ensure_plugin () {
+    plugin_name=$1
+    repo_url=$2
+    plugin_path=$bundle_path/$plugin_name
+
+    if ! [ -d $plugin_path ]; then
+        echo "Installing plugin: $plugin_name"
+        git clone $repo_url $plugin_path
+    else
+        echo "Plugin $plugin_name is already installed at $plugin_path"
+    fi
+}
+
+
 # ctrlp plugin
-
-plugin_path=$bundle_path/ctrlp.vim
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing ctrlp"
-    git clone https://github.com/kien/ctrlp.vim.git $plugin_path
-fi
-
+ensure_plugin ctrlp.vim https://github.com/kien/ctrlp.vim.git
 
 # NERDTree plugin
-
-plugin_path=$bundle_path/nerdtree
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing NERDTree"
-    git clone https://github.com/scrooloose/nerdtree.git $plugin_path
-fi
-
+ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
 
 # vim-flake8 plugin
-
-plugin_path=$bundle_path/vim-flake8
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing vim-flake8"
-    git clone https://github.com/nvie/vim-flake8 $plugin_path
-fi
+ensure_plugin vim-flake8 https://github.com/nvie/vim-flake8
 
 pip list | grep flake8 > /dev/null
 
@@ -72,57 +66,20 @@ if [ $? == 1 ]; then
     pip install flake8
 fi
 
-
 # Ag plugin
-
-plugin_path=$bundle_path/ag.vim
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing ag.vim"
-    git clone https://github.com/rking/ag.vim $plugin_path
-fi
-
+ensure_plugin ag.vim https://github.com/rking/ag.vim
 
 # vim-rpsec plugin
-
-plugin_path=$bundle_path/vim-rspec
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing vim-rspec"
-    git clone https://github.com/thoughtbot/vim-rspec $plugin_path
-fi
-
+ensure_plugin vim-rspec https://github.com/thoughtbot/vim-rspec
 
 # surround plugin
-
-plugin_path=$bundle_path/vim-surround
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing vim-surround"
-    git clone https://github.com/tpope/vim-surround $plugin_path
-fi
-
+ensure_plugin vim-surround https://github.com/tpope/vim-surround
 
 # tagbar plugin
+ensure_plugin tagbar https://github.com/majutsushi/tagbar
 
-plugin_path=$bundle_path/tagbar
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing tagbar"
-    git clone https://github.com/majutsushi/tagbar $plugin_path
-fi
-
-
-# colorshemes plugin
-
-plugin_path=$bundle_path/vim-colorschemes
-
-if ! [ -d $plugin_path ]; then
-    echo "Installing vim-colorschemes"
-    git clone https://github.com/relaxdiego/vim-colorschemes $plugin_path
-fi
-
-
+# colorschemes plugin
+ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
 
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
