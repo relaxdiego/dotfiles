@@ -27,4 +27,4 @@ if [ $? == 1 ]; then
     gem install tmuxinator --no-ri --no-rdoc
 fi
 
-
+tmuxinator doctor
