@@ -1,0 +1,25 @@
+[user]
+    name = Mark S. Maglana
+    email = mmaglana@gmail.com
+
+[core]
+    pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
+
+[github]
+    user = relaxdiego
+
+[merge]
+    tool = p4mergetool
+
+[mergetool "p4mergetool"]
+    cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $PWD/$BASE $PWD/$REMOTE $PWD/$LOCAL $PWD/$MERGED
+    trustExitCode = false
+
+[mergetool]
+    keepBackup = false
+
+[diff]
+    tool = p4mergetool
+
+[difftool "p4mergetool"]
+    cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $LOCAL $REMOTE

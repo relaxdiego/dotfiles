@@ -1,0 +1,72 @@
+[include]
+    path = ~/.gitconfig.local
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = green reverse
+    local = green
+    remote = red
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[alias]
+    fa = fetch --all
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    diffc = diff --check
+    undo-last-commit = reset --soft HEAD^
+    tree = log --graph --pretty=oneline --abbrev-commit --decorate --color
+    t = log --graph --pretty=oneline --abbrev-commit --decorate --color
+    ta = log --graph --pretty=oneline --abbrev-commit --decorate --color --all
+    local = log --pretty=oneline @{u}..HEAD
+    rewrite = rebase -i --autosquash @{u}
+    pr = pull --rebase
+    rh = reset --hard
+    co = checkout
+    rename = branch -m
+    dry-run-merge = merge --no-commit --no-ff
+    mnff = merge --no-ff
+    switch = !legit switch \"$@\"
+    branches = !legit branches
+    sprout = !legit sprout \"$@\"
+    unpublish = !legit unpublish \"$@\"
+    harvest = !legit harvest \"$@\"
+    sync = !legit sync \"$@\"
+    publish = !legit publish \"$@\"
+    graft = !legit graft \"$@\"
+
+[apply]
+    whitespace = strip
+
+[pager]
+    color = true
+
+[status]
+    color = true
+
+[core]
+    whitespace = trailing-space,space-before-tab
+    excludesfile = ~/.gitignore_global
+    editor = vi
+
+[filter "media"]
+    required = true
+    clean = git media clean %f
+    smudge = git media smudge %f
+
+[push]
+    default = current

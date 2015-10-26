@@ -3,6 +3,7 @@ set -e
 
 utils/doctor
 
+git/setup
 tmux/setup
 tmuxinator/setup
 ag/setup

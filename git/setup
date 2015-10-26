@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+echo "Setting up git"
+
+dotfiles_repo=$(utils/repo_path)
+echo "Dotfiles repo is in $dotfiles_repo"
+
+source_path=$dotfiles_repo/git/gitconfig
+symlink_path=$HOME/.gitconfig
+backup_path=$HOME/.gitconfig.old
+
+if ! [ "$(readlink $symlink_path)" = "$source_path" ]; then
+
+    if [ -e $symlink_path ]; then
+        echo "Moving current $symlink_path to $backup_path"
+        mv $symlink_path $backup_path
+    fi
+
+    echo "Symlinking $symlink_path to $source_path"
+    ln -s $source_path $symlink_path
+else
+    echo "$symlink_path points correctly to $source_path"
+fi
+
+
+local_gitconfig=$HOME/.gitconfig.local
+
+if ! [ -e $local_gitconfig ]; then
+    echo "ERROR: Local gitconfig not found at $local_gitconfig. Please " \
+         "set it up. There's a sample at ${source_path}.local.example"
+fi
+
+
+git_completion=/usr/local/etc/bash_completion.d/git-completion.bash
+git_prompt=/usr/local/etc/bash_completion.d/git-prompt.sh
+
+if ! [[ -f $git_completion || -f $git_prompt ]]; then
+    echo "ERROR: $git_completion and $git_prompt. See " \
+         "https://gist.github.com/relaxdiego/a46e507e2f9c329d9a60 for help"
+    healthy=false
+fi
+
+
