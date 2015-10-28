@@ -87,3 +87,20 @@ ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
 vim +Helptags +q
+
+# Add puppet syntax highlighting
+if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
+    echo "Adding puppet syntax highlighting and goodies"
+    tmp_puppetvims=/tmp/puppetvims
+    mkdir -p $tmp_puppetvims
+    cd $tmp_puppetvims
+    git init
+    git remote add -f origin https://github.com/puppetlabs/puppet
+    git config core.sparseCheckout true
+    echo "ext/vim/" >> .git/info/sparse-checkout
+    git pull origin master
+    cp -r ext/vim/* $dotvim_path
+    cd -
+else
+    echo "Puppet syntax highlighting and goodies already exist"
+fi
