@@ -84,6 +84,19 @@ ensure_plugin tagbar https://github.com/majutsushi/tagbar
 # colorschemes plugin
 ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
 
+# YouCompleteMe plugin
+plugin_name='YouCompleteMe'
+ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
+if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
+    cd $bundle_path/$plugin_name
+    git submodule update --init --recursive
+    ./install.py --clang-completer --gocode-completer
+    cd -
+else
+    echo "Plugin YouCompleteMe is already configured"
+fi
+echo "If you're having problems with YCM, see https://github.com/Valloric/YouCompleteMe/issues/8#issuecomment-34374807"
+
 # Generate the docs for all plugins
 echo "Running 'Helptags' command"
 vim +Helptags +q
