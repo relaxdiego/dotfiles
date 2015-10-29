@@ -15,6 +15,7 @@ check_dep python
 check_dep pip
 check_dep ruby
 check_dep gem rubygems
+check_dep go
 
 if [ "$healthy" = false ]; then
     echo "Please fix the missing dependencies and try again"
