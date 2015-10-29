@@ -93,6 +93,9 @@ ensure_plugin vim-endwise https://github.com/relaxdiego/vim-endwise
 # tslime.vim plugin
 ensure_plugin tslime.vim https://github.com/relaxdiego/tslime.vim
 
+# Tcomment plugin
+ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
