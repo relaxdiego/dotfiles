@@ -84,6 +84,9 @@ ensure_plugin tagbar https://github.com/majutsushi/tagbar
 # colorschemes plugin
 ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
 
+# lightline plugin
+ensure_plugin lightline.vim https://github.com/relaxdiego/lightline.vim
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
