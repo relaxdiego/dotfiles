@@ -149,6 +149,8 @@ nnoremap K yiw:Ag<SPACE><C-R>0<CR>
 
 " Set up tagbar
 nmap <leader>tb :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
 
 " Setup tslime.vim
 let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
