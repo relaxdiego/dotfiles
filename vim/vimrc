@@ -146,20 +146,18 @@ endif
 " bind K to grep word under cursor
 nnoremap K yiw:Ag<SPACE><C-R>0<CR>
 
-
 " Set up tagbar
 nmap <leader>tb :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 
-" Setup tslime.vim
-let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
-
-" Setup rspec-vim
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" Setup test.vim
+nmap <silent> <leader>s :TestNearest<CR>
+nmap <silent> <leader>t :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+let test#strategy = "tslime"
 
 " Execute current file
 nnoremap <Leader>r :!%:p

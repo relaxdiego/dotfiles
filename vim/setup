@@ -78,8 +78,8 @@ fi
 # Ag plugin
 ensure_plugin ag.vim https://github.com/rking/ag.vim
 
-# vim-rpsec plugin
-ensure_plugin vim-rspec https://github.com/thoughtbot/vim-rspec
+# test.vim plugin; supersedes vim-rspec
+ensure_plugin test.vim https://github.com/relaxdiego/vim-test
 
 # surround plugin
 ensure_plugin vim-surround https://github.com/tpope/vim-surround
