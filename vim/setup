@@ -5,22 +5,26 @@ echo "Setting up vim dotfile and plugins"
 dotfiles_repo=$(utils/repo_path)
 echo "Dotfiles repo is in $dotfiles_repo"
 
-vimrc_source_path=$dotfiles_repo/vim/vimrc
-vimrc_symlink_path=$HOME/.vimrc
-vimrc_backup_path=$HOME/.vimrc_old
+ensure_symlink () {
+    symlink_path=$1
+    target_path=$2
+    backup_path=${target_path}.old
 
-if ! [ "$(readlink $vimrc_symlink_path)" = "$vimrc_source_path" ]; then
+    if ! [ "$(readlink $symlink_path)" = "$target_path" ]; then
 
-    if [ -e $vimrc_symlink_path ]; then
-        echo "Moving current $vimrc_symlink_path to $vimrc_backup_path"
-        mv $vimrc_symlink_path $vimrc_backup_path
+        if [ -e $symlink_path ]; then
+            echo "Moving current $symlink_path to $backup_path"
+            mv $symlink_path $backup_path
+        fi
+
+        echo "Symlinking $symlink_path to $target_path"
+        ln -s $target_path $symlink_path
+    else
+        echo "$symlink_path points correctly to $target_path"
     fi
+}
 
-    echo "Symlinking $vimrc_symlink_path to $vimrc_source_path"
-    ln -s $vimrc_source_path $vimrc_symlink_path
-else
-    echo "$vimrc_symlink_path points correctly to $vimrc_source_path"
-fi
+ensure_symlink $HOME/.vimrc $dotfiles_repo/vim/vimrc
 
 echo "Ensuring vim plugins and docs"
 
@@ -28,6 +32,8 @@ dotvim_path=$HOME/.vim
 bundle_path=$dotvim_path/bundle
 autoload_path=$dotvim_path/autoload
 mkdir -p $bundle_path $autoload_path
+
+ensure_symlink $dotvim_path/snippets $dotfiles_repo/vim/snippets
 
 # Install pathogen (plugin manager)
 
