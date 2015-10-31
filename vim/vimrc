@@ -80,6 +80,9 @@ autocmd BufWritePost *.py call Flake8()
 nmap <leader>nt :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.pyc$','^\.DS_Store$']
+" match the keyboard bindings of CtrlP
+autocmd FileType nerdtree nmap <buffer> <C-v> s
+autocmd FileType nerdtree nmap <buffer> <C-x> i
 
 " Might as well set the built in Explorer too
 let g:netrw_liststyle=3
@@ -158,6 +161,10 @@ nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 let test#strategy = "tslime"
+let test#python#pytest#options = {
+    \ 'file': '--random',
+    \ 'suite': '--random',
+    \}
 
 " Execute current file
 nnoremap <Leader>r :!%:p
