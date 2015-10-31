@@ -178,4 +178,12 @@ let g:ycm_add_preview_to_completeopt = 0
 " Lightline plugin
 let g:lightline = {
     \ 'colorscheme': 'wombat',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified' ] ]
+    \ },
     \ }
+" Always show the status line
+set laststatus=2
+" We don't need the extra vim mode info now that lightline is in use
+set noshowmode
