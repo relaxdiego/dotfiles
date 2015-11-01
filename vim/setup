@@ -84,6 +84,9 @@ ensure_plugin test.vim https://github.com/relaxdiego/vim-test
 # surround plugin
 ensure_plugin vim-surround https://github.com/tpope/vim-surround
 
+# vim-repeat plugin
+ensure_plugin vim-repeat https://github.com/relaxdiego/vim-repeat
+
 # tagbar plugin
 ensure_plugin tagbar https://github.com/majutsushi/tagbar
 
