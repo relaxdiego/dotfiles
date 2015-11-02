@@ -184,6 +184,9 @@ let g:lightline = {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'readonly', 'filename', 'modified' ] ]
     \ },
+    \ 'inactive': {
+    \   'left': [ [ 'readonly', 'filename', 'modified' ] ]
+    \ },
     \ }
 " Always show the status line
 set laststatus=2
