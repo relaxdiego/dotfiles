@@ -193,6 +193,22 @@ set laststatus=2
 " We don't need the extra vim mode info now that lightline is in use
 set noshowmode
 
+" ultisnips and friends
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+let g:endwise_no_mappings = 1
+inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
+
 " ALWAYS DO THIS LAST
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
