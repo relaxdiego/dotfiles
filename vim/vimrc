@@ -6,7 +6,7 @@ let mapleader=","
 set mouse=a
 set nowrap
 colorscheme hybrid
-let &winheight = &lines * 7 / 10
+let &winheight = &lines * 8 / 10
 
 " Press '' quickly in insert mode instead of Esc
 imap '' <Esc>
