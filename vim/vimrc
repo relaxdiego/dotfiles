@@ -164,6 +164,13 @@ let test#python#pytest#options = {
     \ 'file': '--random',
     \ 'suite': '--random',
     \}
+" Always use pytest
+if filereadable(".pytest")
+    let test#python#runner = 'pytest'
+elseif filereadable(".djangotest")
+    let test#python#runner = 'djangotest'
+endif
+
 
 " Execute current file
 nnoremap <Leader>r :!%:p
