@@ -108,6 +108,8 @@ ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
 # ultisnips and friends
 ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
 ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
+ensure_symlink $HOME/.vim/UltiSnips $HOME/.vim/bundle/vim-snippets/UltiSnips
+ensure_symlink $HOME/.vim/MyUltiSnips $dotfiles_repo/vim/MyUltiSnips
 
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'

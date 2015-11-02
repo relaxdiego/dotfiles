@@ -196,6 +196,7 @@ set noshowmode
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger = "<nop>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "MyUltiSnips"]
 let g:ulti_expand_or_jump_res = 0
 function ExpandSnippetOrCarriageReturn()
     let snippet = UltiSnips#ExpandSnippetOrJump()
