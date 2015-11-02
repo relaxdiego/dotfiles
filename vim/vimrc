@@ -59,7 +59,6 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 autocmd Filetype sh setlocal ts=4 sts=4 sw=4
 autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
-autocmd BufRead,BufNewFile *.html.erb setlocal filetype=html.eruby
 
 " Show column rulers
 set colorcolumn=72,80
