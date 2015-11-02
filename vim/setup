@@ -8,7 +8,7 @@ echo "Dotfiles repo is in $dotfiles_repo"
 ensure_symlink () {
     symlink_path=$1
     target_path=$2
-    backup_path=${target_path}.old
+    backup_path=${symlink_path}.old
 
     if ! [ "$(readlink $symlink_path)" = "$target_path" ]; then
 
@@ -30,19 +30,9 @@ echo "Ensuring vim plugins and docs"
 
 dotvim_path=$HOME/.vim
 bundle_path=$dotvim_path/bundle
-autoload_path=$dotvim_path/autoload
-mkdir -p $bundle_path $autoload_path
 
 ensure_symlink $dotvim_path/snippets $dotfiles_repo/vim/snippets
-
-# Install pathogen (plugin manager)
-
-pathogen_path=$autoload_path/pathogen.vim
-
-if ! [ -f $pathogen_path ]; then
-    echo "Installing pathogen"
-    curl -LSso $pathogen_path https://tpo.pe/pathogen.vim
-fi
+ensure_symlink $dotvim_path/autoload $dotfiles_repo/vim/autoload
 
 
 ensure_plugin () {
@@ -110,6 +100,9 @@ ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
 ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
 ensure_symlink $HOME/.vim/UltiSnips $HOME/.vim/bundle/vim-snippets/UltiSnips
 ensure_symlink $HOME/.vim/MyUltiSnips $dotfiles_repo/vim/MyUltiSnips
+
+# autopairs plugin
+ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
 
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
