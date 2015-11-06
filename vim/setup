@@ -28,10 +28,12 @@ ensure_symlink $HOME/.vimrc $dotfiles_repo/vim/vimrc
 
 echo "Ensuring vim plugins and docs"
 
-dotvim_path=$HOME/.vim
+dotvim_path=$dotfiles_repo/vim/dotvim
+mkdir -p $dotvim_path
+ensure_symlink $HOME/.vim $dotvim_path
+
 bundle_path=$dotvim_path/bundle
 
-ensure_symlink $dotvim_path/snippets $dotfiles_repo/vim/snippets
 ensure_symlink $dotvim_path/autoload $dotfiles_repo/vim/autoload
 
 
@@ -98,8 +100,8 @@ ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
 # ultisnips and friends
 ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
 ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
-ensure_symlink $HOME/.vim/UltiSnips $HOME/.vim/bundle/vim-snippets/UltiSnips
-ensure_symlink $HOME/.vim/MyUltiSnips $dotfiles_repo/vim/MyUltiSnips
+ensure_symlink $dotvim_path/UltiSnips $dotvim_path/bundle/vim-snippets/UltiSnips
+ensure_symlink $dotvim_path/MyUltiSnips $dotfiles_repo/vim/MyUltiSnips
 
 # autopairs plugin
 ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
