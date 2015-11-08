@@ -2,9 +2,6 @@
     name = Mark S. Maglana
     email = mmaglana@gmail.com
 
-[core]
-    pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
-
 [github]
     user = relaxdiego
 
