@@ -1,0 +1,17 @@
+snippet Rspecd "Rspec.describe <class> do ... end"
+RSpec.describe ${1:class} do
+  $2
+end
+endsnippet
+
+snippet Rspecs "Rspec.shared_examples <name> do ... end"
+RSpec.shared_examples "${1:name}" do
+  $2
+end
+endsnippet
+
+snippet it "it <name> do ... end"
+it "${1:spec_name}" do
+  $2
+end
+endsnippet

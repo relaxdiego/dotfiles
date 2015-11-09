@@ -106,6 +106,9 @@ ensure_symlink $dotvim_path/MyUltiSnips $dotfiles_repo/vim/MyUltiSnips
 # autopairs plugin
 ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
 
+# vim-go plugin
+ensure_plugin vim-go https://github.com/relaxdiego/vim-go
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
