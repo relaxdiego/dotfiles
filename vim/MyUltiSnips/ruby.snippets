@@ -1,10 +1,22 @@
-snippet Rspecd "Rspec.describe <class> do ... end"
+snippet RSpecd "RSpec.describe <class> do ... end"
 RSpec.describe ${1:class} do
   $2
 end
 endsnippet
 
-snippet Rspecs "Rspec.shared_examples <name> do ... end"
+snippet RSpecm "RSpec::Matchers.define <name> do ... end"
+RSpec::Matchers.define ${1:name} do |expected|
+  $2
+end
+endsnippet
+
+snippet match "match do |actual|... end"
+match do |actual|
+  $2
+end
+endsnippet
+
+snippet RSpecs "RSpec.shared_examples <name> do ... end"
 RSpec.shared_examples "${1:name}" do
   $2
 end
