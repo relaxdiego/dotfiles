@@ -11,6 +11,7 @@ check_dep () {
     fi
 }
 
+check_dep wget
 check_dep python
 check_dep pip
 check_dep ruby

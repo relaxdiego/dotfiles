@@ -8,6 +8,9 @@ set nowrap
 colorscheme hybrid
 let &winheight = &lines * 8 / 10
 
+" Toggle wrap
+nmap <leader>sw :set wrap!<CR>
+
 " Press '' quickly in insert mode instead of Esc
 imap '' <Esc>
 
@@ -56,6 +59,7 @@ set expandtab
 set ts=4 sw=4
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 autocmd Filetype sh setlocal ts=4 sts=4 sw=4
 autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
