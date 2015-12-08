@@ -27,6 +27,9 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Don't lose what's in the register after paste
+xnoremap p pgvy
+
 " More natural split opening
 set splitbelow
 set splitright
