@@ -171,11 +171,14 @@ let test#python#pytest#options = {
     \ 'file': '--random',
     \ 'suite': '--random',
     \}
-" Always use pytest
+" Determine the python test runner to use
 if filereadable(".pytest")
     let test#python#runner = 'pytest'
 elseif filereadable(".djangotest")
     let test#python#runner = 'djangotest'
+elseif isdirectory("./libcloud")
+    let test#runners = {'Python': ['LibCloudTest']}
+    let test#python#runner = 'libcloudtest'
 endif
 
 
