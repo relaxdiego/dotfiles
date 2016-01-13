@@ -111,6 +111,9 @@ ensure_plugin vim-go https://github.com/relaxdiego/vim-go
 echo "Installing go binaries"
 vim +GoInstallBinaries +q
 
+# ansible-vim plugin
+ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
