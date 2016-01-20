@@ -102,7 +102,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
+autocmd FileType ansible,c,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
         \ <buffer> :call <SID>StripTrailingWhitespaces()
 
 
