@@ -21,6 +21,7 @@ if ! hash ag 2>/dev/null; then
         if hash apt-get 1>&2>/dev/null; then
             sudo apt-get -y install silversearcher-ag
         elif hash yum 1>&2>/dev/null; then
+            sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
             sudo yum -y install the_silver_searcher
         else
             echo "ERROR: I don't know what package manager you're using!"
