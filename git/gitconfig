@@ -25,6 +25,7 @@
 
 [alias]
     fa = fetch --all
+    far = fetch --all --recurse-submodules
     unstage = reset HEAD --
     last = log -1 HEAD
     diffc = diff --check
