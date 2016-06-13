@@ -170,20 +170,31 @@ nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 let test#strategy = "tslime"
-let test#python#pytest#options = {
-    \ 'file': '--random',
-    \ 'suite': '--random',
-    \}
+
 " Determine the python test runner to use
 if filereadable(".pytest")
     let test#python#runner = 'pytest'
 elseif filereadable(".djangotest")
     let test#python#runner = 'djangotest'
+elseif isdirectory("./lib/ansible")
+    let test#python#runner = 'nose'
 elseif isdirectory("./libcloud")
     let test#runners = {'Python': ['LibCloudTest']}
     let test#python#runner = 'libcloudtest'
 endif
 
+" Pytest options
+let test#python#pytest#options = {
+    \ 'nearest': '-v',
+    \ 'file': '--random',
+    \ 'suite': '--random',
+    \}
+" Nose options
+let test#python#nose#options = {
+    \ 'nearest': '-v',
+    \ 'file': '--randomize',
+    \ 'suite': '--randomize',
+    \}
 
 " Execute current file
 nnoremap <Leader>r :!%:p
