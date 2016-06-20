@@ -178,6 +178,8 @@ elseif filereadable(".djangotest")
     let test#python#runner = 'djangotest'
 elseif isdirectory("./lib/ansible")
     let test#python#runner = 'nose'
+elseif isdirectory("../../../ansible")
+    let test#python#runner = 'nose'
 elseif isdirectory("./libcloud")
     let test#runners = {'Python': ['LibCloudTest']}
     let test#python#runner = 'libcloudtest'
