@@ -57,8 +57,8 @@ ensure_plugin ctrlp.vim https://github.com/kien/ctrlp.vim.git
 # NERDTree plugin
 ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
 
-# vim-flake8 plugin
-ensure_plugin vim-flake8 https://github.com/nvie/vim-flake8
+# syntastic plugin
+ensure_plugin syntastic https://github.com/relaxdiego/syntastic
 
 pip list | grep flake8 > /dev/null
 

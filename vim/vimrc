@@ -78,11 +78,14 @@ set colorcolumn=72,80
 set list
 set listchars=tab:>>,trail:.,extends:>,precedes:<
 
-
-" vim-flake8
-" Run flake8 when saving a python file
-autocmd BufWritePost *.py call Flake8()
-
+" Customize syntastic plugin
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
 
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
