@@ -196,9 +196,9 @@ let test#python#pytest#options = {
     \}
 " Nose options
 let test#python#nose#options = {
-    \ 'nearest': '-v',
-    \ 'file': '--randomize',
-    \ 'suite': '--randomize',
+    \ 'nearest': '-v -s',
+    \ 'file': '-s --randomize',
+    \ 'suite': '-s --randomize',
     \}
 
 " Execute current file
