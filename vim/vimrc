@@ -76,7 +76,7 @@ set colorcolumn=72,80
 
 " Show whitespace
 set list
-set listchars=tab:>>,trail:.,extends:>,precedes:<
+set listchars=tab:\ \ ,trail:.,extends:>,precedes:<
 
 " Customize syntastic plugin
 set statusline+=%#warningmsg#
