@@ -25,6 +25,8 @@
 
 [alias]
     fa = fetch --all
+    # Fetch most (important remotes)
+    fm = fetch --multiple origin upstream
     far = fetch --all --recurse-submodules
     unstage = reset HEAD --
     last = log -1 HEAD
@@ -49,6 +51,7 @@
     sync = !legit sync \"$@\"
     publish = !legit publish \"$@\"
     graft = !legit graft \"$@\"
+    list-submodules = config --file .gitmodules --get-regexp path
 
 [apply]
     whitespace = strip
