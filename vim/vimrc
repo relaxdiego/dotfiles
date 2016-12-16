@@ -248,6 +248,9 @@ endfunction
 let g:endwise_no_mappings = 1
 inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
 
+au BufRead,BufNewFile *.yaml.tpl set ft=yaml
+au BufRead,BufNewFile gitconfig set ft=gitconfig
+
 " ALWAYS DO THIS LAST
 if filereadable(glob("~/.vimrc.local"))
     source ~/.vimrc.local
