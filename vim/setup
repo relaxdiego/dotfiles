@@ -108,7 +108,7 @@ ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
 
 # vim-go plugin
 ensure_plugin vim-go https://github.com/relaxdiego/vim-go
-echo "Installing go binaries"
+echo "Downloading Go packages and tools to $GOPATH"
 go get github.com/nsf/gocode
 go get github.com/alecthomas/gometalinter
 go get golang.org/x/tools/cmd/goimports
