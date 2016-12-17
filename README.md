@@ -12,3 +12,8 @@ Installation
 3. Run `./setup`
 4. Install missing dependencies if any
 5. Profit!
+
+Get Started Quickly in AWS!
+---------------------------
+
+Check out my other project https://github.com/relaxdiego/jumpbox
