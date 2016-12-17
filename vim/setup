@@ -126,6 +126,9 @@ go get github.com/josharian/impl
 # ansible-vim plugin
 ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
 
+# Hashicorp vim tools
+ensure_plugin hashicorp-tools https://github.com/hashivim/vim-hashicorp-tools
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
