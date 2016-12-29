@@ -8,8 +8,9 @@ set nowrap
 colorscheme hybrid
 let &winheight = &lines * 10 / 10
 
-" Look for tags file in current file dir, project root, then in .git/tags
-set tags=./tags,tags,.git/tags;
+" Look for tags file in current file dir upwards. Failing that, it will
+" look for the file in .git/tags
+set tags=./tags;,.git/tags
 
 " Don't go back to beginning of file when scanning/search
 set nowrapscan
