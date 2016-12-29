@@ -2,7 +2,9 @@
 
 echo "Setting up ctags"
 
-if ! hash ctags 2>/dev/null; then
+(ctags --version 2>/dev/null || echo "none") | grep -i exuberant
+
+if [[ $? == 1 ]]; then
 
     echo "Installing ctags"
 
