@@ -52,6 +52,7 @@
     publish = !legit publish \"$@\"
     graft = !legit graft \"$@\"
     list-submodules = config --file .gitmodules --get-regexp path
+	ctags = !.git/hooks/ctags
 
 [apply]
     whitespace = strip
@@ -78,3 +79,5 @@
 	required = true
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
+[init]
+	templatedir = /Users/mm186156/.git-template

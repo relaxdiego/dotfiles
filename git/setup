@@ -5,22 +5,34 @@ echo "Setting up git"
 dotfiles_repo=$(utils/repo_path)
 echo "Dotfiles repo is in $dotfiles_repo"
 
+ensure_symlink() {
+    source_path=$1
+    symlink_path=$2
+    backup_path=$3
+
+    if ! [ "$(readlink $symlink_path)" = "$source_path" ]; then
+
+        if [ -e $symlink_path ]; then
+            echo "Moving current $symlink_path to $backup_path"
+            mv $symlink_path $backup_path
+        fi
+
+        echo "Symlinking $symlink_path to $source_path"
+        ln -s $source_path $symlink_path
+    else
+        echo "$symlink_path points correctly to $source_path"
+    fi
+}
+
 source_path=$dotfiles_repo/git/gitconfig
 symlink_path=$HOME/.gitconfig
 backup_path=$HOME/.gitconfig.old
+ensure_symlink $source_path $symlink_path $backup_path
 
-if ! [ "$(readlink $symlink_path)" = "$source_path" ]; then
-
-    if [ -e $symlink_path ]; then
-        echo "Moving current $symlink_path to $backup_path"
-        mv $symlink_path $backup_path
-    fi
-
-    echo "Symlinking $symlink_path to $source_path"
-    ln -s $source_path $symlink_path
-else
-    echo "$symlink_path points correctly to $source_path"
-fi
+source_path=$dotfiles_repo/git/git-template
+symlink_path=$HOME/.git-template
+backup_path=$HOME/.git-template.old
+ensure_symlink $source_path $symlink_path $backup_path
 
 
 local_gitconfig=$HOME/.gitconfig.local
