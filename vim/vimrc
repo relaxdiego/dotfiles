@@ -21,7 +21,7 @@ nmap <leader>sw :set wrap!<CR>
 inoremap <C-y> <esc>gUiw`]a
 
 " Press '' quickly in insert mode instead of Esc
-imap '' <Esc>
+imap ;; <Esc>
 
 " Treat all numerals as decimal even if zero padded
 set nrformats=
