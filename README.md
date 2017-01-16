@@ -4,6 +4,14 @@ My Dotfiles
 Automates the setup of Vim, Tmux, and friends for life embetterment and
 world peace!
 
+Requirements for OS X
+---------------------
+
+The setup script for Vim requires Vim to have python support. You can check
+this by running `vim --version | grep '+python'` which should output something.
+The default Vim installation of OS X doesn't have this support so you should
+install MacVim via `brew install macvim`
+
 Installation
 ------------
 
