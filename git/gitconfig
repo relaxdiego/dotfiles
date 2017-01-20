@@ -80,4 +80,6 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 [init]
-	templatedir = /Users/mm186156/.git-template
+	templatedir = ~/.git-template
+[user]
+	useConfigOnly = true
