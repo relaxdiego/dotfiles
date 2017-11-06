@@ -167,6 +167,7 @@ echo "If you're having problems with YCM, see https://github.com/Valloric/YouCom
 # Add python indentation script
 if ! [ -f ${dotvim_path}/indent/python.vim ]; then
     echo "Adding python indentation script"
+    mkdir -p $dotvim_path/indent
     wget -O $dotvim_path/indent/python.vim http://www.vim.org/scripts/download_script.php?src_id=4316
 else
     echo "Python indentation script already exist"
