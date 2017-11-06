@@ -15,6 +15,8 @@ set tags=./tags;,.git/tags
 " Don't go back to beginning of file when scanning/search
 set nowrapscan
 
+set rtp+=/usr/local/opt/fzf
+
 " Toggle wrap
 nmap <leader>sw :set wrap!<CR>
 

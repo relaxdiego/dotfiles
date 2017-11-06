@@ -147,22 +147,22 @@ echo "Running 'Helptags' command"
 vim +Helptags +q
 
 # Add puppet syntax highlighting
-if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
-    echo "Adding puppet syntax highlighting and goodies"
-    tmp_puppetvims=/tmp/puppetvims
-    mkdir -p $tmp_puppetvims
-    cd $tmp_puppetvims
-    git init
-    git remote add -f origin https://github.com/puppetlabs/puppet
-    git config core.sparseCheckout true
-    mkdir -p .git/info
-    echo "ext/vim/" >> .git/info/sparse-checkout
-    git pull origin master
-    cp -r ext/vim/* $dotvim_path
-    cd -
-else
-    echo "Puppet syntax highlighting and goodies already exist"
-fi
+# if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
+#     echo "Adding puppet syntax highlighting and goodies"
+#     tmp_puppetvims=/tmp/puppetvims
+#     mkdir -p $tmp_puppetvims
+#     cd $tmp_puppetvims
+#     git init
+#     git remote add -f origin https://github.com/puppetlabs/puppet
+#     git config core.sparseCheckout true
+#     mkdir -p .git/info
+#     echo "ext/vim/" >> .git/info/sparse-checkout
+#     git pull origin master
+#     cp -r ext/vim/* $dotvim_path
+#     cd -
+# else
+#     echo "Puppet syntax highlighting and goodies already exist"
+# fi
 
 # Add python indentation script
 if ! [ -f ${dotvim_path}/indent/python.vim ]; then
