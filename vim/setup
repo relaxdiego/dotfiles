@@ -155,6 +155,7 @@ if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
     git init
     git remote add -f origin https://github.com/puppetlabs/puppet
     git config core.sparseCheckout true
+    mkdir -p .git/info
     echo "ext/vim/" >> .git/info/sparse-checkout
     git pull origin master
     cp -r ext/vim/* $dotvim_path
