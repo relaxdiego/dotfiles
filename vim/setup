@@ -143,8 +143,8 @@ fi
 echo "If you're having problems with YCM, see https://github.com/Valloric/YouCompleteMe/issues/8#issuecomment-34374807"
 
 # Generate the docs for all plugins
-echo "Running 'Helptags' command"
-vim +Helptags +q
+# echo "Running 'Helptags' command"
+# vim +Helptags +q
 
 # Add puppet syntax highlighting
 # if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
