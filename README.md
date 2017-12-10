@@ -4,13 +4,16 @@ My Dotfiles
 Automates the setup of Vim, Tmux, and friends for life embetterment and
 world peace!
 
-Requirements for OS X
----------------------
+Requirements for MacOS
+----------------------
 
-The setup script for Vim requires Vim to have python support. You can check
-this by running `vim --version | grep '+python'` which should output something.
-The default Vim installation of OS X doesn't have this support so you should
-install MacVim via `brew install macvim`
+1. brew install pyenv
+2. brew install openssl
+3. brew install wget
+4. brew install go
+5. brew install pyenv
+6. CFLAGS="-I$(brew --prefix openssl)/include" LDFLAGS="-L$(brew --prefix openssl)/lib" pyenv install -v 2.7.14
+7. brew install vim
 
 Installation
 ------------
