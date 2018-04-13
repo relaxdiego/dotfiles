@@ -403,6 +403,9 @@ vmap <expr> <f28> XTermPasteBegin("c")
 cmap <f28> <nop>
 cmap <f29> <nop>
 
+" golang
+let g:go_fmt_command = "goimports"
+
 
 " ALWAYS DO THIS LAST
 if filereadable(glob("~/.vimrc.local"))
