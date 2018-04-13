@@ -129,6 +129,9 @@ ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
 # Hashicorp vim tools
 ensure_plugin hashicorp-tools https://github.com/hashivim/vim-hashicorp-tools
 
+# PowerShell plugin
+ensure_plugin vim-ps1 https://github.com/PProvost/vim-ps1.git
+
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
