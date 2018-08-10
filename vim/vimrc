@@ -76,6 +76,7 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 autocmd Filetype sh setlocal ts=4 sts=4 sw=4
+autocmd Filetype groovy setlocal ts=2 sts=2 sw=2
 autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
 
 " Show column rulers
@@ -95,6 +96,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_flake8_args='--ignore=E402'
+let g:syntastic_go_checkers = ['go']
 
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
