@@ -85,7 +85,7 @@ set colorcolumn=72,80
 
 " Show whitespace
 set list
-set listchars=tab:\ \ ,trail:.,extends:>,precedes:<
+set listchars=tab:\ \ ,trail:*,extends:>,precedes:<
 
 " Customize syntastic plugin
 set statusline+=%#warningmsg#
@@ -96,7 +96,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_flake8_args='--ignore=E402'
-let g:syntastic_go_checkers = ['go']
+let g:syntastic_go_checkers = ['golint', 'govet', 'gofmt']
+let g:go_list_type = 'quickfix'
 
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
@@ -119,7 +120,7 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType ansible,c,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
+autocmd FileType ansible,c,groovy,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
         \ <buffer> :call <SID>StripTrailingWhitespaces()
 
 
