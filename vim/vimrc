@@ -85,7 +85,7 @@ set colorcolumn=72,80
 
 " Show whitespace
 set list
-set listchars=tab:\ \ ,trail:*,extends:>,precedes:<
+set listchars=tab:\ \ ,trail:⇢,extends:>,precedes:<
 
 " Customize syntastic plugin
 set statusline+=%#warningmsg#
@@ -96,6 +96,9 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_flake8_args='--ignore=E402'
+if filereadable(".python3")
+    let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+endif
 let g:syntastic_go_checkers = ['golint', 'govet', 'gofmt']
 let g:go_list_type = 'quickfix'
 
@@ -232,7 +235,11 @@ nmap <silent> <leader>g :TestVisit<CR>
 let test#strategy = "tslime"
 
 " Determine the python test runner to use
-if filereadable(".pytest")
+if filereadable("pytest.ini") && filereadable("script/test")
+    let test#python#runner = 'pytest'
+    let test#python#pytest#executable = 'script/test'
+    let test#python#pytest#file_pattern = '_test.py'
+elseif filereadable(".pytest")
     let test#python#runner = 'pytest'
 elseif filereadable(".djangotest")
     let test#python#runner = 'djangotest'
@@ -246,10 +253,11 @@ elseif isdirectory("./libcloud")
 endif
 
 " Pytest options
+" NOTE: Make sure pytest-random-order is installed
 let test#python#pytest#options = {
     \ 'nearest': '--capture=no -v',
-    \ 'file': '--capture=no --random',
-    \ 'suite': '--capture=no --random',
+    \ 'file': '--capture=no',
+    \ 'suite': '--capture=no',
     \}
 " Nose options
 let test#python#nose#options = {
