@@ -11,9 +11,8 @@ Requirements for MacOS
 2. brew install openssl
 3. brew install wget
 4. brew install go
-5. brew install pyenv
-6. CFLAGS="-I$(brew --prefix openssl)/include" LDFLAGS="-L$(brew --prefix openssl)/lib" pyenv install -v 2.7.14
-7. brew install vim
+5. CFLAGS="-I$(brew --prefix openssl)/include" LDFLAGS="-L$(brew --prefix openssl)/lib" pyenv install -v 2.7.14
+6. brew install vim
 
 Installation
 ------------
@@ -23,6 +22,16 @@ Installation
 3. Run `./setup`
 4. Install missing dependencies if any
 5. Profit!
+
+
+Fixes
+------------
+*In case YouCompleteMe fails to compile:
+ 1. Install the latest cmake & gcc using homebrew
+ 2. Check that $HOME/.vmrc is symlinked to this repo's vim/vimrc (or copy the file)
+ 3. Add 'set encoding=utf-8' to your .vimrc file
+ 4. Run `./setup`
+ 5. Profit!
 
 Quickly Get Started in AWS!
 ---------------------------
