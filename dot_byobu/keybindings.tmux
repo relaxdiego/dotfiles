@@ -35,5 +35,7 @@ bind -r L resize-pane -R 5
 bind Escape copy-mode
 unbind p
 bind p paste-buffer
+unbind-key -T copy-mode-vi v
 bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
+bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
 bind-key -T copy-mode-vi 'y' send-keys -X copy-selection-and-cancel
