@@ -105,9 +105,13 @@ ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
 if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
+   {{ if eq .chezmoi.os "linux" -}}
    sudo apt-get update -y
    sudo apt-get install -y build-essential
    sudo snap install cmake --classic
+   {{ else if eq .chezmoi.os "darwin" -}}
+   xcode-select --install
+   {{ end -}}
    ./install.py --clang-completer #--gocode-completer
    cd -
 else
