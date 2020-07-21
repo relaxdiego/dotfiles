@@ -1,9 +1,13 @@
 #!/bin/bash -e
 {{ if eq .chezmoi.os "linux" -}}
+sudo apt-get update -y
+sudo apt-get install -y build-essential || echo "build-essentials already installed"
+sudo snap install cmake --classic || echo "cmake already installed"
 wget --version || sudo apt install -y wget
 
 {{ else if eq .chezmoi.os "darwin" -}}
 wget --version || brew install wget
+xcode-select --install || echo "XCode CLI tools already installed"
+brew install cmake || echo "CMake already installed"
 
 {{ end -}}
-
