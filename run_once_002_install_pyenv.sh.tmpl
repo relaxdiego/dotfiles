@@ -7,4 +7,5 @@ cd ~/.pyenv
 git checkout v{{ $pyenv_version }}
 
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+cd $(pyenv root)/plugins/pyenv-virtualenv
 git checkout v{{ $pyenv_virtualenv_version }}
