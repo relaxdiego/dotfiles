@@ -111,6 +111,7 @@ if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
    sudo snap install cmake --classic || echo "cmake already installed"
    {{ else if eq .chezmoi.os "darwin" -}}
    xcode-select --install || echo "XCode CLI tools already installed"
+   brew install cmake || echo "CMake already installed"
    {{ end -}}
    ./install.py --clang-completer #--gocode-completer
    cd -
