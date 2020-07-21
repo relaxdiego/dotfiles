@@ -1,10 +1,15 @@
 #!/bin/bash -e
 {{ $pyenv_version := "1.2.19" }}
 {{ $pyenv_virtualenv_version := "1.1.5" }}
+{{ $global_python_version := "3.7.7" }}
+
 which pyenv && pyenv virtualenv --help && exit 0
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 cd ~/.pyenv
 git checkout v{{ $pyenv_version }}
+
+(pyenv versions | grep {{ $global_python_version }}) || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {{ $global_python_version }}
+pyenv global {{ $global_python_version }}
 
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 cd $(pyenv root)/plugins/pyenv-virtualenv
