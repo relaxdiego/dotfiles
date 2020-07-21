@@ -1,0 +1,9 @@
+{{- $fullname := promptString "Full Name" -}}
+{{- $email := promptString "Email" -}}
+{{- $github_username := promptString "GitHub Username" -}}
+{{- $gpgOnePasswordGPGFingerprintUUID := promptString "1Password UUID of GPG fingerprint" -}}
+[data]
+    fullname = "{{ $fullname }}"
+    email = "{{ $email }}"
+    gpg_fingerprint = "{{ (onepassword $gpgOnePasswordGPGFingerprintUUID).details.password }}"
+    github_username = "{{ $github_username }}"
