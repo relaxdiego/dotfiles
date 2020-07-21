@@ -127,7 +127,7 @@ fi
 # Ensure GPG works properly. https://github.com/keybase/keybase-issues/issues/2798
 export GPG_TTY=$(tty)
 
-$HOME/mount-home
+[ -f ~/mount-home ] && ~/mount-home
 
 export PATH=$HOME/node/current/bin:$PATH
 
