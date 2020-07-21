@@ -4,3 +4,5 @@ which pyenv && exit 0
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 cd ~/.pyenv
 git checkout v{{ $pyenv_version }}
+
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
