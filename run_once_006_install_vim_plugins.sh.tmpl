@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "Setting up vim"
+
+echo "Ensuring vim plugins and docs"
+dotvim_path=~/.vim
+bundle_path=$dotvim_path/bundle
+
+ensure_plugin () {
+    plugin_name=$1
+    repo_url=$2
+    plugin_path=$bundle_path/$plugin_name
+
+    if ! [ -d $plugin_path ]; then
+        echo "Installing plugin: $plugin_name"
+        git clone $repo_url $plugin_path
+    else
+        echo "Plugin $plugin_name is already installed at $plugin_path"
+    fi
+}
+
+
+# ctrlp plugin
+ensure_plugin ctrlp.vim https://github.com/relaxdiego/ctrlp.vim.git
+
+# NERDTree plugin
+ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
+
+# syntastic plugin
+ensure_plugin syntastic https://github.com/relaxdiego/syntastic
+
+if ! pip3 list --format=legacy | grep flake8; then
+   echo "Installing flake8"
+   pip3 install flake8
+fi
+
+# ack plugin
+ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
+
+# test.vim plugin; supersedes vim-rspec
+ensure_plugin test.vim https://github.com/relaxdiego/vim-test
+
+# surround plugin
+ensure_plugin vim-surround https://github.com/relaxdiego/vim-surround
+
+# vim-repeat plugin
+ensure_plugin vim-repeat https://github.com/relaxdiego/vim-repeat
+
+# tagbar plugin
+ensure_plugin tagbar https://github.com/majutsushi/tagbar
+
+# colorschemes plugin
+ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
+
+# lightline plugin
+ensure_plugin lightline.vim https://github.com/relaxdiego/lightline.vim
+
+# vim-endwise plugin
+ensure_plugin vim-endwise https://github.com/relaxdiego/vim-endwise
+
+# tslime.vim plugin
+ensure_plugin tslime.vim https://github.com/relaxdiego/tslime.vim
+
+# Tcomment plugin
+ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
+
+# ultisnips and friends
+ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
+ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
+
+# autopairs plugin
+ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
+
+# vim-go plugin
+#ensure_plugin vim-go https://github.com/relaxdiego/vim-go
+#echo "Downloading Go packages and tools to $GOPATH"
+#go get github.com/nsf/gocode
+#go get github.com/alecthomas/gometalinter
+#go get golang.org/x/tools/cmd/goimports
+#go get golang.org/x/tools/cmd/guru
+#go get golang.org/x/tools/cmd/gorename
+#go get github.com/golang/lint/golint
+#go get github.com/rogpeppe/godef
+#go get github.com/kisielk/errcheck
+#go get github.com/jstemmer/gotags
+#go get github.com/klauspost/asmfmt/cmd/asmfmt
+#go get github.com/fatih/motion
+#go get github.com/zmb3/gogetdoc
+#go get github.com/josharian/impl
+
+# ansible-vim plugin
+#ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
+
+# Hashicorp vim tools
+#ensure_plugin hashicorp-tools https://github.com/hashivim/vim-hashicorp-tools
+
+# PowerShell plugin
+#ensure_plugin vim-ps1 https://github.com/PProvost/vim-ps1.git
+
+# YouCompleteMe plugin
+plugin_name='YouCompleteMe'
+ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
+if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
+   cd $bundle_path/$plugin_name
+   git submodule update --init --recursive
+   sudo apt-get update -y
+   sudo apt-get install -y build-essential
+   sudo snap install cmake --classic
+   ./install.py --clang-completer #--gocode-completer
+   cd -
+else
+   echo "Plugin YouCompleteMe is already configured"
+fi
+echo "If you're having problems with YCM, see https://github.com/Valloric/YouCompleteMe/issues/8#issuecomment-34374807"
+
+# Generate the docs for all plugins
+# echo "Running 'Helptags' command"
+# vim +Helptags +q
+
+# Add puppet syntax highlighting
+# if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
+#     echo "Adding puppet syntax highlighting and goodies"
+#     tmp_puppetvims=/tmp/puppetvims
+#     mkdir -p $tmp_puppetvims
+#     cd $tmp_puppetvims
+#     git init
+#     git remote add -f origin https://github.com/puppetlabs/puppet
+#     git config core.sparseCheckout true
+#     mkdir -p .git/info
+#     echo "ext/vim/" >> .git/info/sparse-checkout
+#     git pull origin master
+#     cp -r ext/vim/* $dotvim_path
+#     cd -
+# else
+#     echo "Puppet syntax highlighting and goodies already exist"
+# fi
+
+# Add python indentation script
+if ! [ -f ${dotvim_path}/indent/python.vim ]; then
+    echo "Adding python indentation script"
+    mkdir -p $dotvim_path/indent
+    wget -O $dotvim_path/indent/python.vim http://www.vim.org/scripts/download_script.php?src_id=4316
+else
+    echo "Python indentation script already exist"
+fi
