@@ -26,15 +26,15 @@ See https://www.chezmoi.io/docs/install/
 ## Initialize and Apply
 
 NOTE: In all of the `init` subcommands below, the dotfiles repo will be cloned
-      to `~/.local/share/chezmoi
+      to `~/.local/share/chezmoi`
 
-### YOLO Mode
+#### YOLO Mode
 
 ```
 chezmoi init --apply --verbose https://github.com/relaxdiego/dotfiles.git
 ```
 
-### Responsible Adult Mode
+#### Responsible Adult Mode
 
 ```
 chezmoi init https://github.com/relaxdiego/dotfiles.git
@@ -50,13 +50,13 @@ chezmoi apply -v
 
 ## Update to the Latest Changes
 
-### YOLO Mode
+#### YOLO Mode
 
 ```
 chezmoi update -v
 ```
 
-### Responsible Adult Mode
+#### Responsible Adult Mode
 
 ```
 chezmoi source pull -- --rebase && chezmoi diff
