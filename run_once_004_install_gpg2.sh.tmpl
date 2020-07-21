@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+which gpg2 1>/dev/null && echo "GNU PGP CLI already installed" && exit 0
+
+{{ if eq .chezmoi.os "linux" -}}
+sudo apt-get install gnupg2 -y
+
+{{ else if eq .chezmoi.os "darwin" -}}
+brew install gpg2
+
+{{ end -}}
