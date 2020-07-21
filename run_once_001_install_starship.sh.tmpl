@@ -1,0 +1,14 @@
+#!/bin/bash -e
+{{ $starship_version := "0.44.0" -}}
+{{ if eq .chezmoi.os "linux" -}}
+cd /tmp
+wget -O starship.tar.gz https://github.com/starship/starship/releases/download/v{{- $starship_version -}}/starship-x86_64-unknown-linux-gnu.tar.gz
+wget -O starship.tar.gz.sha256 https://github.com/starship/starship/releases/download/v{{- $starship_version -}}/starship-x86_64-unknown-linux-gnu.tar.gz.sha256
+test "$(sha256sum starship.tar.gz | cut -d' ' -f1)" == "$(cat starship.tar.gz.sha256)" || echo "ERROR: starship CLI checksum did not match!!!"
+tar -xvf starship.tar.gz
+mkdir -p $HOME/bin
+mv starship $HOME/bin
+{{ else if eq .chezmoi.os "darwin" -}}
+brew install starship
+{{ end -}}
+
