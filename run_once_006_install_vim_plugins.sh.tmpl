@@ -107,10 +107,10 @@ if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
    git submodule update --init --recursive
    {{ if eq .chezmoi.os "linux" -}}
    sudo apt-get update -y
-   sudo apt-get install -y build-essential
-   sudo snap install cmake --classic
+   sudo apt-get install -y build-essential || echo "build-essentials already installed"
+   sudo snap install cmake --classic || echo "cmake already installed"
    {{ else if eq .chezmoi.os "darwin" -}}
-   xcode-select --install
+   xcode-select --install || echo "XCode CLI tools already installed"
    {{ end -}}
    ./install.py --clang-completer #--gocode-completer
    cd -
