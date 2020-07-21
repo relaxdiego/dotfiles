@@ -1,0 +1,9 @@
+#!/bin/bash -e
+{{ if eq .chezmoi.os "linux" -}}
+wget --version || sudo apt install -y wget
+
+{{ else if eq .chezmoi.os "darwin" -}}
+wget --version || brew install wget
+
+{{ end -}}
+
