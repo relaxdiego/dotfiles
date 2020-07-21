@@ -13,6 +13,9 @@ See https://www.chezmoi.io/docs/install/
 
 ## Initialize and Apply
 
+NOTE: In all of the `init` subcommands below, the dotfiles repo will be cloned
+      to `~/.local/share/chezmoi
+
 ### YOLO Mode
 
 ```
