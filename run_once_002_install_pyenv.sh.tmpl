@@ -1,0 +1,6 @@
+#!/bin/bash -e
+which pyenv && exit 0
+{{ $pyenv_version := "1.2.19" }}
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+cd ~/.pyenv
+git checkout v{{ $pyenv_version }}
