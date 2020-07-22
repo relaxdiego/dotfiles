@@ -1,11 +1,14 @@
 #!/bin/bash -e
 
-which gpg2 1>/dev/null && echo "GNU PGP CLI already installed" && exit 0
-
 {{ if eq .chezmoi.os "linux" -}}
+which gpg2 1>/dev/null && echo "gpg2 already installed" && exit 0
 sudo apt-get install gnupg2 -y
 
 {{ else if eq .chezmoi.os "darwin" -}}
-brew install gpg2
+((brew info gpg2 | grep -i "not installed" 1>/dev/null) && brew install gpg2) || echo "gpg2 already installed"
 
 {{ end -}}
+
+# Import private key if it doesn't already exist
+gpg --list-keys $(gpg --list-packets <~/.gpg_key | grep -m1 -E 'issuer fpr v4 ([A-Za-z0-9]+)' | sed -E 's/.*issuer fpr v4 ([0-9A-F]+).*/\1/g') || \
+    gpg --allow-secret-key-import --import ~/.gpg_key
