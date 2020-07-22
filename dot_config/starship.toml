@@ -29,8 +29,6 @@ prompt_order = [
     "nix_shell",
     "conda",
     "memory_usage",
-    "kubernetes",
-    "aws",
     "env_var",
     "crystal",
     "cmd_duration",
@@ -54,6 +52,12 @@ discharging_symbol = ""
 
 [conda]
 symbol = " "
+
+[custom.kubectl]
+symbol = "⛵ "
+when = "which kubectl"
+command = "kubectl config view --minify -o json | jq -r '.namespace // \"default\" + \"@\" + .clusters[0].name'"
+style = "fg:blue"
 
 [directory]
 fish_style_pwd_dir_length = 3
