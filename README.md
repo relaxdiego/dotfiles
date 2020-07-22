@@ -20,6 +20,13 @@ eval $(op signin <subdomain>.1password.com <email>)
 ```
 
 
+## Install the Ubuntu Mono Nerd Font
+
+Ubunto Mono?! Where we're going, we don't need [just] Ubunto Mono.
+[Get its Nerd Font equivalent](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip)
+and use it on your terminal.
+
+
 ## Install `chezmoi`
 
 Because we're fancy like that 'round these parts.
