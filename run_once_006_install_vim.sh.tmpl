@@ -1,4 +1,4 @@
 #!/bin/bash -e
 {{ if eq .chezmoi.os "darwin" -}}
-(brew info macvim | grep -i "not installed") && (brew install macvim && brew linkapps)
+((brew info macvim | grep -i "not installed" 1>/dev/null) && brew install macvim && brew linkapps) || echo "MacVim is already installed"
 {{ end -}}
