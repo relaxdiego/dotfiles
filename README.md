@@ -4,6 +4,9 @@ Mark Maglana's Dotfiles
 Automates the configuration of Vim, Tmux/BYOBU, and friends for make benefit
 of glorious `$HOME`, life embetterment, great success, and world peace!
 
+<p align="center">
+  <img width="800px" height="506.5px" src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/screenshot.png">
+</p>
 
 ## Install `op`
 
