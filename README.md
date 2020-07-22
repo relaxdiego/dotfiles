@@ -41,13 +41,13 @@ NOTE: In all of the `init` subcommands below, the dotfiles repo will be cloned
 #### YOLO Mode
 
 ```
-chezmoi init --apply --verbose https://github.com/relaxdiego/dotfiles.git
+eval $(op signin) && chezmoi init --apply --verbose https://github.com/relaxdiego/dotfiles.git
 ```
 
 #### Responsible Adult Mode
 
 ```
-chezmoi init https://github.com/relaxdiego/dotfiles.git
+eval $(op signin) && chezmoi init https://github.com/relaxdiego/dotfiles.git
 chezmoi diff
 ```
 
@@ -63,13 +63,13 @@ chezmoi apply -v
 #### YOLO Mode
 
 ```
-chezmoi update -v
+eval $(op signin) && chezmoi update -v
 ```
 
 #### Responsible Adult Mode
 
 ```
-chezmoi source pull -- --rebase && chezmoi diff
+eval $(op signin) && chezmoi source pull -- --rebase && chezmoi diff
 ```
 
 If you're happy with the changes, run:
