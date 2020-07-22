@@ -1,0 +1,4 @@
+#!/bin/bash -e
+{{ if eq .chezmoi.os "darwin" -}}
+(brew info macvim | grep -i "not installed") || brew install macvim
+{{ end -}}
