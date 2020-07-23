@@ -3,6 +3,7 @@
 sudo apt-get update -y
 sudo apt-get install -y build-essential || echo "build-essentials already installed"
 sudo snap install cmake --classic || echo "cmake already installed"
+which jq || sudo snap install jq
 wget --version || sudo apt install -y wget
 
 {{ else if eq .chezmoi.os "darwin" -}}
@@ -11,6 +12,7 @@ grep -i "source ~/.bashrc" ~/.bash_profile || (echo "source ~/.bashrc" >> ~/.bas
 brew --version || (/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)")
 wget --version || brew install wget
 xcode-select --install || echo "XCode CLI tools already installed"
-brew install cmake || echo "CMake already installed"
+((brew info cmake | grep -i "not installed") && brew install cmake) || echo "cmake already installed"
+which jq || brew install jq
 
 {{ end -}}
