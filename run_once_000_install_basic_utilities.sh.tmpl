@@ -6,6 +6,7 @@ sudo snap install cmake --classic || echo "cmake already installed"
 wget --version || sudo apt install -y wget
 
 {{ else if eq .chezmoi.os "darwin" -}}
+brew --version || (cd /usr/local && mkdir -p homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 2 -C homebrew)
 wget --version || brew install wget
 xcode-select --install || echo "XCode CLI tools already installed"
 brew install cmake || echo "CMake already installed"
