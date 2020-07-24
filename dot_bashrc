@@ -122,6 +122,10 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# bash completion for MacOS
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 [ -r $HOME/.byobu/prompt ] && . $HOME/.byobu/prompt   #byobu-prompt#
 
 # Ensure GPG works properly. https://github.com/keybase/keybase-issues/issues/2798
