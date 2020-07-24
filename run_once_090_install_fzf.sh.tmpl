@@ -1,0 +1,7 @@
+#!/bin/bash -e
+{{ $version := "0.21.1" -}}
+{{ $filename := printf "fzf-%s-%s_%s.tgz" $version .chezmoi.os .chezmoi.arch -}}
+cd /tmp
+wget -O {{ $filename  }} https://github.com/junegunn/fzf-bin/releases/download/{{ $version }}/{{ $filename }}
+tar -xvf {{ $filename }}
+mv fzf ~/bin/
