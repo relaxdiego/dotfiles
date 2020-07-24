@@ -4,4 +4,5 @@
 cd /tmp
 wget -O {{ $filename  }} https://github.com/junegunn/fzf-bin/releases/download/{{ $version }}/{{ $filename }}
 tar -xvf {{ $filename }}
+mkdir -p ~/bin
 mv fzf ~/bin/
