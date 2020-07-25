@@ -58,7 +58,7 @@ symbol = " "
 description = "The current k8s namespace and context"
 symbol = "⛵ "
 when = "which kubectl"
-command = "kubectl config view --minify -o json | jq -r '.namespace // \"default\" + \"@\" + .clusters[0].name'"
+command = "kubectl config view --minify -o json | jq -r '(.contexts[0].context.namespace // \"default\") + \"@\" + .contexts[0].context.cluster'"
 style = "fg:blue"
 
 [directory]
