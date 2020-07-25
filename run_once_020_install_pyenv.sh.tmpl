@@ -6,10 +6,11 @@
 which pyenv || \
     (git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
      cd ~/.pyenv && \
-     git checkout v{{ $pyenv_version }} && \
-     source ~/.bashrc)
+     git checkout v{{ $pyenv_version }})
 
-(pyenv versions | grep {{ $global_python_version }}) || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {{ $global_python_version }}
+source ~/.bashrc
+
+(~/.pyenv/bin/pyenv versions | grep {{ $global_python_version }}) || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {{ $global_python_version }}
 pyenv global {{ $global_python_version }}
 
 pyenv virtualenv --help || \
