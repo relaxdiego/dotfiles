@@ -55,6 +55,7 @@ discharging_symbol = ""
 symbol = " "
 
 [custom.kubectl]
+description = "The current k8s namespace and context"
 symbol = "⛵ "
 when = "which kubectl"
 command = "kubectl config view --minify -o json | jq -r '.namespace // \"default\" + \"@\" + .clusters[0].name'"
