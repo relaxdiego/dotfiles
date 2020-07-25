@@ -3,9 +3,13 @@
 {{- $github_username := promptString "GitHub Username" -}}
 {{- $gpgKeyOnePasswordUUID := promptString "1Password UUID of GPG key" -}}
 {{- $gpgFingerprintOnePasswordUUID := promptString "1Password UUID of GPG fingerprint" -}}
+{{- $gpgSSHPrivateKeyOnePasswordUUID := promptString "1Password UUID of SSH private key" -}}
+{{- $gpgSSHPublicKeyOnePasswordUUID := promptString "1Password UUID of SSH public key" -}}
 [data]
     fullname = "{{ $fullname }}"
     email = "{{ $email }}"
     gpg_fingerprint = "{{ (onepassword $gpgFingerprintOnePasswordUUID).details.password }}"
     gpg_key_1password_uuid = "{{ $gpgKeyOnePasswordUUID }}"
     github_username = "{{ $github_username }}"
+    ssh_private_key_1password_uuid = "{{ $gpgSSHPrivateKeyOnePasswordUUID }}"
+    ssh_public_key_1password_uuid = "{{ $gpgSSHPublicKeyOnePasswordUUID -}}"
