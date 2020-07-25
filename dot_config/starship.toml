@@ -64,7 +64,7 @@ style = "fg:blue"
 [custom.juju]
 description = "The current juju model and cloud/region"
 symbol = "🧙 "
-when = "which juju && juju controllers"
+when = "which juju && juju show-model"
 command = "juju show-controller --format json | jq -r '.[] | (.\"current-model\" | split(\"/\") | .[1]) + \"@\" + .details.cloud + \"/\" + .details.region'"
 style = "fg:202"
 
