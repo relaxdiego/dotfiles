@@ -3,11 +3,6 @@
 {{ $pyenv_virtualenv_version := "1.1.5" -}}
 {{ $global_python_version := "3.7.7" -}}
 
-sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev python-openssl git \
-    || echo "pyenv prerequisites satisfied"
-
 which pyenv || \
     (git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
      cd ~/.pyenv && \
