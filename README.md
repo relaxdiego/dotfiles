@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/logo.png">
+</p>
+
+
 Mark Maglana's Dotfiles
 =======================
 
