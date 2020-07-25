@@ -61,6 +61,13 @@ when = "which kubectl"
 command = "kubectl config view --minify -o json | jq -r '(.contexts[0].context.namespace // \"default\") + \"@\" + .contexts[0].context.cluster'"
 style = "fg:blue"
 
+[custom.juju]
+description = "The current juju model and cloud/region"
+symbol = "🧙 "
+when = "which juju && juju controllers"
+command = "juju show-controller --format json | jq -r '.[] | (.\"current-model\" | split(\"/\") | .[1]) + \"@\" + .details.cloud + \"/\" + .details.region'"
+style = "fg:202"
+
 [directory]
 fish_style_pwd_dir_length = 3
 
