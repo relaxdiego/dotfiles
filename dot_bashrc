@@ -148,3 +148,5 @@ eval "$(pyenv virtualenv-init -)"
 #
 # Make sure to choose a Nerd Font at https://www.nerdfonts.com/font-downloads
 eval "$(starship init bash)"
+
+alias k="kubectl"
