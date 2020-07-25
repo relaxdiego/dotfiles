@@ -14,7 +14,7 @@ bind a send-prefix
 # <prefix> \ and <prefix> - require less keystrokes
 # and are more intuitive than the defaults.
 bind | split-window -h -c "#{pane_current_path}"
-bind \ split-window -h -c "#{pane_current_path}"
+bind \\ split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 
 # These bindings allow you to stay in your keyboard's home
