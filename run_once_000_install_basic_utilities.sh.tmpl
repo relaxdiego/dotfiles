@@ -1,4 +1,5 @@
 #!/bin/bash -e
+source ~/.bashrc || echo "Sourced ~/.bashrc with errors ignored for now"
 {{ if eq .chezmoi.os "linux" -}}
 sudo apt-get update -y
 sudo apt-get install -y build-essential || echo "build-essentials already installed"
