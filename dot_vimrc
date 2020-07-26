@@ -320,7 +320,8 @@ endfunction
 let g:endwise_no_mappings = 1
 inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
 
-au BufRead,BufNewFile *.yaml.tpl set ft=yaml
+au BufRead,BufNewFile *.y*ml.* set ft=yaml
+au BufRead,BufNewFile *.sh.* set ft=sh
 au BufRead,BufNewFile gitconfig set ft=gitconfig
 
 " Always expand the Quickfix window to 10 when in focus.
