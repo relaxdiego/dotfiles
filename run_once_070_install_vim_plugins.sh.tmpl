@@ -36,7 +36,7 @@ if ! pip3 list --format=legacy | grep flake8; then
    pip3 install flake8
 fi
 
-# ack plugin
+# ack plugin (requires the ack executable)
 ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
 
 # test.vim plugin; supersedes vim-rspec

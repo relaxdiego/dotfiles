@@ -157,11 +157,12 @@ nnoremap <leader>. :CtrlPTag<cr>
 
 " Override grep to use Ag instead
 
-if executable('ag')
+if executable('ack')
   " Set up ack.vim
   " Always start searching from the project root dir
   let g:ag_working_path_mode="r"
-  nmap <leader>ag :Ack<SPACE>""<Left>
+  " Keeping this keybinding because I'm used
+  nmap <leader>ag yiw:Ack<SPACE>""<Left>
 
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
