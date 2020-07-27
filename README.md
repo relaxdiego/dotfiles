@@ -66,7 +66,7 @@ NOTE: In all of the `init` subcommands below, the dotfiles repo will be cloned
 #### YOLO Mode
 
 ```
-eval $(op signin) && chezmoi init --apply --verbose https://github.com/relaxdiego/dotfiles.git
+eval $(op signin) && chezmoi init --apply https://github.com/relaxdiego/dotfiles.git
 ```
 
 #### Responsible Adult Mode
@@ -88,7 +88,7 @@ chezmoi apply
 #### YOLO Mode
 
 ```
-eval $(op signin) && chezmoi update -v
+eval $(op signin) && chezmoi update
 ```
 
 #### Responsible Adult Mode
