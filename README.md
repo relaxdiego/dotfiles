@@ -36,7 +36,7 @@ Remember: The home row is where the art of terminal productivity is!
 ## Install `op`
 
 I use 1Password to store secrets used by this repo. You'll need to install the
-`op` CLI utility as specified here https://support.1password.com/command-line-getting-started
+`op` CLI utility. [Get it here](https://1password.com/downloads/command-line/).
 
 Then run
 
