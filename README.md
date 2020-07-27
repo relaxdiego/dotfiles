@@ -3,8 +3,7 @@
 </p>
 
 
-Mark Maglana's Dotfiles
-=======================
+# Mark Maglana's Dotfiles
 
 Automates the configuration of Vim, Tmux/BYOBU, and friends for make benefit
 of glorious `$HOME`, life embetterment, great success, and world peace!
@@ -80,7 +79,7 @@ chezmoi diff
 If you're happy with what you see, run:
 
 ```
-chezmoi apply -v
+chezmoi apply
 ```
 
 
@@ -103,3 +102,27 @@ If you're happy with the changes, run:
 ```
 chezmoi apply
 ```
+
+## Troubleshooting
+
+#### [ERROR] session expired
+
+This is 1Password telling you that you need to sign in again. So run:
+
+```
+eval $(op signin)
+```
+
+And then re-run the `chezmoi` command you were trying to run beforehand.
+
+
+### chezmoi: template:...map has no entry for key "[somekeyhere]"
+
+This means I've added a new key in `.chezmoi.toml.tmpl` and now you
+have the enviable task of re-initializing your dotfiles! Run:
+
+```
+chezmoi init
+```
+
+Then re-run the `chezmoi` command you were trying to run beforehand.
