@@ -31,10 +31,7 @@ ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
 # syntastic plugin
 ensure_plugin syntastic https://github.com/relaxdiego/syntastic
 
-if ! pip3 list --format=legacy | grep flake8; then
-   echo "Installing flake8"
-   pip3 install flake8
-fi
+(pip3 list --disable-pip-version-check | grep -v flake8 1>/dev/null) || pip3 install flake8 --disable-pip-version-check
 
 # ack plugin (requires the ack executable)
 ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
