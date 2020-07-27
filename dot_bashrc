@@ -144,7 +144,7 @@ eval "$(pyenv virtualenv-init -)"
 
 # Helps MacOS find the right GNU utilities instead of the shitty
 # ones that come with it by default.
-echo $PATH | grep -v '/usr/local/opt/gnu-sed/libexec/gnubin' && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH" || true
+echo $PATH | grep -v '/usr/local/opt/gnu-sed/libexec/gnubin' 1>/dev/null && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH" || true
 
 # https://starship.rs/guide/#%F0%9F%9A%80-installation
 # Note, startship is installed by chezmoi/run_once_001_install_starshipt.sh.tmpl
