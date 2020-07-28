@@ -1,10 +1,10 @@
 #!/bin/bash -e
 {{ if eq .chezmoi.os "linux" -}}
     {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
-    which ack 1>/dev/null || sudo apt install ack -y
+    which ag 1>/dev/null || sudo apt install silversearcher-ag -y
     {{ end -}}
 
 {{ else if eq .chezmoi.os "darwin" -}}
-which ack 1>/dev/null || brew install ack
+which ag 1>/dev/null || brew install the_silver_searcher
 
 {{ end -}}
