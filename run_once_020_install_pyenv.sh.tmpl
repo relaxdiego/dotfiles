@@ -15,10 +15,10 @@ eval "$(pyenv init -)"
 (~/.pyenv/bin/pyenv versions | grep {{ $global_python_version }} 1>/dev/null) || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install {{ $global_python_version }}
 pyenv global {{ $global_python_version }}
 
-pyenv virtualenv --help 1>/dev/null || \
-    (cd $(pyenv root)/plugins && \
-     git clone https://github.com/pyenv/pyenv-virtualenv.git && \
-     cd pyenv-virtualenv && \
-     git checkout v{{ $pyenv_virtualenv_version }})
+(pyenv commands | grep -v virtualenv 1>/dev/null && \
+    cd $(pyenv root)/plugins && \
+    git clone https://github.com/pyenv/pyenv-virtualenv.git && \
+    cd pyenv-virtualenv && \
+    git checkout v{{ $pyenv_virtualenv_version }}) || true
 
 eval "$(pyenv virtualenv-init -)"
