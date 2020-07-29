@@ -162,7 +162,8 @@ if executable('ag')
   " Always start searching from the project root dir
   let g:ag_working_path_mode="r"
   " Keeping this keybinding because I'm used
-  nmap <leader>ag yiw:Ag<SPACE>""<Left>
+  nmap <leader>ag yiw:Ack<SPACE>""<Left>
+  nmap <leader>ack yiw:Ack<SPACE>""<Left>
 
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
