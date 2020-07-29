@@ -1,0 +1,18 @@
+#!/bin/bash -e
+version_str=$(git --version)
+version_extractor='.*([0-9]+)\.([0-9]+)\.([0-9]+)'
+major_version=$(echo "$version_str" | sed -E "s/${version_extractor}/\1/g")
+minor_version=$(echo "$version_str" | sed -E "s/${version_extractor}/\2/g")
+([ -z "$major_version" ] && [ -z "$minor_version" ] && echo "ERROR: Could not extract git major and minor versions from '${version_str}'") || true
+if [ $major_version -ge 2 ] && [ $minor_version -ge 28 ]; then
+    echo "$version_str satisfied version requirement of >= 2.28.0"
+else
+    echo "Installing git"
+    {{ if eq .chezmoi.os "linux" -}}
+        sudo add-apt-repository ppa:git-core/ppa -y
+        sudo apt update -y
+        sudo apt install git -y
+    {{ else if eq .chezmoi.os "darwin" -}}
+        brew install git
+    {{ end -}}
+fi
