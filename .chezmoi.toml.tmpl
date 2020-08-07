@@ -1,13 +1,22 @@
 {{- $sharedMachine := promptString "Is this a shared machine (y/n)" -}}
+{{- $fullname := "" -}}
+{{- $email := "" -}}
+{{- $githubUsername := "" -}}
+{{- $gpgKey1PasswordUUID := "" -}}
+{{- $gpgFingerprint1PasswordUUID := "" -}}
+{{- $gpgSSHPrivateKey1PasswordUUID := "" -}}
+{{- $gpgSSHPublicKey1PasswordUUID := "" -}}
+
 {{- if ne $sharedMachine "y" -}}
-    {{- $fullname := promptString "Full Name" -}}
-    {{- $email := promptString "Email" -}}
-    {{- $githubUsername := promptString "GitHub Username" -}}
-    {{- $gpgKey1PasswordUUID := promptString "1Password UUID of GPG key" -}}
-    {{- $gpgFingerprint1PasswordUUID := promptString "1Password UUID of GPG fingerprint" -}}
-    {{- $gpgSSHPrivateKey1PasswordUUID := promptString "1Password UUID of SSH private key" -}}
-    {{- $gpgSSHPublicKey1PasswordUUID := promptString "1Password UUID of SSH public key" -}}
+    {{- $fullname = promptString "Full Name" -}}
+    {{- $email = promptString "Email" -}}
+    {{- $githubUsername = promptString "GitHub Username" -}}
+    {{- $gpgKey1PasswordUUID = promptString "1Password UUID of GPG key" -}}
+    {{- $gpgFingerprint1PasswordUUID = promptString "1Password UUID of GPG fingerprint" -}}
+    {{- $gpgSSHPrivateKey1PasswordUUID = promptString "1Password UUID of SSH private key" -}}
+    {{- $gpgSSHPublicKey1PasswordUUID = promptString "1Password UUID of SSH public key" -}}
 {{- end -}}
+
 [data]
     shared_machine = {{ eq $sharedMachine "y" }}
 {{- if ne $sharedMachine "y" }}
