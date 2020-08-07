@@ -1,1 +1,3 @@
+{{- if not .shared_machine -}}
 {{- onepasswordDocument .gpg_key_1password_uuid -}}
+{{- end -}}

@@ -1,21 +1,21 @@
-{{- $fullname := promptString "Full Name" -}}
-{{- $email := promptString "Email" -}}
-{{- $githubUsername := promptString "GitHub Username" -}}
-{{- $downloadSecrets := promptString "Download Secrets (y/n)" -}}
-{{- if eq $downloadSecrets "y" -}}
+{{- $sharedMachine := promptString "Is this a shared machine (y/n)" -}}
+{{- if ne $sharedMachine "y" -}}
+    {{- $fullname := promptString "Full Name" -}}
+    {{- $email := promptString "Email" -}}
+    {{- $githubUsername := promptString "GitHub Username" -}}
     {{- $gpgKey1PasswordUUID := promptString "1Password UUID of GPG key" -}}
     {{- $gpgFingerprint1PasswordUUID := promptString "1Password UUID of GPG fingerprint" -}}
     {{- $gpgSSHPrivateKey1PasswordUUID := promptString "1Password UUID of SSH private key" -}}
     {{- $gpgSSHPublicKey1PasswordUUID := promptString "1Password UUID of SSH public key" -}}
 {{- end -}}
 [data]
+    shared_machine = {{ eq $sharedMachine "y" }}
+{{- if ne $sharedMachine "y" }}
     fullname = "{{ $fullname }}"
     email = "{{ $email }}"
-    download_secrets = {{ eq $downloadSecrets "y" }}
-{{- if eq $downloadSecrets "y" }}
-    gpg_fingerprint = "{{ (onepassword $gpgFingerprint1PasswordUUID).details.password }}"
-    gpg_key_1password_uuid = "{{ $gpgKey1PasswordUUID }}"
     github_username = "{{ $githubUsername }}"
+    gpg_key_1password_uuid = "{{ $gpgKey1PasswordUUID }}"
+    gpg_fingerprint = "{{ (onepassword $gpgFingerprint1PasswordUUID).details.password }}"
     ssh_private_key_1password_uuid = "{{ $gpgSSHPrivateKey1PasswordUUID }}"
     ssh_public_key_1password_uuid = "{{ $gpgSSHPublicKey1PasswordUUID -}}"
 {{- end }}

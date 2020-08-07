@@ -1,3 +1,4 @@
+{{ if not .shared_machine -}}
 [user]
     name = {{ .fullname }}
     email = {{ .email }}
@@ -5,6 +6,17 @@
 
 [github]
     user = {{ .github_username }}
+
+[commit]
+    gpgsign = true
+
+[gpg]
+{{- if eq .chezmoi.os "linux" }}
+    program = gpg2
+{{- else if eq .chezmoi.os "darwin" }}
+    program = gpg
+{{- end }}
+{{- end }}
 
 [color]
     ui = auto
@@ -103,13 +115,3 @@
 
 [user]
 	useConfigOnly = true
-
-[commit]
-    gpgsign = true
-
-[gpg]
-{{ if eq .chezmoi.os "linux" -}}
-    program = gpg2
-{{ else if eq .chezmoi.os "darwin" -}}
-    program = gpg
-{{ end -}}
