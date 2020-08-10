@@ -142,11 +142,13 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+{{ if not .shared_machine -}}
 # https://starship.rs/guide/#%F0%9F%9A%80-installation
 # Note, startship is installed by chezmoi/run_once_001_install_starshipt.sh.tmpl
 #
 # Make sure to choose a Nerd Font at https://www.nerdfonts.com/font-downloads
 eval "$(starship init bash)"
+{{- end }}
 
 alias k="kubectl"
 
