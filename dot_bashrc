@@ -154,5 +154,5 @@ alias k="kubectl"
 
 # Helps MacOS find the right GNU utilities instead of the shitty
 # ones that come with it by default.
-test -d '/usr/local/opt/gnu-sed/libexec/gnubin' && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH" || true
-test -d '/usr/local/opt/grep/libexec/gnubin' && export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH" || true
+([ -d '/usr/local/opt/gnu-sed/libexec/gnubin' ] && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH") || true
+([ -d '/usr/local/opt/grep/libexec/gnubin' ] && export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH") || true
