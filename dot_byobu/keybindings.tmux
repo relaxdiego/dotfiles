@@ -14,7 +14,15 @@ bind a send-prefix
 # <prefix> \ and <prefix> - require less keystrokes
 # and are more intuitive than the defaults.
 bind | split-window -h -c "#{pane_current_path}"
-bind \\ split-window -h -c "#{pane_current_path}"
+
+#
+# Adapted from https://stackoverflow.com/a/40902312
+#
+if-shell -b '[ "$(echo "$TMUX_VERSION > 2.9" | bc)" = 1 ]' \
+    "bind \\\\ split-window -h -c \"#{pane_current_path}\";"
+if-shell -b '[ "$(echo "$TMUX_VERSION <= 2.9" | bc)" = 1 ]' \
+    "bind \\ split-window -h -c \"#{pane_current_path}\";"
+
 bind - split-window -v -c "#{pane_current_path}"
 
 # These bindings allow you to stay in your keyboard's home
