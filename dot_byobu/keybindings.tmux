@@ -19,12 +19,11 @@ bind - split-window -v -c "#{pane_current_path}"
 #
 run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V | sed -E "s/^tmux +([\.0-9]+).*/\1/g")'
 # NOTE: tmux doesn't use SemVer. It just increments by 0.1 with every release.
-if-shell -b '[ "$(echo "$TMUX_VERSION <  2.9" | bc)" = 1 ]' {
-    bind-key \ split-window -h -c "#{pane_current_path}"
-}
-if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.9" | bc)" = 1 ]' {
-    bind \\ split-window -h -c "#{pane_current_path}"
-}
+if-shell -b '[ "$(echo "$TMUX_VERSION <  2.9" | bc)" = 1 ]' ' \
+    bind-key \ split-window -h -c "#{pane_current_path}"'
+
+if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.9" | bc)" = 1 ]' ' \
+    bind \\ split-window -h -c "#{pane_current_path}"'
 #
 # END
 #
