@@ -11,19 +11,23 @@ unbind-key -n M-Right
 # Press <prefix> and then 'a' to send Ctrl-a to the application
 bind a send-prefix
 
-# <prefix> \ and <prefix> - require less keystrokes
-# and are more intuitive than the defaults.
+# Window splitting
 bind | split-window -h -c "#{pane_current_path}"
-
-#
-# Adapted from https://stackoverflow.com/a/40902312
-#
-if-shell -b '[ "$(echo "$TMUX_VERSION > 2.9" | bc)" = 1 ]' \
-    "bind \\\\ split-window -h -c \"#{pane_current_path}\";"
-if-shell -b '[ "$(echo "$TMUX_VERSION <= 2.9" | bc)" = 1 ]' \
-    "bind \\ split-window -h -c \"#{pane_current_path}\";"
-
 bind - split-window -v -c "#{pane_current_path}"
+#
+# BEGIN Adapted from https://stackoverflow.com/a/40902312
+#
+run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V | sed -E "s/^tmux +([\.0-9]+).*/\1/g")'
+# NOTE: tmux doesn't use SemVer. It just increments by 0.1 with every release.
+if-shell -b '[ "$(echo "$TMUX_VERSION <  2.9" | bc)" = 1 ]' {
+    bind-key \ split-window -h -c "#{pane_current_path}"
+}
+if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.9" | bc)" = 1 ]' {
+    bind \\ split-window -h -c "#{pane_current_path}"
+}
+#
+# END
+#
 
 # These bindings allow you to stay in your keyboard's home
 # row when moving between panes. Assuming, of course, that
