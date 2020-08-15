@@ -16,14 +16,14 @@ of glorious `$HOME`, life embetterment, great success, and world peace!
 </p>
 
 
-## Swap Your [Ctrl] and [Caps Lock] Keys!
+## Swap Your `Ctrl` and `Caps Lock` Keys!
 
 You gotta trust me on this one. If you want to be productive in the terminal,
 you will want to keep your fingers in the home row (that row with the A, 
 S, D, and F keys) as much as possible. This will allow you to perform your key combos
-faster, reduces mental friction, and speeds up muscle memory building.
+faster, reduce mental friction, and speed up muscle memory building.
 
-And while we're at it, stop using the arrow keys and learn to use H, J, K, and L
+While we're at it, stop using the arrow keys and learn to use H, J, K, and L
 for navigation because this is more transferable knowledge. For example, moving
 between vim windows uses [Ctrl]-{h,j,k,l}, moving between tmux/byobu panes uses
 [Ctrl]-a {h,j,k,l}, resizing tmux panes uses [Ctrl-a] [Shift]-{h,j,k,l}, and
