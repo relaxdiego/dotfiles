@@ -35,6 +35,9 @@ Remember: The home row is where the art of terminal productivity is!
 
 ## Install `op`
 
+NOTE: If you're installing these dotfiles in a shared machine, you may
+      skip this section.
+
 I use 1Password to store secrets used by this repo. You'll need to install the
 `op` CLI utility. [Get it here](https://1password.com/downloads/command-line/).
 
@@ -66,13 +69,13 @@ NOTE: In all of the `init` subcommands below, the dotfiles repo will be cloned
 #### YOLO Mode
 
 ```
-eval $(op signin) && chezmoi init --apply https://github.com/relaxdiego/dotfiles.git
+chezmoi init --apply https://github.com/relaxdiego/dotfiles.git
 ```
 
 #### Responsible Adult Mode
 
 ```
-eval $(op signin) && chezmoi init https://github.com/relaxdiego/dotfiles.git
+chezmoi init https://github.com/relaxdiego/dotfiles.git
 chezmoi diff
 ```
 
@@ -88,13 +91,13 @@ chezmoi apply
 #### YOLO Mode
 
 ```
-eval $(op signin) && chezmoi update
+chezmoi update
 ```
 
 #### Responsible Adult Mode
 
 ```
-eval $(op signin) && chezmoi source pull -- --rebase && chezmoi diff
+chezmoi source pull -- --rebase && chezmoi diff
 ```
 
 If you're happy with the changes, run:
