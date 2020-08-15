@@ -9,5 +9,6 @@ echo "github.com,13.250.177.223 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9
     {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
     # Re-hash the known_hosts file
     ssh-keygen -Hf ~/.ssh/known_hosts
+    rm -f ~/.ssh/known_hosts.old
     {{ end -}}
 {{ end -}}
