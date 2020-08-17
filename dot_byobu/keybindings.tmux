@@ -11,6 +11,9 @@ unbind-key -n M-Right
 # Press <prefix> and then 'a' to send Ctrl-a to the application
 bind a send-prefix
 
+# synchronize-panes shortcut
+bind y set-window-option synchronize-panes
+
 # Window splitting
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
