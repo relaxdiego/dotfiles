@@ -62,6 +62,7 @@ command = "kubectl config view --minify -o json | jq -r '(.contexts[0].context.n
 style = "fg:blue"
 
 [custom.juju]
+disabled = true
 description = "The current juju model and cloud/region"
 symbol = "🧙 "
 when = "which juju && juju show-model"
@@ -126,7 +127,8 @@ symbol = " "
 symbol = " "
 
 [python]
-symbol = " "
+# symbol = " "
+symbol = "🐍 "
 
 [ruby]
 symbol = " "
