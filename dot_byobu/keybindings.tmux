@@ -3,6 +3,9 @@ unbind-key -n C-a
 set -g prefix ^A
 set -g prefix2 F12
 
+# Reloads the config file
+bind r source-file ~/.byobu/keybindings.tmux \; display "Config reloaded!"
+
 # Unbind Meta-left and Meta-right keys since they're more often
 # used for quickly jumping between words on the terminal.
 unbind-key -n M-Left
