@@ -101,6 +101,7 @@ if filereadable(".python3")
 endif
 let g:syntastic_go_checkers = ['golint', 'govet', 'gofmt']
 let g:go_list_type = 'quickfix'
+" NOTE: Rust's cargo is auto-register by the rust.vim plugin
 
 " NERDTree settings
 " map <C-n> :NERDTreeToggle<CR>
@@ -185,6 +186,8 @@ let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 let g:tagbar_compact = 1
 
+" NOTE: Rust confg is setup by the rust.vim plugin
+
 let g:tagbar_type_ansible = {
     \ 'ctagstype' : 'ansible',
     \ 'kinds' : [
@@ -229,12 +232,14 @@ let g:tagbar_type_markdown = {
     \ ]
     \ }
 
-" Setup test.vim
+" Setup test.vim (https://github.com/relaxdiego/vim-test)
+" NOTE: Built in Rust support
 nmap <silent> <leader>s :TestNearest<CR>
 nmap <silent> <leader>t :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
+" Run tests in a tmux pane
 let test#strategy = "tslime"
 
 " Determine the python test runner to use
@@ -429,3 +434,6 @@ cmap <f29> <nop>
 
 " golang
 let g:go_fmt_command = "goimports"
+
+" rust
+let g:rustfmt_autosave = 1

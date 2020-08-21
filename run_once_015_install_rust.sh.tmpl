@@ -1,3 +1,5 @@
 #!/bin/bash -e
 which cargo && exit 0
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# This ensures YouCompleteMe is able to talk to the Rust Language Server
+rustup component add rls rust-analysis rust-src

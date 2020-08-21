@@ -4,6 +4,9 @@
 # For more information, see:
 # https://github.com/ycm-core/YouCompleteMe#configuring-through-vim-options
 #
+# Debugging:
+# https://github.com/ycm-core/YouCompleteMe#the-ycmdebuginfo-command
+#
 
 import logging
 import os
@@ -19,8 +22,21 @@ def Settings(**kwargs):
     settings = {
         'sys_path': infer_extra_sys_paths(**kwargs)
     }
+
+    # In case customization is needed later
+    # configure_rust_language_server(settings, **kwargs)
+
     log.debug("Returning settings: {}".format(settings))
     return settings
+
+
+def configure_rust_language_server(settings, **kwargs):
+    if kwargs.get('language', None) == 'rust':
+        settings['ls'] = {
+            'rust': {
+                # https://github.com/rust-lang/rls#configuration
+            }
+        }
 
 
 def infer_extra_sys_paths(**kwargs):
