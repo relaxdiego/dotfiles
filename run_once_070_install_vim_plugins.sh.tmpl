@@ -105,11 +105,13 @@ ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
 
 # YouCompleteMe plugin
 plugin_name='YouCompleteMe'
+# To force re-installation of YCM, run: rm -rf /path/to/YCM/plugin/dir
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
 if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
-   ./install.py --clang-completer #--gocode-completer
+   # For more help on Rust completion, see https://github.com/ycm-core/YouCompleteMe#rust-semantic-completion
+   ./install.py --clang-completer --gocode-completer --rust-completer
    cd -
 else
    echo "Plugin YouCompleteMe is already configured"
