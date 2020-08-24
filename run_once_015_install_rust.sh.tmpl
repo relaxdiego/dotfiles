@@ -3,4 +3,5 @@ which cargo && exit 0
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 # This ensures YouCompleteMe is able to talk to the Rust Language Server
+# Reference: https://github.com/ycm-core/YouCompleteMe/issues/3478
 rustup component add rls rust-analysis rust-src
