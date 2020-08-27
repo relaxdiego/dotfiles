@@ -159,3 +159,15 @@ alias k="kubectl"
 
 # Configure shell with rust goodness
 source $HOME/.cargo/env
+
+# Configure ssh-agent
+# https://stackoverflow.com/a/38619604/402145
+{{ if eq .chezmoi.os "linux" -}}
+    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+      eval `ssh-agent`
+      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    fi
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+    # List known keys and if none is found, run ssh-add
+    ssh-add -l > /dev/null || ssh-add
+{{ end -}}
