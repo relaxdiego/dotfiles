@@ -152,10 +152,9 @@ eval "$(starship init bash)"
 
 alias k="kubectl"
 
-# Helps MacOS find the right GNU utilities instead of the shitty
-# ones that come with it by default.
-([ -d '/usr/local/opt/gnu-sed/libexec/gnubin' ] && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH") || true
-([ -d '/usr/local/opt/grep/libexec/gnubin' ] && export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH") || true
+# Use GNU sed and grep in macOS instead of the BSD-flavored ones
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 # Configure shell with rust goodness
 source $HOME/.cargo/env
