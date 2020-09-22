@@ -1,0 +1,17 @@
+#!/bin/bash -e
+proto_user="$1"
+username="${proto_user:3}"
+
+[ -z "${proto_user}" ] && \
+    echo "Please provide gh:<username> (for GitHub) or lp:<username> (for Launchpad)" && \
+    exit 1
+
+set -x
+
+ssh-import-id "${proto_user}" -o - &>/dev/null
+
+if ! id -u "$username" &>/dev/null ; then
+    adduser --disabled-password --shell /bin/bash --gecos "" "$username"
+fi
+
+su "$username" -c "ssh-import-id $proto_user"
