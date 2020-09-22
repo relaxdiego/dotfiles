@@ -8,10 +8,19 @@ username="${proto_user:3}"
 
 set -x
 
-ssh-import-id "${proto_user}" -o - &>/dev/null
+sudo ssh-import-id "${proto_user}" -o - &>/dev/null
 
-if ! id -u "$username" &>/dev/null ; then
-    adduser --disabled-password --shell /bin/bash --gecos "" "$username"
+if ! sudo grep -q "coworkers" /etc/group; then
+    sudo groupadd coworkers
 fi
 
-su "$username" -c "ssh-import-id $proto_user"
+if ! id -u "$username" &>/dev/null ; then
+    sudo adduser --disabled-password --shell /bin/bash --gecos "" "$username"
+    sudo adduser "$username" coworkers
+fi
+
+sudo su "$username" -c "ssh-import-id $proto_user"
+
+if ! tmux -S /tmp/shared-tmux-socket ls; then
+    tmux -S /tmp/shared-tmux-socket new-session -d && sudo chgrp coworkers /tmp/shared-tmux-socket
+fi

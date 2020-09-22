@@ -5,12 +5,12 @@ username="$1"
     echo "Please provide <username> as the argument" && \
     exit 1
 
-if ! id -u "$username" &>/dev/null ; then
+if ! sudo id -u "$username" &>/dev/null ; then
     echo "User $username does not exist"
     exit 1
 fi
 
 set -x
 
-who | grep "$username" && sudo pkill -9 -u "$username"
-deluser --remove-home "$username"
+sudo who | grep "$username" && sudo pkill -9 -u "$username"
+sudo deluser --remove-home "$username"
