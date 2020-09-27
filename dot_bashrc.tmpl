@@ -150,16 +150,6 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(starship init bash)"
 {{- end }}
 
-{{ if eq .chezmoi.os "linux" -}}
-{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
-alias work-with="~/.relaxdiego/bin/work-with-for-ubuntu"
-alias end-work-with="~/.relaxdiego/bin/end-work-with-for-ubuntu"
-{{ end -}}
-{{ else -}}
-alias work-with="~/.relaxdiego/bin/not-available"
-alias end-work-with="~/.relaxdiego/bin/not-available"
-{{ end -}}
-
 alias k="kubectl"
 
 # Use GNU sed and grep in macOS instead of the BSD-flavored ones

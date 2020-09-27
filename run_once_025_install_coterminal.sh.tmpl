@@ -1,0 +1,7 @@
+#!/bin/bash -e
+{{ if eq .chezmoi.os "linux" -}}
+    {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+    git clone https://github.com/relaxdiego/coterminal.git $HOME/.relaxdiego/coterminal
+    $HOME/.relaxdiego/coterminal/install.sh
+    {{ end -}}
+{{ end -}}
