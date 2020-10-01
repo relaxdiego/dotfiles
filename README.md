@@ -16,6 +16,14 @@ of glorious `$HOME`, life embetterment, great success, and world peace!
 </p>
 
 
+## WARNING: I Assume This Is Running On A Newly Installed OS
+
+The first time I run the commands below is right after a fresh OS install,
+so this will overwrite a few pre-existing files if it's already there. For
+example: `~/.bashrc` and `~/.vimrc`. So please make sure to have a backup
+of your home directory if you're installing this on a brownfield system.
+
+
 ## Swap Your `Ctrl` and `Caps Lock` Keys!
 
 You gotta trust me on this one. If you want to be productive in the terminal,
