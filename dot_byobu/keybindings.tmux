@@ -14,6 +14,9 @@ unbind-key -n M-Right
 # Press <prefix> and then 'a' to send Ctrl-a to the application
 bind a send-prefix
 
+# Send prefix to an application by pressing the prefix twice
+bind C-a send-prefix
+
 # synchronize-panes shortcut
 bind y set-window-option synchronize-panes
 
