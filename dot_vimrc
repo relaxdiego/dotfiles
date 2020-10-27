@@ -269,9 +269,9 @@ endif
 " Pytest options
 " NOTE: Make sure pytest-random-order is installed
 let test#python#pytest#options = {
-    \ 'nearest': '--capture=no -v',
-    \ 'file': '--capture=no',
-    \ 'suite': '--capture=no',
+    \ 'nearest': '-v',
+    \ 'file': '',
+    \ 'suite': '',
     \}
 " Nose options
 let test#python#nose#options = {
