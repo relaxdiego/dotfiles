@@ -142,7 +142,7 @@ let g:ctrlp_max_depth=40
 let g:ctrlp_cmd='CtrlP'
 let g:ctrlp_working_path_mode=''
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
-set wildignore+=.DS_Store
+set wildignore+=.DS_Store,.gitignore
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
 set wildignore+=tags
 
