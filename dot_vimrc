@@ -313,9 +313,12 @@ set noshowmode
 " ultisnips and friends
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = "<nop>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "MyUltiSnips"]
-let g:ulti_expand_or_jump_res = 0
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsListSnippets="<c-h>"
+" let g:ulti_expand_or_jump_res = 0
 function ExpandSnippetOrCarriageReturn()
     let snippet = UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res > 0
