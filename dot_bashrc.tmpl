@@ -126,6 +126,12 @@ fi
 # bash completion for MacOS
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
+# bash completion for AWS CLI
+# Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html#cli-command-completion-configure
+if which aws_completer >/dev/null; then
+    complete -C "$(which aws_completer)" aws
+fi
+
 [ -r $HOME/.byobu/prompt ] && . $HOME/.byobu/prompt   #byobu-prompt#
 
 # Ensure GPG works properly. https://github.com/keybase/keybase-issues/issues/2798
