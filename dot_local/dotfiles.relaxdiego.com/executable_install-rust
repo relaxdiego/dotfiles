@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
-which cargo || (echo "Rust is already installed. $(cargo -v)" && exit 1)
+
+if cargo &>/dev/null; then
+    echo "Rust is already installed. $(cargo -v)"
+    exit 1
+fi
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env

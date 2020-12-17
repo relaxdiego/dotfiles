@@ -114,6 +114,11 @@ If you're happy with the changes, run:
 chezmoi apply
 ```
 
+#### Need Rust Support?
+
+Just run `install-rust`
+
+
 ## Troubleshooting
 
 #### [ERROR] session expired
