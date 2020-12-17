@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 
 if cargo &>/dev/null; then
     echo "Rust is already installed. $(cargo -v)"
@@ -17,7 +17,7 @@ source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
 ensure_plugin 'rust.vim' https://github.com/relaxdiego/rust.vim
 
 # Uncomment the --rust-completer flag for the YCM installer
-sed -E 's/^#*(--rust-completer)$/\1/g' $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags
+echo "--rust-completer" > $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/rust
 
 # Re-install YouCompleteMe now with Rust support
 # For more help on Rust completion, see https://github.com/ycm-core/YouCompleteMe#rust-semantic-completion

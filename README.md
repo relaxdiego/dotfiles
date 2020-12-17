@@ -114,7 +114,7 @@ If you're happy with the changes, run:
 chezmoi apply
 ```
 
-#### Need Rust Support?
+## Need Rust Support?
 
 Just run `install-rust`
 

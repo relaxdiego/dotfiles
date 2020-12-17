@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 
 # To force a re-installation of YCM:
 #   1) Run rm -rf /path/to/YCM/plugin/dir
 #   3) Run this script
 
-# Determine the completers that must be installed with YCM
-installer_flags=$(cat $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags | sed 's/^#.*//g' | tr -s '\n' ' ')
+# Determine the flags to be passed to the YCM installer
+installer_flags=$(cat $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/* | tr -s '\n' ' ')
 
 source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
 plugin_name='YouCompleteMe'
