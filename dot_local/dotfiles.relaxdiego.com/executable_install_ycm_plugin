@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+# To force a re-installation of YCM:
+#   1) Run rm -rf /path/to/YCM/plugin/dir
+#   3) Run this script
+
+# Determine the completers that must be installed with YCM
+installer_flags=$(cat $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags | sed 's/^#.*//g' | tr -s '\n' ' ')
+
+source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
+plugin_name='YouCompleteMe'
+ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
+if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
+   cd $bundle_path/$plugin_name
+   git submodule update --init --recursive
+   ./install.py $installer_flags
+   cd -
+else
+   echo "Plugin YouCompleteMe is already configured"
+fi
+echo "If you're having problems with YCM, see https://github.com/Valloric/YouCompleteMe/issues/8#issuecomment-34374807"

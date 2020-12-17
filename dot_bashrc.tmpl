@@ -162,8 +162,14 @@ alias k="kubectl"
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
+# Add dotfiles scripts to PATH
+export PATH="$HOME/.local/dotfiles.relaxdiego.com:$PATH"
+
 # Configure shell with rust goodness
-source $HOME/.cargo/env
+rust_cargo_env=$HOME/.cargo/env
+if [ -f $rust_cargo_env ]; then
+  source $rust_cargo_env
+fi
 
 # Configure ssh-agent
 # https://stackoverflow.com/a/38619604/402145

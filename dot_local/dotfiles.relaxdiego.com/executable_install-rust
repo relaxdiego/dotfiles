@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+which cargo || (echo "Rust is already installed. $(cargo -v)" && exit 1)
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+# This ensures YouCompleteMe is able to talk to the Rust Language Server
+# Reference: https://github.com/ycm-core/YouCompleteMe/issues/3478
+rustup component add rls rust-analysis rust-src
+
+# Install the Rust plugin for vim
+source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
+ensure_plugin 'rust.vim' https://github.com/relaxdiego/rust.vim
+
+# Uncomment the --rust-completer flag for the YCM installer
+sed -E 's/^#*(--rust-completer)$/\1/g' $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags
+
+# Re-install YouCompleteMe now with Rust support
+# For more help on Rust completion, see https://github.com/ycm-core/YouCompleteMe#rust-semantic-completion
+rm -rf $bundle_path/YouCompleteMe
+$HOME/.local/dotfiles.relaxdiego.com/install_ycm_plugin
