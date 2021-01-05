@@ -10,6 +10,10 @@ colorscheme evening
 colorscheme hybrid
 let &winheight = &lines * 10 / 10
 
+" Add a quick way to search for visually selected text
+" Just select some text in Visual mode then press //
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 " Look for tags file in current file dir upwards. Failing that, it will
 " look for the file in .git/tags
 set tags=./tags;,.git/tags
