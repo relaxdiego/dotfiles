@@ -1,12 +1,12 @@
 #!/bin/bash -e
-{{ $pyenv_version := "1.2.19" -}}
+{{ $pyenv_version := "1.2.27" -}}
 {{ $pyenv_virtualenv_version := "1.1.5" -}}
 {{ $global_python_version := "3.7.7" -}}
 
 which pyenv 1>/dev/null || \
     (git clone https://github.com/pyenv/pyenv.git ~/.pyenv && \
      cd ~/.pyenv && \
-     git checkout v{{ $pyenv_version }})
+     git checkout {{ $pyenv_version }})
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
