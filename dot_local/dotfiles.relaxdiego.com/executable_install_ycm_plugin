@@ -2,7 +2,7 @@
 set -ex
 
 # To force a re-installation of YCM:
-#   1) Run rm -rf /path/to/YCM/plugin/dir
+#   1) Run rm -rf ~/.vim/bundle/YouCompleteMe
 #   3) Run this script
 
 # Determine the flags to be passed to the YCM installer
