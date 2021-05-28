@@ -59,3 +59,5 @@ unbind-key -T copy-mode-vi v
 bind-key -T copy-mode-vi 'v' send-keys -X begin-selection
 bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
 bind-key -T copy-mode-vi 'y' send-keys -X copy-selection-and-cancel
+
+set -g status-left "#[fg=colour248]S:#S  W:#I  P:#P#{?pane_synchronized, #[fg=colour255]#[bg=red](panes are synced. 'Ctrl-A y' to toggle)#[default],} "
