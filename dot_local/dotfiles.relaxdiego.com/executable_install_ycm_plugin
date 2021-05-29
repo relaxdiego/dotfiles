@@ -11,7 +11,7 @@ installer_flags=$(cat $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/*
 source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
-if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core.so ]; then
+if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core*.so ]; then
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
    ./install.py $installer_flags
