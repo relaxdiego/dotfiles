@@ -6,6 +6,7 @@ execute pathogen#infect()
 let mapleader=","
 set mouse=a
 set nowrap
+set cursorline
 colorscheme evening
 colorscheme hybrid
 let &winheight = &lines * 10 / 10
