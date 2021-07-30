@@ -158,9 +158,17 @@ eval "$(starship init bash)"
 
 alias k="kubectl"
 
-# Use GNU sed and grep in macOS instead of the BSD-flavored ones
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+# Use GNU binaries in macOS instead of the BSD-flavored ones
+gnu_binaries=(
+    gnu-sed
+    grep
+    gnu-tar
+    findutils
+    coreutils
+)
+for binary in "${gnu_binaries[@]}"; do
+    export PATH="$(brew --prefix)/opt/$binary/libexec/gnubin:$PATH"
+done
 
 # Add dotfiles scripts to PATH
 export PATH="$HOME/.local/dotfiles.relaxdiego.com:$PATH"

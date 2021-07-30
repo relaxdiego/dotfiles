@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+{{ if eq .chezmoi.os "darwin" -}}
+((brew info gnu-tar | grep -i "not installed" 1>/dev/null) && brew install gnu-tar) || echo "gnu-tar already installed"
+((brew info findutils | grep -i "not installed" 1>/dev/null) && brew install findutils) || echo "findutils already installed"
+((brew info coreutils | grep -i "not installed" 1>/dev/null) && brew install coreutils) || echo "coreutils already installed"
+{{ end -}}
