@@ -158,6 +158,7 @@ eval "$(starship init bash)"
 
 alias k="kubectl"
 
+{{ if eq .chezmoi.os "darwin" -}}
 # Use GNU binaries in macOS instead of the BSD-flavored ones
 gnu_binaries=(
     gnu-sed
@@ -169,6 +170,7 @@ gnu_binaries=(
 for binary in "${gnu_binaries[@]}"; do
     export PATH="$(brew --prefix)/opt/$binary/libexec/gnubin:$PATH"
 done
+{{- end }}
 
 # Add dotfiles scripts to PATH
 export PATH="$HOME/.local/dotfiles.relaxdiego.com:$PATH"
