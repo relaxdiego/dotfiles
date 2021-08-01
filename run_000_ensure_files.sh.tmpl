@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+# This is required by ~/.gitconfig. If this file is not present, git
+# will spew out an error message. See ~/.gitconfig for more information
+# on what the file can contain.
+#
+# NOTE: We use touch rather than a template file since we want the
+#       customization to be manually created on the local workstation
+#       so that we don't inadvertently publish sensitive user information
+#       to the dotfiles repo on GitHub.
+touch ~/.gitconfig-custom

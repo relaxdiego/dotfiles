@@ -1,8 +1,30 @@
+; vim: set ft=gitconfig:
+
 {{ if not .shared_machine -}}
 [user]
     name = {{ .fullname }}
     email = {{ .email }}
     signingkey = {{ .gpg_fingerprint }}
+
+; The file below can contain conditional includes that customizes the [user]
+; stanza according to the current path. For example, it might contain:
+;
+;   [includeIf "gitdir:~/src/github.com/company-name/"]
+;      path = ~/.gitconfig-company-name
+;
+; The above means: if the current repo is a child of ~/src/../company-name,
+; include ~/.gitconfig-company-name. In turn, the file ~/.gitconfig-company-name
+; might contain:
+;
+;   [user]
+;       email = myemailaddress@company-name.com
+;       signingKey = <gpg-signing-key-associated-with-company-email>
+;
+; For more info on what the file can contain, see https://git-scm.com/docs/git-config
+;
+; NOTE: The file below is ensured present by run_000_ensure_files.sh.tmpl
+[include]
+    path = ~/.gitconfig-custom
 
 [github]
     user = {{ .github_username }}
