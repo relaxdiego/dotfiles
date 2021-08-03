@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+{{ if eq .chezmoi.os "darwin" -}}
+((brew info asdf | grep -i "not installed" 1>/dev/null) && brew install asdf) || echo "asdf already installed"
+
+# Let's load asdf goodies now so that the user doesn't have to
+# force re-open another shell just to load them.
+. $(brew --prefix asdf)/asdf.sh
+. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
+
+{{ else if eq .chezmoi.os "linux" -}}
+which asdf 1>/dev/null && echo "asdf already installed" && exit 0
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+
+# Let's load asdf goodies now so that the user doesn't have to
+# force re-open another shell just to load them.
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+{{ end -}}
+
+# Ensure that a global config file exists
+touch ~/.tool-versions
