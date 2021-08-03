@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+{{ if eq .chezmoi.os "darwin" -}}
+((brew info direnv | grep -i "not installed" 1>/dev/null) && brew install direnv) || echo "direnv already installed"
+
+{{ else if eq .chezmoi.os "linux" -}}
+(which direnv 1>/dev/null && echo "asdf already installed") || sudo apt-get install direnv
+
+{{ end -}}
+
+# Let's load the hooks now so that the user doesn't have to
+# force restart a shell session
+eval "$(direnv hook bash)"

@@ -192,3 +192,6 @@ fi
     # List known keys and if none is found, run ssh-add
     ssh-add -l > /dev/null || ssh-add
 {{ end -}}
+
+# Load direnv hooks
+eval "$(direnv hook bash)"
