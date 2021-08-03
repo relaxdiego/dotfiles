@@ -19,11 +19,16 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
 
 {{ end -}}
 
+# Install python with the --enable-framework flag so that YouCompleteMe
+# installs successfully. Note that asdf uses python-build (the same backend
+# used by pyenv) to build and install Python. So the following env variable
+# will be honored by asdf install python. Run `asdf --help python` for
+# more information.
+env PYTHON_CONFIGURE_OPTS="--enable-framework" asdf install python 3.8.2
+
 if [ ! -e ~/.tool-versions ] || ! grep 'python' ~/.tool-versions; then
     # Ensure that a global config file exists
     touch ~/.tool-versions
     # Ensure that python is declared
     echo 'python 3.8.2' >> ~/.tool-versions
 fi
-
-asdf install
