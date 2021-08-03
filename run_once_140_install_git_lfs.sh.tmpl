@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+{{ if eq .chezmoi.os "darwin" -}}
+((brew info git-lfs | grep -i "not installed" 1>/dev/null) && brew install git-lfs) || echo "git-lfs already installed"
+{{ end -}}
