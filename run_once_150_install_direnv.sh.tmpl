@@ -4,7 +4,7 @@
 ((brew info direnv | grep -i "not installed" 1>/dev/null) && brew install direnv) || echo "direnv already installed"
 
 {{ else if eq .chezmoi.os "linux" -}}
-(which direnv 1>/dev/null && echo "asdf already installed") || sudo apt-get install direnv
+(which direnv 1>/dev/null && echo "direnv already installed") || sudo apt-get install direnv
 
 {{ end -}}
 
