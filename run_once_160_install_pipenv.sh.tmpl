@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+{{ if eq .chezmoi.os "darwin" -}}
+((brew info pipenv | grep -i "not installed" 1>/dev/null) && brew install pipenv) || echo "pipenv already installed"
+
+{{ else if eq .chezmoi.os "linux" -}}
+(which pipenv 1>/dev/null && echo "pipenv already installed") || sudo apt-get install pipenv
+
+{{ end -}}
+
+# Let's load the hooks now so that the user doesn't have to
+# force restart a shell session
+eval "$(direnv hook bash)"
