@@ -199,3 +199,9 @@ eval "$(direnv hook bash)"
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 {{ end -}}
+
+if which aws-vault &>/dev/null; then
+  for role in $( aws-vault list --profiles ); do
+    eval "assume_${role}() { export AWS_PROFILE=${role}; }"
+  done
+fi
