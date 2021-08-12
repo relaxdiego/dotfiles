@@ -253,11 +253,11 @@ if filereadable("tox.ini") && filereadable(".stestr.conf")
     let test#python#runner = 'toxwithstestr'
 elseif filereadable("pytest.ini")
     let test#python#runner = 'pytest'
-    let test#python#pytest#file_pattern = '_test.py'
+    let test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
 elseif filereadable(".pytest") && filereadable("Pipfile")
     let test#python#runner = 'pytest'
     let test#python#pytest#executable = 'pipenv run pytest'
-    let test#python#pytest#file_pattern = '_test.py'
+    let test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
 elseif filereadable(".pytest")
     let test#python#runner = 'pytest'
 elseif filereadable(".djangotest")
