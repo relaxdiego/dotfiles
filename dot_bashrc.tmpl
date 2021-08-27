@@ -205,3 +205,5 @@ if which aws-vault &>/dev/null; then
     eval "assume_${role}() { export AWS_PROFILE=${role}; }"
   done
 fi
+
+export HISTTIMEFORMAT="%F %T "
