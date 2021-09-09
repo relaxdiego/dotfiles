@@ -449,3 +449,6 @@ let g:rustfmt_autosave = 1
 " terraform
 let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
+
+" Disable EditorConfig https://github.com/editorconfig/editorconfig-vim) for gitcommits
+au FileType gitcommit let b:EditorConfig_disable = 1
