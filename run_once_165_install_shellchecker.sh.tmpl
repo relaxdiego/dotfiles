@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+#
+# NOTE: The Sytastic plugin for Vim will automatically detect the
+#       the presence of ShellCheck and lint bash scripts automatically.
+#
+
+{{ if eq .chezmoi.os "linux" -}}
+which shellcheck 1>/dev/null || sudo apt install shellcheck -y
+
+{{ else if eq .chezmoi.os "darwin" -}}
+which shellcheck 1>/dev/null || brew install shellcheck
+
+{{ end -}}

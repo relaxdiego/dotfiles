@@ -100,6 +100,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
+let g:syntastic_ignore_files = ['\m^.*\.tmpl$']
 let g:syntastic_python_flake8_args='--ignore=E402'
 if filereadable(".python3")
     let g:syntastic_python_python_exec = '/usr/local/bin/python3'
