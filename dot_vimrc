@@ -10,6 +10,14 @@ set cursorline
 colorscheme evening
 colorscheme hybrid
 
+" Make the current line readable when in Vimdiff mode
+if &diff
+    " 214 = #ffaf00
+    " 016 = #000000
+    " https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+    :hi CursorLine cterm=NONE ctermbg=214 ctermfg=016 guibg=#ffaf00 guifg=#000000
+endif
+
 " Add a quick way to search for visually selected text
 " Just select some text in Visual mode then press //
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
