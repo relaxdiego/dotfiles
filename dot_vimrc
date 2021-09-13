@@ -9,7 +9,6 @@ set nowrap
 set cursorline
 colorscheme evening
 colorscheme hybrid
-let &winheight = &lines * 10 / 10
 
 " Add a quick way to search for visually selected text
 " Just select some text in Visual mode then press //
@@ -339,13 +338,18 @@ au BufRead,BufNewFile *.y*ml.* set ft=yaml
 au BufRead,BufNewFile *.sh.* set ft=sh
 au BufRead,BufNewFile gitconfig set ft=gitconfig
 
-" Always expand the Quickfix window to 10 when in focus.
-" Copied from:
-" http://vim.wikia.com/wiki/Always_keep_quickfix_window_at_specified_height
-"
-" Maximize the window after entering it, be sure to keep the quickfix window
-" at the specified height.
-au WinEnter * call MaximizeAndResizeQuickfix(10)
+" Only mess with window heights if not in Vimdiff mode
+if !&diff
+    " Set window height
+    let &winheight = &lines * 10 / 10
+    " Always expand the Quickfix window to 10 when in focus.
+    " Copied from:
+    " http://vim.wikia.com/wiki/Always_keep_quickfix_window_at_specified_height
+    "
+    " Maximize the window after entering it, be sure to keep the quickfix window
+    " at the specified height.
+    au WinEnter * call MaximizeAndResizeQuickfix(10)
+endif
 
 " Maximize current window and set the quickfix window to the specified height.
 function MaximizeAndResizeQuickfix(quickfixHeight)
