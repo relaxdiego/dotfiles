@@ -108,10 +108,9 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_ignore_files = ['\m^.*\.tmpl$']
-let g:syntastic_python_flake8_args='--ignore=E402'
-if filereadable(".python3")
-    let g:syntastic_python_python_exec = '/usr/local/bin/python3'
-endif
+" Use Black (https://black.readthedocs.io/en/stable/integrations/editors.html)
+" for Python syntax checking
+let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 let g:syntastic_go_checkers = ['golint', 'govet', 'gofmt']
 let g:go_list_type = 'quickfix'
 " NOTE: Rust's cargo is auto-register by the rust.vim plugin
@@ -139,6 +138,10 @@ endfun
 
 autocmd FileType ansible,c,groovy,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
         \ <buffer> :call <SID>StripTrailingWhitespaces()
+
+" Run Black just before saving a python file
+" https://black.readthedocs.io/en/stable/integrations/editors.html#vim
+autocmd BufWritePre *.py execute ':Black'
 
 
 " Disable arrow keys
