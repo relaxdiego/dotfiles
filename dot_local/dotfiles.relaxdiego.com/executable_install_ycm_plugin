@@ -17,7 +17,7 @@ ensure_plugin $plugin_name https://github.com/relaxdiego/YouCompleteMe
 if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core*.so ]; then
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
-   ./install.py $installer_flags
+   /usr/local/bin/python3 ./install.py $installer_flags
    cd -
 else
    echo "Plugin YouCompleteMe is already configured"

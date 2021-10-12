@@ -303,11 +303,8 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
-" let g:ycm_python_binary_path = 'python3'
-let g:ycm_path_to_python_interpreter = '/home/mark/.pyenv/shims/python'
 let g:ycm_server_log_level = 'info'
-let g:ycm_global_ycm_extra_conf = '~/.ycm_global_extra_conf.py'
-let g:ycm_server_python_interpreter = "python3"
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_extra_conf.py'
 
 " Lightline plugin
 let g:lightline = {
