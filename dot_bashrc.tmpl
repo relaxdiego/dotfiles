@@ -209,3 +209,10 @@ if which aws-vault &>/dev/null; then
 fi
 
 export HISTTIMEFORMAT="%F %T "
+
+# Require virtualenv when running pip
+export PIP_REQUIRE_VIRTUALENV=true
+# Allow override of pip to install globally
+gpip() {
+    PIP_REQUIRE_VIRTUALENV=false pip "$@"
+}
