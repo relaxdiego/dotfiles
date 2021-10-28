@@ -464,3 +464,18 @@ let g:terraform_fmt_on_save = 1
 
 " Disable EditorConfig https://github.com/editorconfig/editorconfig-vim) for gitcommits
 au FileType gitcommit let b:EditorConfig_disable = 1
+
+" Fugitive
+function! s:BlameToggle() abort
+  let found = 0
+  for winnr in range(1, winnr('$'))
+    if getbufvar(winbufnr(winnr), '&filetype') ==# 'fugitiveblame'
+      exe winnr . 'close'
+      let found = 1
+    endif
+  endfor
+  if !found
+    Git blame
+  endif
+endfunction
+nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
