@@ -70,19 +70,16 @@
     last = log -1 HEAD
     diffc = diff --check
     undo-last-commit = reset --soft HEAD^
-    tree = log --graph --pretty=oneline --abbrev-commit --decorate --color
-    # View commits as a tree
-    t = log --graph --pretty=oneline --abbrev-commit --decorate --color
-    # like t but for all branches
-    ta = log --graph --pretty=oneline --abbrev-commit --decorate --color --all
-    # like ta but with relative time included. Copied from @michaelstack
-    tar = log --graph --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-    # like ta but with exact datetime. Copied from @michaelstack
-    tad = log --graph --date=format:'%Y-%m-%d %H:%M' --abbrev-commit --decorate --format=format:'%C(yellow)%h%C(reset) - %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
-    # Like l -l for a branch. Copied from @michaelstack
-    ll = log --graph --pretty=format:"%ad %C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]" --decorate --numstat
-    #  Like ll for all branches
-    lla = ll --all
+    tree = log --graph --oneline --decorate --color --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)'
+    t = tree
+    ta = t --all
+    ti = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %s%C(reset)'
+    tia = ti --all
+    tr = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %s%C(reset)'
+    tra = tr --all
+    stat = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
+    s = stat
+    sa = stat --all
     local = log --pretty=oneline @{u}..HEAD
     rewrite = rebase -i --autosquash @{u}
     pr = pull --rebase
