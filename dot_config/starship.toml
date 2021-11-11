@@ -54,6 +54,11 @@ format = '[P:${pyenv_prefix}(${version})(:$virtualenv) ]($style)'
 [terraform]
 format = "[TF:$version]($style) "
 
+[cmd_duration]
+format = " [$duration]($style)"
+show_milliseconds = true
+style = "#336699"
+
 [battery]
 full_symbol = ""
 charging_symbol = ""
