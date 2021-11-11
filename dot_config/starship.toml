@@ -49,7 +49,7 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 
 [python]
-format = '[P:${pyenv_prefix}(${version})(:$virtualenv )]($style)'
+format = '[P:${pyenv_prefix}(${version})(:$virtualenv) ]($style)'
 
 [terraform]
 format = "[TF:$version]($style) "
