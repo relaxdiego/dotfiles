@@ -50,20 +50,24 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 
 [python]
-format = '[P:${pyenv_prefix}(${version})(:$virtualenv) ]($style)'
+format = '[P:${pyenv_prefix}(${version})]($style)[($virtualenv) ](bold #6699BB)'
 
 [terraform]
 format = "[TF:$version]($style) "
 
 [cmd_duration]
 format = " [$duration]($style)"
-show_milliseconds = true
-style = "#336699"
+# show_milliseconds = true
+style = "#669933"
 
 [battery]
-full_symbol = ""
-charging_symbol = ""
-discharging_symbol = ""
+full_symbol = ":"
+charging_symbol = ":"
+discharging_symbol = ":"
+
+[[battery.display]]
+threshold = 30
+style = "bold red"
 
 [character]
 success_symbol = "[\\$](bold green)"
