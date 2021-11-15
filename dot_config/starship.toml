@@ -1,5 +1,5 @@
 add_newline = false
-command_timeout = 400
+command_timeout = 300
 
 format = """
 $username\
