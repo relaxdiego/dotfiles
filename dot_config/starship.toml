@@ -43,7 +43,8 @@ truncate_to_repo = true
 
 [git_branch]
 format = "[$symbol$branch]($style) "
-symbol = ":"
+symbol = " "
+style = "bold #f34f29"
 
 [golang]
 format = "[$symbol($version )]($style)"
@@ -53,20 +54,27 @@ symbol = " "
 format = "[$symbol($version )]($style)"
 
 [python]
-format = '[P:${pyenv_prefix}(${version})]($style)[($virtualenv) ](bold #6699BB)'
+format = '[$symbol${pyenv_prefix}(${version})]($style)[( $virtualenv) ](bold #6699BB)'
+symbol = " "
+
+[ruby]
+format = "[$symbol($version )]($style)"
+symbol = " "
 
 [terraform]
-format = "[TF:$version]($style) "
+format = "[$symbol$version]($style) "
+symbol = " "
+disabled = true
 
 [cmd_duration]
-format = " [$duration]($style)"
+format = "祥[$duration]($style)"
 # show_milliseconds = true
 style = "#669933"
 
 [battery]
-full_symbol = ":"
-charging_symbol = ":"
-discharging_symbol = ":"
+full_symbol = " "
+charging_symbol = " "
+discharging_symbol = " "
 
 [[battery.display]]
 threshold = 30
