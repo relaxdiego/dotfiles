@@ -1,0 +1,26 @@
+snippet bats
+#!/usr/bin/env bats
+endsnippet
+
+snippet @test
+@test "${1:something}" {
+  $2
+}
+endsnippet
+
+snippet line
+[ "${lines[${1:0}]}" = "${2:some value}" ]
+endsnippet
+
+snippet output
+[ "$output" = "${1:foo: no such file 'nonexistent_filename'}" ]
+endsnippet
+
+snippet status
+[ "$status" -eq ${1:0} ]
+endsnippet
+
+snippet run
+run foo
+[ "$status" -eq ${1:0} ]
+endsnippet
