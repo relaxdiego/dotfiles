@@ -1,3 +1,6 @@
+# Download NerdFonts from https://www.nerdfonts.com to see the
+# glyps used in this config.
+
 add_newline = false
 command_timeout = 300
 
@@ -45,6 +48,14 @@ truncate_to_repo = true
 format = "[$symbol$branch]($style) "
 symbol = " "
 style = "bold #f34f29"
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+
+[package]
+format = "[ $version]($style) "
 
 [golang]
 format = "[$symbol($version )]($style)"
