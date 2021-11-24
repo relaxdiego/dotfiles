@@ -1,7 +1,9 @@
 #!/bin/bash -e
 
+[ -d ~/.vim/pack/jvirtanen/start ] && exit 0
+
 echo "INSTALLING: github.com/jvirtanen/vim-hcl"
 
 mkdir -p ~/.vim/pack/jvirtanen/start
 cd ~/.vim/pack/jvirtanen/start
-git clone git://github.com/jvirtanen/vim-hcl.git
+git clone https://github.com/relaxdiego/vim-hcl.git
