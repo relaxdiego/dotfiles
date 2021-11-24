@@ -1,7 +1,11 @@
 snippet pdb
+# fmt: off
 import pdb; pdb.set_trace()  # NOQA: E702, E501
+# fmt: on
 endsnippet
 
 snippet debug
+# fmt: off
 import devtools; devtools.debug($1)  # NOQA: E702, E501
+# fmt: on
 endsnippet
