@@ -14,14 +14,16 @@ ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
 # syntastic plugin
 ensure_plugin syntastic https://github.com/relaxdiego/syntastic
 
-# We're going to have to duplicate some ~/.bashrc code here
-# until I find a more elegant solution.
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-(pip3 list --disable-pip-version-check | grep -v flake8 1>/dev/null) || pip3 install flake8 --disable-pip-version-check
+# Let's skip this for now since we're not using pyenv anymore
+#
+# # We're going to have to duplicate some ~/.bashrc code here
+# # until I find a more elegant solution.
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
+#
+# (pip3 list --disable-pip-version-check | grep -v flake8 1>/dev/null) || pip3 install flake8 --disable-pip-version-check
 
 # ack plugin (requires the ack executable)
 ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
