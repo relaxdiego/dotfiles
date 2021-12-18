@@ -10,6 +10,7 @@
 
 {{ else if eq .chezmoi.os "linux" -}}
 which asdf 1>/dev/null && echo "asdf already installed" && exit 0
+rm -rf ~/.asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
 
 # Let's load asdf goodies now so that the user doesn't have to
