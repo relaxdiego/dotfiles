@@ -10,14 +10,17 @@
 
 {{ else if eq .chezmoi.os "linux" -}}
 which asdf 1>/dev/null && echo "asdf already installed" && exit 0
-rm -rf ~/.asdf
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+
+ASDF_DIR="$HOME/.local/.asdf"
+
+rm -rf $ASDF_DIR
+git clone https://github.com/asdf-vm/asdf.git $ASDF_DIR --branch v0.8.1
+ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 
 # Let's load asdf goodies now so that the user doesn't have to
 # force re-open another shell just to load them.
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
-
+. $ASDF_DIR/asdf.sh
+. $ASDF_DIR/completions/asdf.bash
 {{ end -}}
 
 pythonver="3.9.9"
@@ -30,8 +33,5 @@ asdf plugin add python
 env PYTHON_CONFIGURE_OPTS="--enable-framework" asdf install python $pythonver
 
 if [ ! -e ~/.tool-versions ] || ! grep 'python' ~/.tool-versions; then
-    # Ensure that a global config file exists
-    touch ~/.tool-versions
-    # Ensure that python is declared
-    echo 'python $pythonver' >> ~/.tool-versions
+    echo 'python $pythonver' >> $HOME/.tool-versions
 fi
