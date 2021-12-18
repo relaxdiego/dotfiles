@@ -8,6 +8,13 @@
 . $(brew --prefix asdf)/asdf.sh
 . $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
 
+# Install python with the --enable-framework flag so that YouCompleteMe
+# installs successfully. Note that asdf uses python-build (the same backend
+# used by pyenv) to build and install Python. So the following env variable
+# will be honored by asdf install python. Run `asdf --help python` for
+# more information.
+PYTHON_CONFIGURE_OPTS="--enable-framework"
+
 {{ else if eq .chezmoi.os "linux" -}}
 which asdf 1>/dev/null && echo "asdf already installed" && exit 0
 
@@ -25,12 +32,7 @@ ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 
 pythonver="3.9.9"
 asdf plugin add python
-# Install python with the --enable-framework flag so that YouCompleteMe
-# installs successfully. Note that asdf uses python-build (the same backend
-# used by pyenv) to build and install Python. So the following env variable
-# will be honored by asdf install python. Run `asdf --help python` for
-# more information.
-env PYTHON_CONFIGURE_OPTS="--enable-framework" asdf install python $pythonver
+asdf install python $pythonver
 
 if [ ! -e ~/.tool-versions ] || ! grep 'python' ~/.tool-versions; then
     echo 'python $pythonver' >> $HOME/.tool-versions
