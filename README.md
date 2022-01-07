@@ -9,9 +9,6 @@ Automates the configuration of Vim, Tmux/BYOBU, and friends for make benefit
 of glorious `$HOME`, life embetterment, great success, and world peace!
 
 <p align="center">
-  Ubuntu Setup
-  <img src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/screenshot-ubuntu.png">
-  MacOS Setup
   <img src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/screenshot-macos.png">
 </p>
 
