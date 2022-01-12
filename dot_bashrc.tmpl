@@ -195,7 +195,7 @@ eval "$(direnv hook bash)"
 
 # Load asdf goodness https://asdf-vm.com/
 {{ if eq .chezmoi.os "darwin" -}}
-. $(brew --prefix asdf)/asdf.sh
+. $(brew --prefix asdf)/libexec/asdf.sh
 . $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
 {{ else if eq .chezmoi.os "linux" -}}
 . $HOME/.asdf/asdf.sh
