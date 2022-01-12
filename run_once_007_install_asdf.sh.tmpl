@@ -30,9 +30,13 @@ ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 . $ASDF_DIR/completions/asdf.bash
 {{ end -}}
 
+if ! asdf plugin list | grep python; then
+    asdf plugin add python
+fi
 pythonver="3.9.9"
-asdf plugin add python
-asdf install python $pythonver
+if ! asdf list python "$pythonver"; then
+    asdf install python $pythonver
+fi
 
 if [ ! -e ~/.tool-versions ] || ! grep 'python' ~/.tool-versions; then
     echo 'python $pythonver' >> $HOME/.tool-versions
