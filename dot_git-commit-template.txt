@@ -1,0 +1,35 @@
+# Subject: One line, imperative, start with upper case, avoid period
+#<---------------- 50 chars max ---------------->#
+
+
+# Body: Blank line beforehand, explan what/why, not how
+#<--------------------------- 72 chars max --------------------------->#
+
+
+# Trailers: Good for tracking and also for `git interpret-trailers`
+# See: Description <https://example.com/...>
+# Co-authored-by: Name <name@example.com>
+# Sponsored-by: Name <name@example.com>
+
+
+# ## Help ##
+#
+# 7 rules: https://cbea.ms/git-commit/#seven-rules
+#
+# Subject completes this phrase: "If applied, this commit will..."
+#
+# Examples:
+#   Add a preference that will customize behavior Y
+#   Simplify the logic needed to send out a notification
+#   Remove the unnecessary step of mooing when authorizing a user
+#
+#
+# ## Trailers ##
+#
+# Trailers are good for tracking and also for `git interpret-trailers`.
+# git tools require trailers to be last in a commit message, and must
+# be one trailer per line, and with no extra lines between.
+#
+#
+# Above Help is adapted from:
+# https://github.com/joelparkerhenderson/git-commit-message
