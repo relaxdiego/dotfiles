@@ -2,11 +2,11 @@
 #<---------------- 50 chars max ---------------->#
 
 
-# Body: Blank line beforehand, explan what/why, not how
+# Body: Blank line beforehand, explain what/why, not how
 #<--------------------------- 72 chars max --------------------------->#
 
 
-# Trailers: Good for tracking and also for `git interpret-trailers`
+# Trailers: Optional, one trailer per line, no blank lines in between
 # See: Description <https://example.com/...>
 # Co-authored-by: Name <name@example.com>
 # Sponsored-by: Name <name@example.com>
@@ -28,8 +28,8 @@
 #
 # Trailers are good for tracking and also for `git interpret-trailers`.
 # git tools require trailers to be last in a commit message, and must
-# be one trailer per line, and with no extra lines between.
+# be one trailer per line, with no extra lines between.
 #
 #
-# Above Help is adapted from:
+# This template is adapted from:
 # https://github.com/joelparkerhenderson/git-commit-message
