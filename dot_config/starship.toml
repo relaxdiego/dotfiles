@@ -16,6 +16,7 @@ $docker_context\
 $package\
 $custom\
 $all\
+$status\
 $line_break\
 $jobs\
 $battery\
@@ -47,7 +48,6 @@ truncate_to_repo = true
 [git_branch]
 format = "[$symbol$branch]($style) "
 symbol = " "
-style = "bold #f34f29"
 
 [git_status]
 ahead = "⇡${count}"
@@ -94,3 +94,6 @@ style = "bold red"
 [character]
 success_symbol = "[\\$](bold green)"
 error_symbol = "[\\$](bold red)"
+
+[status]
+disabled = false
