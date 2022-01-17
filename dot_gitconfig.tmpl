@@ -65,8 +65,8 @@
 
 [alias]
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
-    fixup = "!f() { git commit --fixup=$1; git rebase -i --autosquash $1~1; }; f"
     fixit = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
+    fixup = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
 
     fa = fetch --all
     far = fetch --all --recurse-submodules
