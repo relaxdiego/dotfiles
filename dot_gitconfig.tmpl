@@ -64,8 +64,10 @@
     untracked = cyan
 
 [alias]
-    fixup = commit --fixup
-    fixup-apply = rebase --autosquash --interactive
+    # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
+    fixup = "!f() { git commit --fixup=$1; git rebase -i --autosquash $1~1; }; f"
+    fixit = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
+
     fa = fetch --all
     far = fetch --all --recurse-submodules
     unstage = reset HEAD --
