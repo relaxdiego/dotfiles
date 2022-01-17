@@ -68,43 +68,37 @@
     fixit = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
     fixup = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
 
-    fa = fetch --all
+    fa  = fetch --all
     far = fetch --all --recurse-submodules
 
     unstage = reset HEAD --
-    # Undo the last commit and put it back in the index
-    undo = reset --soft HEAD^
-    # Clear all changes in workspace and index
-    rh = reset --hard
+    undo    = reset --soft HEAD^  # Undo the last commit and put it back in the index
+    rh      = reset --hard        # Clear all changes in workspace and index
 
-    # Show logs in tree format
     tree = log --graph --oneline --decorate --color --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)'
-    t = tree
-    ta = t --all
-    # Tree, using ISO8601 format
-    ti = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %s%C(reset)'
-    tai = ti --all
-    # Tree, using relative times
-    tr = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %s%C(reset)'
-    tar = tr --all
+    t    = tree
+    ta   = t --all
+    ti   = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %s%C(reset)'  # Tree, using ISO8601 format
+    tai  = ti --all
+    tr   = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %s%C(reset)'  # Tree, using relative times
+    tar  = tr --all
 
     # Branch stats
     stats = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
-    s = stats
-    sa = stats --all
+    s     = stats
+    sa    = stats --all
 
     # fzf goodness! From https://medium.com/hackernoon/be-125-more-efficient-with-git-60556a1ce971
-	fuzzy-checkout= !BRANCH=`git recent | fzf` && git checkout ${BRANCH}
-	fuzzy-add= !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && git add --all ${FILES}
-	fuzzy-fix= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
-	fuzzy-show= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git show `echo ${HASH} | awk '{ print $1 }'`
-	fuzzy-log= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && echo ${HASH} | awk '{ print $1 }' | xargs echo -n | pbcopy
-	fuzzy-rebase= !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
-	fuzzy-vim= !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && vim -O ${FILES}
-	fuzzy-vimconflicts= !FILES=`git status -s | grep '^[UMDA]\\{2\\} ' | awk '{ print $2 }' | fzf -x -m` && vim -O ${FILES}
-	fuzzy-grep= !sh -c 'FILES=`git grep -l -A 0 -B 0 $1 $2 | fzf -x -m` && vim -O `echo ${FILES} | cut -d':' -f1 | xargs`' -
-    fuzzy-vimlog= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && HASHZ=`echo ${HASH} | awk '{ print $1 }'` && FILES=`git show --diff-filter=d --pretty='format:' --name-only $HASHZ | grep -v -e '^$' | fzf -x -m` && vim -O ${FILES}
-	fuzzy-reset= !HASH=`git log --pretty=oneline | head -n 50 | fzf` && git reset --soft `echo ${HASH} | awk '{ print $1 }'`^
+    fuzzy-checkout = !BRANCH=`git recent | fzf` && git checkout ${BRANCH}
+    fuzzy-add      = !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && git add --all ${FILES}
+    fuzzy-fix      = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
+    fuzzy-show     = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git show `echo ${HASH} | awk '{ print $1 }'`
+    fuzzy-log      = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && echo ${HASH} | awk '{ print $1 }' | xargs echo -n | pbcopy
+    fuzzy-rebase   = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
+    fuzzy-vim      = !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && vim -O ${FILES}
+    fuzzy-grep     = !sh -c 'FILES=`git grep -l -A 0 -B 0 $1 $2 | fzf -x -m` && vim -O `echo ${FILES} | cut -d':' -f1 | xargs`' -
+    fuzzy-vimlog   = !HASH=`git log --pretty=oneline | head -n 50 | fzf` && HASHZ=`echo ${HASH} | awk '{ print $1 }'` && FILES=`git show --diff-filter=d --pretty='format:' --name-only $HASHZ | grep -v -e '^$' | fzf -x -m` && vim -O ${FILES}
+    fuzzy-reset    = !HASH=`git log --pretty=oneline | head -n 50 | fzf` && git reset --soft `echo ${HASH} | awk '{ print $1 }'`^
 
 [apply]
     whitespace = strip
