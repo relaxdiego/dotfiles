@@ -70,19 +70,28 @@
 
     fa = fetch --all
     far = fetch --all --recurse-submodules
+
     unstage = reset HEAD --
+    # Undo the last commit and put it back in the index
     undo = reset --soft HEAD^
+    # Clear all changes in workspace and index
     rh = reset --hard
+
+    # Show logs in tree format
     tree = log --graph --oneline --decorate --color --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)'
     t = tree
     ta = t --all
+    # Tree, using ISO8601 format
     ti = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %s%C(reset)'
-    tia = ti --all
+    tai = ti --all
+    # Tree, using relative times
     tr = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %s%C(reset)'
-    tra = tr --all
-    stat = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
-    s = stat
-    sa = stat --all
+    tar = tr --all
+
+    # Branch stats
+    stats = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
+    s = stats
+    sa = stats --all
 
 [apply]
     whitespace = strip
