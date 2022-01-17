@@ -21,7 +21,7 @@ $line_break\
 $jobs\
 $battery\
 $time\
-$character\
+$character
 """
 
 [username]
@@ -78,7 +78,7 @@ symbol = " "
 disabled = true
 
 [cmd_duration]
-format = "祥[$duration]($style)"
+format = "祥[$duration]($style) "
 # show_milliseconds = true
 style = "#669933"
 
