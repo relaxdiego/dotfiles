@@ -67,12 +67,10 @@
     fixup = commit --fixup
     fixup-apply = rebase --autosquash --interactive
     fa = fetch --all
-    fm = fetch --multiple origin upstream
     far = fetch --all --recurse-submodules
     unstage = reset HEAD --
-    last = log -1 HEAD
-    diffc = diff --check
-    undo-last-commit = reset --soft HEAD^
+    undo = reset --soft HEAD^
+    rh = reset --hard
     tree = log --graph --oneline --decorate --color --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)'
     t = tree
     ta = t --all
@@ -83,25 +81,6 @@
     stat = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
     s = stat
     sa = stat --all
-    local = log --pretty=oneline @{u}..HEAD
-    rewrite = rebase -i --autosquash @{u}
-    pr = pull --rebase
-    rh = reset --hard
-    co = checkout
-    rename = branch -m
-    dry-run-merge = merge --no-commit --no-ff
-    mnff = merge --no-ff
-    switch = !legit switch \"$@\"
-    branches = !legit branches
-    sprout = !legit sprout \"$@\"
-    unpublish = !legit unpublish \"$@\"
-    harvest = !legit harvest \"$@\"
-    sync = !legit sync \"$@\"
-    publish = !legit publish \"$@\"
-    graft = !legit graft \"$@\"
-    list-submodules = config --file .gitmodules --get-regexp path
-	ctags = !.git/hooks/ctags
-	dad = !curl https://icanhazdadjoke.com/ 2> /dev/null && echo
 
 [apply]
     whitespace = strip
