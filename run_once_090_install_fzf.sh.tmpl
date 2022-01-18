@@ -1,8 +1,19 @@
 #!/bin/bash -e
-{{ $version := "0.21.1" -}}
-{{ $filename := printf "fzf-%s-%s_%s.tgz" $version .chezmoi.os .chezmoi.arch -}}
+{{ $version := "0.29.0" -}}
+{{ $extension := "tar.gz" }}
+{{ if eq .chezmoi.os "darwin" }}
+    {{ $extension = "zip" }}
+{{ end  }}
+{{ $filename := printf "fzf-%s-%s_%s.%s" $version .chezmoi.os .chezmoi.arch $extension -}}
+
 cd /tmp
-wget -O {{ $filename  }} https://github.com/junegunn/fzf-bin/releases/download/{{ $version }}/{{ $filename }}
-tar -xvf {{ $filename }}
+wget -O {{ $filename  }} https://github.com/junegunn/fzf/releases/download/{{ $version }}/{{ $filename }}
+
+{{ if eq .chezmoi.os "darwin" }}
+    unzip {{ $filename }}
+{{ else  }}
+    tar -xvf {{ $filename }}
+{{ end  }}
+
 mkdir -p ~/bin
 mv fzf ~/bin/

@@ -144,6 +144,7 @@ export GPG_TTY=$(tty)
 export PATH=$PATH:$HOME/bin
 export PATH=$HOME/node/current/bin:$PATH
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_OPTS='--multi --layout=reverse --border --info=inline --color=16 --height=40%'
 
 {{ if not .shared_machine -}}
 # https://starship.rs/guide/#%F0%9F%9A%80-installation
