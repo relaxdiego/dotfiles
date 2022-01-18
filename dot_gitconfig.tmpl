@@ -66,7 +66,7 @@
 [alias]
     # Aliases used by other aliases below
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
-    recent = !git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/ | head -n 100
+    recent = !git for-each-ref --sort=-committerdate --format='%(refname:short)' | head -n 100
     fixit  = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
 
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
