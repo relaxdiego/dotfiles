@@ -67,13 +67,13 @@
     # Aliases used by other aliases below
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
     recent = !git for-each-ref --sort=-committerdate --format='%(refname:short)' | head -n 100
-    fixit  = "!f() { git commit --fixup=$1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1; }; f"
+    util-fixit  = "!f() { git commit --fixup=$1 && git add . && git stash >/dev/null && GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1~1 && git stash pop >/dev/null; }; f"
 
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
     co = !BRANCH=`git recent | fzf` && git checkout ${BRANCH}
 
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
-    fixup = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
+    fixup = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git util-fixit `echo ${HASH} | awk '{ print $1 }'`
 
     fa  = fetch --all
     far = fetch --all --recurse-submodules
@@ -98,7 +98,7 @@
     # fzf goodness! From https://medium.com/hackernoon/be-125-more-efficient-with-git-60556a1ce971
     fuzzy-checkout = !BRANCH=`git recent | fzf` && git checkout ${BRANCH}
     fuzzy-add      = !FILES=`git status -s | awk '{ print $2 }' | fzf -x -m` && git add --all ${FILES}
-    fuzzy-fix      = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git fixit `echo ${HASH} | awk '{ print $1 }'`
+    fuzzy-fix      = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git util-fixit `echo ${HASH} | awk '{ print $1 }'`
     fuzzy-show     = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git show `echo ${HASH} | awk '{ print $1 }'`
     fuzzy-log      = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && echo ${HASH} | awk '{ print $1 }' | xargs echo -n | pbcopy
     fuzzy-rebase   = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
