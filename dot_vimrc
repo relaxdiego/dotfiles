@@ -257,49 +257,10 @@ nmap <silent> <leader>g :TestVisit<CR>
 let test#strategy = "tslime"
 
 " Determine the python test runner to use
-if filereadable("tox.ini") && filereadable(".stestr.conf")
-    let test#runners = {'Python': ['ToxWithStestr']}
-    let test#python#runner = 'toxwithstestr'
-elseif filereadable("pytest.ini")
+if filereadable("pytest.ini")
     let test#python#runner = 'pytest'
-    let test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
-elseif filereadable("src/@orb.yml") && filereadable("Pipfile")
-    let test#python#runner = 'pytest'
-    let test#python#pytest#executable = 'PYTHONPATH=. pipenv run pytest'
-    let test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
-elseif filereadable(".pytest") && filereadable("Pipfile")
-    let test#python#runner = 'pytest'
-    let test#python#pytest#executable = 'pipenv run pytest'
-    let test#python#pytest#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
-elseif filereadable(".pytest")
-    let test#python#runner = 'pytest'
-elseif filereadable(".djangotest")
-    let test#python#runner = 'djangotest'
-elseif isdirectory("./lib/ansible")
-    let test#python#runner = 'nose'
-elseif isdirectory("../../../ansible")
-    let test#python#runner = 'nose'
-elseif isdirectory("./libcloud")
-    let test#runners = {'Python': ['LibCloudTest']}
-    let test#python#runner = 'libcloudtest'
+    let test#python#pytest#file_pattern = '_test.py'
 endif
-
-" Pytest options
-" NOTE: Make sure pytest-random-order is installed
-let test#python#pytest#options = {
-    \ 'nearest': '-v --no-cov-on-fail',
-    \ 'file': '--no-cov-on-fail',
-    \ 'suite': '--no-cov-on-fail',
-    \}
-" Nose options
-let test#python#nose#options = {
-    \ 'nearest': '-v -s',
-    \ 'file': '-s --randomize',
-    \ 'suite': '-s --randomize',
-    \}
-
-" Execute current file
-nnoremap <Leader>r :!%:p
 
 " YouCompleteMe plugin
 let g:ycm_autoclose_preview_window_after_completion = 1
