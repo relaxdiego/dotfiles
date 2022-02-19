@@ -15,6 +15,9 @@ case $- in
       *) return;;
 esac
 
+# Ensure ctrl+x + ctrl-e support
+export EDITOR=vim
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
