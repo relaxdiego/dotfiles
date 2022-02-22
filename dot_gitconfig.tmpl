@@ -141,3 +141,14 @@
 
 [user]
 	useConfigOnly = true
+
+[merge]
+   tool = vimdiff
+[mergetool]
+	keepBackup = false
+# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
+[difftool "vimdiff"]
+    cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
+# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
+[mergetool "vimdiff"]
+    cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
