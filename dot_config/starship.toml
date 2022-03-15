@@ -56,6 +56,7 @@ behind = "⇣${count}"
 
 [package]
 format = "[ $version]($style) "
+disabled = true
 
 [golang]
 format = "[$symbol($version )]($style)"
@@ -97,3 +98,7 @@ error_symbol = "[\\$](bold red)"
 
 [status]
 disabled = false
+
+[helm]
+format = "[helm:$version](bold #9999FF) "
+disabled = true
