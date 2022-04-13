@@ -259,7 +259,6 @@ let test#strategy = "tslime"
 " Determine the python test runner to use
 if filereadable("pytest.ini")
     let test#python#runner = 'pytest'
-    let test#python#pytest#file_pattern = '_test.py'
 endif
 
 " YouCompleteMe plugin
