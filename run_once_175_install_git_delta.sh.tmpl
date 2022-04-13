@@ -1,0 +1,30 @@
+#!/bin/bash -e
+
+echo "Installing github.com/dandavison/delta"
+
+platform='unknown'
+unamestr=$(uname)
+
+if [[ "$unamestr" == 'Darwin' ]]; then
+    if hash brew 1>&2>/dev/null; then
+        brew install git-delta
+    elif hash port 1>&2>/dev/null; then
+        port install git-delta
+    else
+        echo "ERROR: I don't know what package manager you're using!"
+        exit 1
+    fi
+elif [[ "$unamestr" == 'Linux' ]]; then
+    if hash apt-get 1>&2>/dev/null; then
+        wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
+        sudo dpkg -i /tmp/git-delta.deb
+    elif hash dnf 1>&2>/dev/null; then
+        sudo dnf install git-delta
+    else
+        echo "ERROR: I don't know what package manager you're using!"
+        exit 1
+    fi
+else
+    echo "ERROR: I don't support installation for this OS yet!"
+    exit 1
+fi
