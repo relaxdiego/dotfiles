@@ -142,8 +142,6 @@
 [delta]
     navigate = true  # use n and N to move between diff sections
     side-by-side = false
-    line-numbers = true
-    whitespace-error-style = 22 reverse
     blame-code-style = syntax
     syntax-theme = "Visual Studio Dark+"
     features = line-numbers decorations
@@ -154,16 +152,22 @@
     line-numbers-right-format = "{np:>4}│"
     line-numbers-right-style = "#666666"
 [delta "decorations"]
-    commit-decoration-style = bold yellow ol ul
-    file-style = bold yellow ul
-    file-decoration-style = none
-    file-modified-label = ""
-    hunk-header-decoration-style = grey
+    file-style = yellow
+    file-decoration-style = dim yellow ol ul
+    file-modified-label = modified:
+    hunk-header-decoration-style = none
     hunk-header-style = syntax
     hunk-label = ""
     zero-style = dim syntax
+    # From https://github.com/chtenb/delta/blob/master/themes.gitconfig
+    map-styles = \
+       bold purple => syntax "#4D0039", \
+       bold blue => syntax "#271344", \
+       bold cyan => syntax "#005252", \
+       bold yellow => syntax "#222f14"
 
 [diff]
+    # https://dandavison.github.io/delta/color-moved-support.html
     colorMoved = default
 # from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
 [difftool "vimdiff"]
