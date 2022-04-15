@@ -171,6 +171,10 @@
 # from: https://gist.github.com/tekin/12500956bd56784728e490d8cef9cb81
 [diff "rspec"]
     xfuncname = "^[ \t]*((RSpec|describe|context|it|before|after|around|feature|scenario|background)[ \t].*)$"
+[diff "ini"]
+    xfuncname = "^\\[.*\\]$"
+[diff "gherkin"]
+    xfuncname = "^ +(Scenario( Outline)?:.*)$"
 
 [merge]
    tool = vimdiff

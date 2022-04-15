@@ -27,3 +27,8 @@
 *.rs    diff=rust
 *.lisp  diff=lisp
 *.el    diff=lisp
+Pipfile diff=ini
+*.toml  diff=ini
+*.ini   diff=ini
+dot_gitconfig.tmpl diff=ini
+*.feature diff=gherkin
