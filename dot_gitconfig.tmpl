@@ -6,6 +6,10 @@
     email = {{ .email }}
     signingkey = {{ .gpg_fingerprint }}
 
+[github]
+    user = {{ .github_username }}
+{{- end }}
+
 ; The file below can contain conditional includes that customizes the [user]
 ; stanza according to the current path. For example, it might contain:
 ;
@@ -26,12 +30,36 @@
 [include]
     path = ~/.gitconfig-custom
 
-[github]
-    user = {{ .github_username }}
+[core]
+    whitespace = trailing-space,space-before-tab
+    excludesfile = ~/.gitignore_global
+    editor = vim
+    pager = delta
+
+[user]
+    # Avoid trying to guess defaults for user.name and user.email
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-useruseConfigOnly
+	useConfigOnly = true
+
+[init]
+    templatedir = ~/.git-template
+    defaultBranch = main
 
 [commit]
     gpgsign = true
     template = ~/.git-commit-template.txt
+
+[push]
+    default = current
+
+[apply]
+    whitespace = strip
+
+[pager]
+    color = true
+
+[status]
+    color = true
 
 [gpg]
 {{- if eq .chezmoi.os "linux" }}
@@ -39,25 +67,21 @@
 {{- else if eq .chezmoi.os "darwin" }}
     program = gpg
 {{- end }}
-{{- end }}
 
 [color]
     ui = auto
     branch = auto
     diff = auto
     status = auto
-
 [color "branch"]
     current = green reverse
     local = green
     remote = red
-
 [color "diff"]
     meta = yellow
     frag = magenta
     old = red
     new = green
-
 [color "status"]
     added = yellow
     changed = green
@@ -107,27 +131,53 @@
     fuzzy-vimlog   = !HASH=`git log --pretty=oneline | head -n 50 | fzf` && HASHZ=`echo ${HASH} | awk '{ print $1 }'` && FILES=`git show --diff-filter=d --pretty='format:' --name-only $HASHZ | grep -v -e '^$' | fzf -x -m` && vim -O ${FILES}
     fuzzy-reset    = !HASH=`git log --pretty=oneline | head -n 50 | fzf` && git reset --soft `echo ${HASH} | awk '{ print $1 }'`^
 
-[apply]
-    whitespace = strip
+[interactive]
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-interactivediffFilter
+    diffFilter = delta --color-only
 
-[pager]
-    color = true
+# git-delta https://github.com/dandavison/delta
+# See: delta --help | less -R
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    side-by-side = false
+    line-numbers = true
+    whitespace-error-style = 22 reverse
+    blame-code-style = syntax
+    syntax-theme = "Visual Studio Dark+"
+    features = line-numbers decorations
+[delta "line-numbers"]
+    line-numbers = true
+    line-numbers-left-format = "{nm:>4}┊"
+    line-numbers-left-style = "#666666"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-right-style = "#666666"
+[delta "decorations"]
+    commit-decoration-style = bold yellow ol ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    file-modified-label = modified:
+    hunk-header-decoration-style = grey
+    hunk-header-style = omit
+    zero-style = dim syntax
 
-[status]
-    color = true
+[diff]
+    colorMoved = default
+# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
+[difftool "vimdiff"]
+    cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
 
-[core]
-    whitespace = trailing-space,space-before-tab
-    excludesfile = ~/.gitignore_global
-    editor = vim
+[merge]
+   tool = vimdiff
+[mergetool]
+	keepBackup = false
+# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
+[mergetool "vimdiff"]
+    cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 
 [filter "media"]
     required = true
     clean = git media clean %f
     smudge = git media smudge %f
-
-[push]
-    default = current
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -135,20 +185,3 @@
 	process = git-lfs filter-process
 	required = true
 
-[init]
-    templatedir = ~/.git-template
-    defaultBranch = main
-
-[user]
-	useConfigOnly = true
-
-[merge]
-   tool = vimdiff
-[mergetool]
-	keepBackup = false
-# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
-[difftool "vimdiff"]
-    cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
-# from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
-[mergetool "vimdiff"]
-    cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
