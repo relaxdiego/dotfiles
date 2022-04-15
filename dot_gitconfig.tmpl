@@ -35,6 +35,8 @@
     excludesfile = ~/.gitignore_global
     editor = vim
     pager = delta
+    # https://tekin.co.uk/2020/10/better-git-diff-output-for-ruby-python-elixir-and-more
+    attributesfile = /Users/mark/.gitattributes
 
 [user]
     # Avoid trying to guess defaults for user.name and user.email
@@ -157,7 +159,8 @@
     file-decoration-style = none
     file-modified-label = modified:
     hunk-header-decoration-style = grey
-    hunk-header-style = omit
+    hunk-header-style = syntax
+    hunk-label = ""
     zero-style = dim syntax
 
 [diff]
@@ -165,6 +168,9 @@
 # from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
 [difftool "vimdiff"]
     cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
+# from: https://gist.github.com/tekin/12500956bd56784728e490d8cef9cb81
+[diff "rspec"]
+    xfuncname = "^[ \t]*((RSpec|describe|context|it|before|after|around|feature|scenario|background)[ \t].*)$"
 
 [merge]
    tool = vimdiff
