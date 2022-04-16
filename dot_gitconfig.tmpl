@@ -143,8 +143,9 @@
     navigate = true  # use n and N to move between diff sections
     side-by-side = false
     blame-code-style = syntax
+    dark = true
     syntax-theme = "Visual Studio Dark+"
-    features = line-numbers decorations
+    features = line-numbers decorations highlight-moved-code
 [delta "line-numbers"]
     line-numbers = true
     line-numbers-left-format = "{nm:>4}┊"
@@ -162,17 +163,27 @@
     hunk-header-decoration-style = none
     hunk-header-style = syntax
     hunk-label = ""
+    minus-style = dim white auto
+    plus-style = syntax auto
     zero-style = dim syntax
-    # From https://github.com/chtenb/delta/blob/master/themes.gitconfig
+[delta "highlight-moved-code"]
+    # Adjust zebra style for moved lines. In order for this
+    # to work, delta.features above must enable this section
+    # and diff.colorMoved must be set to zebra.
+    #
+    # Adapted from https://github.com/chtenb/delta/blob/master/themes.gitconfig
     map-styles = \
-       bold purple => syntax "#4D0039", \
-       bold blue => syntax "#271344", \
-       bold cyan => syntax "#005252", \
-       bold yellow => syntax "#222f14"
+       bold purple => dim white "#3F0F2F", \
+       bold blue => dim white "#491939", \
+       bold cyan => syntax "#002F2F", \
+       bold yellow => syntax "#0A3939"
 
 [diff]
-    # https://dandavison.github.io/delta/color-moved-support.html
-    colorMoved = default
+    # Use zebra style coloring for moved code. This is needed
+    # so that [delta "highlight-moved-code"] will have an effect.
+    #
+    # See: https://dandavison.github.io/delta/color-moved-support.html
+    colorMoved = zebra
 # from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
 [difftool "vimdiff"]
     cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
