@@ -1,4 +1,12 @@
-# See https://tekin.co.uk/2020/10/better-git-diff-output-for-ruby-python-elixir-and-more for more details
+# Specify how git should treat the file when diffing it.
+#
+# To check the effective attributes of a file, run:
+#
+#   git check-attr -a /path/to/file
+#
+# See: Generating diff text <https://git-scm.com/docs/gitattributes#_diff>
+#
+# See: Better Git diff output <https://tekin.co.uk/2020/10/better-git-diff-output-for-ruby-python-elixir-and-more>
 
 *.c     diff=cpp
 *.h     diff=cpp
