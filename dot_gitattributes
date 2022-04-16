@@ -40,3 +40,5 @@ Pipfile diff=ini
 *.ini   diff=ini
 dot_gitconfig.tmpl diff=ini
 *.feature diff=gherkin
+*.yaml  diff=yaml
+*.yml   diff=yaml
