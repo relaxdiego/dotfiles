@@ -45,3 +45,5 @@ dot_gitconfig.tmpl diff=ini
 *.yml   diff=no-hunk-header
 *.yml.*   diff=no-hunk-header
 .*ignore diff=no-hunk-header
+.envrc  diff=no-hunk-header
+.envrc.local  diff=no-hunk-header
