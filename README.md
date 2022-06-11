@@ -53,12 +53,12 @@ eval $(op signin <subdomain>.1password.com <email>)
 ```
 
 
-## Install the Ubuntu Mono Nerd Font
+## Install a Nerd Font
 
-Ubunto Mono?! Where we're going, we don't need [just] Ubunto Mono.
-[Get its Nerd Font equivalent](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip)
-and use it on your terminal.
-
+I use [Starship](https://starship.rs/) to format my shell prompt and part
+of its configuration includes using Nerd Font characters. To render those
+characters correctly in your terminal, you'll need to install one of
+those Nerd-ified fonts from [https://nerdfonts.com](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip).
 
 ## Install `chezmoi`
 
