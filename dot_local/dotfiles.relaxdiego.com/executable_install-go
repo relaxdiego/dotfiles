@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -ex
+
+GOVERSION=1.18.3
+
+if go &>/dev/null; then
+    echo "Go is already installed"
+else
+    echo "Installing Go ${GOVERSION} using asdf"
+    asdf install golang "${GOVERSION}"
+    sed -i "s/golang.*/golang ${GOVERSION}/g" ~/.tool-versions
+fi
+
+# Install the Go plugin for vim
+source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
+ensure_plugin 'vim-go' https://github.com/fatih/vim-go.git v1.26
+
+# Ensure Go support for YCM
+echo "--go-completer" > $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/golang
+
+# Re-install YouCompleteMe now with go support
+# For more help on Go completion, see https://github.com/ycm-core/YouCompleteMe#explanation-for-the-quick-start-1
+rm -rf $bundle_path/YouCompleteMe
+$HOME/.local/dotfiles.relaxdiego.com/install-YouCompleteMe
