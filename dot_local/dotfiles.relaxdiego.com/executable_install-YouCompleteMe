@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -ex
 
-# TODO: To ensure that YCM will still work even if the current repo/project/dir
-# refers to a different python version, consider adopting this https://stackoverflow.com/a/28680293
-
 # To force a re-installation of YCM:
 #   1) Run rm -rf ~/.vim/bundle/YouCompleteMe
 #   3) Run this script
