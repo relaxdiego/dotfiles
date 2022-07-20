@@ -111,9 +111,9 @@
     tree = log --graph --oneline --decorate --color --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)'
     t    = tree
     ta   = t --all
-    ti   = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %s%C(reset)'  # Tree, using ISO8601 format
+    ti   = t --format='%C(auto)%h %C(green)%ai%C(auto)%d %C("#666666")%an%C(auto)%d %s%C(reset)'  # Tree, using ISO8601 format
     tai  = ti --all
-    tr   = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %s%C(reset)'  # Tree, using relative times
+    tr   = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %C("#666666")%an%C(auto)%d %s%C(reset)'  # Tree, using relative times
     tar  = tr --all
 
     # Branch stats
