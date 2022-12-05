@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+echo "Installing github.com/sharkdp/bat"
+
+unamestr=$(uname)
+
+if [[ "$unamestr" == 'Darwin' ]]; then
+    if hash brew 1>&2>/dev/null; then
+        brew install bat
+    elif hash port 1>&2>/dev/null; then
+        port install bat
+    else
+        echo "ERROR: I don't know what package manager you're using!"
+        exit 1
+    fi
+elif [[ "$unamestr" == 'Linux' ]]; then
+    if hash apt-get 1>&2>/dev/null; then
+        sudo apt install bat
+    elif hash dnf 1>&2>/dev/null; then
+        sudo dnf install bat
+    else
+        echo "ERROR: I don't know what package manager you're using!"
+        exit 1
+    fi
+else
+    echo "ERROR: I don't support installation for this OS yet!"
+    exit 1
+fi
