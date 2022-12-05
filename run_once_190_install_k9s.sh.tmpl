@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+version="0.26.7"
+echo "Installing github.com/derailed/k9s ${version}"
+
+unamestr=$(uname)
+
+if [[ "$unamestr" == 'Darwin' ]]; then
+    if hash brew 1>&2>/dev/null; then
+        brew install k9s
+    elif hash port 1>&2>/dev/null; then
+        port install k9s
+    else
+        echo "ERROR: I don't know what package manager you're using!"
+        exit 1
+    fi
+elif [[ "$unamestr" == 'Linux' ]]; then
+    echo "IMPLEMENT ME"
+    echo "Get the binary from https://github.com/derailed/k9s/releases"
+else
+    echo "ERROR: I don't support installation for this OS yet!"
+    exit 1
+fi
