@@ -1,4 +1,5 @@
 # Subject: One line, imperative, start with upper case, avoid period
+#          Must complete this phrase: "If applied, this commit will..."
 #<---------------- 50 chars max ---------------->#
 
 
