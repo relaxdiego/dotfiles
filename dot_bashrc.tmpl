@@ -236,7 +236,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 if [ -f ~/.bash-custom-local ]; then source ~/.bash-custom-local; fi
 
-if [ -f ~/.bashrc.d/*.bashrc ]; then
+if [ -f "~/.bashrc.d/*.bashrc" ]; then
     for bashrc in ~/.bashrc.d/*.bashrc; do
         source "$bashrc"
     done
