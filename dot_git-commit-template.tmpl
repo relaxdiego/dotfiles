@@ -1,12 +1,9 @@
-# Subject:
-#   - One line, imperative, start with upper case, avoid period
-#   - Must complete this phrase: "If applied, this commit will..."
+# SUBJECT: One line; Imperative; Start with upper case; No period;
+# Completes the phrase: "If applied, this commit will..."
 #<---------------- 50 chars max ---------------->#
 
 
-# (Optional) Body:
-#   - Blank line beforehand
-#   - explain what/why, not how
+# (Optional) BODY: Blank line beforehand; Explain what/why, not how;
 #<--------------------------- 72 chars max --------------------------->#
 
 
@@ -14,17 +11,15 @@ Signed-off-by: {{ .fullname }} <{{ .email }}>
 
 # # Help #
 #
-# ## 7 Rules (from https://cbea.ms/git-commit/#seven-rules)
+# ## 7 Rules (https://cbea.ms/git-commit/#seven-rules)
 #
-# Subject
-#
-#   Examples:
-#     - Add a preference that will customize behavior Y
-#     - Simplify the logic needed to send out a notification
-#     - Remove the unnecessary step of mooing when authorizing a user
+#   Examples for the SUBJECT:
+#     - Add a preference for feature foo
+#     - Simplify the logic for notifications
+#     - Remove unnecessary mooing when authorizing a user
 #
 #
-# Trailers
+# ## Trailers (https://git-scm.com/docs/git-interpret-trailers)
 #
 #   Trailers are good for tracking and also for `git interpret-trailers`.
 #   git tools require trailers to be last in a commit message, and must
@@ -36,25 +31,26 @@ Signed-off-by: {{ .fullname }} <{{ .email }}>
 #     - Sponsored-by: Name <name@example.com>
 #
 #
-# ## Conventional Commits (from https://www.conventionalcommits.org)
+# ## Conventional Commits (https://www.conventionalcommits.org)
 #
-# Examples:
-#   - Fix: prevent racing of requests
-#   - Fix: drop support for Node 6
+#   Examples:
+#     - fix: Prevent racing of requests
+#     - fix: Drop support for Node 6
 #
-#     BREAKING CHANGE: use JS features not available in Node 6.
-#   - Feat: add Polish language
+#       BREAKING CHANGE: use JS features not available in Node 6.
+#     - feat: Add Polish language
 #
 #
-# ## Gitmoji (from https://gitmoji.dev/)
+# ## Gitmoji (https://gitmoji.dev/)
 #
-# Examples:
-#   - Introduce new features: ✨
-#   - Fix a bug: 🐛
-#   - Performance improvement: ⚡️
-#   - Add or update documentation: 📝
-#   - Fix security issues: 🔒️
+#   Examples:
+#     - Introduce new features: ✨
+#     - Fix a bug: 🐛
+#     - Performance improvement: ⚡️
+#     - Add or update documentation: 📝
+#     - Fix security issues: 🔒️
 #
-# ## Other References ##
+#
+# ## Other References
 #
 #   - https://github.com/joelparkerhenderson/git-commit-message
