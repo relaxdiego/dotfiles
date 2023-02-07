@@ -90,6 +90,8 @@
     untracked = cyan
 
 [alias]
+    ci = commit -s
+
     # Aliases used by other aliases below
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
     recent = !git for-each-ref --sort=-committerdate --format='%(refname:short)' | head -n 100
