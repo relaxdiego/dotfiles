@@ -482,8 +482,7 @@ function! s:BlameToggle() abort
 endfunction
 nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
 
-" Fold all foldables then unfold just what's on the cursor and
-" without unfolding its children.
-nmap zz <Esc>zMzv
+" Unfold the entire block under the cursor
+nmap zz <Esc>zMzO
 " Don't fold on open
 set nofoldenable
