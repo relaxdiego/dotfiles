@@ -485,3 +485,5 @@ nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
 " Fold all foldables then unfold just what's on the cursor and
 " without unfolding its children.
 nmap zz <Esc>zMzv
+" Don't fold on open
+set nofoldenable
