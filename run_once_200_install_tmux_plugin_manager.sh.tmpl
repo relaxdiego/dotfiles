@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+    echo "Cloning Tmux Plugin Manager"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+echo "Ensuring Tmux Plugin Manager version in use"
+
+cd ~/.tmux/plugins/tpm
+git fetch --all
+
+# Tag: v3.1.0
+git checkout 7bdb7ca33c9cc6440a600202b50142f401b6fe21
+
+echo "Tmux Plugin Manager version has been set"
+
+# IMPORTANT: If tmux is already running when this script executes,
+# make sure to run this afterwards: tmux source ~/.tmux.conf
+
+# To install all plugins declared in ~/.tmux.conf, use PREFIX + I
+# inside a tmux session.
+# See more: https://github.com/tmux-plugins/tpm
