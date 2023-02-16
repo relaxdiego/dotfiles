@@ -482,7 +482,12 @@ function! s:BlameToggle() abort
 endfunction
 nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
 
-" Unfold the entire block under the cursor
-nmap zz <Esc>zMzO
+" Recursively unfold the block where the cursor is, fold everything else
+"   zM - fold everything
+"   zv - unfold just enough so that the line under the cursor is visible
+"   zc - fold block where the cursor is
+"   zO - recursively unfold the block where the cursor is
+" See: :help z
+nmap zz <Esc>zMzvzczO
 " Don't fold on open
 set nofoldenable
