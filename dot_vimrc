@@ -213,11 +213,10 @@ if executable('ag')
 
   " Keeping this ag keybinding because I'm used to it
   nmap <leader>ag :Ack!<SPACE>""<Left>
-  nmap <leader>ack :Ack!<SPACE>""<Left>
   " Search the word directly under the cursor. Although just running
   " :Ack without arguments does the same trick, I'm doing it this way
   " so that the search term also gets saved in vim's command history
-  nmap <leader>gg yiw:Ack!<SPACE>""<Left><C-R>"<cr>
+  nmap <leader>ac yiw:Ack!<SPACE>""<Left><C-R>"<cr>
 
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
