@@ -36,7 +36,7 @@ style = "#777777"
 [aws]
 symbol = "  "
 style = "dimmed"
-disabled = true
+format = '[$symbol($profile )(\($region\) )]($style)'
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style) "
