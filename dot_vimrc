@@ -79,7 +79,7 @@ set pastetoggle=<leader>p
 "   ts='number of spaces that <Tab> in file uses'
 "   sts='number of spaces that <Tab> uses while editing'
 "   sw='number of spaces to use for (auto)indent step'
-" for details see: vimdoc.sourceforge.net/htmldoc/quickref.html#option-list
+" See: :help option-list
 set expandtab
 set ts=4 sw=4
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
@@ -89,8 +89,15 @@ autocmd Filetype python setlocal ts=4 sts=4 sw=4
 autocmd Filetype sh setlocal ts=4 sts=4 sw=4
 autocmd Filetype groovy setlocal ts=2 sts=2 sw=2
 autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
+
+" Force filetypes of certain filenames
 autocmd BufNewFile,BufRead Dockerfile.* set ft=dockerfile
 autocmd BufNewFile,BufRead *.toml set ft=dosini
+
+" Auto-wrap Markdown paragraphs.
+" See: :help fo-table
+autocmd BufNewFile,BufRead,Filetype markdown setlocal formatoptions+=a
+
 
 " Show column rulers
 set colorcolumn=72,80,88
