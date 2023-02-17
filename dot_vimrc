@@ -96,7 +96,7 @@ autocmd BufNewFile,BufRead *.toml set ft=dosini
 
 " Auto-wrap Markdown paragraphs.
 " See: :help fo-table
-autocmd BufNewFile,BufRead,Filetype markdown setlocal formatoptions+=a
+autocmd BufNewFile,BufRead,Filetype markdown setlocal tw=80 formatoptions+=t
 
 
 " Show column rulers
