@@ -3,13 +3,13 @@
 #<---------------- 50 chars max ---------------->#
 
 
-# (Optional) BODY: Blank line beforehand; Explain what/why, not how;
+# BODY (Optional): Blank line beforehand; Explain what/why, not how;
 #<--------------------------- 72 chars max --------------------------->#
 
 
 # # Help #
 #
-# ## 7 Rules (https://cbea.ms/git-commit/#seven-rules)
+# ## 7 Rules
 #
 #   Examples for the SUBJECT:
 #     - Add a preference for feature foo
@@ -17,28 +17,33 @@
 #     - Remove unnecessary mooing when authorizing a user
 #
 #
-# ## Optional: Trailers (https://git-scm.com/docs/git-interpret-trailers)
+# ## Trailers (Optional)
 #
-#   Trailers are good for tracking and also for `git interpret-trailers`.
-#   git tools require trailers to be last in a commit message, and must
-#   be one trailer per line, with no extra lines between.
+#   - MUST be last in a commit message.
+#   - MUST be one trailer per line.
+#   - Trailer keys MUST NOT contain spaces
+#   - Trailer keys MUST be separated from their values by ": "
+#   - MUST NOT have extra lines in between each trailer
 #
 #   Examples:
 #     - See: Description <https://example.com/...>
 #     - Co-authored-by: Name <name@example.com>
 #     - Sponsored-by: Name <name@example.com>
 #
+#   Conventional-Commits-inspired examples:
+#     - fix: Prevent racing of requests (affects SemVer PATCH)
+#     - feat: Add Polish language (affects SemVer MINOR)
+#     - BREAKING-CHANGE: use JS features not available in Node 6. (affects SemVer MAJOR)
 #
-# ## Optional: Conventional Commits (https://www.conventionalcommits.org)
+#   List trailers in commits via the command:
 #
-#   Examples:
-#     - fix: Prevent racing of requests
-#     - fix: Drop support for Node 6
-#
-#       BREAKING CHANGE: use JS features not available in Node 6.
-#     - feat: Add Polish language
+#       git log --format="%h %(trailers:separator=%x2C )" | grep '^[0-9a-f]* [[:print:]].*'
 #
 #
-# ## Other References
+# ## References
 #
 #   - https://github.com/joelparkerhenderson/git-commit-message
+#   - https://cbea.ms/git-commit/#seven-rules
+#   - https://git-scm.com/docs/git-interpret-trailers
+#   - https://conventionalcommits.org
+#   - https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type
