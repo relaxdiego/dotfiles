@@ -34,9 +34,17 @@ format = "[$hostname]($style) "
 style = "#777777"
 
 [aws]
-symbol = "  "
+symbol = " "
 style = "dimmed"
 format = '[$symbol($profile )(\($region\) )]($style)'
+
+[kubernetes]
+format = "[ $context](blue) "
+disabled = false
+[kubernetes.context_aliases]
+".*@prod1.us-west-2.eksctl.io.*"    = "prod1.us-west-2"
+".*@dev1.us-west-2.eksctl.io.*"     = "dev1.us-west-2"
+".*@staging1.us-west-2.eksctl.io.*" = "staging1.us-west-2"
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style) "
