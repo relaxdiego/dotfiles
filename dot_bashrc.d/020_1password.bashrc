@@ -1,1 +1,1 @@
-source /Users/mark/.op/plugins.sh
+source ~/.op/plugins.sh
