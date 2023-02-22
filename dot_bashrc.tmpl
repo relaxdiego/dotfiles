@@ -223,13 +223,5 @@ for file in ~/.bashrc.d/*.bashrc; do
     if [ -f "$file" ]; then source "$file"; fi
 done
 
-# TODO: Auto install krew (https://krew.sigs.k8s.io/docs/user-guide/setup/install/)
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 if [ -f ~/.bash-custom-local ]; then source ~/.bash-custom-local; fi
 
-if [ -f "~/.bashrc.d/*.bashrc" ]; then
-    for bashrc in ~/.bashrc.d/*.bashrc; do
-        source "$bashrc"
-    done
-fi
