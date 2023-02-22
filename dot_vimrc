@@ -93,6 +93,8 @@ autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
 " Force filetypes of certain filenames
 autocmd BufNewFile,BufRead Dockerfile.* set ft=dockerfile
 autocmd BufNewFile,BufRead *.toml set ft=dosini
+autocmd BufNewFile,BufRead *.bashrc set ft=sh
+autocmd BufNewFile,BufRead dot_bashrc.tmpl set ft=sh
 
 " Auto-wrap Markdown paragraphs.
 " See: :help fo-table
