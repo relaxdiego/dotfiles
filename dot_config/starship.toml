@@ -33,6 +33,9 @@ style_root = "red"
 format = "[$hostname]($style) "
 style = "#777777"
 
+[docker_context]
+format = '[$symbol$context]($style) '
+
 [aws]
 symbol = " "
 style = "dimmed"
