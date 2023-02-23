@@ -180,8 +180,11 @@ autocmd FileType ansible,c,groovy,cpp,java,php,ruby,python,sh,vim autocmd BufWri
         \ <buffer> :call <SID>StripTrailingWhitespaces()
 
 " Run Black just before saving a python file
-" https://black.readthedocs.io/en/stable/integrations/editors.html#vim
-autocmd BufWritePre *.py execute ':Black'
+" https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end
 
 
 " Disable arrow keys
