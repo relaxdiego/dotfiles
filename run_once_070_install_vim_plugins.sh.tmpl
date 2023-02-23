@@ -128,9 +128,6 @@ fi
 # Add terraform plugin
 ensure_plugin vim-terraform https://github.com/relaxdiego/vim-terraform
 
-# Add Black
-ensure_plugin black "-b 22.3.0 --single-branch https://github.com/psf/black.git"
-
 # Fugitive
 ensure_plugin vim-fugitive https://github.com/relaxdiego/vim-fugitive
 
@@ -144,7 +141,19 @@ ensure_plugin vim-yaml-folds https://github.com/pedrohdz/vim-yaml-folds.git 890c
 # Plugins that are installed using the Vim 8.1+ native package manager
 #
 
-ensure_native_plugin \
+ensure_native_plugin_git \
     vim-hcl \
     jvirtanen/start \
     https://github.com/relaxdiego/vim-hcl.git
+
+# Add Black
+ensure_plugin_absent black  # Remove the pathogen-based plugin first
+# See: https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
+ensure_native_plugin_vimfile \
+    plugin \
+    psf/black/start \
+    https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/plugin/black.vim
+ensure_native_plugin_vimfile \
+    autoload \
+    psf/black/start \
+    https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/autoload/black.vim
