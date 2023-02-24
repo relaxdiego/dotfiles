@@ -103,6 +103,8 @@ autocmd BufNewFile,BufRead,Filetype markdown setlocal tw=80 formatoptions+=t
 
 " Show column rulers
 set colorcolumn=72,80,88
+" But not for the quickfix window!
+au FileType qf setlocal colorcolumn=
 
 " Show whitespace
 set list
