@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 
 # TODO: To ensure that YCM will still work even if the current repo/project/dir
 # refers to a different python version, consider adopting this https://stackoverflow.com/a/28680293
-
-# To force a re-installation of YCM:
-#   1) Run rm -rf ~/.vim/bundle/YouCompleteMe
-#   3) Run this script
 
 # Determine the flags to be passed to the YCM installer
 installer_flags=$(cat $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/* | tr -s '\n' ' ')
@@ -15,11 +11,20 @@ source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
 plugin_name='YouCompleteMe'
 ensure_plugin $plugin_name https://github.com/ycm-core/YouCompleteMe c99f408
 if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core*.so ]; then
+   set -x
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
    /usr/local/bin/python3 ./install.py $installer_flags
    cd -
+   { set +x; } 2>/dev/null
 else
-   echo "Plugin YouCompleteMe is already configured"
+   echo
+   echo "================================================================="
+   echo " Plugin YouCompleteMe is already configured. To force reinstall:"
+   echo
+   echo "    $ rm -rf ~/vim/bundle/YouCompleteMe"
+   echo "    $ $(basename $0)"
+   echo "================================================================="
+   echo
 fi
 echo "If you're having problems with YCM, see https://github.com/Valloric/YouCompleteMe/issues/8#issuecomment-34374807"
