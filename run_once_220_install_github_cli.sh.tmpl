@@ -1,0 +1,33 @@
+#!/bin/bash -e
+
+# From: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+
+echo "Installing https://cli.github.com/"
+
+version="2.23.0"
+unamestr=$(uname)
+tmp_dir=$(mktemp --directory --tmpdir=/tmp github-cli.XXX)
+
+if [[ "$unamestr" == 'Darwin' ]]; then
+    os_arch="macOS_amd64"
+elif [[ "$unamestr" == 'Linux' ]]; then
+    os_arch="linux_amd64"
+else
+    echo "I don't support installing in this OS yet!"
+    exit 1
+fi
+
+url="https://github.com/cli/cli/releases/download/v${version}/gh_${version}_${os_arch}.tar.gz"
+archive_path="${tmp_dir}/archive.tar.gz"
+
+curl -L "$url" -o "$archive_path"
+cd "$tmp_dir"
+pwd
+ls -l
+tar --strip-components=1 -xzvf "$archive_path"
+rm -f archive.tar.gz
+ls -l
+mkdir -p ~/.local/opt/github-cli
+rm -rf ~/.local/opt/github-cli/*
+mv ./* ~/.local/opt/github-cli/
+exit 0
