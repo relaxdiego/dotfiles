@@ -154,6 +154,7 @@ alias k="kubectl"
 {{ if eq .chezmoi.os "darwin" -}}
 # Use GNU binaries in macOS instead of the BSD-flavored ones
 gnu_binaries=(
+    gnu-getopt
     gnu-sed
     grep
     gnu-tar
