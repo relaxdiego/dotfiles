@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+VERSION="0.30.0"
+
+if devcontainer --version &>/dev/null; then
+    echo "The devcointainer CLI (version: $(devcontainer --version)) is already installed!"
+else
+    echo "Installing devcointainer CLI ${VERSION} using npm..."
+
+    if ! npm --version &>/dev/null; then
+        echo "Devcointainer requires npm. Please install npm first, then try again."
+        exit 1
+    fi
+
+    npm install -g @devcontainers/cli@$VERSION
+fi
