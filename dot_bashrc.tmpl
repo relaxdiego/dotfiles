@@ -154,7 +154,6 @@ alias k="kubectl"
 {{ if eq .chezmoi.os "darwin" -}}
 # Use GNU binaries in macOS instead of the BSD-flavored ones
 gnu_binaries=(
-    gnu-getopt
     gnu-sed
     grep
     gnu-tar
@@ -164,6 +163,8 @@ gnu_binaries=(
 for binary in "${gnu_binaries[@]}"; do
     export PATH="$(brew --prefix)/opt/$binary/libexec/gnubin:$PATH"
 done
+# gnu-getopt is a special snowflake :-)
+export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
 {{- end }}
 
 # Add dotfiles scripts to PATH
