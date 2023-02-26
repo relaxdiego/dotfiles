@@ -313,6 +313,8 @@ if filereadable("pytest.ini")
     let test#python#runner = 'pytest'
 endif
 
+let test#shell#bats#options = "--recursive"
+
 " YouCompleteMe plugin
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
