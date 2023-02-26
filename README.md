@@ -36,6 +36,10 @@ a whole lot more! Your perceived productivity might take a slight dip for a few
 days or weeks, but once the muscle memory has sunk in, you will regain what you
 have lost tenfold and will be happier and more comfortable in the terminal.
 
+Additionally, with this configuration, you still get to stay very close to the
+home row whenever you want to go back to Vim's normal mode since `Ctrl` is
+within reach of your left pinky while `[` is within reach of your right pinky!
+
 Remember: The home row is where the art of terminal productivity is!
 
 ## Install `op`
