@@ -103,6 +103,10 @@
     # From https://github.com/fcsonline/dotfiles/blob/7211d48fb06eec96a415063cf07df240096bc9bf/git/gitconfig#L32-L33
     fixup = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git util-fixit `echo ${HASH} | awk '{ print $1 }'`
 
+    # Fuzzy cherry pick
+    chp = !HASH=`git log --all --pretty=oneline --color | head -n 100 | fzf --ansi ` && git cherry-pick `echo ${HASH} | awk '{ print $1 }'`
+    abort-cherry-pick = cherry-pick --abort
+
     fa  = fetch --all
     far = fetch --all --recurse-submodules
 
