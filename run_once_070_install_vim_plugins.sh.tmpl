@@ -28,8 +28,8 @@ ensure_plugin syntastic https://github.com/relaxdiego/syntastic
 # ack plugin (requires the ack executable)
 ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
 
-# test.vim plugin; supersedes vim-rspec
-ensure_plugin test.vim https://github.com/relaxdiego/vim-test
+# More recent vim-test versions only support the vim-plug plugin manager
+ensure_plugin_absent test.vim
 
 # surround plugin
 ensure_plugin vim-surround https://github.com/relaxdiego/vim-surround

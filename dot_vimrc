@@ -10,6 +10,11 @@ set cursorline
 colorscheme evening
 colorscheme hybrid
 
+" Install vim-plug-managed plugins
+call plug#begin('~/.vim/plugged')
+Plug 'https://github.com/relaxdiego/vim-test', { 'commit': '5710a97f730699e72024c3ddc4b5b7520c0ce705', 'frozen': 'true' }
+call plug#end()
+
 " Make the current line readable when in Vimdiff mode
 if &diff
     " 214 = #ffaf00
