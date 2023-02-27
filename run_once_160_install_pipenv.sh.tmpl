@@ -4,7 +4,7 @@
 ((brew info pipenv | grep -i "not installed" 1>/dev/null) && brew install pipenv) || echo "pipenv already installed"
 
 {{ else if eq .chezmoi.os "linux" -}}
-(which pipenv 1>/dev/null && echo "pipenv already installed") || sudo apt-get install pipenv
+(which pipenv 1>/dev/null && echo "pipenv already installed") || sudo apt-get install -y pipenv
 
 {{ end -}}
 
