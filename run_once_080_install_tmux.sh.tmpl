@@ -3,4 +3,6 @@
 (brew info tmux | grep -i "not installed") && brew install tmux || echo "tmux already installed"
 # We have to set this env var to ensure that vim uses all color schems when running in tmux
 grep "export TERM=xterm-256color" ~/.bash_profile || (echo "export TERM=xterm-256color" >> ~/.bash_profile && source ~/.bash_profile)
+{{ else if eq .chezmoi.os "linux" -}}
+sudo apt install tmux -y
 {{ end -}}
