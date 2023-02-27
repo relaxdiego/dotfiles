@@ -18,6 +18,7 @@ ensure_native_plugin_git () {
 
     if [ ! -d "$plugin_path" ]; then
         echo "INSTALLING: $git_url to $plugin_path"
+        mkdir -p "$pack_path"
         cd "$pack_path"
         mkdir -p "$parent_dir"
         cd "$parent_dir"
