@@ -16,6 +16,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
 elif [[ "$unamestr" == 'Linux' ]]; then
     if hash apt-get 1>&2>/dev/null; then
         sudo apt install bat -y
+        ln -s /usr/bin/batcat ~/bin/bat
     elif hash dnf 1>&2>/dev/null; then
         sudo dnf install bat
     else
