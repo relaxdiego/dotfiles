@@ -9,7 +9,7 @@ def Settings(**kwargs):
         # Afterwards, run "cat /path/to/YouCompleteMe/third_party/ycmd/PYTHON_USED_DURING_BUILDING"
         # to get the path to put into the following config.
 {{ if eq .chezmoi.os "linux" -}}
-        "interpreter_path": "/usr/bin/python3.10",
+        "interpreter_path": "/usr/bin/python3.9",
 {{ else if eq .chezmoi.os "darwin" -}}
         "interpreter_path": "/usr/local/opt/python@3.9/bin/python3.9",
 {{ end -}}
