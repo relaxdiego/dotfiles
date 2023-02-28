@@ -14,11 +14,11 @@ if ! [ -f $bundle_path/$plugin_name/third_party/ycmd/ycm_core*.so ]; then
    set -x
    cd $bundle_path/$plugin_name
    git submodule update --init --recursive
-{{ if eq .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.os "linux" }}
    /usr/bin/python3.9 ./install.py $installer_flags
-{{ else if eq .chezmoi.os "darwin" -}}
+{{ else if eq .chezmoi.os "darwin" }}
    /usr/local/bin/python3 ./install.py $installer_flags
-{{ end -}}
+{{ end }}
    cd -
    { set +x; } 2>/dev/null
 else
