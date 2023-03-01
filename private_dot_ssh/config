@@ -1,0 +1,18 @@
+# vim: set ft=sshconfig:
+
+#
+# WARNING: This file is managed by chezmoi. Do not edit directly.
+# Instead, create a file named ~/.ssh/config.d/NNN_myfilename and
+# place your custom config there. 
+#
+
+Include config.d/*
+
+# From: https://1password.community/discussion/comment/660153/#Comment_660153
+#
+# This works in concert with ~/.ssh/rc so that if you were to connect to
+# this machine remotely, you can still use 1Password for authorizing the
+# use of your SSH keys.
+Match host * exec "test -S ~/.ssh/ssh_auth_sock"
+    IdentityAgent ~/.ssh/ssh_auth_sock
+

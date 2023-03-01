@@ -176,18 +176,6 @@ if [ -f $rust_cargo_env ]; then
   source $rust_cargo_env
 fi
 
-# Configure ssh-agent
-# https://stackoverflow.com/a/38619604/402145
-{{ if eq .chezmoi.os "linux" -}}
-    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-      eval `ssh-agent`
-      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-    fi
-    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-    # List known keys and if none is found, run ssh-add
-    ssh-add -l > /dev/null || ssh-add
-{{ end -}}
-
 # Load direnv hooks
 eval "$(direnv hook bash)"
 
@@ -226,4 +214,3 @@ for file in ~/.bashrc.d/*.bashrc; do
 done
 
 if [ -f ~/.bash-custom-local ]; then source ~/.bash-custom-local; fi
-

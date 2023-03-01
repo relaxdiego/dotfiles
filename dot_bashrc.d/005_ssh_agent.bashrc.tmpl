@@ -1,0 +1,17 @@
+# vim: set ft=bash:
+
+# Configure ssh-agent
+{{ if eq .chezmoi.os "linux" }}
+# https://stackoverflow.com/a/38619604/402145
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  echo "Creating symlink ~/.ssh/ssh_auth_sock to $SSH_AUTH_SOCK"
+  eval "$(ssh-agent)"
+  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    echo "Setting SSH_AUTH_SOCK"
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+fi
+{{ else if eq .chezmoi.os "darwin" -}}
+# Nothing to be done for MacOS
+{{ end }}

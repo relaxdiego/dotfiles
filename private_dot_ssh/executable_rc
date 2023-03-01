@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# vim: set ft=bash:
+
+# From: https://1password.community/discussion/comment/660153/#Comment_660153
+#
+# This works in concert with ~/.ssh/config so that if you were to connect to
+# this machine remotely, you can still use 1Password for authenticating your
+# use of your SSH keys.
+
+# Create/update the symlink only if:
+#   - Session is an interactive ssh login
+#   - AND ~/.ssh/ssh_auth_sock doesn't exist
+#   - AND $SSH_AUTH_SOCK exists
+if [ -n "$SSH_TTY" ] && [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+fi
