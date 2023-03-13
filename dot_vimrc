@@ -505,9 +505,10 @@ nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
 " Recursively unfold the block where the cursor is, fold everything else
 "   zM - fold everything
 "   zv - unfold just enough so that the line under the cursor is visible
-"   zc - fold block where the cursor is
+"   zc - fold block where the cursor is (we need this so that zO has an effect)
 "   zO - recursively unfold the block where the cursor is
+"   z. - Redraw curosor line to center of window, cursor on first non-blank
 " See: :help z
-nmap zz <Esc>zMzvzczO
+nmap zz <Esc>zMzvzczOz.
 " Don't fold on open
 set nofoldenable
