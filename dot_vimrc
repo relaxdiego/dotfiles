@@ -510,5 +510,9 @@ nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
 "   z. - Redraw curosor line to center of window, cursor on first non-blank
 " See: :help z
 nmap zz <Esc>zMzvzczOz.
+
+" Enable folding for markdown files
+let g:markdown_folding = 1
+
 " Don't fold on open
 set nofoldenable
