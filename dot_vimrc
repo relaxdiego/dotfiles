@@ -94,6 +94,8 @@ autocmd Filetype python setlocal ts=4 sts=4 sw=4
 autocmd Filetype sh setlocal ts=4 sts=4 sw=4
 autocmd Filetype groovy setlocal ts=2 sts=2 sw=2
 autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
+" Match jsonnetfmt's default indentation
+autocmd Filetype jsonnet setlocal ts=2 sts=2 sw=2
 
 " Force filetypes of certain filenames
 autocmd BufNewFile,BufRead Dockerfile.* set ft=dockerfile
