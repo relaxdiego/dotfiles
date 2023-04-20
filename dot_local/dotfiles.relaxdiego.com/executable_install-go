@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
 set -ex
 
-GOVERSION=1.18.3
+GO_VERSION=1.19.8
+GOLANGCI_LINT_VERSION=1.52.2
 
 if go &>/dev/null; then
     echo "Go is already installed"
 else
-    echo "Installing Go ${GOVERSION} using asdf"
-    asdf install golang "${GOVERSION}"
-    sed -i "s/golang.*/golang ${GOVERSION}/g" ~/.tool-versions
+    echo "Installing Go ${GO_VERSION} using asdf"
+    asdf install golang "${GO_VERSION}"
 fi
+asdf global golang "${GO_VERSION}"
+
+if golangci-lint &>/dev/null; then
+    echo "golangci-lint is already installed"
+else
+    echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION} using asdf"
+    asdf install golangci-lint "${GOLANGCI_LINT_VERSION}"
+fi
+asdf global golangci-lint "${GOLANGCI_LINT_VERSION}"
 
 # Install the Go plugin for vim
 source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
