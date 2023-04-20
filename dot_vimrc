@@ -153,11 +153,7 @@ let g:syntastic_python_flake8_args='--max-line-length=88 --extend-ignore=E203'
 "
 " Go
 "
-let g:go_metalinter_command = 'golangci-lint'
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'revive', 'errcheck']
-let g:go_metalinter_deadline = '10s'
-let g:go_list_type_commands = {"GoMetaLinter": "quickfix"}
+let g:go_list_type = 'quickfix'
 
 "
 " Rust
