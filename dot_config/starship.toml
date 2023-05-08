@@ -45,9 +45,9 @@ format = '[$symbol($profile )(\($region\) )]($style)'
 format = "[ $context](blue) "
 disabled = false
 [kubernetes.context_aliases]
-".*@prod1.us-west-2.eksctl.io.*"    = "prod1.us-west-2"
-".*@dev1.us-west-2.eksctl.io.*"     = "dev1.us-west-2"
-".*@staging1.us-west-2.eksctl.io.*" = "staging1.us-west-2"
+'dev.local.cluster.k8s' = 'dev'
+'arn:aws:eks:(?P<var_region>[\w-]+):\d+:cluster/(?P<var_cluster>[\w-]+)$' = '$var_cluster.$var_region'
+'\d+@(?P<var_cluster>[\w-]+)\.(?P<var_region>[\w-]+)\.eksctl.io$' = '$var_cluster.$var_region'
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style) "
