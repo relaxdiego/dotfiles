@@ -57,6 +57,9 @@ nnoremap <C-H> <C-W><C-H>
 " Don't lose what's in the register after paste
 xnoremap p pgvy
 
+" Open subject-under-cursor's definition in v-split
+nnoremap <leader>,  <C-W><C-V><C-]>
+
 " More natural split opening
 set splitbelow
 set splitright
