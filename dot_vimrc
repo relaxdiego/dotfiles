@@ -13,6 +13,7 @@ colorscheme hybrid
 " Install vim-plug-managed plugins
 call plug#begin('~/.vim/plugged')
 Plug 'https://github.com/relaxdiego/vim-test', { 'commit': '5710a97f730699e72024c3ddc4b5b7520c0ce705', 'frozen': 'true' }
+Plug 'https://github.com/relaxdiego/context.vim', { 'commit': 'c06541451aa94957c1c07a9f8a7130ad97d83a65', 'frozen': 'true' }
 call plug#end()
 
 " Make the current line readable when in Vimdiff mode
@@ -525,3 +526,7 @@ let g:markdown_folding = 1
 
 " Don't fold on open
 set nofoldenable
+
+" context.vim settings
+let g:context_highlight_normal = 'PMenu'
+let g:context_highlight_border = '<hide>'
