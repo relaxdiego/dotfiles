@@ -1,0 +1,21 @@
+#!/bin/bash -eux
+version="0.9.1"
+
+{{ if (eq .chezmoi.os "linux") }}
+tarball_basename=nvim-linux64
+{{ else if (eq .chezmoi.os "darwin") }}
+tarball_basename=nvim-macos
+{{ else }}
+echo "ERROR: Unsupported operating system '{{ .chezmoi.os }}'"
+{{ end }}
+
+cd /tmp
+wget -O nvim.tar.gz https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz
+wget -O nvim.tar.gz.sha256sum https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz.sha256sum
+test "$(sha256sum nvim.tar.gz | cut -d' ' -f1)" == "$(cat nvim.tar.gz.sha256)" || echo "ERROR: Neovim checksum did not match!!!"
+tar -xvf nvim.tar.gz
+rm -rf "$HOME/bin/${tarball_basename}"
+mv "${tarball_basename}" "$HOME/bin/"
+cd "$HOME/bin"
+rm -f nvim
+ln -s "${tarball_basename}/bin/nvim" nvim
