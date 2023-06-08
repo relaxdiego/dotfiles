@@ -1,0 +1,9 @@
+#!/bin/bash -eux
+
+{{ if (eq .chezmoi.os "linux") }}
+sudo apt-get install ripgrep
+{{ else if (eq .chezmoi.os "darwin") }}
+brew install ripgrep
+{{ else }}
+echo "ERROR: Unsupported operating system '{{ .chezmoi.os }}'"
+{{ end }}
