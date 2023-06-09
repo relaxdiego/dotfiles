@@ -3,6 +3,7 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 -- LSP list at https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+-- You can also use the :Mason command to interactively install LSPs
 lsp.ensure_installed({
   "gopls",
   "pylsp",
@@ -58,3 +59,17 @@ lsp.setup()
 vim.diagnostic.config({
     virtual_text = true
 })
+
+require"lspconfig".pylsp.setup{
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          -- Match Black's line length
+          ignore = {"E501"},
+          maxLineLength = 88 
+        }
+      }
+    }
+  }
+}

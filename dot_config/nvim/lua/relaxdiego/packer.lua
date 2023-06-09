@@ -13,21 +13,6 @@ return require("packer").startup(function(use)
     }
 
     use {
-        "rose-pine/neovim",
-        commit = "6b7b38bbb3dac648dbf81f2728ce1101f476f920",
-        as = "rose-pine",
-        config = function()
-            vim.cmd("colorscheme rose-pine")
-        end
-    }
-
-    use {
-        "catppuccin/nvim",
-        commit = "233c4175780d9b4e39ae4fe4535c1e4c14bd76ed",
-        as = "catppuccin",
-    }
-
-    use {
         "rebelot/kanagawa.nvim",
         commit = "14a7524a8b259296713d4d77ef3c7f4dec501269",
         as = "kanagawa",
@@ -53,6 +38,10 @@ return require("packer").startup(function(use)
             local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
             ts_update()
         end
+    }
+    use {
+        "nvim-treesitter/nvim-treesitter-context",
+        commit = "e2ea37627c0681421ccf4a3cf19d68bb958e1817",
     }
     -- Run :TSPlaygroundToggle to explore the current buffer"s syntax tree
     use {
@@ -91,5 +80,45 @@ return require("packer").startup(function(use)
             {"L3MON4D3/LuaSnip"},
             {"rafamadriz/friendly-snippets"},
         }
+    }
+    use {
+        "jose-elias-alvarez/null-ls.nvim",
+        commit = "a138b14099e9623832027ea12b4631ddd2a49256",
+    }
+    use {
+        "jay-babu/mason-null-ls.nvim",
+        commit = "54d702020bf94e4eefd357f0b738317af30217eb",
+    }
+
+    use {
+        "nvim-neo-tree/neo-tree.nvim",
+        commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        }
+    }
+
+    use {
+        'nvim-lualine/lualine.nvim',
+        commit = "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9",
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+    }
+
+    use {
+        "windwp/nvim-autopairs",
+        commit = "59df87a84c80a357ca8d8fe86e451b93ac476ccc",
+        config = function() require("nvim-autopairs").setup {} end
+    }
+
+    use {
+        "kylechui/nvim-surround",
+        commit = "10b20ca7d9da1ac8df8339e140ffef94f9ab3b18",
+    }
+
+    use {
+        'simrat39/symbols-outline.nvim',
+        commit = "512791925d57a61c545bc303356e8a8f7869763c",
     }
 end)
