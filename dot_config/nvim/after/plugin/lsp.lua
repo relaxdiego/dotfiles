@@ -35,6 +35,7 @@ lsp.format_on_save({
     -- Which filetypes can null-ls operate on
     ['null-ls'] = {
       'javascript',
+      -- Null-ls is configured to use black; See below
       'python',
       'typescript',
     },
