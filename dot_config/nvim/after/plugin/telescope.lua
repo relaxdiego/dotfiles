@@ -1,4 +1,4 @@
-local actions = require "telescope.actions"
+local actions = require("telescope.actions")
 local builtin = require("telescope.builtin")
 
 require("telescope").setup({
@@ -7,10 +7,10 @@ require("telescope").setup({
     -- config_key = value,
     mappings = {
       i = {
-          ["<C-j>"] = actions.move_selection_next,
-          ["<C-k>"] = actions.move_selection_previous,
-      }
-    }
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
+    },
   },
 })
 

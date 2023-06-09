@@ -1,38 +1,38 @@
 -- Run for more info: :lua require("neo-tree").paste_default_config()
 require("neo-tree").setup({
-    default_component_configs = {
-        name = {
-            trailing_slash = true
-        },
-        icon = {
-            folder_empty = ""
-        },
-        git_status = {
-            symbols = {
-                -- Change type
-                added     = "✚",
-                modified  = "",
-                deleted   = "✖",-- this can only be used in the git_status source
-                renamed   = "",-- this can only be used in the git_status source
-                -- Status type
-                untracked = "",
-                ignored   = "",
-                unstaged  = "",
-                staged    = "",
-                conflict  = "",
-            }
-        },
+  default_component_configs = {
+    name = {
+      trailing_slash = true,
     },
-    filesystem = {
-        filtered_items = {
-            visible = true,
-            hide_by_name = {
-              "node_modules"
-            },
-        },
-        hijack_netrw_behavior = "open_default",
+    icon = {
+      folder_empty = "",
     },
+    git_status = {
+      symbols = {
+        -- Change type
+        added = "✚",
+        modified = "",
+        deleted = "✖", -- this can only be used in the git_status source
+        renamed = "", -- this can only be used in the git_status source
+        -- Status type
+        untracked = "",
+        ignored = "",
+        unstaged = "",
+        staged = "",
+        conflict = "",
+      },
+    },
+  },
+  filesystem = {
+    filtered_items = {
+      visible = true,
+      hide_by_name = {
+        "node_modules",
+      },
+    },
+    hijack_netrw_behavior = "open_default",
+  },
 })
 
 -- remaps
-vim.cmd [[nnoremap <leader>nt :Neotree toggle<cr>]]
+vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])

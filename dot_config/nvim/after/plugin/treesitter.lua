@@ -1,20 +1,20 @@
-require'nvim-treesitter.configs'.setup {
+require("nvim-treesitter.configs").setup({
   -- A list of parser names, or "all"
   ensure_installed = {
-      "git_config",
-      "git_rebase",
-      "gitattributes",
-      "gitcommit",
-      "gitignore",
-      "go",
-      "gomod",
-      "gosum",
-      "json",
-      "lua",
-      "python",
-      "toml",
-      "vimdoc",
-      "yaml",
+    "git_config",
+    "git_rebase",
+    "gitattributes",
+    "gitcommit",
+    "gitignore",
+    "go",
+    "gomod",
+    "gosum",
+    "json",
+    "lua",
+    "python",
+    "toml",
+    "vimdoc",
+    "yaml",
   },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -29,4 +29,4 @@ require'nvim-treesitter.configs'.setup {
     enable = false,
     additional_vim_regex_highlighting = false,
   },
-}
+})
