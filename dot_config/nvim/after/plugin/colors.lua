@@ -4,7 +4,7 @@ require("kanagawa").setup({
     commentStyle = { italic = false },
     functionStyle = {},
     keywordStyle = { italic = false, bold = false},
-    statementStyle = { bold = false },
+    statementStyle = { bold = false, italic = false },
     typeStyle = {},
     transparent = false,         -- do not set background color
     dimInactive = false,         -- dim inactive window `:h hl-NormalNC`
@@ -23,8 +23,9 @@ require("kanagawa").setup({
             all = {
                 ui = {
                     bg_gutter = "none",
-                }
-            } },
+                },
+            }
+        },
     },
     overrides = function(colors) -- add/modify highlights
         local theme = colors.theme

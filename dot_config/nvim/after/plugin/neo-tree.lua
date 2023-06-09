@@ -10,8 +10,8 @@ require("neo-tree").setup({
         git_status = {
             symbols = {
                 -- Change type
-                added     = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+                added     = "✚",
+                modified  = "",
                 deleted   = "✖",-- this can only be used in the git_status source
                 renamed   = "",-- this can only be used in the git_status source
                 -- Status type
@@ -35,4 +35,4 @@ require("neo-tree").setup({
 })
 
 -- remaps
-vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
+vim.cmd [[nnoremap <leader>nt :Neotree toggle<cr>]]
