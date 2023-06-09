@@ -35,7 +35,6 @@ lsp.format_on_save({
     -- Which filetypes can null-ls operate on
     ['null-ls'] = {
       'javascript',
-      'lua',
       'python',
       'typescript',
     },
