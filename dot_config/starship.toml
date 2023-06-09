@@ -90,7 +90,7 @@ symbol = " "
 disabled = true
 
 [cmd_duration]
-format = "祥[$duration]($style) "
+format = " [$duration]($style) "
 # show_milliseconds = true
 style = "#669933"
 
