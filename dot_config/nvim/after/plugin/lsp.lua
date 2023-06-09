@@ -31,9 +31,9 @@ lsp.format_on_save({
   },
   servers = {
     ['lua_ls'] = { 'lua' },
+    ['gopls'] = { 'go' },
     -- Which filetypes can null-ls operate on
     ['null-ls'] = {
-      'go',
       'javascript',
       'lua',
       'python',
