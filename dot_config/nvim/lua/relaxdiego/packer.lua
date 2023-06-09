@@ -101,7 +101,7 @@ return require("packer").startup(function(use)
 
   use({
     "nvim-neo-tree/neo-tree.nvim",
-    commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa",
+    commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa", -- v2.x branch
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -141,5 +141,10 @@ return require("packer").startup(function(use)
   use({
     "ludovicchabant/vim-gutentags",
     commit = "1337b1891b9d98d6f4881982f27aa22b02c80084",
+  })
+
+  use({
+    "lukas-reineke/indent-blankline.nvim",
+    commit = "7075d7861f7a6bbf0de0298c83f8a13195e6ec01",
   })
 end)
