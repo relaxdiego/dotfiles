@@ -13,11 +13,7 @@ vim.keymap.set("n", "<C-K>", "<C-W><C-K>")
 vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
 vim.keymap.set("n", "<C-H>", "<C-W><C-H>")
 
--- Keep cursor in place with scrolling with Ctrl-d or -u
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
--- Keep cursor in the middle with jumping to search results
+-- Keep cursor in the middle when jumping through search results
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
