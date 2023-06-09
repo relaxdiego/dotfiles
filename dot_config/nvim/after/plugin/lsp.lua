@@ -45,6 +45,8 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
+vim.cmd [[ command! Format execute "lua vim.lsp.buf.format({async=true})" ]]
+
 -- See: https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
 require("lspconfig").pylsp.setup({
   settings = {
@@ -60,6 +62,9 @@ require("lspconfig").pylsp.setup({
     }
   }
 })
+vim.api.nvim_exec([[
+  autocmd InsertLeave *.py Format
+]], false)
 
 -- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
 require("lspconfig").gopls.setup({})
@@ -95,8 +100,3 @@ null_ls.setup({
         diagnostics.flake8,
     }
 })
-
-vim.cmd [[ command! Format execute "lua vim.lsp.buf.format({async=true})" ]]
-vim.api.nvim_exec([[
-  autocmd BufWritePost *.py Format
-]], false)
