@@ -33,4 +33,6 @@ require("neo-tree").setup({
         hijack_netrw_behavior = "open_default",
     },
 })
+
+-- remaps
 vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
