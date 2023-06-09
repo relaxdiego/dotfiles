@@ -65,7 +65,15 @@ require("lspconfig").pylsp.setup({
 require("lspconfig").gopls.setup({})
 
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-require("lspconfig").lua_ls.setup({})
+require("lspconfig").lua_ls.setup({
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+})
 
 require("mason-null-ls").setup({
 	ensure_installed = {
