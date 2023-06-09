@@ -1,137 +1,143 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require("packer").startup(function(use)
-    use {
-        "wbthomason/packer.nvim",
-        commit = "ed2d5c9c17f4df2eeaca4878145fecc9669e0138"
-    }
+  use {
+    "wbthomason/packer.nvim",
+    commit = "ed2d5c9c17f4df2eeaca4878145fecc9669e0138"
+  }
 
-    use {
-      "nvim-telescope/telescope.nvim",
-      commit = "991d5db62451ee7a50944b84aaad4b58c3447b60",
-      requires = { {"nvim-lua/plenary.nvim"} }
-    }
+  use {
+    "nvim-telescope/telescope.nvim",
+    commit = "991d5db62451ee7a50944b84aaad4b58c3447b60",
+    requires = { { "nvim-lua/plenary.nvim" } }
+  }
 
-    use {
-        "rebelot/kanagawa.nvim",
-        commit = "14a7524a8b259296713d4d77ef3c7f4dec501269",
-        as = "kanagawa",
-    }
+  use {
+    "rebelot/kanagawa.nvim",
+    commit = "14a7524a8b259296713d4d77ef3c7f4dec501269",
+    as = "kanagawa",
+  }
 
-    use {
-        "folke/trouble.nvim",
-        commit = "2af0dd9767526410c88c628f1cbfcb6cf22dd683",
-        config = function()
-            require("trouble").setup {
-                icons = false,
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        end
-    }
+  use {
+    "folke/trouble.nvim",
+    commit = "2af0dd9767526410c88c628f1cbfcb6cf22dd683",
+    config = function()
+      require("trouble").setup {
+        icons = false,
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
-    use {
-        "nvim-treesitter/nvim-treesitter",
-        commit = "2c59e0ff3da6514b03d853ebecb6c36c515a5d7d",
+  use {
+    "nvim-treesitter/nvim-treesitter",
+    commit = "2c59e0ff3da6514b03d853ebecb6c36c515a5d7d",
+    run = function()
+      local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+      ts_update()
+    end
+  }
+  use {
+    "nvim-treesitter/nvim-treesitter-context",
+    commit = "e2ea37627c0681421ccf4a3cf19d68bb958e1817",
+  }
+  -- Run :TSPlaygroundToggle to explore the current buffer"s syntax tree
+  use {
+    "nvim-treesitter/playground",
+    commit = "2b81a018a49f8e476341dfcb228b7b808baba68b",
+    opt = true,
+    cmd = { "TSPlaygroundToggle" },
+  }
+
+  use {
+    "mbbill/undotree",
+    commit = "485f01efde4e22cb1ce547b9e8c9238f36566f21",
+  }
+
+  use {
+    "tpope/vim-fugitive",
+    commit = "5f0d280b517cacb16f59316659966c7ca5e2bea2",
+  }
+
+  use {
+    "VonHeikemen/lsp-zero.nvim",
+    commit = "4c8ebf2e5f2b5ae10cd4347020bb0bb2e7e02384",     -- From 1.x branch
+    requires = {
+      -- LSP Support
+      { 'neovim/nvim-lspconfig' },     -- Required
+      {
+                                       -- Optional
+        'williamboman/mason.nvim',
         run = function()
-            local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-            ts_update()
-        end
-    }
-    use {
-        "nvim-treesitter/nvim-treesitter-context",
-        commit = "e2ea37627c0681421ccf4a3cf19d68bb958e1817",
-    }
-    -- Run :TSPlaygroundToggle to explore the current buffer"s syntax tree
-    use {
-        "nvim-treesitter/playground",
-        commit = "2b81a018a49f8e476341dfcb228b7b808baba68b",
-        opt = true,
-        cmd = {"TSPlaygroundToggle"},
-    }
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      { 'williamboman/mason-lspconfig.nvim' },     -- Optional
 
-    use {
-        "mbbill/undotree",
-        commit = "485f01efde4e22cb1ce547b9e8c9238f36566f21",
-    }
+      -- Autocompletion
+      { 'hrsh7th/nvim-cmp' },             -- Required
+      { 'hrsh7th/cmp-nvim-lsp' },         -- Required
+      { 'hrsh7th/cmp-buffer' },           -- Optional
+      { 'hrsh7th/cmp-path' },             -- Optional
+      { 'saadparwaiz1/cmp_luasnip' },     -- Optional
+      { 'hrsh7th/cmp-nvim-lua' },         -- Optional
 
-    use {
-        "tpope/vim-fugitive",
-        commit = "5f0d280b517cacb16f59316659966c7ca5e2bea2",
+      -- Snippets
+      { 'L3MON4D3/LuaSnip' },                 -- Required
+      { 'rafamadriz/friendly-snippets' },     -- Optional
     }
+  }
 
-    use {
-        "VonHeikemen/lsp-zero.nvim",
-        commit = "4c8ebf2e5f2b5ae10cd4347020bb0bb2e7e02384", -- From 1.x branch
-        requires = {
-            -- LSP Support
-            {'neovim/nvim-lspconfig'},             -- Required
-            {                                      -- Optional
-                'williamboman/mason.nvim',
-                run = function()
-                  pcall(vim.cmd, 'MasonUpdate')
-                end,
-            },
-            {'williamboman/mason-lspconfig.nvim'}, -- Optional
+  use {
+    "jose-elias-alvarez/null-ls.nvim",
+    commit = "a138b14099e9623832027ea12b4631ddd2a49256",
+  }
+  use {
+    "jay-babu/mason-null-ls.nvim",
+    commit = "54d702020bf94e4eefd357f0b738317af30217eb",
+  }
 
-            -- Autocompletion
-            {'hrsh7th/nvim-cmp'},         -- Required
-            {'hrsh7th/cmp-nvim-lsp'},     -- Required
-            {'hrsh7th/cmp-buffer'},       -- Optional
-            {'hrsh7th/cmp-path'},         -- Optional
-            {'saadparwaiz1/cmp_luasnip'}, -- Optional
-            {'hrsh7th/cmp-nvim-lua'},     -- Optional
-
-            -- Snippets
-            {'L3MON4D3/LuaSnip'},             -- Required
-            {'rafamadriz/friendly-snippets'}, -- Optional
-        }
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",       -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
     }
+  }
 
-    use {
-        "jose-elias-alvarez/null-ls.nvim",
-        commit = "a138b14099e9623832027ea12b4631ddd2a49256",
-    }
-    use {
-        "jay-babu/mason-null-ls.nvim",
-        commit = "54d702020bf94e4eefd357f0b738317af30217eb",
-    }
+  use {
+    'nvim-lualine/lualine.nvim',
+    commit = "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9",
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+  }
 
-    use {
-        "nvim-neo-tree/neo-tree.nvim",
-        commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
-        }
-    }
+  use {
+    "windwp/nvim-autopairs",
+    commit = "59df87a84c80a357ca8d8fe86e451b93ac476ccc",
+    config = function() require("nvim-autopairs").setup {} end
+  }
 
-    use {
-        'nvim-lualine/lualine.nvim',
-        commit = "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9",
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true },
-    }
+  use {
+    "kylechui/nvim-surround",
+    commit = "10b20ca7d9da1ac8df8339e140ffef94f9ab3b18",
+  }
 
-    use {
-        "windwp/nvim-autopairs",
-        commit = "59df87a84c80a357ca8d8fe86e451b93ac476ccc",
-        config = function() require("nvim-autopairs").setup {} end
-    }
+  use {
+    "simrat39/symbols-outline.nvim",
+    commit = "512791925d57a61c545bc303356e8a8f7869763c",
+  }
 
-    use {
-        "kylechui/nvim-surround",
-        commit = "10b20ca7d9da1ac8df8339e140ffef94f9ab3b18",
-    }
+  use {
+    "tpope/vim-commentary",
+    commit = "e87cd90dc09c2a203e13af9704bd0ef79303d755",
+  }
 
-    use {
-        "simrat39/symbols-outline.nvim",
-        commit = "512791925d57a61c545bc303356e8a8f7869763c",
-    }
-
-    use {
-        "tpope/vim-commentary",
-        commit = "e87cd90dc09c2a203e13af9704bd0ef79303d755",
-    }
+  use {
+    "ludovicchabant/vim-gutentags",
+    commit = "1337b1891b9d98d6f4881982f27aa22b02c80084",
+  }
 end)
