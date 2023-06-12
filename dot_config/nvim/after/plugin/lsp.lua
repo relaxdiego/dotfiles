@@ -61,64 +61,6 @@ vim.diagnostic.config({
   virtual_text = true,
 })
 
---
--- Python
---
-
--- See: https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
-require("lspconfig").pylsp.setup({
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          enabled = false,
-        },
-        pyflakes = {
-          enabled = false,
-        },
-      },
-    },
-  },
-})
-
---
--- Go
---
-
--- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
-require("lspconfig").gopls.setup({})
-
---
--- Lua
---
-
--- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-require("lspconfig").lua_ls.setup({
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-    },
-  },
-})
-
-local null_ls = require("null-ls")
-local formatting = null_ls.builtins.formatting
-local diagnostics = null_ls.builtins.diagnostics
-
-null_ls.setup({
-  debug = false,
-  -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-  sources = {
-    formatting.black.with({ extra_args = { "--fast" } }),
-    formatting.isort,
-    formatting.prettier,
-    formatting.stylua,
-    diagnostics.flake8,
-  },
-})
-
 -- Autocompletions
 local cmp = require 'cmp'
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -126,6 +68,11 @@ require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
   preselect = 'none',
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
@@ -155,6 +102,7 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'nvim_lsp_signature_help' },
   },
 })
 
@@ -172,4 +120,68 @@ cmp.setup.cmdline(':', {
   }, {
     { name = 'cmdline' }
   })
+})
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+--
+-- Python
+--
+
+require('lspconfig')['pylsp'].setup {
+  capabilities = capabilities,
+  -- See: https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          enabled = false,
+        },
+        pyflakes = {
+          enabled = false,
+        },
+      },
+    },
+  },
+}
+
+--
+-- Go
+--
+
+-- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
+require("lspconfig").gopls.setup({
+  capabilities = capabilities,
+})
+
+--
+-- Lua
+--
+
+-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+require("lspconfig").lua_ls.setup({
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+    },
+  },
+})
+
+local null_ls = require("null-ls")
+local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
+
+null_ls.setup({
+  debug = false,
+  -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+  sources = {
+    formatting.black.with({ extra_args = { "--fast" } }),
+    formatting.isort,
+    formatting.prettier,
+    formatting.stylua,
+    diagnostics.flake8,
+  },
 })
