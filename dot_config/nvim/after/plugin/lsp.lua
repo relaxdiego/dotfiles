@@ -176,3 +176,6 @@ null_ls.setup({
     diagnostics.flake8,
   },
 })
+
+-- Add a border to :LspInfo window
+require('lspconfig.ui.windows').default_options.border = 'single'
