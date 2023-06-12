@@ -66,7 +66,10 @@ return require("packer").startup(function(use)
     commit = "4c8ebf2e5f2b5ae10cd4347020bb0bb2e7e02384", -- From 1.x branch
     requires = {
       -- LSP Support
-      { "neovim/nvim-lspconfig" }, -- Required
+      {
+        "neovim/nvim-lspconfig",
+        commit = "08f1f34",
+      }, -- Required
       {
         -- Optional
         "williamboman/mason.nvim",
@@ -77,7 +80,10 @@ return require("packer").startup(function(use)
       { "williamboman/mason-lspconfig.nvim" }, -- Optional
 
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" },         -- Required
+      {
+        "hrsh7th/nvim-cmp",
+        commit = 'b8c2a62'
+      },                              -- Required
       { "hrsh7th/cmp-nvim-lsp" },     -- Required
       { "hrsh7th/cmp-buffer" },       -- Optional
       { "hrsh7th/cmp-path" },         -- Optional
@@ -85,8 +91,11 @@ return require("packer").startup(function(use)
       { "hrsh7th/cmp-nvim-lua" },     -- Optional
 
       -- Snippets
-      { "L3MON4D3/LuaSnip" },             -- Required
-      { "rafamadriz/friendly-snippets" }, -- Optional
+      { "L3MON4D3/LuaSnip" }, -- Required
+      {
+        "rafamadriz/friendly-snippets",
+        commit = '49ca2a0e0e26427b550b1f64272d7fe7e4d7d51b'
+      }, -- Optional
     },
   })
 
@@ -105,7 +114,10 @@ return require("packer").startup(function(use)
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+      {
+        "MunifTanjim/nui.nvim",
+        commit = 'f008972'
+      },
     },
   })
 
