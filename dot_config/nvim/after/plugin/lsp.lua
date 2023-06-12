@@ -2,25 +2,6 @@
 -- Troubleshooting: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/lsp.md#troubleshooting
 local lsp = require("lsp-zero")
 
-lsp.preset("recommended")
-
-lsp.on_attach(function(_, bufnr)
-  lsp.default_keymaps({ buffer = bufnr })
-  local opts = { buffer = bufnr }
-
-  -- See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/lsp.md#introduction
-  vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-  vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-end)
-
-vim.api.nvim_command("command! Format :lua vim.lsp.buf.format({ async = true})")
-vim.api.nvim_exec(
-  [[
-  autocmd InsertLeave *.* Format
-]],
-  false
-)
-
 -- LSP list at https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 -- You can also use the :Mason command to interactively install LSPs
 lsp.ensure_installed({
@@ -29,7 +10,23 @@ lsp.ensure_installed({
   "pylsp",
 })
 
--- Autoformat
+lsp.preset({
+  name = "recommended",
+  set_lsp_keymaps = true,
+  manage_nvim_cmp = false,
+})
+
+lsp.on_attach(function(_, bufnr)
+  lsp.default_keymaps({ buffer = bufnr })
+  local opts = { buffer = bufnr }
+
+  -- Go to a symbol's definition
+  -- See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md
+  vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+  vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
+end)
+
+-- Autoformat on save
 lsp.format_on_save({
   format_opts = {
     async = true,
@@ -47,18 +44,6 @@ lsp.format_on_save({
   },
 })
 
--- Autocompletion
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-  ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
-  ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
-  ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-})
-lsp.setup_nvim_cmp({
-  mapping = cmp_mappings,
-})
-
 lsp.set_preferences({
   suggest_lsp_servers = false,
   sign_icons = {
@@ -71,6 +56,7 @@ lsp.set_preferences({
 
 lsp.setup()
 
+-- TODO: Figure out what this does
 vim.diagnostic.config({
   virtual_text = true,
 })
@@ -131,4 +117,50 @@ null_ls.setup({
     formatting.stylua,
     diagnostics.flake8,
   },
+})
+
+-- Autocompletions
+local cmp = require 'cmp'
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+require('luasnip.loaders.from_vscode').lazy_load()
+
+cmp.setup({
+  preselect = 'none',
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
+    ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    { name = 'buffer' },
+  },
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
 })
