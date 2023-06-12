@@ -176,11 +176,12 @@ local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
   debug = false,
+  log_level = 'warn',
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   sources = {
     formatting.black.with({ extra_args = { "--fast" } }),
     formatting.isort,
-    formatting.prettier,
+    formatting.prettierd,
     formatting.stylua,
     diagnostics.flake8,
   },
