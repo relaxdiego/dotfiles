@@ -89,6 +89,10 @@ return require("packer").startup(function(use)
       { "hrsh7th/cmp-path" },         -- Optional
       { "saadparwaiz1/cmp_luasnip" }, -- Optional
       { "hrsh7th/cmp-nvim-lua" },     -- Optional
+      {
+        'hrsh7th/cmp-cmdline',
+        commit = '8ee981b4a91f536f52add291594e89fb6645e451'
+      },
 
       -- Snippets
       { "L3MON4D3/LuaSnip" }, -- Required
