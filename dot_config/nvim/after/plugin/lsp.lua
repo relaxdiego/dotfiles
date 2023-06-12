@@ -169,7 +169,7 @@ null_ls.setup({
   log_level = 'warn',
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   sources = {
-    formatting.black.with({ extra_args = { "--fast" } }),
+    formatting.black,
     formatting.isort,
     formatting.prettierd,
     formatting.stylua,
