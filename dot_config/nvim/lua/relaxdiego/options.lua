@@ -6,6 +6,11 @@ vim.opt.relativenumber = false
 -- Don't wrap to the beginning of the buffer when searching
 vim.opt.wrapscan = false
 
+-- Always open new vsplits to the right
+vim.opt.splitright = true
+-- Always open new hsplits to the bottom
+vim.opt.splitbelow = true
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4

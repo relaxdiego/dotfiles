@@ -1,3 +1,4 @@
+-- Open symbols outline using either :SymbolsOutline or <leader>tb
 require("symbols-outline").setup({
   highlight_hovered_item = true,
   show_guides = true,
