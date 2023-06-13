@@ -10,12 +10,16 @@ lsp.ensure_installed({
   "pylsp",
 })
 
+-- See more presets: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#presetopts
 lsp.preset({
   name = "recommended",
   set_lsp_keymaps = true,
+  -- LSP Zero recommends that we configure nvim-cmp directly if we want to customize it.
   manage_nvim_cmp = false,
 })
 
+-- Executes the anonymous function everytime an LSP server is attached to the
+-- current buffer. See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#on_attachcallback
 lsp.on_attach(function(_, bufnr)
   lsp.default_keymaps({ buffer = bufnr })
   local opts = { buffer = bufnr }
@@ -23,7 +27,6 @@ lsp.on_attach(function(_, bufnr)
   -- Go to a symbol's definition
   -- See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md
   vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-  vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 end)
 
 -- Autoformat on save
@@ -56,22 +59,25 @@ lsp.set_preferences({
 
 lsp.setup()
 
+-- Add a border to :LspInfo window
+require("lspconfig.ui.windows").default_options.border = "single"
+
 -- TODO: Figure out what this does
 vim.diagnostic.config({
   virtual_text = true,
 })
 
 -- Autocompletions
-local cmp = require 'cmp'
+local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_action = require('lsp-zero').cmp_action()
-require('luasnip.loaders.from_vscode').lazy_load()
+local cmp_action = require("lsp-zero").cmp_action()
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
-  preselect = 'none',
+  preselect = "none",
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body)
     end,
   },
   window = {
@@ -81,44 +87,46 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
     ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
     -- Enable "Super Tab" https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/autocomplete.md#enable-super-tab
-    ['<Tab>'] = cmp_action.luasnip_supertab(),
-    ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
+    ["<Tab>"] = cmp_action.luasnip_supertab(),
+    ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
   }),
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
-    { name = 'nvim_lsp_signature_help' },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "buffer" },
+    { name = "nvim_lsp_signature_help" },
   },
 })
 
-cmp.setup.cmdline({ '/', '?' }, {
+-- Autcompletion for / and ?
+cmp.setup.cmdline({ "/", "?" }, {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
-    { name = 'buffer' }
-  }
+    { name = "buffer" },
+  },
 })
 
-cmp.setup.cmdline(':', {
+-- Autocompletion for vim commands
+cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = "path" },
   }, {
-    { name = 'cmdline' }
-  })
+    { name = "cmdline" },
+  }),
 })
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 --
 -- Python
 --
 
-require('lspconfig')['pylsp'].setup {
+require("lspconfig")["pylsp"].setup({
   capabilities = capabilities,
   -- See: https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
   settings = {
@@ -133,7 +141,7 @@ require('lspconfig')['pylsp'].setup {
       },
     },
   },
-}
+})
 
 --
 -- Go
@@ -166,7 +174,7 @@ local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
   debug = false,
-  log_level = 'warn',
+  log_level = "warn",
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   sources = {
     formatting.black,
@@ -176,6 +184,3 @@ null_ls.setup({
     diagnostics.flake8,
   },
 })
-
--- Add a border to :LspInfo window
-require('lspconfig.ui.windows').default_options.border = 'single'
