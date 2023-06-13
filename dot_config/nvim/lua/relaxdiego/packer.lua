@@ -73,6 +73,7 @@ return require("packer").startup(function(use)
       {
         -- Optional
         "williamboman/mason.nvim",
+        commit = "4be1226",
         run = function()
           pcall(vim.cmd, "MasonUpdate")
         end,
