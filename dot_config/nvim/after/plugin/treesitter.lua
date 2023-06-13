@@ -30,6 +30,8 @@ require("nvim-treesitter.configs").setup({
     additional_vim_regex_highlighting = false,
   },
 })
+-- Enable treesitter-based folding
+-- See: https://github.com/nvim-treesitter/nvim-treesitter#folding
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
