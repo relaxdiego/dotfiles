@@ -29,3 +29,12 @@ vim.keymap.set("n", "<leader>sr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 
 -- Make current file executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- Recursively unfold the block where the cursor is, fold everything else
+--   zM - fold everything
+--   zv - unfold just enough so that the line under the cursor is visible
+--   zc - fold block where the cursor is (we need this so that zO has an effect)
+--   zO - recursively unfold the block where the cursor is
+--   z. - Redraw curosor line to center of window, cursor on first non-blank
+-- See: :help z
+vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.")
