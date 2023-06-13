@@ -1,5 +1,6 @@
+-- See: https://github.com/lukas-reineke/indent-blankline.nvim
 -- Adds indentation guides to all lines (including empty lines).
-vim.cmd [[highlight IndentBlanklineIndent guifg=#333333 gui=nocombine]]
+vim.cmd [[highlight IndentBlanklineIndent guifg=#2f2f2f gui=nocombine]]
 
 require("indent_blankline").setup({
   -- Highlight the current indentation
@@ -7,5 +8,5 @@ require("indent_blankline").setup({
   show_current_context_start = false,
   char_highlight_list = {
     "IndentBlanklineIndent",
-  }
+  },
 })
