@@ -1,3 +1,4 @@
+-- See: https://github.com/nvim-neo-tree/neo-tree.nvim
 -- Run for more info: :lua require("neo-tree").paste_default_config()
 require("neo-tree").setup({
   default_component_configs = {
@@ -31,6 +32,18 @@ require("neo-tree").setup({
       },
     },
     hijack_netrw_behavior = "open_default",
+    window = {
+      mapping_options = {
+        noremap = true,
+        nowait = true,
+      },
+      mappings = {
+        ["v"] = "open_vsplit",
+        ["<C-v>"] = "open_vsplit",
+        ["x"] = "open_split",
+        ["<C-x>"] = "open_split",
+      }
+    }
   },
 })
 
