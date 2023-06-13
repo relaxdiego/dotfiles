@@ -168,4 +168,14 @@ return require("packer").startup(function(use)
     "lukas-reineke/indent-blankline.nvim",
     commit = "7075d7861f7a6bbf0de0298c83f8a13195e6ec01",
   })
+
+  use({
+    'vim-test/vim-test',
+    commit = '08250c56f11cb3460c8a02c8fdb80c8d39c92173',
+  })
+
+  use({
+    'relaxdiego/tslime.vim',
+    commit = '28e9eba642a791c6a6b044433dce8e5451b26fb0',
+  })
 end)

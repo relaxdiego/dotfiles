@@ -38,3 +38,13 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 --   z. - Redraw curosor line to center of window, cursor on first non-blank
 -- See: :help z
 vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.")
+
+-- See: https://github.com/vim-test/vim-test
+-- See: https://github.com/relaxdiego/tslime.vim
+vim.keymap.set("n", "<leader>s", ":TestNearest<CR>")
+vim.keymap.set("n", "<leader>t", ":TestFile<CR>")
+vim.keymap.set("n", "<leader>a", ":TestSuite<CR>")
+vim.keymap.set("n", "<leader>l", ":TestLast<CR>")
+vim.keymap.set("n", "<leader>g", ":TestVisit<CR>")
+-- Run the tests in a tmux pane you specify
+vim.cmd [[let test#strategy = "tslime"]]
