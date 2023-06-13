@@ -44,4 +44,11 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
+-- Turn on column rulers
 vim.opt.colorcolumn = "72,80,88"
+-- ...except for certain window types
+vim.cmd("autocmd FileType qf setlocal colorcolumn=")
+vim.cmd("autocmd FileType Trouble setlocal colorcolumn=")
+
+vim.opt.list = true
+vim.opt.listchars:append "trail:⇢"
