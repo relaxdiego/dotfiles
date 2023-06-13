@@ -62,9 +62,19 @@ lsp.setup()
 -- Add a border to :LspInfo window
 require("lspconfig.ui.windows").default_options.border = "single"
 
--- TODO: Figure out what this does
+-- Show helpful text next to code if there are linter errors
+-- See: https://smarttech101.com/nvim-lsp-diagnostics-keybindings-signs-virtual-texts/#configuration_of_virtual_and_floating_text
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = {
+    -- source = "always",  -- Or "if_many"
+    prefix = '●', -- Could be '■', '▎', 'x'
+  },
+  -- Set the order in which signs and virtual text are displayed.
+  severity_sort = true,
+  float = {
+    -- Always shows diagnostic-source
+    source = "always", -- Or "if_many"
+  },
 })
 
 -- Autocompletions
@@ -123,9 +133,10 @@ cmp.setup.cmdline(":", {
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 --
--- Python
+-- Configuration of various LSPs
 --
 
+-- Python
 require("lspconfig")["pylsp"].setup({
   capabilities = capabilities,
   -- See: https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
@@ -143,19 +154,13 @@ require("lspconfig")["pylsp"].setup({
   },
 })
 
---
 -- Go
---
-
 -- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
 require("lspconfig").gopls.setup({
   capabilities = capabilities,
 })
 
---
 -- Lua
---
-
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
 require("lspconfig").lua_ls.setup({
   capabilities = capabilities,
@@ -168,10 +173,11 @@ require("lspconfig").lua_ls.setup({
   },
 })
 
+-- Pseudo LSPs (Black, iSort, etc)
+-- See: https://github.com/jose-elias-alvarez/null-ls.nvim
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
-
 null_ls.setup({
   debug = false,
   log_level = "warn",
