@@ -3,6 +3,9 @@ vim.opt.guicursor = ""
 vim.opt.nu = true
 vim.opt.relativenumber = false
 
+-- Don't wrap to the beginning of the buffer when searching
+vim.opt.wrapscan = false
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
