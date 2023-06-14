@@ -12,14 +12,14 @@ require("neo-tree").setup({
       symbols = {
         -- Change type
         added = "✚",
-        modified = "",
+        modified = "",
         deleted = "✖", -- this can only be used in the git_status source
         renamed = "", -- this can only be used in the git_status source
         -- Status type
         untracked = "",
         ignored = "",
-        unstaged = "",
-        staged = "",
+        unstaged = "",
+        staged = "",
         conflict = "",
       },
     },
@@ -44,6 +44,9 @@ require("neo-tree").setup({
         ["<C-x>"] = "open_split",
       }
     }
+  },
+  buffers = {
+    follow_current_file = true,
   },
 })
 
