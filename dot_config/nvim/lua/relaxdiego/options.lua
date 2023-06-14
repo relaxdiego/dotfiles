@@ -52,3 +52,7 @@ vim.cmd("autocmd FileType Trouble setlocal colorcolumn=")
 
 vim.opt.list = true
 vim.opt.listchars:append "trail:⇢"
+
+-- Force filetypes for chezmoi templates
+vim.cmd("autocmd BufNewFile,BufRead *.sh.tmpl setfiletype sh")
+vim.cmd("autocmd BufNewFile,BufRead *.py.tmpl setfiletype python")
