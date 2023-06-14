@@ -100,11 +100,14 @@ return require("packer").startup(function(use)
       },
 
       -- Snippets
-      { "L3MON4D3/LuaSnip" }, -- Required
+      {
+        "L3MON4D3/LuaSnip",
+        commit = 'a13af80734eb28f744de6c875330c9d3c24b5f3b'
+      },
       {
         "rafamadriz/friendly-snippets",
         commit = '49ca2a0e0e26427b550b1f64272d7fe7e4d7d51b'
-      }, -- Optional
+      },
     },
   })
 

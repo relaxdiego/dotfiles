@@ -19,11 +19,3 @@ mv "${tarball_basename}" "$HOME/bin/"
 cd "$HOME/bin"
 rm -f nvim
 ln -s "${tarball_basename}/bin/nvim" nvim
-
-# Packer plugin manager
-# Indicate commit to use via dot_config/nvim/lua/relaxdiego/packer.lua
-if [ ! -d  ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
-    git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-    cd ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-fi
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
