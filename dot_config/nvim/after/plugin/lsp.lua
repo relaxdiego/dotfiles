@@ -134,6 +134,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 --
 -- Configuration of various LSPs
+-- See: https://github.com/neovim/nvim-lspconfig/wiki/Understanding-setup-%7B%7D
 --
 
 -- Python
@@ -183,10 +184,10 @@ null_ls.setup({
   log_level = "warn",
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   sources = {
+    diagnostics.flake8,
     formatting.black,
     formatting.isort,
     formatting.prettierd,
     formatting.stylua,
-    diagnostics.flake8,
   },
 })
