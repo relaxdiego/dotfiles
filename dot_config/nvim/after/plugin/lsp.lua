@@ -10,6 +10,7 @@ lsp.ensure_installed({
   "pylsp",
 })
 
+
 -- See more presets: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#presetopts
 lsp.preset({
   name = "recommended",
@@ -131,6 +132,21 @@ cmp.setup.cmdline(":", {
 })
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- Use nvim-notify for displaying LSP messages
+-- See: https://github.com/rcarriga/nvim-notify
+vim.notify = require("notify")
+vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  local lvl = ({ 'ERROR', 'WARN', 'INFO', 'DEBUG' })[result.type]
+  vim.notify(result.message, lvl, {
+    title = 'LSP | ' .. client.name,
+    timeout = 5000,
+    keep = function()
+      return lvl == 'ERROR' or lvl == 'WARN'
+    end,
+  })
+end
 
 --
 -- Configuration of various LSPs

@@ -181,4 +181,13 @@ return require("packer").startup(function(use)
     'relaxdiego/tslime.vim',
     commit = '28e9eba642a791c6a6b044433dce8e5451b26fb0',
   })
+
+  use({
+    'github/copilot.vim'
+  })
+
+  use({
+    'rcarriga/nvim-notify',
+    commit = 'ea9c8ce7a37f2238f934e087c255758659948e0f'
+  })
 end)
