@@ -40,8 +40,8 @@ return require("packer").startup(function(use)
     end,
   })
   use({
-    "nvim-treesitter/nvim-treesitter-context",
-    commit = "e2ea37627c0681421ccf4a3cf19d68bb958e1817",
+    "relaxdiego/nvim-treesitter-context",
+    branch = "fix/capture-test-scenario",
   })
   -- Run :TSPlaygroundToggle to explore the current buffer"s syntax tree
   use({
