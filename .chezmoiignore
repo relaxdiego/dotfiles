@@ -4,3 +4,4 @@ logo.png
 screenshot*.png
 tmux*.log
 tags
+dot_config/nvim/plugin/packer_compiled.lua

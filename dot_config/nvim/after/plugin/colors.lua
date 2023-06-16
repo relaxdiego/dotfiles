@@ -1,6 +1,7 @@
 require("kanagawa").setup({
-  compile = false,  -- enable compiling the colorscheme
-  undercurl = true, -- enable undercurls
+  -- Run :KanagawaCompile everytime this file is changed
+  compile = true,    -- enable compiling the colorscheme
+  undercurl = false, -- disable undercurls
   commentStyle = { italic = false },
   functionStyle = {},
   keywordStyle = { italic = false, bold = false },
