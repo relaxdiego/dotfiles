@@ -178,4 +178,9 @@ return require("packer").startup(function(use)
     'rcarriga/nvim-notify',
     commit = 'ea9c8ce7a37f2238f934e087c255758659948e0f'
   })
+
+  use({
+    'numToStr/Comment.nvim',
+    commit = '176e85eeb63f1a5970d6b88f1725039d85ca0055'
+  })
 end)
