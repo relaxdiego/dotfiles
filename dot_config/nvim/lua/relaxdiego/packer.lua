@@ -43,13 +43,6 @@ return require("packer").startup(function(use)
     "relaxdiego/nvim-treesitter-context",
     branch = "fix/capture-test-scenario",
   })
-  -- Run :TSPlaygroundToggle to explore the current buffer"s syntax tree
-  use({
-    "nvim-treesitter/playground",
-    commit = "2b81a018a49f8e476341dfcb228b7b808baba68b",
-    opt = true,
-    cmd = { "TSPlaygroundToggle" },
-  })
 
   use({
     "mbbill/undotree",
@@ -155,11 +148,6 @@ return require("packer").startup(function(use)
   use({
     "simrat39/symbols-outline.nvim",
     commit = "512791925d57a61c545bc303356e8a8f7869763c",
-  })
-
-  use({
-    "tpope/vim-commentary",
-    commit = "e87cd90dc09c2a203e13af9704bd0ef79303d755",
   })
 
   use({
