@@ -164,9 +164,7 @@ require("lazy").setup({
       -- Globally disable copilot on startup
       vim.cmd [[execute "Copilot disable"]]
     end,
-    keys = {
-      "<C-H>",
-    }
+    cmd = "Copilot"
   },
   {
     'rcarriga/nvim-notify',
