@@ -1,4 +1,4 @@
 require("relaxdiego.autocmd")
 require("relaxdiego.remap")
-require("relaxdiego.packer")
+require("relaxdiego.plugins")
 require("relaxdiego.options")
