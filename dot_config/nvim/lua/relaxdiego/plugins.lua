@@ -158,7 +158,15 @@ require("lazy").setup({
     commit = '28e9eba642a791c6a6b044433dce8e5451b26fb0',
   },
   {
-    'github/copilot.vim'
+    'github/copilot.vim',
+    config = function()
+      vim.cmd [[let g:copilot_no_tab_map = v:true]]
+      -- Globally disable copilot on startup
+      vim.cmd [[execute "Copilot disable"]]
+    end,
+    keys = {
+      "<C-H>",
+    }
   },
   {
     'rcarriga/nvim-notify',
