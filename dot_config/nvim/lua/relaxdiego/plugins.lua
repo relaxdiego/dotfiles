@@ -174,4 +174,18 @@ require("lazy").setup({
     'numToStr/Comment.nvim',
     commit = '176e85eeb63f1a5970d6b88f1725039d85ca0055'
   },
+  {
+    "folke/which-key.nvim",
+    commit = 'd871f2b664afd5aed3dc1d1573bef2fb24ce0484',
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      window = {
+        border = "single",
+      }
+    }
+  },
 })

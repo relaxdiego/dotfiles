@@ -5,30 +5,31 @@
 vim.g.mapleader = ","
 
 -- Toggle soft wrap
-vim.keymap.set("n", "<leader>sw", ":set wrap!<CR>")
+vim.keymap.set("n", "<leader>sw", ":set wrap!<CR>", { desc = "Toggle soft wrap" })
 
 -- Easier split movement
-vim.keymap.set("n", "<C-J>", "<C-W><C-J>")
-vim.keymap.set("n", "<C-K>", "<C-W><C-K>")
-vim.keymap.set("n", "<C-L>", "<C-W><C-L>")
-vim.keymap.set("n", "<C-H>", "<C-W><C-H>")
+vim.keymap.set("n", "<C-J>", "<C-W><C-J>", { desc = "Move up" })
+vim.keymap.set("n", "<C-K>", "<C-W><C-K>", { desc = "Move down" })
+vim.keymap.set("n", "<C-L>", "<C-W><C-L>", { desc = "Move right" })
+vim.keymap.set("n", "<C-H>", "<C-W><C-H>", { desc = "Move left" })
 
 -- Keep cursor in the middle when jumping through search results
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Don't lose what's in the register after pasting
-vim.keymap.set("x", "p", "pgvy")
+vim.keymap.set("x", "p", "pgvy", { desc = "Past from register" })
 
 -- Yank to system clipboard
-vim.keymap.set("n", "<leader>y", '"+y')
-vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+vim.keymap.set("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 
 -- Search and replace live
-vim.keymap.set("n", "<leader>sr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = "Live search and replace" })
 
 -- Make current file executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make file executable" })
 
 -- Recursively unfold the block where the cursor is, fold everything else
 --   zM - fold everything
@@ -37,14 +38,14 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 --   zO - recursively unfold the block where the cursor is
 --   z. - Redraw curosor line to center of window, cursor on first non-blank
 -- See: :help z
-vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.")
+vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.", { desc = "Fold everything except current block" })
 
 -- See: https://github.com/vim-test/vim-test
 -- See: https://github.com/relaxdiego/tslime.vim
-vim.keymap.set("n", "<leader>s", ":TestNearest<CR>")
-vim.keymap.set("n", "<leader>t", ":TestFile<CR>")
-vim.keymap.set("n", "<leader>a", ":TestSuite<CR>")
-vim.keymap.set("n", "<leader>l", ":TestLast<CR>")
-vim.keymap.set("n", "<leader>g", ":TestVisit<CR>")
+vim.keymap.set("n", "<leader>s", ":TestNearest<CR>", { desc = "Run nearest test" })
+vim.keymap.set("n", "<leader>t", ":TestFile<CR>", { desc = "Run tests in current buffer" })
+vim.keymap.set("n", "<leader>a", ":TestSuite<CR>", { desc = "Run all tests" })
+vim.keymap.set("n", "<leader>l", ":TestLast<CR>", { desc = "Run last test" })
+vim.keymap.set("n", "<leader>g", ":TestVisit<CR>", { desc = "Go to last executed test" })
 -- Run the tests in a tmux pane you specify
 vim.cmd [[let test#strategy = "tslime"]]
