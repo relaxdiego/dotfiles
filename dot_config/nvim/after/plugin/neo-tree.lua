@@ -52,3 +52,7 @@ require("neo-tree").setup({
 
 -- remaps
 vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
+
+if vim.fn.argc() == 0 then
+  vim.cmd [[:NeoTreeShow]]
+end
