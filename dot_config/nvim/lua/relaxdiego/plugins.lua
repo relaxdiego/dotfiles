@@ -185,7 +185,8 @@ require("lazy").setup({
     opts = {
       window = {
         border = "single",
-      }
+      },
+      show_help = false,
     }
   },
 })
