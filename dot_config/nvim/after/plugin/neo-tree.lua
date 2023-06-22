@@ -54,5 +54,5 @@ require("neo-tree").setup({
 vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
 
 if vim.fn.argc() == 0 then
-  vim.cmd [[:NeoTreeShow]]
+  vim.cmd [[:Neotree action=focus]]
 end
