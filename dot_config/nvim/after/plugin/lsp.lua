@@ -196,6 +196,8 @@ local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 null_ls.setup({
+  -- Set this to true to start logging
+  -- Also use ":checkhealth null-ls" for more troubleshooting
   debug = false,
   log_level = "warn",
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
