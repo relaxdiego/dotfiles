@@ -31,9 +31,12 @@ lsp.on_attach(function(_, bufnr)
 end)
 
 -- Autoformat on save
+-- For more config options, see:
+-- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/guides/integrate-with-null-ls.md
 lsp.format_on_save({
   format_opts = {
-    async = true,
+    async = false,
+    timeout_ms = 1000,
   },
   servers = {
     ["lua_ls"] = { "lua" },
