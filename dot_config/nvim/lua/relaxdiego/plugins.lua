@@ -42,47 +42,60 @@ require("lazy").setup({
   },
   {
     "VonHeikemen/lsp-zero.nvim",
-    commit = "4c8ebf2e5f2b5ae10cd4347020bb0bb2e7e02384", -- From 1.x branch
+    commit = "52582fc91efb40ee347c20570ff7d32849ef4a89", -- From 2.x branch
     dependencies = {
-      -- LSP Support
       {
         "neovim/nvim-lspconfig",
-        commit = "08f1f34",
-      }, -- Required
-      {
-        -- Optional
-        "williamboman/mason.nvim",
-        commit = "4be1226",
+        commit = "b6b34b9",
       },
-      { "williamboman/mason-lspconfig.nvim" }, -- Optional
+      {
+        "williamboman/mason.nvim",
+        commit = "664c987",
+        build = function()
+          pcall(vim.cmd, "MasonUpdate")
+        end,
+      },
+      { "williamboman/mason-lspconfig.nvim" },
 
-      -- Autocompletion
       {
         "hrsh7th/nvim-cmp",
         commit = 'b8c2a62'
-      },                              -- Required
-      { "hrsh7th/cmp-nvim-lsp" },     -- Required
-      { "hrsh7th/cmp-buffer" },       -- Optional
-      { "hrsh7th/cmp-path" },         -- Optional
-      { "saadparwaiz1/cmp_luasnip" }, -- Optional
-      { "hrsh7th/cmp-nvim-lua" },     -- Optional
+      },
       {
-        'hrsh7th/cmp-cmdline',
-        commit = '8ee981b4a91f536f52add291594e89fb6645e451'
+        "hrsh7th/cmp-nvim-lsp",
+        commit = "44b16d1",
+      },
+      {
+        "hrsh7th/cmp-buffer",
+        commit = "3022dbc9166796b644a841a02de8dd1cc1d311fa",
+      },
+      {
+        "hrsh7th/cmp-path",
+        commit = "91ff86cd9c29299a64f968ebb45846c485725f23",
+      },
+      {
+        "saadparwaiz1/cmp_luasnip",
+        commit = "18095520391186d634a0045dacaa346291096566",
+      },
+      {
+        "hrsh7th/cmp-nvim-lua",
+        commit = "f12408bdb54c39c23e67cab726264c10db33ada8",
+      },
+      {
+        "hrsh7th/cmp-cmdline",
+        commit = "8ee981b4a91f536f52add291594e89fb6645e451",
       },
       {
         'hrsh7th/cmp-nvim-lsp-signature-help',
-        commit = '3d8912ebeb56e5ae08ef0906e3a54de1c66b92f1'
+        commit = "3d8912ebeb56e5ae08ef0906e3a54de1c66b92f1",
       },
-
-      -- Snippets
       {
         "L3MON4D3/LuaSnip",
-        commit = 'a13af80734eb28f744de6c875330c9d3c24b5f3b'
+        commit = "3d2ad0c0fa25e4e272ade48a62a185ebd0fe26c1",
       },
       {
         "rafamadriz/friendly-snippets",
-        commit = '49ca2a0e0e26427b550b1f64272d7fe7e4d7d51b'
+        commit = "5749f09",
       },
     },
   },
@@ -159,6 +172,7 @@ require("lazy").setup({
   },
   {
     'github/copilot.vim',
+    commit = "98c2939",
     config = function()
       vim.cmd [[let g:copilot_no_tab_map = v:true]]
       -- Globally disable copilot on startup
