@@ -206,5 +206,9 @@ require("lazy").setup({
   {
     'Vimjas/vim-python-pep8-indent',
     commit = '60ba5e11a61618c0344e2db190210145083c91f8',
+  },
+  {
+    'pedrohdz/vim-yaml-folds',
+    commit = '890ccd8e5370808d569e96dbb06cbeca2cf5993a',
   }
 })

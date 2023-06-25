@@ -52,3 +52,8 @@ vim.cmd("autocmd FileType Trouble setlocal colorcolumn=")
 
 vim.opt.list = true
 vim.opt.listchars:append "trail:⇢"
+
+-- Enable folding for markdown files
+vim.g.markdown_folding = 1
+-- Don't fold on open
+vim.opt.foldenable = false
