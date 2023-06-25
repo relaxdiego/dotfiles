@@ -3,7 +3,7 @@
 require("neo-tree").setup({
   default_component_configs = {
     name = {
-      trailing_slash = true,
+      trailing_slash = false,
     },
     icon = {
       folder_empty = "",
