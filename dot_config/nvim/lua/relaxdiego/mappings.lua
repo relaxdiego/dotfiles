@@ -39,11 +39,3 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make file exe
 --   z. - Redraw curosor line to center of window, cursor on first non-blank
 -- See: :help z
 vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.", { desc = "Fold everything except current block" })
-
--- See: https://github.com/vim-test/vim-test
--- See: https://github.com/relaxdiego/tslime.vim
-vim.keymap.set("n", "<leader>s", ":TestNearest<CR>", { desc = "Run nearest test" })
-vim.keymap.set("n", "<leader>t", ":TestFile<CR>", { desc = "Run tests in current buffer" })
-vim.keymap.set("n", "<leader>a", ":TestSuite<CR>", { desc = "Run all tests" })
-vim.keymap.set("n", "<leader>l", ":TestLast<CR>", { desc = "Run last test" })
-vim.keymap.set("n", "<leader>g", ":TestVisit<CR>", { desc = "Go to last executed test" })
