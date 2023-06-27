@@ -18,7 +18,7 @@ vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
 
 -- Don't lose what's in the register after pasting
-vim.keymap.set("x", "p", "pgvy", { desc = "Past from register" })
+vim.keymap.set("x", "p", "pgvy", { desc = "Paste from register" })
 
 -- Yank to system clipboard
 vim.keymap.set("n", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
