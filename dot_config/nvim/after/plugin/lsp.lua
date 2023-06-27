@@ -36,7 +36,7 @@ end)
 lsp.format_on_save({
   format_opts = {
     async = false,
-    timeout_ms = 1000,
+    timeout_ms = 3000,
   },
   servers = {
     ["lua_ls"] = { "lua" },
