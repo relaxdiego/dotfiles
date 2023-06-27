@@ -206,6 +206,7 @@ null_ls.setup({
   -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
   sources = {
     diagnostics.flake8,
+    diagnostics.mypy,
     formatting.black,
     formatting.isort,
     formatting.prettierd,
