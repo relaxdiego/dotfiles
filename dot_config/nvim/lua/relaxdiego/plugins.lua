@@ -210,5 +210,10 @@ require("lazy").setup({
   {
     'pedrohdz/vim-yaml-folds',
     commit = '890ccd8e5370808d569e96dbb06cbeca2cf5993a',
+  },
+  {
+    'nvim-treesitter/playground',
+    commit = '2b81a018a49f8e476341dfcb228b7b808baba68b',
+    build = ':TSInstall query'
   }
 })

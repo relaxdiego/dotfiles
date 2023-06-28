@@ -29,6 +29,7 @@
   "nvim-treesitter": { "branch": "master", "commit": "2c59e0ff3da6514b03d853ebecb6c36c515a5d7d" },
   "nvim-treesitter-context": { "branch": "fix/capture-test-scenario", "commit": "09871dd0001552e07e5d20a9c60ff29d43c84c5c" },
   "nvim-web-devicons": { "branch": "master", "commit": "14b3a5ba63b82b60cde98d0a40319d80f25e8301" },
+  "playground": { "branch": "master", "commit": "2b81a018a49f8e476341dfcb228b7b808baba68b" },
   "plenary.nvim": { "branch": "master", "commit": "36aaceb6e93addd20b1b18f94d86aecc552f30c4" },
   "symbols-outline.nvim": { "branch": "master", "commit": "512791925d57a61c545bc303356e8a8f7869763c" },
   "telescope.nvim": { "branch": "master", "commit": "991d5db62451ee7a50944b84aaad4b58c3447b60" },

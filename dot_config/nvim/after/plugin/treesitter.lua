@@ -25,8 +25,7 @@ require("nvim-treesitter.configs").setup({
   auto_install = true,
 
   highlight = {
-    -- Let Kanagawa take care of syntax highlighting
-    enable = false,
+    enable = true,
     additional_vim_regex_highlighting = false,
   },
 })
