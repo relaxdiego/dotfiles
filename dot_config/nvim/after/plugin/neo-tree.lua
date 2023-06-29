@@ -112,4 +112,4 @@ if vim.fn.argc() == 0 then
   vim.cmd [[:Neotree action=focus]]
 end
 
-vim.cmd [[:hi NeoTreeSymbolicLinkTarget guifg=#666666]]
+vim.cmd [[:hi link NeoTreeSymbolicLinkTarget NeoTreeDotFile]]
