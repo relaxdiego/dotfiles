@@ -217,5 +217,9 @@ require("lazy").setup({
     'nvim-treesitter/playground',
     commit = '2b81a018a49f8e476341dfcb228b7b808baba68b',
     build = ':TSInstall query'
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    commit = '6be1192965df35f94b8ea6d323354f7dc7a557e4',
   }
 })
