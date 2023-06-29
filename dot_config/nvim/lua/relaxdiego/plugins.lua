@@ -111,7 +111,7 @@ require("lazy").setup({
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    commit = "d883632bf8f92f1d5abea4a9c28fb2f90aa795aa", -- v2.x branch
+    commit = "f765e75e7d2444629b5ace3cd7609c12251de254", -- v2.x branch
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",

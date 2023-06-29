@@ -49,6 +49,60 @@ require("neo-tree").setup({
   buffers = {
     follow_current_file = true,
   },
+  renderers = {
+    directory = {
+      { "indent" },
+      { "icon" },
+      { "current_filter" },
+      {
+        "container",
+        content = {
+          { "name",        zindex = 10 },
+          {
+            "symlink_target",
+            zindex = 10,
+            highlight = "NeoTreeSymbolicLinkTarget",
+          },
+          { "clipboard",   zindex = 10 },
+          { "diagnostics", errors_only = true, zindex = 20,     align = "right",          hide_when_expanded = true },
+          { "git_status",  zindex = 20,        align = "right", hide_when_expanded = true },
+        },
+      },
+    },
+    file = {
+      { "indent" },
+      { "icon" },
+      {
+        "container",
+        content = {
+          {
+            "name",
+            zindex = 10
+          },
+          {
+            "symlink_target",
+            zindex = 10,
+            highlight = "NeoTreeSymbolicLinkTarget",
+          },
+          { "clipboard",   zindex = 10 },
+          { "bufnr",       zindex = 10 },
+          { "modified",    zindex = 20, align = "right" },
+          { "diagnostics", zindex = 20, align = "right" },
+          { "git_status",  zindex = 20, align = "right" },
+        },
+      },
+    },
+    message = {
+      { "indent", with_markers = false },
+      { "name",   highlight = "NeoTreeMessage" },
+    },
+    terminal = {
+      { "indent" },
+      { "icon" },
+      { "name" },
+      { "bufnr" }
+    }
+  },
 })
 
 -- remaps
@@ -57,3 +111,5 @@ vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
 if vim.fn.argc() == 0 then
   vim.cmd [[:Neotree action=focus]]
 end
+
+vim.cmd [[:hi NeoTreeSymbolicLinkTarget guifg=#666666]]
