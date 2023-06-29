@@ -55,8 +55,10 @@ require("lazy").setup({
           pcall(vim.cmd, "MasonUpdate")
         end,
       },
-      { "williamboman/mason-lspconfig.nvim" },
-
+      {
+        "williamboman/mason-lspconfig.nvim",
+        commit = '17a4934',
+      },
       {
         "hrsh7th/nvim-cmp",
         commit = 'b8c2a62'
