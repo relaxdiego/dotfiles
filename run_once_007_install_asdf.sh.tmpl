@@ -33,10 +33,11 @@ ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 if ! asdf plugin list | grep python; then
     asdf plugin add python
 fi
-pythonver="3.9.9"
+pythonver="3.11.4"
 if ! asdf list python "$pythonver"; then
     asdf install python $pythonver
 fi
+asdf global python "$pythonver"
 
 if [ ! -e ~/.tool-versions ] || ! grep 'python' ~/.tool-versions; then
     echo 'python $pythonver' >> $HOME/.tool-versions
