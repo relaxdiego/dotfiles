@@ -17,6 +17,7 @@ if golangci-lint &>/dev/null; then
     echo "golangci-lint is already installed"
 else
     echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION} using asdf"
+    asdf plugin add golangci-lint https://github.com/hypnoglow/asdf-golangci-lint.git
     asdf install golangci-lint "${GOLANGCI_LINT_VERSION}"
 fi
 asdf global golangci-lint "${GOLANGCI_LINT_VERSION}"
