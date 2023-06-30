@@ -6,10 +6,17 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--commit=c1aad95",
+    "--branch=stable",
     lazypath,
   })
 end
+vim.fn.system({
+  "git",
+  "-C",      -- Execute the command in the provided directory
+  lazypath,  -- The directory to execute the command in
+  "checkout",
+  "de0a911", -- v9.25.0
+})
 vim.opt.rtp:prepend(lazypath)
 
 -- Ensure plugins
