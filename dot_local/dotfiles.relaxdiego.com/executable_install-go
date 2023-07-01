@@ -8,7 +8,7 @@ if asdf list golang "$GO_VERSION" | grep "$GO_VERSION"; then
     echo "Go is already installed"
 else
     echo "Installing Go ${GO_VERSION} using asdf"
-    asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+    asdf plugin-add golang https://github.com/kennyp/asdf-golang.git || true
     asdf install golang "${GO_VERSION}"
 fi
 asdf global golang "${GO_VERSION}"
@@ -17,7 +17,7 @@ if asdf list golangci-lint "$GOLANGCI_LINT_VERSION" | grep "$GOLANGCI_LINT_VERSI
     echo "golangci-lint is already installed"
 else
     echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION} using asdf"
-    asdf plugin add golangci-lint https://github.com/hypnoglow/asdf-golangci-lint.git
+    asdf plugin add golangci-lint https://github.com/hypnoglow/asdf-golangci-lint.git || true
     asdf install golangci-lint "${GOLANGCI_LINT_VERSION}"
 fi
 asdf global golangci-lint "${GOLANGCI_LINT_VERSION}"
