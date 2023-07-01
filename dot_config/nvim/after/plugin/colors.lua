@@ -1,5 +1,5 @@
 require("kanagawa").setup({
-  compile = true,    -- enable compiling the colorscheme
+  compile = false,   -- enable compiling the colorscheme
   undercurl = false, -- disable undercurls
   commentStyle = { italic = false },
   functionStyle = {},
@@ -44,6 +44,7 @@ require("kanagawa").setup({
       -- set their background accordingly if you wish to keep them dark and borderless
       LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
       MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+      ["@variable.builtin"] = { bg = "none", italic = false },
     }
   end,
   theme = "wave", -- Load "wave" theme when "background" option is not set
