@@ -34,7 +34,9 @@ if ! asdf plugin list | grep python; then
     asdf plugin add python
 fi
 pythonver="3.11.4"
-if ! asdf list python "$pythonver"; then
+if asdf list python "$pythonver" | grep "$pythonver"; then
+    echo "Python $pythonver already installed!"
+else
     asdf install python $pythonver
 fi
 asdf global python "$pythonver"
