@@ -3,7 +3,7 @@
 ((brew info macvim | grep -i "not installed" 1>/dev/null) && brew install macvim && brew linkapps) || echo "MacVim is already installed"
 {{ else if eq .chezmoi.os "linux" -}}
 if ! vim --version; then
-    sudo apt-get install vim
+    sudo apt-get install -y vim
 else
     echo "Vim already installed"
 fi
