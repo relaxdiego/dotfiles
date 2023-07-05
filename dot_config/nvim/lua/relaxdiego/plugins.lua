@@ -160,8 +160,21 @@ require("lazy").setup({
     commit = "10b20ca7d9da1ac8df8339e140ffef94f9ab3b18",
   },
   {
-    "simrat39/symbols-outline.nvim",
-    commit = "512791925d57a61c545bc303356e8a8f7869763c",
+    "stevearc/aerial.nvim",
+    commit = "79644dbedc189d79573b2a60e247989bbd8f16e7",
+    event = "VeryLazy",
+    config = function()
+      require('aerial').setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
+          vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
+        end
+      })
+      -- You probably also want to set a keymap to toggle aerial
+      vim.keymap.set('n', '<leader>tb', '<cmd>AerialToggle!<CR>')
+    end,
   },
   {
     "ludovicchabant/vim-gutentags",
