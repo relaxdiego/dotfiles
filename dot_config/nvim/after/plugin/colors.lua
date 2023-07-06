@@ -45,6 +45,7 @@ require("kanagawa").setup({
       LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
       MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
       ["@variable.builtin"] = { bg = "none", italic = false },
+      CursorLine = { bg = "#282726" }
     }
   end,
   theme = "wave", -- Load "wave" theme when "background" option is not set
