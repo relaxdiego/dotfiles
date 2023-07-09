@@ -106,7 +106,7 @@ return {
         -- Which filetypes can null-ls operate on
         ["null-ls"] = {
           "javascript",
-          -- Null-ls is configured to use black; See below
+          -- Null-ls is configured to use black; See null-ls.lua
           "python",
           "typescript",
         },
@@ -199,7 +199,7 @@ return {
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     -- Use nvim-notify for displaying LSP messages
-    -- See: https://github.com/rcarriga/nvim-notify
+    -- See: nvim-notify.lua
     vim.notify = require("notify")
     vim.lsp.handlers['window/showMessage'] = function(_, result, ctx)
       local client = vim.lsp.get_client_by_id(ctx.client_id)
