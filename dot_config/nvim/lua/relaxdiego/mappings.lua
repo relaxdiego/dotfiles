@@ -1,7 +1,3 @@
---
--- Find other remaps for respective plugins at .config/nvim/after/plugin/*.lua
---
-
 vim.g.mapleader = ","
 
 -- Toggle soft wrap
@@ -39,3 +35,7 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make file exe
 --   z. - Redraw curosor line to center of window, cursor on first non-blank
 -- See: :help z
 vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.", { desc = "Fold everything except current block" })
+
+--
+-- Find more plugin-specifc remaps in the plugins/ dir
+--

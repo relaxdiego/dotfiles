@@ -57,3 +57,6 @@ vim.opt.listchars:append "trail:⇢"
 vim.g.markdown_folding = 1
 -- Don't fold on open
 vim.opt.foldenable = false
+
+vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd("set cursorline")
