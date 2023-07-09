@@ -1,3 +1,9 @@
+-- Disable netrw completely
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
+vim.g.loaded_netrwFileHandlers = 1
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   commit = "f765e75e7d2444629b5ace3cd7609c12251de254", -- v2.x branch
@@ -120,10 +126,6 @@ return {
 
     -- remaps
     vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
-
-    if vim.fn.argc() == 0 then
-      vim.cmd [[:Neotree action=focus]]
-    end
 
     vim.cmd [[:hi link NeoTreeSymbolicLinkTarget NeoTreeDotFile]]
   end,
