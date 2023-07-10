@@ -106,9 +106,10 @@ return {
         -- Which filetypes can null-ls operate on
         ["null-ls"] = {
           "javascript",
-          -- Null-ls is configured to use black; See null-ls.lua
+          -- Null-ls is configured to use black; See plugins/null-ls.lua
           "python",
           "typescript",
+          "lua",
         },
       },
     })
