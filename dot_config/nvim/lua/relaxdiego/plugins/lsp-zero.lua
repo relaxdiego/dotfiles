@@ -249,8 +249,12 @@ return {
       capabilities = capabilities,
       settings = {
         Lua = {
+          -- See: https://github.com/luals/lua-language-server/blob/master/locale/en-us/setting.lua
           diagnostics = {
             globals = { "vim" },
+          },
+          format = {
+            enable = false,
           },
         },
       },
