@@ -1,4 +1,4 @@
 return {
-  "relaxdiego/nvim-treesitter-context",
-  branch = "fix/capture-test-scenario",
+	"relaxdiego/nvim-treesitter-context",
+	branch = "fix/capture-test-scenario",
 }

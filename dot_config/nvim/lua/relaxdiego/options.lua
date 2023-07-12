@@ -43,7 +43,7 @@ vim.cmd("autocmd FileType qf setlocal colorcolumn=")
 vim.cmd("autocmd FileType Trouble setlocal colorcolumn=")
 
 vim.opt.list = true
-vim.opt.listchars:append "trail:⇢"
+vim.opt.listchars:append("trail:⇢")
 
 -- Enable folding for markdown files
 vim.g.markdown_folding = 1
