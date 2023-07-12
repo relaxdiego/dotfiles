@@ -245,19 +245,27 @@ return {
 
     -- Lua
     -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-    require("lspconfig").lua_ls.setup({
-      capabilities = capabilities,
+    require 'lspconfig'.lua_ls.setup {
       settings = {
         Lua = {
-          -- See: https://github.com/luals/lua-language-server/blob/master/locale/en-us/setting.lua
-          diagnostics = {
-            globals = { "vim" },
+          runtime = {
+            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+            version = 'LuaJIT',
           },
-          format = {
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = { 'vim' },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
+          },
+          -- Do not send telemetry data containing a randomized but unique identifier
+          telemetry = {
             enable = false,
           },
         },
       },
-    })
+    }
   end,
 }
