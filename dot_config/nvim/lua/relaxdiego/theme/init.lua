@@ -3,10 +3,10 @@ require("alpha.term")
 
 local dashboard = require("relaxdiego.theme.dashboard")
 dashboard.section.buttons.val = {
-	dashboard.button("e", "  New file", "<cmd>ene <CR>"),
-	dashboard.button("Ctrl p", "󰈞  Find file"),
-	dashboard.button("<leader> ag", "󰑑  Live Grep"),
-	dashboard.button("(Sorry, you're stuck)", "󰩈  Quit"),
+    dashboard.button("Ctrl p", "󰈞  Find file", "<C-P>"),
+    dashboard.button("<leader> ag", "󰑑  Live Grep"),
+    dashboard.button("e", "  New file", "<cmd>ene <CR>"),
+    dashboard.button("(Sorry, you're stuck)", "󰩈  Quit", ":q<CR>"),
 }
 
 -- get list of files that match the pattern '*.sh'
