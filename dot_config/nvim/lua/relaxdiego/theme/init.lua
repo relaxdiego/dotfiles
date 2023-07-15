@@ -3,10 +3,11 @@ require("alpha.term")
 
 local dashboard = require("relaxdiego.theme.dashboard")
 dashboard.section.buttons.val = {
-    dashboard.button("Ctrl p", "󰈞  Find file", "<C-P>"),
-    dashboard.button("<leader> ag", "󰑑  Live Grep"),
-    dashboard.button("e", "  New file", "<cmd>ene <CR>"),
-    dashboard.button("(Sorry, you're stuck)", "󰩈  Quit", ":q<CR>"),
+	dashboard.button("Ctrl p", "󰈞  Find file", "<C-P>"),
+	dashboard.button("<leader> ag", "󰑑  Live Grep"),
+	dashboard.button("<leader> nt", "󰙅  Tree view"),
+	dashboard.button("e", "  New file", "<cmd>ene <CR>"),
+	dashboard.button("(Sorry, you're stuck)", "󰩈  Quit", ":q<CR>"),
 }
 
 -- get list of files that match the pattern '*.sh'
@@ -23,18 +24,18 @@ if height > 30 then
 	dashboard.section.terminal.command = "cat | " .. art_file
 	dashboard.section.terminal.width = 25
 	dashboard.section.terminal.height = 13
-	dashboard.section.terminal.opts.redraw = true
 else
 	dashboard.section.terminal.height = 1
 end
 
+local smol = {
+	"█▄░█ █▀▀ █▀█ █░█ █ █▀▄▀█",
+	"█░▀█ ██▄ █▄█ ▀▄▀ █ █░▀░█",
+}
+
 local header = {
 	type = "text",
-	-- Generated with: https://fsymbols.com/generators/carty/
-	val = {
-		"█▄░█ █▀▀ █▀█ █░█ █ █▀▄▀█",
-		"█░▀█ ██▄ █▄█ ▀▄▀ █ █░▀░█",
-	},
+	val = smol,
 	opts = {
 		position = "center",
 		hl = "Type",
