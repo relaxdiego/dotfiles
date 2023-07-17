@@ -64,9 +64,14 @@ return {
                         ["<C-x>"] = "open_split",
                     },
                 },
+                follow_current_file = {
+                    enabled = true,
+                },
             },
             buffers = {
-                follow_current_file = true,
+                follow_current_file = {
+                    enabled = true,
+                },
             },
             renderers = {
                 directory = {
