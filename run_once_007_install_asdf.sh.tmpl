@@ -22,12 +22,13 @@ ASDF_DIR="$HOME/.local/.asdf"
 
 rm -rf $ASDF_DIR
 git clone https://github.com/asdf-vm/asdf.git $ASDF_DIR --branch v0.12.0
-ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 
 # Let's load asdf goodies now so that the user doesn't have to
 # force re-open another shell just to load them.
 . $ASDF_DIR/asdf.sh
 . $ASDF_DIR/completions/asdf.bash
+rm -f ~/bin/asdf
+export PATH="$PATH:$ASDF_DIR/bin"
 {{ end -}}
 
 if ! asdf plugin list | grep python; then

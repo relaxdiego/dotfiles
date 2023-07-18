@@ -186,6 +186,7 @@ eval "$(direnv hook bash)"
 {{ else if eq .chezmoi.os "linux" -}}
 . $HOME/.local/.asdf/asdf.sh
 . $HOME/.local/.asdf/completions/asdf.bash
+export PATH="$PATH:$ASDF_DIR/bin"
 {{ end -}}
 
 if which aws-vault &>/dev/null; then
