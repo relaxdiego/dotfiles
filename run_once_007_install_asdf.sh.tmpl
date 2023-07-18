@@ -21,7 +21,7 @@ which asdf 1>/dev/null && echo "asdf already installed" && exit 0
 ASDF_DIR="$HOME/.local/.asdf"
 
 rm -rf $ASDF_DIR
-git clone https://github.com/asdf-vm/asdf.git $ASDF_DIR --branch v0.8.1
+git clone https://github.com/asdf-vm/asdf.git $ASDF_DIR --branch v0.12.0
 ln -s $ASDF_DIR/bin/asdf $HOME/bin/asdf
 
 # Let's load asdf goodies now so that the user doesn't have to
