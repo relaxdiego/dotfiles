@@ -7,7 +7,7 @@ unamestr=$(uname)
 
 if [[ "$unamestr" == 'Darwin' ]]; then
     if hash brew 1>&2>/dev/null; then
-        brew install git-delta@0.16.5
+        brew install git-delta
     elif hash port 1>&2>/dev/null; then
         port install git-delta
     else
