@@ -7,7 +7,7 @@ unamestr=$(uname)
 
 if [[ "$unamestr" == 'Darwin' ]]; then
     if hash brew 1>&2>/dev/null; then
-        brew install git-delta
+        brew install git-delta@0.16.5
     elif hash port 1>&2>/dev/null; then
         port install git-delta
     else
@@ -16,7 +16,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
     fi
 elif [[ "$unamestr" == 'Linux' ]]; then
     if hash apt-get 1>&2>/dev/null; then
-        wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.12.1/git-delta_0.12.1_amd64.deb
+        wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb
         sudo dpkg -i /tmp/git-delta.deb
     elif hash dnf 1>&2>/dev/null; then
         sudo dnf install git-delta
