@@ -113,3 +113,6 @@ disabled = false
 [helm]
 format = "[helm:$version](bold #9999FF) "
 disabled = true
+
+[lua]
+symbol = "󰢱 "
