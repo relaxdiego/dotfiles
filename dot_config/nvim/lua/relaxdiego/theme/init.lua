@@ -1,7 +1,7 @@
 require("alpha")
 require("alpha.term")
 
-local dashboard = require("relaxdiego.theme.dashboard")
+local dashboard = require("alpha.themes.dashboard")
 dashboard.section.buttons.val = {
 	dashboard.button("Ctrl p", "󰈞  Find file", "<C-P>"),
 	dashboard.button("<leader> ag", "󰑑  Live Grep"),
