@@ -5,3 +5,4 @@ screenshot*.png
 tmux*.log
 tags
 dot_config/nvim/plugin/packer_compiled.lua
+dot_config/nvim/lua/dot_luarc.json
