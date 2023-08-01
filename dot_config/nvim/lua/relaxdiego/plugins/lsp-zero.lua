@@ -241,6 +241,13 @@ return {
 		require("lspconfig").gopls.setup({
 			capabilities = capabilities,
 		})
+		-- Auto-import and auto-sort modules in *.go files
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			pattern = "*.go",
+			callback = function()
+				vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+			end,
+		})
 
 		-- Lua
 		-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
