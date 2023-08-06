@@ -207,6 +207,8 @@ gpip() {
 # Silence Pipenv warnings
 export PIPENV_VERBOSITY=-1
 
+export GOPATH=$HOME
+
 for file in ~/.bashrc.d/*.bashrc; do
     if [ -f "$file" ]; then source "$file"; fi
 done
