@@ -238,16 +238,25 @@ return {
 
 		-- Go
 		-- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
+		local util = require("lspconfig/util")
 		require("lspconfig").gopls.setup({
 			capabilities = capabilities,
+			cmd = { "gopls", "serve" },
+			filetypes = { "go", "gomod" },
+			root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+			settings = {
+				gopls = {
+					analyses = {
+						unusedparams = true,
+					},
+					staticcheck = true,
+				},
+			},
 		})
-		-- Auto-import and auto-sort modules in *.go files
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			pattern = "*.go",
-			callback = function()
-				vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-			end,
-		})
+		vim.cmd([[
+            command! OrganizeGoImports lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+        ]])
+		vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 
 		-- Lua
 		-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
