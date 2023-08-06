@@ -28,7 +28,7 @@ return {
             [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
             [formatting.black] = "black",
-            [formatting.gofmt] = "gofmt",
+            [formatting.gofumpt] = "gofumpt",
             [formatting.isort] = "isort",
             [formatting.prettierd] = "prettierd",
             [formatting.ruff] = "ruff",
