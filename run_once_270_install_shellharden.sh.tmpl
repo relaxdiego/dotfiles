@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+echo "Installing https://github.com/anordal/shellharden"
+
+unamestr=$(uname)
+
+if [[ "$unamestr" == 'Darwin' ]]; then
+    brew install shellharden
+else
+    echo "ERROR: I don't support installation for this OS yet!"
+    exit 1
+fi
