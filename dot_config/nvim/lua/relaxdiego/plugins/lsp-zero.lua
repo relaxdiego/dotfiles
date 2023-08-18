@@ -257,7 +257,7 @@ return {
 		vim.cmd([[
             command! GoImports lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
         ]])
-		vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
+		vim.cmd([[autocmd BufWritePre *.go,*.gomod,*.gosum lua vim.lsp.buf.format()]])
 
 		-- Lua
 		-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
