@@ -255,7 +255,7 @@ return {
 			},
 		})
 		vim.cmd([[
-            command! OrganizeGoImports lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+            command! GoImports lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
         ]])
 		vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 
