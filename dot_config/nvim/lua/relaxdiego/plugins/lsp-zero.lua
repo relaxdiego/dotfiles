@@ -293,5 +293,22 @@ return {
 		require("lspconfig").terraformls.setup({})
 		vim.cmd([[autocmd BufWritePre *.tfvars lua vim.lsp.buf.format()]])
 		vim.cmd([[autocmd BufWritePre *.tf lua vim.lsp.buf.format()]])
+
+		-- YAML
+		-- See: https://github.com/b0o/SchemaStore.nvim
+		require("lspconfig").yamlls.setup({
+			settings = {
+				yaml = {
+					validate = true,
+					completion = true,
+					schemaStore = {
+						enable = false,
+						url = "",
+					},
+					schemas = require("schemastore").yaml.schemas(),
+				},
+			},
+		})
+		vim.cmd([[autocmd BufWritePre *.yaml,*.yml lua vim.lsp.buf.format()]])
 	end,
 }
