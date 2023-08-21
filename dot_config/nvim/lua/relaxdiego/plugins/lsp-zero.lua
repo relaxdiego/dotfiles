@@ -311,5 +311,17 @@ return {
             },
         })
         vim.cmd([[autocmd BufWritePre *.yaml,*.yml lua vim.lsp.buf.format()]])
+
+        -- JSON
+        -- See: https://github.com/b0o/SchemaStore.nvim
+        require("lspconfig").jsonls.setup({
+            settings = {
+                json = {
+                    schemas = require("schemastore").json.schemas(),
+                    validate = { enable = true },
+                },
+            },
+        })
+        vim.cmd([[autocmd BufWritePre *.json lua vim.lsp.buf.format()]])
     end,
 }
