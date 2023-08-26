@@ -1,6 +1,6 @@
 return {
     "relaxdiego/alpha-nvim",
-    commit = "b0f1744",
+    commit = "150c518",
     event = "VimEnter",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = function()
