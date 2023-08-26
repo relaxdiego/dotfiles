@@ -112,7 +112,6 @@ return {
                     -- Null-ls is configured to use black; See plugins/null-ls.lua
                     "python",
                     "typescript",
-                    "lua",
                 },
             },
         })
