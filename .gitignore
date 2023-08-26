@@ -1,3 +1,4 @@
 tmux*.log
 .DS_Store
+dot_DS_Store
 dot_config/nvim/plugin
