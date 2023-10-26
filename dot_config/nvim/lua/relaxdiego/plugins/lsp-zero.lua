@@ -289,9 +289,13 @@ return {
 
         -- Terraform
         -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#neovim-v080
-        require("lspconfig").terraformls.setup({})
-        vim.cmd([[autocmd BufWritePre *.tfvars lua vim.lsp.buf.format()]])
-        vim.cmd([[autocmd BufWritePre *.tf lua vim.lsp.buf.format()]])
+        require 'lspconfig'.terraformls.setup {}
+        vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+            pattern = { "*.tf", "*.tfvars" },
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
 
         -- YAML
         -- See: https://github.com/b0o/SchemaStore.nvim
