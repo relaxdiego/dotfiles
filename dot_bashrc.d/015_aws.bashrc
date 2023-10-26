@@ -10,4 +10,4 @@ fi
 # See: https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html
 #
 # Type "aws a<ENTER>" to see this at work
-export AWS_CLI_AUTO_PROMPT=${AWS_CLI_AUTO_PROMPT:-on}
+export AWS_CLI_AUTO_PROMPT=${AWS_CLI_AUTO_PROMPT:-off}
