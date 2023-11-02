@@ -65,12 +65,12 @@ return {
                     },
                 },
                 follow_current_file = {
-                    enabled = true,
+                    enabled = false,
                 },
             },
             buffers = {
                 follow_current_file = {
-                    enabled = true,
+                    enabled = false,
                 },
             },
             renderers = {
