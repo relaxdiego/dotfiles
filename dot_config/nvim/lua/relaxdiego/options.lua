@@ -15,8 +15,15 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
-
 vim.opt.smartindent = true
+
+-- The above indentation config messes up terraform. The following
+-- fixes that at the expense of no auto indentation on enter.
+vim.cmd("autocmd FileType terraform setlocal sts=2 ts=2 sw=2")
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = "terraform",
+    command = ":set nosmartindent",
+})
 
 vim.opt.wrap = false
 
