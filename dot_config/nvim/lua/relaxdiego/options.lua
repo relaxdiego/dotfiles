@@ -25,6 +25,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     command = ":set nosmartindent",
 })
 
+vim.cmd("autocmd FileType jsonnet setlocal sts=2 ts=2 sw=2")
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
