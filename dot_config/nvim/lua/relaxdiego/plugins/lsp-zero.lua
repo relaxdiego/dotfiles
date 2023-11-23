@@ -291,11 +291,8 @@ return {
         -- Terraform
         -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#neovim-v080
         require("lspconfig").terraformls.setup {
-            timeout_ms = 6000,
-            on_attach = function(client)
-                client.resolved_capabilities.document_formatting = false
-                client.resolved_capabilities.document_range_formatting = false
-            end
+            timeout_ms = 5000,
+            cmd = { "terraform-ls", "serve" },
         }
         require("lspconfig").tflint.setup {}
         vim.api.nvim_create_autocmd({ "BufWritePre" }, {
