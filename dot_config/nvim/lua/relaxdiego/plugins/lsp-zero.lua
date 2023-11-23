@@ -245,7 +245,7 @@ return {
         require("lspconfig").gopls.setup({
             capabilities = capabilities,
             cmd = { "gopls", "serve" },
-            filetypes = { "go", "gomod" },
+            filetypes = { "go", "gomod", "gotmpl" },
             root_dir = util.root_pattern("go.work", "go.mod", ".git"),
             settings = {
                 gopls = {
@@ -254,6 +254,7 @@ return {
                         unusedparams = true,
                     },
                     staticcheck = true,
+                    templateExtensions = { "tmpl" },
                 },
             },
         })
