@@ -290,15 +290,19 @@ return {
 
         -- Terraform
         -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#neovim-v080
-        require("lspconfig").terraformls.setup {
-            timeout_ms = 5000,
-            cmd = { "terraform-ls", "serve" },
-        }
+        require("lspconfig").terraformls.setup {}
         require("lspconfig").tflint.setup {}
         vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-            pattern = { "*.tf", "*.tfvars", "*.hcl" },
+            -- Only these two file types are supported
+            -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md
+            pattern = { "*.tf", "*.tfvars" },
             callback = function()
-                vim.lsp.buf.format()
+                vim.lsp.buf.format({
+                    -- Limit client to terraformls to avoid cycling to tflint
+                    filter = function(client) return client.name == "terraformls" end,
+                    -- Prevent the timeout errors when saving. This client is sloooow.
+                    timeout_ms = 5000,
+                })
             end,
         })
 
