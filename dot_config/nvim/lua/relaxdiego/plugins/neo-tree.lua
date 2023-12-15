@@ -64,14 +64,18 @@ return {
                         ["<C-x>"] = "open_split",
                     },
                 },
-                follow_current_file = {
-                    enabled = false,
-                },
+                -- This needs to be commented out to disable since
+                -- enabled = false still enables the feature!
+                -- follow_current_file = {
+                --     enabled = false,
+                -- },
             },
             buffers = {
-                follow_current_file = {
-                    enabled = false,
-                },
+                -- This needs to be commented out to disable since
+                -- enabled = false still enables the feature!
+                -- follow_current_file = {
+                --     enabled = false,
+                -- },
             },
             renderers = {
                 directory = {
