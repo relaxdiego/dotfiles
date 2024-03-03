@@ -42,12 +42,12 @@ style = "dimmed"
 format = '[$symbol($profile )(\($region\) )]($style)'
 
 [kubernetes]
-format = "[ $context](blue) "
+symbol = "⛵ "
 disabled = false
 contexts = [
-    { context_pattern = 'dev.local.cluster.k8s', context_alias = 'dev' },
-    { context_pattern = 'arn:aws:eks:(?P<var_region>[\w-]+):\d+:cluster/(?P<var_cluster>[\w-]+)$', context_alias = '$var_cluster.$var_region' },
-    { context_pattern = '\d+@(?P<var_cluster>[\w-]+)\.(?P<var_region>[\w-]+)\.eksctl.io$', context_alias = '$var_cluster.$var_region' },
+    { context_pattern = "dev.*", style = "green" },
+    { context_pattern = "staging.*", style = "yellow" },
+    { context_pattern = "prod.*", style = "red" },
 ]
 
 [directory]
