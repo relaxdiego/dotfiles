@@ -329,7 +329,17 @@ return {
         require("lspconfig").jsonls.setup({
             settings = {
                 json = {
-                    schemas = require("schemastore").json.schemas(),
+                    schemas = require("schemastore").json.schemas({
+                        replace = {
+                            ["devcontainer.json"] = {
+                                description = "devcontainer.json override",
+                                fileMatch = { "devcontainer.json" },
+                                name = "devcontainer.json",
+                                url =
+                                "https://raw.githubusercontent.com/relaxdiego/SchemaStoreOverrides/main/schemas/devContainer.schema.json",
+                            },
+                        },
+                    }),
                     validate = { enable = true },
                 },
             },
