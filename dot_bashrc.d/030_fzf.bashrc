@@ -6,4 +6,4 @@
 # ------------
 source "$HOME/.config/fzf-key-bindings.bash"
 
-export FZF_DEFAULT_OPTS='--multi --layout=reverse --border --info=inline --color=16 --height=40%'
+export FZF_DEFAULT_OPTS='--multi --layout=reverse --border --info=inline --color=16 --height=~80% --preview-window right:60% --preview "bat --style=numbers --color=always --line-range :500 {}" --bind ctrl-y:preview-up,ctrl-e:preview-down,ctrl-b:preview-page-up,ctrl-f:preview-page-down'
