@@ -4,5 +4,6 @@ logo.png
 screenshot*.png
 tmux*.log
 tags
-dot_config/nvim/plugin/packer_compiled.lua
-dot_config/nvim/lua/dot_luarc.json
+.config/nvim/plugin/packer_compiled.lua
+.config/nvim/lua/dot_luarc.json
+.bashrc.d/*-chezmoi-ignored.bashrc*
