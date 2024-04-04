@@ -16,10 +16,10 @@ vim.keymap.set("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 
 -- Search and replace live
 vim.keymap.set(
-	"n",
-	"<leader>r",
-	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-	{ desc = "Live search and replace" }
+    "n",
+    "<leader>r",
+    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = "Search and replace word under cursor" }
 )
 
 -- Make current file executable
