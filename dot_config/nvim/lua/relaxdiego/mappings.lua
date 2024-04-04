@@ -3,12 +3,6 @@ vim.g.mapleader = ","
 -- Toggle soft wrap
 vim.keymap.set("n", "<leader>sw", ":set wrap!<CR>", { desc = "Toggle soft wrap" })
 
--- Easier split movement
-vim.keymap.set("n", "<C-J>", "<C-W><C-J>", { desc = "Move up" })
-vim.keymap.set("n", "<C-K>", "<C-W><C-K>", { desc = "Move down" })
-vim.keymap.set("n", "<C-L>", "<C-W><C-L>", { desc = "Move right" })
-vim.keymap.set("n", "<C-H>", "<C-W><C-H>", { desc = "Move left" })
-
 -- Keep cursor in the middle when jumping through search results
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next match" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous match" })
