@@ -27,6 +27,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 vim.cmd("autocmd FileType jsonnet setlocal sts=2 ts=2 sw=2")
 
+-- Force neovim to indent yamls properly
+vim.cmd("autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab")
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
