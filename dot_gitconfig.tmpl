@@ -126,6 +126,8 @@
     tai  = ti --all
     tr   = t --format='%C(auto)%h %C(green)%ar%C(auto)%d %C("#666666")%an%C(auto)%d %s%C(reset)'  # Tree, using relative times
     tar  = tr --all
+    ts   = t --source --format='%C(auto)%h %C(green)%as%C(auto) %C("#666666")%an%C(auto)%d %s %C("#666666")[%S] %C(reset)'
+    tas  = ts --all
 
     # Branch stats
     stats = log --decorate --color --format='%n%C(auto)%h %C(green)%ai%C(auto) %C("#666666")%an%C(auto)%d %s%C(reset)' --compact-summary
@@ -226,4 +228,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-
