@@ -1,0 +1,1 @@
+alias vimdiff='nvim -d'
