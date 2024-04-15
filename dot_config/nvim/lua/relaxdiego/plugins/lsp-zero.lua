@@ -65,6 +65,9 @@ return {
         -- Troubleshooting: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/lsp.md#troubleshooting
         local lsp = require("lsp-zero")
 
+        -- https://neovim.io/doc/user/lua.html#vim.log.levels
+        vim.lsp.set_log_level("error")
+
         -- LSP list at https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
         -- You can also use the :Mason command to interactively install LSPs
         lsp.ensure_installed({
