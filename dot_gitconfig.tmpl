@@ -211,12 +211,14 @@
     xfuncname = "^91C4624E-2EE4-4AE5-9E0D-6C02AE8E9701$"
 
 [merge]
-   tool = vimdiff
+   tool = neovim
 [mergetool]
 	keepBackup = false
 # from: https://medium.com/@angielohqh/git-merging-with-3-way-vimdiff-5c59d9c62268
 [mergetool "vimdiff"]
     cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[mergetool "neovim"]
+    cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 
 [filter "media"]
     required = true
