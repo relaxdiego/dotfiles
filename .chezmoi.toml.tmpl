@@ -24,6 +24,7 @@
     email = "{{ $email }}"
     github_username = "{{ $githubUsername }}"
     gpg_key_1password_uuid = "{{ $gpgKey1PasswordUUID }}"
+    gpg_fingerprint_1password_uuid = "{{ $gpgFingerprint1PasswordUUID }}"
     gpg_fingerprint = "{{ (onepasswordDetailsFields $gpgFingerprint1PasswordUUID).password.value }}"
     ssh_private_key_1password_uuid = "{{ $gpgSSHPrivateKey1PasswordUUID }}"
     ssh_public_key_1password_uuid = "{{ $gpgSSHPublicKey1PasswordUUID -}}"
