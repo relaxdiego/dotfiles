@@ -1,3 +1,5 @@
+-- FIXME: This plugin has been archived by the author and is no longer maintained.
+--        We will need to replace it with https://github.com/nvimtools/none-ls.nvim
 return {
     "jose-elias-alvarez/null-ls.nvim",
     commit = "a138b14099e9623832027ea12b4631ddd2a49256",
@@ -27,7 +29,6 @@ return {
             [diagnostics.mypy] = "mypy",
             [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
-            [formatting.black] = "black",
             [formatting.isort] = "isort",
             [formatting.prettierd] = "prettierd",
             [formatting.ruff] = "ruff",
