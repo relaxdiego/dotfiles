@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
-set -e
+# Commenting this out for now since I'm using NeoVim exclusively.
+# Keeping the code just in case I need to refer to it in the future.
 
-# Primarily using this plugin manager for vim-test
-
-# This is intentionally not a "run once" script because the list of plugins
-# declared in ~/.vimrc may have changed anytime. By making this script run
-# everytime `chezmoi apply` is executed, we ensure that the :PluginInstall
-# command below is always run.
-
-if [ ! -f ~/.vim/autoload/plug.vim ]; then
-    echo "Installing vim-plug plugin manager"
-    curl -v -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/e300178a0e2fb04b56de8957281837f13ecf0b27/plug.vim  # v0.11.0
-fi
-
-vim +PlugInstall +qall
+# set -e
+#
+# # Primarily using this plugin manager for vim-test
+#
+# # This is intentionally not a "run once" script because the list of plugins
+# # declared in ~/.vimrc may have changed anytime. By making this script run
+# # everytime `chezmoi apply` is executed, we ensure that the :PluginInstall
+# # command below is always run.
+#
+# if [ ! -f ~/.vim/autoload/plug.vim ]; then
+#     echo "Installing vim-plug plugin manager"
+#     curl -v -fLo ~/.vim/autoload/plug.vim --create-dirs \
+#         https://raw.githubusercontent.com/junegunn/vim-plug/e300178a0e2fb04b56de8957281837f13ecf0b27/plug.vim  # v0.11.0
+# fi
+#
+# vim +PlugInstall +qall
