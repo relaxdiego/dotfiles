@@ -25,7 +25,6 @@ return {
         -- map of built-ins to their executables
         local builtins_to_executables = {
             [code_actions.shellcheck] = "shellcheck",
-            [diagnostics.flake8] = "flake8",
             [diagnostics.mypy] = "mypy",
             [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
