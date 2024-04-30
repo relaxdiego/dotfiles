@@ -47,7 +47,7 @@ return {
         null_ls.setup({
             -- Set this to true to start logging
             -- Also use ":checkhealth null-ls" for more troubleshooting
-            debug = true,
+            -- debug = true,
             log_level = "warn",
             -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
             sources = sources,
