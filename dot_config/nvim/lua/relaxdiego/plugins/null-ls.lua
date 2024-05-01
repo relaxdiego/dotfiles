@@ -1,8 +1,9 @@
 -- FIXME: This plugin has been archived by the author and is no longer maintained.
 --        We will need to replace it with https://github.com/nvimtools/none-ls.nvim
+--        once it is on par with null-ls and stable.
 return {
-    "jose-elias-alvarez/null-ls.nvim",
-    commit = "a138b14099e9623832027ea12b4631ddd2a49256",
+    "relaxdiego/null-ls.nvim",
+    commit = "8a8f3c8101cfc26d6e2de0e913692fba8d1505fa", -- Lets ruff fix imports
     event = "VeryLazy",
     config = function()
         local null_ls = require("null-ls")
@@ -28,7 +29,6 @@ return {
             [diagnostics.mypy] = "mypy",
             [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
-            [formatting.isort] = "isort",
             [formatting.prettierd] = "prettierd",
             [formatting.ruff] = "ruff",
             [formatting.shellharden] = "shellharden",
