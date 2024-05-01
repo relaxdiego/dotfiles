@@ -120,3 +120,7 @@ disabled = true
 
 [lua]
 symbol = "󰢱 "
+
+[nix_shell]
+symbol = "❄️ "
+format = '[$symbol$state( \($name\))]($style) '
