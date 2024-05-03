@@ -3,7 +3,7 @@
 --        once it is on par with null-ls and stable.
 return {
     "relaxdiego/null-ls.nvim",
-    commit = "8a8f3c8101cfc26d6e2de0e913692fba8d1505fa", -- Lets ruff fix imports
+    commit = "d08c5b8", -- Lets ruff fix imports
     event = "VeryLazy",
     config = function()
         local null_ls = require("null-ls")
