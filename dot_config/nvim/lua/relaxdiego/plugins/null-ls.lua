@@ -30,6 +30,7 @@ return {
             [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
             [formatting.prettierd] = "prettierd",
+            [formatting.black] = "black",
             [formatting.ruff] = "ruff",
             [formatting.shellharden] = "shellharden",
         }
