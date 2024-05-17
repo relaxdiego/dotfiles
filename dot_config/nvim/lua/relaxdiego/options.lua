@@ -64,3 +64,5 @@ vim.opt.foldenable = false
 
 vim.cmd("colorscheme kanagawa-dragon")
 vim.cmd("set cursorline")
+
+vim.cmd("autocmd BufNewFile,BufRead devbox.json setlocal filetype=json5")
