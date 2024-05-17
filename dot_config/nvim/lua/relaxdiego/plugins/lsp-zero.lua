@@ -347,6 +347,16 @@ return {
                 },
             },
         })
-        vim.cmd([[autocmd BufWritePre *.json lua vim.lsp.buf.format()]])
+        -- Format JSON files on save (except for devbox.json which we treat as json5)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.json",
+            callback = function()
+                local file = vim.fn.expand("<afile>")
+                local filename = vim.fn.fnamemodify(file, ":t")
+                if filename ~= "devbox.json" then
+                    vim.lsp.buf.format()
+                end
+            end,
+        })
     end,
 }
