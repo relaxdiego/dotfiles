@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+echo "DevBox"
+
+# https://www.jetify.com/devbox/docs/quickstart/
+(devbox version >/dev/null) || (curl -fsSL https://get.jetify.com/devbox | bash)
