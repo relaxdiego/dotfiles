@@ -35,7 +35,7 @@
   "plenary.nvim": { "branch": "master", "commit": "36aaceb6e93addd20b1b18f94d86aecc552f30c4" },
   "schemastore.nvim": { "branch": "main", "commit": "f0ca13e2634f08f127e086909d18a9387a47e760" },
   "smart-splits.nvim": { "branch": "master", "commit": "2c61c95a4eabdba7cd91f229fbd43103a188b992" },
-  "telescope.nvim": { "branch": "master", "commit": "991d5db62451ee7a50944b84aaad4b58c3447b60" },
+  "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
   "trouble.nvim": { "branch": "main", "commit": "2af0dd9767526410c88c628f1cbfcb6cf22dd683" },
   "tslime.vim": { "branch": "master", "commit": "28e9eba642a791c6a6b044433dce8e5451b26fb0" },
   "undotree": { "branch": "master", "commit": "485f01efde4e22cb1ce547b9e8c9238f36566f21" },
