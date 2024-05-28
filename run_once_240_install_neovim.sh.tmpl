@@ -1,12 +1,14 @@
 #!/bin/bash -eux
-version="0.9.1"
+version="0.10.0"
 
 {{ if (eq .chezmoi.os "linux") }}
 tarball_basename=nvim-linux64
-{{ else if (eq .chezmoi.os "darwin") }}
-tarball_basename=nvim-macos
+{{ else if (and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "amd64")) }}
+tarball_basename=nvim-macos-x86_64
+{{ else if (and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64")) }}
+tarball_basename=nvim-macos-arm64
 {{ else }}
-echo "ERROR: Unsupported operating system '{{ .chezmoi.os }}'"
+echo "ERROR: Unsupported operating system 'OS: {{ .chezmoi.os }}; ARCH: {{ .chezmoi.arch }}'"
 {{ end }}
 
 cd /tmp
@@ -19,3 +21,4 @@ mv "${tarball_basename}" "$HOME/bin/"
 cd "$HOME/bin"
 rm -f nvim
 ln -s "${tarball_basename}/bin/nvim" nvim
+nvim --headless -c 'TSUpdate' -c 'q'
