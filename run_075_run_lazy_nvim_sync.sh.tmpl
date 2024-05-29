@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+# This is intentionally not a "run once" script because the list of plugins or
+# the versions declared may have changed over time. By making this script run
+# everytime `chezmoi apply` is executed, we ensure that Lazy sync always runs.
+
+echo "Running Lazy.nvim sync"
+
+nvim --headless "+Lazy! sync" +qa
+
+# Ensure a newline is printed after the previous command
+echo
