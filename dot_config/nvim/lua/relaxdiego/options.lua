@@ -63,6 +63,9 @@ vim.g.markdown_folding = 1
 vim.opt.foldenable = false
 
 vim.cmd("colorscheme kanagawa-dragon")
+-- The Tree Sitter capture "@comment.arrange_act_assert" is defined in queries/python/highlights.scm
+-- The highlight group "ArrangeActAssertComment" is defined in plugins/colorscheme-kanagawa.lua
+vim.api.nvim_set_hl(0, "@comment.arrange_act_assert", { link = "ArrangeActAssertComment" })
 vim.cmd("set cursorline")
 
 vim.cmd("autocmd BufNewFile,BufRead devbox.json setlocal filetype=json5")

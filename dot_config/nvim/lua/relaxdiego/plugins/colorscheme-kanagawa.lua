@@ -50,6 +50,7 @@ return {
                     MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
                     ["@variable.builtin"] = { bg = "none", italic = false },
                     CursorLine = { bg = "#282726" },
+                    ArrangeActAssertComment = { fg = '#DCD7BA', bold = true },
                 }
             end,
             theme = "wave", -- Load "wave" theme when "background" option is not set
