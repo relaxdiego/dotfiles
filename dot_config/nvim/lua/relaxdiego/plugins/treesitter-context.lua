@@ -1,4 +1,4 @@
 return {
-    "relaxdiego/nvim-treesitter-context",
-    commit = "157faa8"
+    "nvim-treesitter/nvim-treesitter-context",
+    commit = "f62bfe1"
 }
