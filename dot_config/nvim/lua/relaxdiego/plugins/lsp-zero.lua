@@ -5,8 +5,7 @@ return {
     dependencies = {
         {
             "neovim/nvim-lspconfig",
-            -- commit = "b6b34b9",
-            commit = "67f151e84daddc86cc65f5d935e592f76b9f4496",
+            commit = "0b8165c", -- v0.1.8
         },
         {
             "williamboman/mason.nvim",
@@ -17,7 +16,7 @@ return {
         },
         {
             "williamboman/mason-lspconfig.nvim",
-            commit = "17a4934",
+            commit = "9ae570e", -- v1.29.0
         },
         {
             "hrsh7th/nvim-cmp",
