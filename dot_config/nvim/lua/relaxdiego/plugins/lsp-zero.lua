@@ -74,7 +74,6 @@ return {
             "gopls",
             "lua_ls",
             "pylsp",
-            "ruff_lsp",
             "terraformls",
             "yamlls",
             "jsonls",
@@ -99,11 +98,10 @@ return {
             servers = {
                 ["lua_ls"] = { "lua" },
                 ["gopls"] = { "go" },
-                ["ruff_lsp"] = { "python" },
                 -- Which filetypes can null-ls operate on
                 ["null-ls"] = {
                     "javascript",
-                    -- Null-ls is configured to use Black and isort; See plugins/null-ls.lua
+                    -- Null-ls is configured to use Black and Ruff; See plugins/null-ls.lua
                     "python",
                     "typescript",
                 },
@@ -234,19 +232,6 @@ return {
                 },
             },
         })
-        -- Ruff LSP (Python)
-        -- Automatically installed by the `lsp.ensure_installed` call above.
-        -- Currently only does diagnostics. Code actions and formatting are
-        -- still done by Black and isort via null-ls. ruff-lsp is currently in
-        -- maintenance mode in favor or `ruff server` so the chances of it
-        -- gaining new features are slim to none whereas `ruff server` as LSP
-        -- server is too new and unstable for day-to-day use.
-        --
-        -- See: Config Options <https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp>
-        -- See: Server capabilities via command `:lua vim.print(vim.lsp.get_active_clients({name = 'ruff_lsp'})[1].server_capabilities)`
-        require('lspconfig').ruff_lsp.setup {
-            capabilities = capabilities,
-        }
 
         -- Go
         -- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
