@@ -88,17 +88,6 @@ return {
             manage_nvim_cmp = false,
         })
 
-        -- Executes the anonymous function everytime an LSP server is attached to the
-        -- current buffer. See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#on_attachcallback
-        lsp.on_attach(function(_, bufnr)
-            lsp.default_keymaps({ buffer = bufnr })
-            local opts = { buffer = bufnr }
-
-            -- Go to a symbol's definition
-            -- See: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md
-            vim.keymap.set("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-        end)
-
         -- Autoformat on save
         -- For more config options, see:
         -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/guides/integrate-with-null-ls.md

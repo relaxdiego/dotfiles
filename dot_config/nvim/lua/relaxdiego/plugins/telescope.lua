@@ -28,6 +28,10 @@ return {
         vim.keymap.set("n", "<leader>c", builtin.buffers, { desc = "Find buffer" })
         vim.keymap.set("n", "<leader>m", builtin.resume, { desc = "Resume last Telescope search" })
         vim.keymap.set("n", "<leader>p", builtin.pickers, { desc = "Telescope history" })
+        vim.keymap.set("n", "<C-[>", builtin.lsp_references, { desc = "Lists LSP references for word under the cursor" })
+        vim.keymap.set("n", "<C-]>", builtin.lsp_definitions,
+            { desc =
+            "Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope" })
         -- Others:
         -- vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
     end,
