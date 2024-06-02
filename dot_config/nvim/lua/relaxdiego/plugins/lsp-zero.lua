@@ -20,7 +20,7 @@ return {
         },
         {
             "hrsh7th/nvim-cmp",
-            commit = "b8c2a62",
+            commit = "5260e5e",
         },
         {
             "hrsh7th/cmp-nvim-lsp",
