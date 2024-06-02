@@ -136,7 +136,7 @@ return {
             severity_sort = true,
             float = {
                 -- Always shows diagnostic-source
-                source = "always", -- Or "if_many"
+                source = true, -- Or "if_many"
             },
         })
 
