@@ -3,7 +3,7 @@
 --        once it is on par with null-ls and stable.
 return {
     "relaxdiego/null-ls.nvim",
-    commit = "d08c5b8", -- Lets ruff fix imports
+    commit = "d08c5b8",
     event = "VeryLazy",
     config = function()
         local null_ls = require("null-ls")
@@ -23,15 +23,14 @@ return {
             end
         end
 
-        -- map of built-ins to their executables
+        -- map of built-ins to their executables.
         local builtins_to_executables = {
             [code_actions.shellcheck] = "shellcheck",
             [diagnostics.mypy] = "mypy",
-            [diagnostics.ruff] = "ruff",
             [diagnostics.shellcheck] = "shellcheck",
             [formatting.prettierd] = "prettierd",
             [formatting.black] = "black",
-            [formatting.ruff] = "ruff",
+            [formatting.isort] = "isort",
             [formatting.shellharden] = "shellharden",
         }
 
