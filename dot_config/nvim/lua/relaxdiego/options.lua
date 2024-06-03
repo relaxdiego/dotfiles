@@ -68,4 +68,7 @@ vim.cmd("colorscheme kanagawa-dragon")
 vim.api.nvim_set_hl(0, "@comment.arrange_act_assert", { link = "ArrangeActAssertComment" })
 vim.cmd("set cursorline")
 
+-- Disable "Auto-wrap test using 'textwidth'"
+vim.opt.formatoptions:remove("t")
+
 vim.cmd("autocmd BufNewFile,BufRead devbox.json setlocal filetype=json5")

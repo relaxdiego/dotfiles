@@ -228,6 +228,12 @@ return {
                         pyflakes = {
                             enabled = false,
                         },
+                        autopep8 = {
+                            enabled = false,
+                        },
+                        yapf = {
+                            enabled = false,
+                        },
                     },
                 },
             },
