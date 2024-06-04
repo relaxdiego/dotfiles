@@ -22,6 +22,9 @@ vim.keymap.set(
     { desc = "Search and replace word under cursor" }
 )
 
+-- Equalize widths only
+vim.keymap.set("n", "<C-w>=", ":horizontal wincmd =<CR>", { desc = "Equalize widths only" })
+
 -- Recursively unfold the block where the cursor is, fold everything else
 --   zM - fold everything
 --   zv - unfold just enough so that the line under the cursor is visible
