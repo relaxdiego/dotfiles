@@ -22,9 +22,6 @@ vim.keymap.set(
     { desc = "Search and replace word under cursor" }
 )
 
--- Make current file executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make file executable" })
-
 -- Recursively unfold the block where the cursor is, fold everything else
 --   zM - fold everything
 --   zv - unfold just enough so that the line under the cursor is visible
