@@ -2,7 +2,7 @@ return {
     "nvim-focus/focus.nvim",
     commit = "2c2c91d0bdb8ec9f67655c0e125953e27f5798c9",
     config = function()
-        local ignore_filetypes = { 'neo-tree' }
+        local ignore_filetypes = { 'neo-tree', 'trouble' }
         local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
         local diffmode = vim.opt.diff:get()
 
@@ -15,6 +15,10 @@ return {
                     not vim.tbl_contains(ignore_filetypes, vim.bo.filetype) and
                     not diffmode then
                     vim.cmd('wincmd _')
+                end
+                if vim.bo.filetype == 'trouble' then
+                    vim.cmd('set winheight=10')
+                    vim.cmd('set winminheight=10')
                 end
             end,
         })
