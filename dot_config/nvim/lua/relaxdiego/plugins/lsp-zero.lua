@@ -77,6 +77,7 @@ return {
             "terraformls",
             "yamlls",
             "jsonls",
+            "pyright",
         })
 
         -- See more presets: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#presetopts
@@ -234,6 +235,19 @@ return {
                         yapf = {
                             enabled = false,
                         },
+                    },
+                },
+            },
+        })
+        require("lspconfig")["pyright"].setup({
+            capabilities = capabilities,
+            settings = {
+                pyright = {
+                    disableOrganizeImports = true, -- Using Ruff
+                },
+                python = {
+                    analysis = {
+                        ignore = { '*' }, -- Using Ruff
                     },
                 },
             },
