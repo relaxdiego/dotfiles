@@ -13,6 +13,7 @@
   "copilot.vim": { "branch": "release", "commit": "1a284014d2e0baf367706a94b2a9ee5fd56fd457" },
   "focus.nvim": { "branch": "master", "commit": "2c2c91d0bdb8ec9f67655c0e125953e27f5798c9" },
   "friendly-snippets": { "branch": "main", "commit": "5749f093759c29e3694053d048ceb940fe12c3d3" },
+  "git-blame.nvim": { "branch": "master", "commit": "408d5487d908dfe5d48e5645d8b27ddcc16b11e0" },
   "indent-blankline.nvim": { "branch": "master", "commit": "7075d7861f7a6bbf0de0298c83f8a13195e6ec01" },
   "kanagawa.nvim": { "branch": "master", "commit": "14a7524a8b259296713d4d77ef3c7f4dec501269" },
   "lazy.nvim": { "branch": "main", "commit": "de0a911ad97e273edb6e3890ddb1aac59e2d0fb4" },
