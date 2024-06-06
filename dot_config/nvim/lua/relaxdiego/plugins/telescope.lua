@@ -34,8 +34,9 @@ return {
                 desc =
                 "Goto the definition of the word under the cursor, if there's only one, otherwise show all options in Telescope"
             })
-        vim.keymap.set("n", "<leader>dv", "<Esc><C-w>v<C-]>", { desc = "Open definition in a vsplit" })
-        vim.keymap.set("n", "<leader>dh", "<Esc><C-w>s<C-]>", { desc = "Open definition in a split" })
+        -- See which-key.lua for the description for the prefix 'gd'
+        vim.keymap.set("n", "gdv", "<Esc><C-w>v<C-]>", { desc = "Goto definition in a vsplit" })
+        vim.keymap.set("n", "gdh", "<Esc><C-w>s<C-]>", { desc = "Goto definition in a split" })
         vim.keymap.set("n", "gi", builtin.lsp_implementations, { desc = "List implementations of symbol under cursor" })
         -- Others:
         -- vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
