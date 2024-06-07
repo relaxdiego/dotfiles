@@ -247,7 +247,6 @@ return {
                 },
                 python = {
                     analysis = {
-                        diagnosticMode = "workspace",
                         ignore = { '*' }, -- Using Ruff
                     },
                 },
