@@ -1,6 +1,6 @@
 return {
     "VonHeikemen/lsp-zero.nvim",
-    commit = "52582fc91efb40ee347c20570ff7d32849ef4a89", -- From 2.x branch
+    commit = "16de3b18c5f7b6230d89b8e64ce9a4801b6f8d08", -- From 2.x branch
     event = "VeryLazy",
     dependencies = {
         {
@@ -9,7 +9,7 @@ return {
         },
         {
             "williamboman/mason.nvim",
-            commit = "664c987",
+            commit = "0950b15060067f752fde13a779a994f59516ce3d",
             build = function()
                 pcall(vim.cmd, "MasonUpdate")
             end,
@@ -20,11 +20,11 @@ return {
         },
         {
             "hrsh7th/nvim-cmp",
-            commit = "5260e5e",
+            commit = "5260e5e8ecadaf13e6b82cf867a909f54e15fd07",
         },
         {
             "hrsh7th/cmp-nvim-lsp",
-            commit = "44b16d1",
+            commit = "39e2eda76828d88b773cc27a3f61d2ad782c922d",
         },
         {
             "hrsh7th/cmp-buffer",
@@ -67,17 +67,20 @@ return {
         -- https://neovim.io/doc/user/lua.html#vim.log.levels
         vim.lsp.set_log_level("error")
 
+        require("mason").setup()
         -- This functionality is provided by mason-lspconfig <https://github.com/williamboman/mason-lspconfig.nvim>
         -- LSP list at https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
         -- You can also use the :Mason command to interactively install LSPs
-        lsp.ensure_installed({
-            "gopls",
-            "lua_ls",
-            "pylsp",
-            "terraformls",
-            "yamlls",
-            "jsonls",
-            "pyright",
+        require("mason-lspconfig").setup({
+            ensure_installed = {
+                "gopls",
+                "lua_ls",
+                "pylsp",
+                "terraformls",
+                "yamlls",
+                "jsonls",
+                "pyright",
+            }
         })
 
         -- See more presets: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#presetopts
