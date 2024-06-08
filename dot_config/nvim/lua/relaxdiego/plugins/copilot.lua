@@ -2,6 +2,8 @@ return {
     "github/copilot.vim",
     commit = "1dcaf72099b436b5832d6117d9cd7a4a098a8d77", -- 1.35.0
     config = function()
+        -- Set global variables
+        vim.g.copilot_node_command = "~/.asdf/installs/nodejs/21.6.2/bin/node"
         vim.cmd([[let g:copilot_no_tab_map = v:true]])
         vim.cmd([[execute "Copilot setup"]])
         vim.cmd([[execute "Copilot enable"]])
