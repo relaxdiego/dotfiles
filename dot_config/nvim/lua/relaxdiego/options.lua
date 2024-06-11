@@ -94,21 +94,27 @@ local extension_to_language = {
 
 local function set_dotted_filetype()
     -- Get the current buffer's name
-    local bufname = vim.api.nvim_buf_get_name(0)
+    local full_path = vim.api.nvim_buf_get_name(0)
+    local filename = full_path:match("^.+/(.+)$") or full_path
 
-    -- Extract the 'XXX.YYY' from filenames like 'foo.XXX.YYY'
-    -- It captures the last two extensions before the end of the filename
-    local match = bufname:match("%.([^.]+%.[^.]+)$")
-    if match then
-        local ext1, ext2 = match:match("([^.]+)%.([^.]+)")
+    -- Remove templated sections enclosed in {{ }}
+    local sanitized_name = filename:gsub("{{.-}}", "")
 
-        -- Translate extensions using the mapping table
-        local lang1 = extension_to_language[ext1] or ext1
-        local lang2 = extension_to_language[ext2] or ext2
-
-        -- Set the filetype to 'lang1.lang2'
-        vim.bo.filetype = lang1 .. "." .. lang2
+    -- Extract all extensions from filenames like 'foo.bar.baz.qux'
+    local extensions = {}
+    for ext in sanitized_name:gmatch("%.([^%.]+)") do
+        table.insert(extensions, ext)
     end
+
+    -- Translate each extension to its corresponding language
+    local translated_extensions = {}
+    for _, ext in ipairs(extensions) do
+        local lang = extension_to_language[ext] or ext
+        table.insert(translated_extensions, lang)
+    end
+
+    -- Set the filetype to the concatenated translated extensions
+    vim.bo.filetype = table.concat(translated_extensions, ".")
 end
 
 -- Create an autocommand group for custom filetype settings
