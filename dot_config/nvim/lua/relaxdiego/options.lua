@@ -71,4 +71,58 @@ vim.cmd("set cursorline")
 -- Disable "Auto-wrap test using 'textwidth'"
 vim.opt.formatoptions:remove("t")
 
+-- Set devbox.json filetype to json5 to support comments
 vim.cmd("autocmd BufNewFile,BufRead devbox.json setlocal filetype=json5")
+
+-- BEGIN: Automatically set the filetype for *.*.jinja files.
+--
+-- From `:h ft`
+--     When a dot appears in the value then this separates two filetype names
+--     (Example: foo.c.jinja), this will use the "c" filetype first, then the
+--     "jinja" filetype. This works both for filetype plugins and for syntax
+--     files.  More than one dot may appear.
+
+-- Mapping of file extensions to language names
+local extension_to_language = {
+    py = "python",
+    rb = "ruby",
+    js = "javascript",
+    ts = "typescript",
+    cpp = "cpp",
+    h = "c_header",
+}
+
+local function set_dotted_filetype()
+    -- Get the current buffer's name
+    local bufname = vim.api.nvim_buf_get_name(0)
+
+    -- Extract the 'XXX.YYY' from filenames like 'foo.XXX.YYY'
+    -- It captures the last two extensions before the end of the filename
+    local match = bufname:match("%.([^.]+%.[^.]+)$")
+    if match then
+        local ext1, ext2 = match:match("([^.]+)%.([^.]+)")
+
+        -- Translate extensions using the mapping table
+        local lang1 = extension_to_language[ext1] or ext1
+        local lang2 = extension_to_language[ext2] or ext2
+
+        -- Set the filetype to 'lang1.lang2'
+        vim.bo.filetype = lang1 .. "." .. lang2
+    end
+end
+
+-- Create an autocommand group for custom filetype settings
+vim.api.nvim_create_augroup("DottedFileType", { clear = true })
+
+-- Add an autocommand to this group
+vim.api.nvim_create_autocmd(
+    { "BufRead", "BufNewFile" },
+    {
+        group = "DottedFileType",
+        pattern = "*.*.*",
+        callback = set_dotted_filetype,
+    }
+)
+--
+-- END: Automatically set the filetype for *.*.jinja files.
+--
