@@ -3,7 +3,7 @@ return {
     commit = "bff398d623eafab49f2019e95660ec0a07421855",
     event = "VeryLazy",
     -- If you re-enable this plugin, you should also uncomment the spelling
-    -- vim options in optionas.lua.
+    -- options in ~/.config/nvim/lua/relaxdiego/spelling.lua.
     enable = false,
     config = function()
         require("spellwarn").setup(
@@ -32,7 +32,7 @@ return {
                     -- severity for each spelling error type (false to disable diagnostics for that type)
                     spellbad   = "WARN",
                     spellcap   = false,
-                    spelllocal = "HINT",
+                    spelllocal = false,
                     spellrare  = "INFO",
                 },
                 prefix = "possible misspelling(s): ", -- prefix for each diagnostic message
