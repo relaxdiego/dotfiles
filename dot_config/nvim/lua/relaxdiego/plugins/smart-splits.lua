@@ -2,7 +2,7 @@
 return {
     "mrjones2014/smart-splits.nvim",
     commit = "2c61c95a4eabdba7cd91f229fbd43103a188b992",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
         require("smart-splits").setup({
             ignored_filetypes = { "Neotree" },
