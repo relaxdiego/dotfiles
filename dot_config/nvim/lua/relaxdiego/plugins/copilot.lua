@@ -6,14 +6,12 @@ return {
         vim.g.copilot_node_command = "~/.asdf/installs/nodejs/21.6.2/bin/node"
         vim.g.copilot_no_tab_map = true
 
-        -- Setup and enable Copilot
-        vim.cmd("Copilot setup")
-        vim.cmd("Copilot enable")
-
         -- Key mappings
         vim.api.nvim_set_keymap('i', '<C-H>', 'copilot#Suggest()', {silent = true, script = true, expr = true})
         vim.api.nvim_set_keymap('i', '<C-J>', 'copilot#Next()', {silent = true, script = true, expr = true})
         vim.api.nvim_set_keymap('i', '<C-K>', 'copilot#Previous()', {silent = true, script = true, expr = true})
         vim.api.nvim_set_keymap('i', '<C-L>', 'copilot#Accept("\\<CR>")', {silent = true, script = true, expr = true})
+
+        vim.keymap.set("n", "<leader>o", ":Copilot setup enable<CR>", { desc = "Start Github Copilot", silent = true })
     end,
 }
