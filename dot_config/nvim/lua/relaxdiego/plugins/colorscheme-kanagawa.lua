@@ -51,6 +51,8 @@ return {
                     ["@variable.builtin"] = { bg = "none", italic = false },
                     CursorLine = { bg = "#282726" },
                     ArrangeActAssertComment = { fg = '#DCD7BA', bold = true },
+                    -- Don't underline words that vim thinks should be capitalized
+                    SpellCap = { underline = false },
                 }
             end,
             theme = "wave", -- Load "wave" theme when "background" option is not set

@@ -132,3 +132,7 @@ vim.api.nvim_create_autocmd(
 --
 -- END: Automatically set the filetype for *.*.jinja files.
 --
+
+-- Required by spellwarn plugin
+-- vim.opt.spell = true
+-- vim.opt.spelllang = "en_us"
