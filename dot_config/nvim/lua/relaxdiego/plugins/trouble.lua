@@ -1,6 +1,6 @@
 return {
     "folke/trouble.nvim",
-    commit = "46a19388d3507f4c4bebb9994bf821a79b3bc342", -- v3.1.0
+    commit = "09380a8", -- v3.4.2
     opts = {},
     cmd = "Trouble",
     keys = {

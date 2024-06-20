@@ -39,7 +39,7 @@
   "smart-splits.nvim": { "branch": "master", "commit": "2c61c95a4eabdba7cd91f229fbd43103a188b992" },
   "spellwarn.nvim": { "branch": "main", "commit": "bff398d623eafab49f2019e95660ec0a07421855" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
-  "trouble.nvim": { "branch": "main", "commit": "46a19388d3507f4c4bebb9994bf821a79b3bc342" },
+  "trouble.nvim": { "branch": "main", "commit": "09380a8ed0694dbfbbcf59f9eaac499e259cb75c" },
   "tslime.vim": { "branch": "master", "commit": "28e9eba642a791c6a6b044433dce8e5451b26fb0" },
   "undotree": { "branch": "master", "commit": "485f01efde4e22cb1ce547b9e8c9238f36566f21" },
   "vim-fugitive": { "branch": "master", "commit": "5f0d280b517cacb16f59316659966c7ca5e2bea2" },
