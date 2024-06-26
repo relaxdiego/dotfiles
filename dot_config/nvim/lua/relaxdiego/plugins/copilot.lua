@@ -12,6 +12,10 @@ return {
         vim.api.nvim_set_keymap('i', '<C-K>', 'copilot#Previous()', {silent = true, script = true, expr = true})
         vim.api.nvim_set_keymap('i', '<C-L>', 'copilot#Accept("\\<CR>")', {silent = true, script = true, expr = true})
 
-        vim.keymap.set("n", "<leader>o", ":Copilot setup enable<CR>", { desc = "Start Github Copilot", silent = true })
+        vim.keymap.set("n", "<leader>o", ":Copilot setup<CR>:Copilot enable<CR>", { desc = "Start Github Copilot", silent = true })
+
+        -- Always start disabled unless explicitly enabled
+        -- Alternative: https://github.com/orgs/community/discussions/57887#discussioncomment-7768432
+        vim.cmd(":Copilot disable")
     end,
 }
