@@ -93,6 +93,12 @@ local extension_to_language = {
 }
 
 local function set_dotted_filetype()
+    -- Check if the current buffer has a filetype set by a modeline
+    local current_filetype = vim.api.nvim_buf_get_option(0, "filetype")
+    if current_filetype ~= "" then
+        return
+    end
+
     -- Get the current buffer's name
     local full_path = vim.api.nvim_buf_get_name(0)
     local filename = full_path:match("^.+/(.+)$") or full_path
