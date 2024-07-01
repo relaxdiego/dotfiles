@@ -1,0 +1,2 @@
+[global]
+warn_timeout = "15s"
