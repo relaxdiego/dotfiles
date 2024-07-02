@@ -1,6 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    commit = "3e45483",
+    commit = "53b32a6aa3e1de224e82f88cbdc08584c753adb7", -- June 26, 2024 (feat(v): add shebang query)
     build = ":TSUpdate",
     config = function()
         require("nvim-treesitter.configs").setup({
