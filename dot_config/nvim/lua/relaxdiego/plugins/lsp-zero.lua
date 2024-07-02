@@ -244,11 +244,14 @@ return {
             capabilities = capabilities,
             settings = {
                 pyright = {
-                    disableOrganizeImports = true, -- Using Ruff
+                    -- Ruff will be responsible for organizing imports
+                    -- Note that Ruff is set up via null-ls
+                    disableOrganizeImports = true,
                 },
                 python = {
                     analysis = {
-                        ignore = { '*' }, -- Using Ruff
+                        ignore = {".venv"},
+                        typeCheckingMode = "basic",
                     },
                 },
             },
