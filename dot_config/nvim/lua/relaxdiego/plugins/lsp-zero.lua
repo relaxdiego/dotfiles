@@ -104,10 +104,8 @@ return {
                 ["gopls"] = { "go" },
                 -- Which filetypes can null-ls operate on
                 ["null-ls"] = {
-                    "javascript",
                     -- Null-ls is configured to use Black and Ruff; See plugins/null-ls.lua
                     "python",
-                    "typescript",
                 },
             },
         })
