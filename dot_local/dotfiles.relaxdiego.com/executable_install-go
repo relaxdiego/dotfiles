@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-GO_VERSION=1.19.8
-GOLANGCI_LINT_VERSION=1.52.2
+GO_VERSION=1.22.3
+GOLANGCI_LINT_VERSION=1.55.2
+GOFUMPT_VERSION="636d7a7b9ae6db4704a12cd990b57a7c8f0ede78" # v0.6.0
 
 if asdf list golang "$GO_VERSION" | grep "$GO_VERSION"; then
     echo "Go is already installed"
@@ -22,14 +23,8 @@ else
 fi
 asdf global golangci-lint "${GOLANGCI_LINT_VERSION}"
 
-# Install the Go plugin for vim
-source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
-ensure_plugin 'vim-go' https://github.com/fatih/vim-go.git v1.26
+echo "Installing https://github.com/mvdan/goimports latest"
+go install golang.org/x/tools/cmd/goimports@latest
 
-# Ensure Go support for YCM
-echo "--go-completer" > $HOME/.local/dotfiles.relaxdiego.com/ycm_installer_flags/golang
-
-# Re-install YouCompleteMe now with go support
-# For more help on Go completion, see https://github.com/ycm-core/YouCompleteMe#explanation-for-the-quick-start-1
-rm -rf $bundle_path/YouCompleteMe
-$HOME/.local/dotfiles.relaxdiego.com/install-YouCompleteMe
+echo "Installing https://github.com/mvdan/gofumpt ${GOFUMPT_VERSION}"
+go install mvdan.cc/gofumpt@"${GOFUMPT_VERSION}"

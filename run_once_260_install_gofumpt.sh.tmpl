@@ -1,8 +1,0 @@
-#!/bin/bash -e
-
-version="fd93f1d8818fc86a956b9706ad8b81734c81cc1e"
-echo "Installing https://github.com/mvdan/gofumpt ${version}"
-
-if ! type -a gofumpt; then
-    go install mvdan.cc/gofumpt@"$version"
-fi
