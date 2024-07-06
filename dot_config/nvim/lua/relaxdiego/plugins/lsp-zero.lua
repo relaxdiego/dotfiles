@@ -9,7 +9,7 @@ return {
         },
         {
             "williamboman/mason.nvim",
-            commit = "0950b15060067f752fde13a779a994f59516ce3d",
+            commit = "c43eeb5614a09dc17c03a7fb49de2e05de203924", --v1.10.0
             build = function()
                 pcall(vim.cmd, "MasonUpdate")
             end,
@@ -259,6 +259,9 @@ return {
 
         -- Go
         -- See: https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-config
+        --
+        -- To update gopls, gofumpt, and goimports, run :Mason, move the cursor
+        -- to each tool name and then press u.
         local util = require("lspconfig/util")
         require("lspconfig").gopls.setup({
             capabilities = capabilities,
