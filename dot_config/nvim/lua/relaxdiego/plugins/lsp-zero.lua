@@ -250,8 +250,8 @@ return {
                 },
                 python = {
                     analysis = {
-                        ignore = {".venv"},
-                        typeCheckingMode = "basic",
+                        ignore = { ".venv" },
+                        typeCheckingMode = "standard",
                     },
                 },
             },
