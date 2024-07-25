@@ -2,7 +2,7 @@ return {
     "nvim-focus/focus.nvim",
     commit = "2c2c91d0bdb8ec9f67655c0e125953e27f5798c9",
     config = function()
-        local ignore_filetypes = { 'neo-tree', 'trouble' }
+        local ignore_filetypes = { 'neo-tree', 'trouble', 'qf' }
         local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
         local diffmode = vim.opt.diff:get()
 
