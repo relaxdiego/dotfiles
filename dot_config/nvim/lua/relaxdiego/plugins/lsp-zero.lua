@@ -268,6 +268,7 @@ return {
             cmd = { "gopls", "serve" },
             filetypes = { "go", "gomod", "gotmpl" },
             root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+            -- Available settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
             settings = {
                 gopls = {
                     gofumpt = true,
