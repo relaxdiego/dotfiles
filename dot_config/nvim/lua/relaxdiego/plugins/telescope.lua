@@ -21,6 +21,21 @@ return {
                     },
                 },
             },
+            pickers = {
+                find_files = {
+                    find_command = {
+                        "rg",
+                        "--files",
+                        "--hidden",
+                        "--glob=!.git",
+                        "--glob=!.serverless",
+                        "--glob=!node_modules",
+                        "--glob=!.venv",
+                        "--glob=!tags",
+                        "--glob=!tags.*",
+                    },
+                },
+            },
         })
 
         vim.keymap.set("n", "<C-p>", builtin.find_files, {})
