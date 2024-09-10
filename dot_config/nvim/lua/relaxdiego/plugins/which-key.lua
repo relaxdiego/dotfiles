@@ -12,6 +12,7 @@ return {
         },
         show_help = false,
         defaults = {
+            ["<leader>f"] = { name = "Telescope to..." },
             ["gd"] = { name = "Goto definition..." },
         }
     },
