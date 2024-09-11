@@ -6,6 +6,8 @@ unamestr=$(uname)
 
 if [[ "$unamestr" == 'Darwin' ]]; then
     brew install fd
+elif [[ "$unamestr" == 'Linux' ]] && which apt >/dev/null 2>&1; then
+    apt update && apt install -y fd-find
 else
     echo "ERROR: I don't support installation for this OS yet!"
     exit 1
