@@ -7,7 +7,7 @@ unamestr=$(uname)
 if [[ "$unamestr" == 'Darwin' ]]; then
     brew install ruff
 elif [[ "$unamestr" == 'Linux' ]] && which apt >/dev/null 2>&1; then
-    curl -LsSf https://astral.sh/ruff/install.sh | sh
+    curl -LsSf https://astral.sh/ruff/install.sh | sudo sh
 else
     echo "ERROR: I don't support installation for this OS yet!"
     exit 1

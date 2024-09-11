@@ -7,7 +7,7 @@ unamestr=$(uname)
 if [[ "$unamestr" == 'Darwin' ]]; then
     brew install tflint
 elif [[ "$unamestr" == 'Linux' ]]; then
-    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sudo bash
 else
     echo "ERROR: I don't support installation for this OS yet!"
     exit 1
