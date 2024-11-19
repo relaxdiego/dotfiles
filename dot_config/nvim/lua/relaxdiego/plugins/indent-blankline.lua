@@ -20,6 +20,7 @@ return {
             -- Show the scope of the variable under the cursor
             scope = {
                 show_start = false,
+                show_end = false
             },
         })
     end,
