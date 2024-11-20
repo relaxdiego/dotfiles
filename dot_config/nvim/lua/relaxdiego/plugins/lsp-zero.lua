@@ -344,7 +344,6 @@ return {
                 },
             },
         })
-        vim.cmd([[autocmd BufWritePre *.yaml,*.yml lua vim.lsp.buf.format()]])
 
         -- JSON
         -- See: https://github.com/b0o/SchemaStore.nvim
