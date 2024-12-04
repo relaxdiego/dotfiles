@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+echo "Node.js"
+
+cp ~/.bashrc ~/.bashrc.87cce59.backup
+# installs nvm (Node Version Manager)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+mv ~/.bashrc.87cce59.backup ~/.bashrc
+
+source ~/.bashrc.d/100_nvm.bashrc
+
+# download and install Node.js (you may need to restart the terminal)
+nvm install 22
+
+# verifies the right Node.js version is in the environment
+node -v # should print `v22.12.0`
+
+# verifies the right npm version is in the environment
+npm -v # should print `10.9.0`
