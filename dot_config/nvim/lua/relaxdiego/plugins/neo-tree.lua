@@ -6,7 +6,7 @@ vim.g.loaded_netrwFileHandlers = 1
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
-    commit = "f765e75e7d2444629b5ace3cd7609c12251de254", -- v2.x branch
+    commit = "e6645ecfcba3e064446a6def1c10d788c9873f51", -- From v3.x branch
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
