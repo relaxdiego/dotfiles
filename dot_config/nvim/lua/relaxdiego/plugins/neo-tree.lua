@@ -45,10 +45,7 @@ return {
             },
             filesystem = {
                 filtered_items = {
-                    visible = true,
-                    hide_by_name = {
-                        "node_modules",
-                    },
+                    visible = false,
                 },
                 hijack_netrw_behavior = "open_default",
                 use_libuv_file_watcher = true,
@@ -63,12 +60,11 @@ return {
                         ["x"] = "open_split",
                         ["<C-x>"] = "open_split",
                     },
+                    fuzzy_finder_mappings = {
+                        ["<C-j>"] = "move_cursor_down",
+                        ["<C-k>"] = "move_cursor_up",
+                    },
                 },
-                -- This needs to be commented out to disable since
-                -- enabled = false still enables the feature!
-                -- follow_current_file = {
-                --     enabled = false,
-                -- },
             },
             buffers = {
                 -- This needs to be commented out to disable since
