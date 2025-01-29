@@ -14,6 +14,7 @@ return {
         defaults = {
             ["<leader>f"] = { name = "Telescope to..." },
             ["gd"] = { name = "Goto definition..." },
+            ["ga"] = { name = "AI...", mode = { "n", "v" } },
         }
     },
     config = function(_, opts)
