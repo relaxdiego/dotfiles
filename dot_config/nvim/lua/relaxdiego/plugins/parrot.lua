@@ -275,7 +275,7 @@ return {
         },
         {
             "fc",
-            ":PrtChat<CR>",
+            ":PrtChatNew<CR>",
             mode = { "n", "v", "x" },
             desc = "Chat with AI",
             silent = true,
