@@ -36,19 +36,6 @@ vim.keymap.set("n", "<C-w>=", ":horizontal wincmd =<CR>", { desc = "Equalize wid
 -- See: :help z
 vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.", { desc = "Fold everything except current block" })
 
-vim.keymap.set({ "n", "v", "x" }, "gap", function()
-    vim.api.nvim_feedkeys(":Prt", 'n', false)
-    vim.defer_fn(function()
-        require('cmp').complete()
-    end, 10) -- 10ms delay to allow nvim to indicate that it's in command mode
-end, { desc = "Run a Parrot command", silent = true })
-vim.keymap.set({ "n", "v", "x" }, "gac", ":PrtChat<CR>", { desc = "Chat with AI", silent = true })
-vim.keymap.set({ "v", "x" }, "gas", ":PrtChatPaste<CR>", { desc = "Send selection to chat", silent = true })
-vim.keymap.set({ "n", "v", "x" }, "gar", ":PrtRewrite<CR>", { desc = "Rewrite inline", silent = true })
-vim.keymap.set({ "n", "v", "x" }, "gai", ":PrtImplement<CR>", { desc = "Implement inline", silent = true })
-vim.keymap.set({ "n", "v", "x" }, "gax", ":PrtCompleteFullContext<CR>",
-    { desc = "Complete with full file context", silent = true })
-
 --
 -- Find more plugin-specifc remaps in the plugins/ dir
 --

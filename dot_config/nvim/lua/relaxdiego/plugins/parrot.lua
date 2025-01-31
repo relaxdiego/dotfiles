@@ -25,7 +25,6 @@ return {
                 tasks, including code editing, completion, and debugging. Your
                 responses should strictly pertain to the code provided. Please ensure
                 that your reply is solely focused on the code snippet in question.
-                Respond with code snippet only, no explanation.
                 ]],
                 chat = [[
                 You are a versatile AI assistant with capabilities
@@ -42,7 +41,9 @@ return {
                 - Stay calm and confident with each task.
                 ]]
             },
+            chat_conceal_model_params = false,
             command_auto_select_response = false, -- Don't select command output
+            user_input_ui = "buffer",
             hooks = {
                 Complete = function(prt, params)
                     local template = [[
@@ -111,7 +112,7 @@ return {
                     ]]
                     local model = prt.get_model "command"
                     prt.logger.info("Explaining selection with model: " .. model.name)
-                    prt.Prompt(params, prt.ui.Target.new, model, nil, template)
+                    prt.Prompt(params, prt.ui.Target.vnew, model, nil, template)
                 end,
                 FixBugs = function(prt, params)
                     local template = [[
@@ -132,7 +133,7 @@ return {
                     ]]
                     local model_obj = prt.get_model "command"
                     prt.logger.info("Fixing bugs in selection with model: " .. model_obj.name)
-                    prt.Prompt(params, prt.ui.Target.new, model_obj, nil, template)
+                    prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
                 end,
                 Optimize = function(prt, params)
                     local template = [[
@@ -153,7 +154,7 @@ return {
                     ]]
                     local model_obj = prt.get_model "command"
                     prt.logger.info("Optimizing selection with model: " .. model_obj.name)
-                    prt.Prompt(params, prt.ui.Target.new, model_obj, nil, template)
+                    prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
                 end,
                 UnitTests = function(prt, params)
                     local template = [[
@@ -264,4 +265,72 @@ return {
             },
         }
     end,
+    keys = {
+        {
+            "fb",
+            ":PrtFixBugs<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Fix bugs in selection",
+            silent = true,
+        },
+        {
+            "fc",
+            ":PrtChat<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Chat with AI",
+            silent = true,
+        },
+        {
+            "fs",
+            ":PrtChatPaste<CR>",
+            mode = { "v", "x" },
+            desc = "Send selection to chat",
+            silent = true,
+        },
+        {
+            "fi",
+            ":PrtImplement<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Implement selected comments",
+            silent = true,
+        },
+        {
+            "fr",
+            ":PrtRewrite<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Rewrite inline",
+            silent = true,
+        },
+        {
+            "fm",
+            ":PrtModel<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Choose a model in current provider",
+            silent = true,
+        },
+        {
+            "fp",
+            ":PrtProvider<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Choose a provider",
+            silent = true,
+        },
+        {
+            "fx",
+            ":PrtCompleteFullContext<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Complete with full file context",
+        },
+        {
+            "fz",
+            function()
+                vim.api.nvim_feedkeys(":Prt", 'n', false)
+                vim.defer_fn(function()
+                    require('cmp').complete()
+                end, 10)
+            end,
+            mode = { "n", "v", "x" },
+            desc = "Run a Parrot command"
+        },
+    },
 }
