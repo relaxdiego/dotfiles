@@ -369,60 +369,83 @@ return {
         {
             "fy",
             function()
-                -- Check if current buffer is markdown
                 if vim.bo.filetype ~= "markdown" then
                     vim.notify("This command only works in markdown files", vim.log.levels.WARN)
                     return
                 end
 
-                -- Save the current cursor position
                 local current_pos = vim.fn.getcurpos()
 
-                -- Search backwards for the closing delimiter at start of line
-                local end_line = vim.fn.search("^```", "bnW")
-                if end_line == 0 then
+                -- Initialize treesitter parser
+                local parser = vim.treesitter.get_parser(0, "markdown")
+                local tree = parser:parse()[1]
+                local root = tree:root()
+
+                -- Get the node at cursor position
+                local current_node = root:named_descendant_for_range(
+                    current_pos[2] - 1,
+                    current_pos[3] - 1,
+                    current_pos[2] - 1,
+                    current_pos[3] - 1
+                )
+
+                -- First, check if we're inside a code block
+                local target_block = current_node
+                while target_block and target_block:type() ~= "fenced_code_block" do
+                    target_block = target_block:parent()
+                end
+
+                -- If we're not inside a block, find the preceding one
+                if not target_block then
+                    -- Get all code blocks in the buffer
+                    local code_blocks = {}
+
+                    -- Recursive function to traverse the tree
+                    local function collect_code_blocks(node)
+                        if node:type() == "fenced_code_block" then
+                            local start_row = node:range()
+                            if start_row < (current_pos[2] - 1) then
+                                table.insert(code_blocks, node)
+                            end
+                        end
+
+                        for child in node:iter_children() do
+                            collect_code_blocks(child)
+                        end
+                    end
+
+                    -- Start the recursive traversal from root
+                    collect_code_blocks(root)
+
+                    -- Get the last block before cursor
+                    target_block = code_blocks[#code_blocks]
+                end
+
+                -- Handle case where no block was found
+                if not target_block then
                     vim.notify("No code block found", vim.log.levels.WARN)
                     return
                 end
 
-                -- From the closing delimiter, search backwards for opening delimiter
-                -- Keep searching until we find a different delimiter or reach start of file
-                local start_line = end_line
-                while start_line > 1 do
-                    start_line = start_line - 1
-                    local line = vim.fn.getline(start_line)
-                    if line:match("^```") then
-                        -- Found the opening delimiter
-                        break
-                    end
-                end
+                -- Get the block range and content
+                local start_row, _, end_row, _ = target_block:range()
+                local content_start = start_row + 2 -- Skip the opening delimiter
+                local content_end = end_row - 1     -- Subtract 1 to exclude the closing delimiter
 
-                if start_line <= 0 then
-                    vim.notify("No opening delimiter found", vim.log.levels.WARN)
-                    return
-                end
-
-                -- Get the actual content (excluding delimiters)
-                local content_start = start_line + 1
-                local content_end = end_line - 1
-
-                -- Verify we have valid content
                 if content_end < content_start then
                     vim.notify("Invalid code block", vim.log.levels.WARN)
                     return
                 end
 
-                -- Select and yank the content
+                -- Yank the content
                 vim.cmd(string.format("silent %d,%dy", content_start, content_end))
 
-                -- Restore cursor position
+                -- Restore cursor position and notify
                 vim.fn.setpos(".", current_pos)
-
-                -- Provide feedback
                 vim.notify("Code block yanked", vim.log.levels.INFO)
             end,
             mode = { "n", "v", "x" },
-            desc = "Yank the preceding code block",
+            desc = "Yank the code block at cursor or preceding one",
         },
     },
 }
