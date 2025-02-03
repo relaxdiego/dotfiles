@@ -364,7 +364,65 @@ return {
                 end, 10)
             end,
             mode = { "n", "v", "x" },
-            desc = "Run a Parrot command"
+            desc = "Run a Parrot command",
+        },
+        {
+            "fy",
+            function()
+                -- Check if current buffer is markdown
+                if vim.bo.filetype ~= "markdown" then
+                    vim.notify("This command only works in markdown files", vim.log.levels.WARN)
+                    return
+                end
+
+                -- Save the current cursor position
+                local current_pos = vim.fn.getcurpos()
+
+                -- Search backwards for the closing delimiter at start of line
+                local end_line = vim.fn.search("^```", "bnW")
+                if end_line == 0 then
+                    vim.notify("No code block found", vim.log.levels.WARN)
+                    return
+                end
+
+                -- From the closing delimiter, search backwards for opening delimiter
+                -- Keep searching until we find a different delimiter or reach start of file
+                local start_line = end_line
+                while start_line > 1 do
+                    start_line = start_line - 1
+                    local line = vim.fn.getline(start_line)
+                    if line:match("^```") then
+                        -- Found the opening delimiter
+                        break
+                    end
+                end
+
+                if start_line <= 0 then
+                    vim.notify("No opening delimiter found", vim.log.levels.WARN)
+                    return
+                end
+
+                -- Get the actual content (excluding delimiters)
+                local content_start = start_line + 1
+                local content_end = end_line - 1
+
+                -- Verify we have valid content
+                if content_end < content_start then
+                    vim.notify("Invalid code block", vim.log.levels.WARN)
+                    return
+                end
+
+                -- Select and yank the content
+                vim.cmd(string.format("silent %d,%dy", content_start, content_end))
+
+                -- Restore cursor position
+                vim.fn.setpos(".", current_pos)
+
+                -- Provide feedback
+                vim.notify("Code block yanked", vim.log.levels.INFO)
+            end,
+            mode = { "n", "v", "x" },
+            desc = "Yank the preceding code block",
         },
     },
 }
