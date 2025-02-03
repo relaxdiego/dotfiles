@@ -7,7 +7,7 @@ return {
     },
     event = "VeryLazy",
     config = function()
-        require("parrot").setup {
+        require("parrot").setup({
             providers = {
                 anthropic = {
                     api_key = { "op", "read", "op://api-keys/anthropic/credential", "--no-newline" },
@@ -31,8 +31,8 @@ return {
                 - Code Editing: Providing precise modifications to enhance code functionality and readability.
                 - Code Completion: Suggesting logical continuations or implementations based on partial code snippets.
                 - Debugging: Identifying and resolving issues within the code, offering explanations and solutions.
-                Guidelines for Response:
 
+                Guidelines for Response:
                 - Focus Exclusively on the Provided Code Snippet: Your analysis, suggestions, and edits must be strictly relevant to the code segment presented.
                 - Detail-Oriented: Offer comprehensive explanations for each change or recommendation, including why it improves the code.
                 - Language-Specific Best Practices: Apply best practices relevant to the programming language of the snippet.
@@ -49,8 +49,8 @@ return {
                 - Code Editing: Providing precise modifications to enhance code functionality and readability.
                 - Code Completion: Suggesting logical continuations or implementations based on partial code snippets.
                 - Debugging: Identifying and resolving issues within the code, offering explanations and solutions.
-                Guidelines for Response:
 
+                Guidelines for Response:
                 - Focus Exclusively on the Provided Code Snippet: Your analysis, suggestions, and edits must be strictly relevant to the code segment presented.
                 - Detail-Oriented: Offer comprehensive explanations for each change or recommendation, including why it improves the code.
                 - Language-Specific Best Practices: Apply best practices relevant to the programming language of the snippet.
@@ -76,7 +76,7 @@ return {
                     Please finish the code above carefully and logically.
                     Respond just with the snippet of code that should be inserted."
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
                 end,
                 CompleteFullContext = function(prt, params)
@@ -95,7 +95,7 @@ return {
                     Please finish the code above carefully and logically.
                     Respond just with the snippet of code that should be inserted.
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
                 end,
                 CompleteMultiContext = function(prt, params)
@@ -114,7 +114,7 @@ return {
                     Please finish the code above carefully and logically.
                     Respond just with the snippet of code that should be inserted.
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
                 end,
                 Explain = function(prt, params)
@@ -130,7 +130,7 @@ return {
                     Use the markdown format with codeblocks and inline code.
                     Explanation of the code above:
                     ]]
-                    local model = prt.get_model "command"
+                    local model = prt.get_model("command")
                     prt.logger.info("Explaining selection with model: " .. model.name)
                     prt.Prompt(params, prt.ui.Target.vnew, model, nil, template)
                 end,
@@ -151,7 +151,7 @@ return {
 
                     Fixed code:
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.logger.info("Fixing bugs in selection with model: " .. model_obj.name)
                     prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
                 end,
@@ -172,7 +172,7 @@ return {
 
                     Optimized code:
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.logger.info("Optimizing selection with model: " .. model_obj.name)
                     prt.Prompt(params, prt.ui.Target.vnew, model_obj, nil, template)
                 end,
@@ -186,7 +186,7 @@ return {
 
                     Please respond by writing table driven unit tests for the code above.
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.logger.info("Creating unit tests for selection with model: " .. model_obj.name)
                     prt.Prompt(params, prt.ui.Target.enew, model_obj, nil, template)
                 end,
@@ -201,14 +201,14 @@ return {
                     {{selection}}
                     ```
                     ]]
-                    local model_obj = prt.get_model "command"
+                    local model_obj = prt.get_model("command")
                     prt.logger.info("Debugging selection with model: " .. model_obj.name)
                     prt.Prompt(params, prt.ui.Target.enew, model_obj, nil, template)
                 end,
                 CommitMsg = function(prt, params)
-                    local futils = require "parrot.file_utils"
+                    local futils = require("parrot.file_utils")
                     if futils.find_git_root() == "" then
-                        prt.logger.warning "Not in a git repository"
+                        prt.logger.warning("Not in a git repository")
                         return
                     else
                         local template = [[
@@ -221,8 +221,8 @@ return {
                         changes in more detail.
 
                         Here are the changes that should be considered by this message:
-                        ]] .. vim.fn.system "git diff --no-color --no-ext-diff --staged"
-                        local model_obj = prt.get_model "command"
+                        ]] .. vim.fn.system("git diff --no-color --no-ext-diff --staged")
+                        local model_obj = prt.get_model("command")
                         prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
                     end
                 end,
@@ -283,7 +283,7 @@ return {
                     prt.ChatNew(params, chat_prompt)
                 end,
             },
-        }
+        })
     end,
     keys = {
         {
@@ -358,9 +358,9 @@ return {
         {
             "fz",
             function()
-                vim.api.nvim_feedkeys(":Prt", 'n', false)
+                vim.api.nvim_feedkeys(":Prt", "n", false)
                 vim.defer_fn(function()
-                    require('cmp').complete()
+                    require("cmp").complete()
                 end, 10)
             end,
             mode = { "n", "v", "x" },

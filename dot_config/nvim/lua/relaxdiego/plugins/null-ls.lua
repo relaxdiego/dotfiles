@@ -34,7 +34,12 @@ return {
 
         -- construct sources list with available executables
         local sources = {
-            formatting.stylua,
+            formatting.stylua.with({
+                extra_args = {
+                    "--indent-type", "Spaces",
+                    "--indent-width", "4",
+                },
+            }),
         }
         for builtin, executable in pairs(builtins_to_executables) do
             if is_executable_present(executable) then
@@ -42,10 +47,20 @@ return {
             end
         end
 
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.lua",
+            callback = function()
+                vim.lsp.buf.format({ timeout_ms = 2000 })
+            end,
+        })
+
         -- HTML formatting
-        vim.cmd [[
-          autocmd BufWritePre *.html,*.js,*.css lua vim.lsp.buf.format()
-        ]]
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = { "*.html", "*.js", "*.css" },
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
 
         -- Start prettierd as a daemon when Neovim starts:
         vim.api.nvim_create_autocmd("VimEnter", {
@@ -121,7 +136,7 @@ return {
         null_ls.setup({
             -- Set this to true to start logging
             -- Also use ":checkhealth null-ls" for more troubleshooting
-            -- debug = true,
+            debug = true,
             log_level = "warn",
             -- See available sources: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
             sources = sources,
