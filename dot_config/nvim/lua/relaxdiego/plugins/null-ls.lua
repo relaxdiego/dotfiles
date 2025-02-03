@@ -23,7 +23,7 @@ return {
             end
         end
 
-        -- map of built-ins to their executables
+        -- map of built-ins to their executables.
         local builtins_to_executables = {
             [code_actions.shellcheck] = "shellcheck",
             [diagnostics.ruff] = "ruff",
@@ -41,6 +41,27 @@ return {
                 table.insert(sources, builtin)
             end
         end
+
+        -- HTML formatting
+        vim.cmd [[autocmd BufWritePre *.html lua vim.lsp.buf.format()]]
+
+        -- Start prettierd as a daemon when Neovim starts:
+        vim.api.nvim_create_autocmd("VimEnter", {
+            callback = function()
+                if vim.fn.executable('prettierd') == 1 then
+                    local handle = vim.fn.jobstart("prettierd start", {
+                        on_stderr = function(_, data)
+                            if data and #data > 0 then
+                                vim.notify("prettierd error: " .. vim.inspect(data), vim.log.levels.WARN)
+                            end
+                        end,
+                    })
+                    if handle <= 0 then
+                        vim.notify("Failed to start prettierd", vim.log.levels.WARN)
+                    end
+                end
+            end,
+        })
 
         -- BEGIN: Custom ruff formatting sources
         -- Because, for some reason, some fixes are implemented via "ruff check
