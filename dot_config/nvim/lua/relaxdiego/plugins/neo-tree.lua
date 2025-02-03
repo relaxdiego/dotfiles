@@ -59,6 +59,8 @@ return {
                         ["<C-v>"] = "open_vsplit",
                         ["x"] = "open_split",
                         ["<C-x>"] = "open_split",
+                        -- Don't map `f` so that we can use that for parrot.nvim
+                        ["f"] = false,
                     },
                     fuzzy_finder_mappings = {
                         ["<C-j>"] = "move_cursor_down",
