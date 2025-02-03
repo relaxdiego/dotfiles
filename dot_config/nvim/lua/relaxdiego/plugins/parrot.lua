@@ -267,6 +267,29 @@ return {
                     ]]
                     prt.ChatNew(params, chat_prompt)
                 end,
+                Document = function(prt, params)
+                    local template = [[
+                    You are an expert in {{filetype}}. Your task is to document
+                    the provided {{filetype}} code using comments, adhering to
+                    the language’s documentation best practices. If the code is
+                    a function, include detailed documentation for its
+                    parameters and return values (if any). Focus solely on
+                    documenting the code’s purpose, inputs, side effects, and
+                    outputs—do not explain how the code works internally.
+
+                    Here is the code:
+                    ```{{filetype}}
+                    {{selection}}
+                    ```
+
+                    Output Requirements:
+                    - Provide only the documentation comments that should be prepended to the code.
+                    - Do not include any trailing empty lines.
+                    - Do not use markdown codeblock delimiters in your response.
+                    ]]
+                    local model_obj = prt.get_model("command")
+                    prt.Prompt(params, prt.ui.Target.prepend, model_obj, nil, template)
+                end,
             },
         })
     end,
@@ -297,6 +320,13 @@ return {
             ":PrtChatFinder<CR>",
             mode = { "n", "v", "x" },
             desc = "Find previous chat",
+            silent = true,
+        },
+        {
+            "fo",
+            ":PrtDocument<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Document the selected code",
             silent = true,
         },
         {
