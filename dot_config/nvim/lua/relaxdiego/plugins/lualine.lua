@@ -6,6 +6,14 @@ return {
     },
     event = "VeryLazy",
     config = function()
+        local function parrot_status()
+            if vim.bo.filetype == "neo-tree" then
+                return ""
+            end
+            local status_info = require("parrot.config").get_status_info()
+            return string.format("󰚩 %s", status_info.model)
+        end
+
         require("lualine").setup({
             options = {
                 icons_enabled = true,
@@ -30,7 +38,7 @@ return {
                 lualine_b = { { "branch", icon = "" }, "filename" },
                 lualine_c = { "diagnostics" },
                 lualine_x = {},
-                lualine_y = { "encoding", "filetype" },
+                lualine_y = { parrot_status, "encoding", "filetype" },
                 lualine_z = { "location" },
             },
             inactive_sections = {
@@ -38,7 +46,7 @@ return {
                 lualine_b = {},
                 lualine_c = { "filename" },
                 lualine_x = {},
-                lualine_y = {},
+                lualine_y = { parrot_status },
                 lualine_z = {},
             },
             tabline = {},
