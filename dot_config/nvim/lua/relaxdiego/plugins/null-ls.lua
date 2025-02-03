@@ -43,7 +43,9 @@ return {
         end
 
         -- HTML formatting
-        vim.cmd [[autocmd BufWritePre *.html lua vim.lsp.buf.format()]]
+        vim.cmd [[
+          autocmd BufWritePre *.html,*.js,*.css lua vim.lsp.buf.format()
+        ]]
 
         -- Start prettierd as a daemon when Neovim starts:
         vim.api.nvim_create_autocmd("VimEnter", {
