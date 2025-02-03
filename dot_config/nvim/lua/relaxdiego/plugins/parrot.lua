@@ -12,9 +12,12 @@ return {
                 anthropic = {
                     api_key = { "op", "read", "op://api-keys/anthropic/credential", "--no-newline" },
                 },
-                github = {
-                    api_key = { "op", "read", "op://api-keys/github/credential", "--no-newline" },
-                }
+                openai = {
+                    api_key = { "op", "read", "op://api-keys/openai/credential", "--no-newline" },
+                },
+                xai = {
+                    api_key = { "op", "read", "op://api-keys/xai/credential", "--no-newline" },
+                },
             },
             system_prompt = {
                 command = [[
@@ -36,13 +39,20 @@ return {
                 - Apply the Socratic method to enhance understanding.
                 - Include all necessary code in your responses.
                 - Stay calm and confident with each task.
-                ]]
+
+                When providing code blocks:
+                - Use single blank lines (single newline character) between logical sections
+                - Do not add extra whitespace characters after newlines
+                - Maintain proper indentation for code readability
+                ]],
             },
             chat_user_prefix = "## User:",
             llm_prefix = "## AI:",
             chat_conceal_model_params = false,
             command_auto_select_response = false, -- Don't select command output
             user_input_ui = "buffer",
+            enable_spinner = true,
+            spinner_type = "dots",
             hooks = {
                 Complete = function(prt, params)
                     local template = [[
