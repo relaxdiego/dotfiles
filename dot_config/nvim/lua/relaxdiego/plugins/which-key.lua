@@ -15,7 +15,8 @@ return {
             ["<leader>f"] = { name = "Telescope to..." },
             ["gd"] = { name = "Goto definition..." },
             ["f"] = { name = "AI...", mode = { "n", "v" } },
-        }
+            ["fc"] = { name = "Complete...", mode = { "n", "v", "x" } },
+        },
     },
     config = function(_, opts)
         local wk = require("which-key")

@@ -58,8 +58,11 @@ return {
                     {{selection}}
                     ```
 
-                    Please finish the code above carefully and logically.
-                    Respond just with the snippet of code that should be inserted."
+                    Output Requirements:
+                    - Please finish the code above carefully and logically.
+                    - Provide only the snippet of code that should be appended.
+                    - Do not include any explanations, comments, or analysis.
+                    - Do not use markdown codeblock delimiters in your response.
                     ]]
                     local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
@@ -77,8 +80,11 @@ return {
                     {{selection}}
                     ```
 
-                    Please finish the code above carefully and logically.
-                    Respond just with the snippet of code that should be inserted.
+                    Output Requirements:
+                    - Please finish the code above carefully and logically.
+                    - Provide only the snippet of code that should be appended.
+                    - Do not include any explanations, comments, or analysis.
+                    - Do not use markdown codeblock delimiters in your response.
                     ]]
                     local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
@@ -96,8 +102,11 @@ return {
                     {{selection}}
                     ```
 
-                    Please finish the code above carefully and logically.
-                    Respond just with the snippet of code that should be inserted.
+                    Output Requirements:
+                    - Please finish the code above carefully and logically.
+                    - Provide only the snippet of code that should be appended.
+                    - Do not include any explanations, comments, or analysis.
+                    - Do not use markdown codeblock delimiters in your response.
                     ]]
                     local model_obj = prt.get_model("command")
                     prt.Prompt(params, prt.ui.Target.append, model_obj, nil, template)
@@ -302,11 +311,22 @@ return {
             silent = true,
         },
         {
-            "fc",
-            ":PrtChatNew<CR>",
+            "fcc",
+            ":PrtComplete<CR>",
             mode = { "n", "v", "x" },
-            desc = "Chat with AI",
-            silent = true,
+            desc = "Selected code",
+        },
+        {
+            "fcf",
+            ":PrtCompleteFullContext<CR>",
+            mode = { "n", "v", "x" },
+            desc = "With full file context",
+        },
+        {
+            "fcm",
+            ":PrtCompleteMultiContext<CR>",
+            mode = { "n", "v", "x" },
+            desc = "With context of all open buffers",
         },
         {
             "fd",
@@ -316,38 +336,28 @@ return {
             silent = true,
         },
         {
-            "ff",
+            "fh",
             ":PrtChatFinder<CR>",
             mode = { "n", "v", "x" },
-            desc = "Find previous chat",
+            desc = "Search chat history",
             silent = true,
         },
         {
-            "fo",
-            ":PrtDocument<CR>",
+            "ff",
+            function()
+                vim.api.nvim_feedkeys(":Prt", "n", false)
+                vim.defer_fn(function()
+                    require("cmp").complete()
+                end, 10)
+            end,
             mode = { "n", "v", "x" },
-            desc = "Document the selected code",
-            silent = true,
-        },
-        {
-            "fs",
-            ":PrtChatPaste<CR>",
-            mode = { "v", "x" },
-            desc = "Send selection to chat",
-            silent = true,
+            desc = "Run a Parrot command",
         },
         {
             "fi",
             ":PrtImplement<CR>",
             mode = { "n", "v", "x" },
             desc = "Implement selected comments",
-            silent = true,
-        },
-        {
-            "fr",
-            ":PrtRewrite<CR>",
-            mode = { "n", "v", "x" },
-            desc = "Rewrite inline",
             silent = true,
         },
         {
@@ -358,6 +368,20 @@ return {
             silent = true,
         },
         {
+            "fn",
+            ":PrtChatNew<CR>",
+            mode = { "n", "v", "x" },
+            desc = "New chat",
+            silent = true,
+        },
+        {
+            "fo",
+            ":PrtDocument<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Document the selected code",
+            silent = true,
+        },
+        {
             "fp",
             ":PrtProvider<CR>",
             mode = { "n", "v", "x" },
@@ -365,21 +389,18 @@ return {
             silent = true,
         },
         {
-            "fx",
-            ":PrtCompleteFullContext<CR>",
+            "fr",
+            ":PrtRewrite<CR>",
             mode = { "n", "v", "x" },
-            desc = "Complete with full file context",
+            desc = "Rewrite inline",
+            silent = true,
         },
         {
-            "fz",
-            function()
-                vim.api.nvim_feedkeys(":Prt", "n", false)
-                vim.defer_fn(function()
-                    require("cmp").complete()
-                end, 10)
-            end,
-            mode = { "n", "v", "x" },
-            desc = "Run a Parrot command",
+            "fs",
+            ":PrtChatPaste<CR>",
+            mode = { "v", "x" },
+            desc = "Send selection to chat",
+            silent = true,
         },
         {
             "fy",
@@ -460,7 +481,7 @@ return {
                 vim.notify("Code block yanked", vim.log.levels.INFO)
             end,
             mode = { "n", "v", "x" },
-            desc = "Yank the code block at cursor or preceding one",
+            desc = "Yank the preceding code block",
         },
     },
 }
