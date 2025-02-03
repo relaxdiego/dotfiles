@@ -3,10 +3,7 @@ return {
     version = "v1.2.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        {
-            "ibhagwan/fzf-lua",
-            commit = "d26acfea8d2b873a6c5f66e8d0168871e5be3945",
-        },
+        "ibhagwan/fzf-lua",
     },
     event = "VeryLazy",
     config = function()
@@ -41,6 +38,8 @@ return {
                 - Stay calm and confident with each task.
                 ]]
             },
+            chat_user_prefix = "## User:",
+            llm_prefix = "## AI:",
             chat_conceal_model_params = false,
             command_auto_select_response = false, -- Don't select command output
             user_input_ui = "buffer",
@@ -278,6 +277,20 @@ return {
             ":PrtChatNew<CR>",
             mode = { "n", "v", "x" },
             desc = "Chat with AI",
+            silent = true,
+        },
+        {
+            "fd",
+            ":PrtChatDelete<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Delete current chat",
+            silent = true,
+        },
+        {
+            "ff",
+            ":PrtChatFinder<CR>",
+            mode = { "n", "v", "x" },
+            desc = "Find previous chat",
             silent = true,
         },
         {
