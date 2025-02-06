@@ -36,6 +36,14 @@ vim.keymap.set("n", "<C-w>=", ":horizontal wincmd =<CR>", { desc = "Equalize wid
 -- See: :help z
 vim.keymap.set("n", "zz", "<Esc>zMzvzczOz.", { desc = "Fold everything except current block" })
 
+vim.keymap.set("n", "fg", function()
+    if vim.bo.filetype == "go" then
+        vim.cmd("GoImports")
+    else
+        vim.notify("This command only works in Go files", vim.log.levels.WARN)
+    end
+end, { desc = "Auto update/format Go imports" })
+
 --
 -- Find more plugin-specifc remaps in the plugins/ dir
 --
