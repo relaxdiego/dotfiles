@@ -7,4 +7,4 @@ tags
 .config/nvim/plugin/packer_compiled.lua
 .config/nvim/lua/.luarc.json
 .config/nvim/.luarc.json
-.bashrc.d/*-chezmoi-ignored.bashrc*
+.bashrc.d/*chezmoi-ignored.bashrc*
