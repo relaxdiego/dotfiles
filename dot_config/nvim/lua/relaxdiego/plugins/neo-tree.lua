@@ -6,7 +6,7 @@ vim.g.loaded_netrwFileHandlers = 1
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
-    commit = "e6645ecfcba3e064446a6def1c10d788c9873f51", -- From v3.x branch
+    commit = "4adbc1371713a65888c483487fa642983c1d9080",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
@@ -59,6 +59,12 @@ return {
                         ["<C-v>"] = "open_vsplit",
                         ["x"] = "open_split",
                         ["<C-x>"] = "open_split",
+                        ["<C-f>"] = function(state)
+                            vim.cmd("normal! \x06") -- <C-f> in normal mode
+                        end,
+                        ["<C-b>"] = function(state)
+                            vim.cmd("normal! \x02") -- <C-b> in normal mode
+                        end,
                         -- Don't map `f` so that we can use that for parrot.nvim
                         ["f"] = false,
                     },
