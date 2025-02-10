@@ -55,60 +55,36 @@ return {
 
         -- Same as above but using <leader>f as prefix
         -- See which-key.lua for the description for the prefix '<leader>f'
-        vim.keymap.set("n", "<leader>fb",
-            builtin.buffers,
-            {
-                desc = "Find buffer"
-            }
-        )
+        vim.keymap.set("n", "<leader>fb", builtin.buffers, {
+            desc = "Find buffer",
+        })
 
-        vim.keymap.set("n", "<leader>fd",
-            builtin.lsp_definitions,
-            {
-                desc = "Find definitions or jump if only 1 found"
-            }
-        )
+        vim.keymap.set("n", "<leader>fd", builtin.lsp_definitions, {
+            desc = "Find definitions or jump if only 1 found",
+        })
 
-        vim.keymap.set("n", "<leader>ff",
-            builtin.find_files,
-            {
-                desc = "Find files",
-            }
-        )
+        vim.keymap.set("n", "<leader>ff", builtin.find_files, {
+            desc = "Find files",
+        })
 
-        vim.keymap.set("n", "<leader>fg",
-            builtin.live_grep,
-            {
-                desc = "Live grep"
-            }
-        )
+        vim.keymap.set("n", "<leader>fg", builtin.live_grep, {
+            desc = "Live grep",
+        })
 
-        vim.keymap.set("n", "<leader>fh",
-            builtin.pickers,
-            {
-                desc = "Telescope history"
-            }
-        )
+        vim.keymap.set("n", "<leader>fh", builtin.pickers, {
+            desc = "Telescope history",
+        })
 
-        vim.keymap.set("n", "<leader>fp",
-            builtin.resume,
-            {
-                desc = "Resume last Telescope search"
-            }
-        )
+        vim.keymap.set("n", "<leader>fp", builtin.resume, {
+            desc = "Resume last Telescope search",
+        })
 
-        vim.keymap.set("n", "<leader>fr",
-            builtin.lsp_references,
-            {
-                desc = "List references for word under the cursor"
-            }
-        )
+        vim.keymap.set("n", "<leader>fr", builtin.lsp_references, {
+            desc = "List references for word under the cursor",
+        })
 
-        vim.keymap.set("n", "<leader>ft",
-            builtin.help_tags,
-            {
-                desc = "List help tags"
-            }
-        )
+        vim.keymap.set("n", "<leader>ft", builtin.help_tags, {
+            desc = "List help tags",
+        })
     end,
 }
