@@ -45,6 +45,7 @@ return {
         vim.keymap.set("n", "<leader>p", builtin.pickers, { desc = "Telescope history" })
         vim.keymap.set("n", "gr", builtin.lsp_references, { desc = "List references for word under the cursor" })
         vim.keymap.set("n", "<C-]>", builtin.lsp_definitions, {})
+        vim.keymap.set("n", "<C-i>", ":Telescope treesitter<CR>", {})
         -- See which-key.lua for the description for the prefix 'gd'
         vim.keymap.set("n", "gdv", "<Esc><C-w>v<C-]>", { desc = "Goto definition in a vsplit" })
         vim.keymap.set("n", "gdh", "<Esc><C-w>s<C-]>", { desc = "Goto definition in a split" })
