@@ -17,6 +17,28 @@ return {
     },
     event = "VeryLazy",
     config = function()
+        -- Adapted from: https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes#find-with-telescope
+        local function getTelescopeOpts(state, path)
+            return {
+                cwd = path,
+                search_dirs = { path },
+                attach_mappings = function(prompt_bufnr, map)
+                    local actions = require("telescope.actions")
+                    actions.select_default:replace(function()
+                        actions.close(prompt_bufnr)
+                        local action_state = require("telescope.actions.state")
+                        local selection = action_state.get_selected_entry()
+                        local filename = selection.filename
+                        if filename == nil then
+                            filename = selection[1]
+                        end
+                        require("neo-tree.sources.filesystem").navigate(state, state.path, filename)
+                    end)
+                    return true
+                end,
+            }
+        end
+
         -- See: https://github.com/nvim-neo-tree/neo-tree.nvim
         -- Run for more info: :lua require("neo-tree").paste_default_config()
         require("neo-tree").setup({
@@ -67,12 +89,27 @@ return {
                         end,
                         -- Don't map `f` so that we can use that for parrot.nvim
                         ["f"] = false,
+                        -- Override the default / key map
+                        ["/"] = "find_and_jump_to_file",
+                        ["t"] = "find_file_in_current_node_and_jump_to_it",
                     },
                     fuzzy_finder_mappings = {
                         ["<C-j>"] = "move_cursor_down",
                         ["<C-k>"] = "move_cursor_up",
                     },
                 },
+            },
+            commands = {
+                -- Adapted from: https://github.com/nvim-neo-tree/neo-tree.nvim/wiki/Recipes#find-with-telescope
+                find_and_jump_to_file = function(state)
+                    -- state.path refers to the root node
+                    require("telescope.builtin").find_files(getTelescopeOpts(state, state.path))
+                end,
+                find_file_in_current_node_and_jump_to_it = function(state)
+                    local node = state.tree:get_node()
+                    local path = node:get_id()
+                    require("telescope.builtin").find_files(getTelescopeOpts(state, path))
+                end,
             },
             buffers = {
                 -- This needs to be commented out to disable since
