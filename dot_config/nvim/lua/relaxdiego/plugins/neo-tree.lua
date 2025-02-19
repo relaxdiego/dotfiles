@@ -91,7 +91,8 @@ return {
                         ["f"] = false,
                         -- Override the default / key map
                         ["/"] = "find_and_jump_to_file",
-                        ["t"] = "find_file_in_current_node_and_jump_to_it",
+                        ["tf"] = "find_file_in_current_node_and_jump_to_it",
+                        ["tg"] = "live_grep_files_in_current_node_and_jump_to_it",
                     },
                     fuzzy_finder_mappings = {
                         ["<C-j>"] = "move_cursor_down",
@@ -109,6 +110,11 @@ return {
                     local node = state.tree:get_node()
                     local path = node:get_id()
                     require("telescope.builtin").find_files(getTelescopeOpts(state, path))
+                end,
+                live_grep_files_in_current_node_and_jump_to_it = function(state)
+                    local node = state.tree:get_node()
+                    local path = node:get_id()
+                    require("telescope.builtin").live_grep(getTelescopeOpts(state, path))
                 end,
             },
             buffers = {
