@@ -26,7 +26,9 @@ return {
         end
     end,
     keys = {
-        { "gh", ":GBrowse<CR>",      mode = "n", desc = "Open GitHub URL for current line" },
-        { "gh", ":'<,'>GBrowse<CR>", mode = "v", desc = "Open GitHub URL for selected lines" },
+        { "gh", ":GBrowse<CR>",       mode = "n", desc = "Open GitHub URL for current line" },
+        { "gh", ":'<,'>GBrowse<CR>",  mode = "v", desc = "Open GitHub URL for selected lines" },
+        { "gl", ":GBrowse!<CR>",      mode = "n", desc = "Copy GitHub URL for current line to clipboard" },
+        { "gl", ":'<,'>GBrowse!<CR>", mode = "v", desc = "Copy GitHub URL for selected lines to clipboard" },
     },
 }
