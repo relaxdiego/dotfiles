@@ -1,3 +1,11 @@
+git:
+  log:
+    showGraph: always
+  autoFetch: false
+  fetchInterval: 0
+refresher:
+  refreshInterval: 0
+  fetchInterval: 0
 customCommands:
   - key: "u"
     command: |
