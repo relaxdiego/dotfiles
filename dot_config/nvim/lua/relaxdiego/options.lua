@@ -127,14 +127,11 @@ end
 vim.api.nvim_create_augroup("DottedFileType", { clear = true })
 
 -- Add an autocommand to this group
-vim.api.nvim_create_autocmd(
-    { "BufRead", "BufNewFile" },
-    {
-        group = "DottedFileType",
-        pattern = "*.*.*",
-        callback = set_dotted_filetype,
-    }
-)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = "DottedFileType",
+    pattern = "*.*.*",
+    callback = set_dotted_filetype,
+})
 --
 -- END: Automatically set the filetype for *.*.jinja files.
 --
