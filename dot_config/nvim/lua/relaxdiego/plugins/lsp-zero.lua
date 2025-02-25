@@ -80,7 +80,7 @@ return {
                 "yamlls",
                 "jsonls",
                 "pyright",
-            }
+            },
         })
 
         -- See more presets: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/api-reference.md#presetopts
@@ -195,20 +195,21 @@ return {
 
         local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-        -- Use nvim-notify for displaying LSP messages
-        -- See: nvim-notify.lua
-        vim.notify = require("notify")
-        vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
-            local client = vim.lsp.get_client_by_id(ctx.client_id)
-            local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
-            vim.notify(result.message, lvl, {
-                title = "LSP | " .. client.name,
-                timeout = 5000,
-                keep = function()
-                    return lvl == "ERROR" or lvl == "WARN"
-                end,
-            })
-        end
+        -- DISABLED: Trying out snacks notifier
+        -- -- Use nvim-notify for displaying LSP messages
+        -- -- See: nvim-notify.lua
+        -- vim.notify = require("notify")
+        -- vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
+        --     local client = vim.lsp.get_client_by_id(ctx.client_id)
+        --     local lvl = ({ "ERROR", "WARN", "INFO", "DEBUG" })[result.type]
+        --     vim.notify(result.message, lvl, {
+        --         title = "LSP | " .. client.name,
+        --         timeout = 5000,
+        --         keep = function()
+        --             return lvl == "ERROR" or lvl == "WARN"
+        --         end,
+        --     })
+        -- end
 
         --
         -- Configuration of various LSPs
@@ -312,8 +313,8 @@ return {
 
         -- Terraform
         -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#neovim-v080
-        require("lspconfig").terraformls.setup {}
-        require("lspconfig").tflint.setup {}
+        require("lspconfig").terraformls.setup({})
+        require("lspconfig").tflint.setup({})
         vim.api.nvim_create_autocmd({ "BufWritePre" }, {
             -- Only these two file types are supported
             -- See: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md
@@ -321,7 +322,9 @@ return {
             callback = function()
                 vim.lsp.buf.format({
                     -- Limit client to terraformls to avoid cycling to tflint
-                    filter = function(client) return client.name == "terraformls" end,
+                    filter = function(client)
+                        return client.name == "terraformls"
+                    end,
                     -- Prevent the timeout errors when saving. This client is sloooow.
                     timeout_ms = 5000,
                 })
