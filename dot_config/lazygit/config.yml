@@ -6,6 +6,14 @@ git:
 refresher:
   refreshInterval: 10
   fetchInterval: 0
+keybinding:
+  files:
+    findBaseCommitForFixup: <disabled>  # Use <c-f> to page down
+  universal:
+    nextPage: <c-f>
+    prevPage: <c-b>
+    gotoTop: g
+    gotoBottom: G
 customCommands:
   - key: "u"
     command: |
