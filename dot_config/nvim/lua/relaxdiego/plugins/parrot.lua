@@ -82,7 +82,7 @@ local chat_system_prompt = system_prompt_header
 
 return {
     "frankroeder/parrot.nvim",
-    version = "v1.2.x",
+    commit = "28113b9c7d23cebe54cfc9adac36aa613096e718", -- adds support for claud 3.7 sonnet
     dependencies = {
         "nvim-lua/plenary.nvim",
         "ibhagwan/fzf-lua",
