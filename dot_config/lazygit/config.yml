@@ -4,7 +4,7 @@ git:
   autoFetch: false
   fetchInterval: 0
 refresher:
-  refreshInterval: 0
+  refreshInterval: 10
   fetchInterval: 0
 customCommands:
   - key: "u"
