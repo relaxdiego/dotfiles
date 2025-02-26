@@ -3,6 +3,9 @@ git:
     showGraph: always
   autoFetch: false
   fetchInterval: 0
+  paging:
+    colorArg: always
+    pager: delta --paging=never
 refresher:
   refreshInterval: 10
   fetchInterval: 0
