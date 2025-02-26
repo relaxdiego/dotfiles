@@ -186,9 +186,24 @@ return {
             },
         })
 
+        local reveal_current_file_in_neotree = function()
+            local neotree_bufnr = vim.fn.bufnr("NeoTree")
+            if neotree_bufnr ~= -1 then
+                require("neo-tree").refresh()
+            else
+                vim.cmd("Neotree reveal_file=" .. vim.fn.expand("%:p"))
+            end
+        end
+
         -- remaps
-        vim.cmd([[nnoremap <leader>nt :Neotree toggle<cr>]])
+        vim.keymap.set("n", "<leader>nt", ":Neotree toggle<cr>", {
+            desc = "Toggle Neotree",
+        })
 
         vim.cmd([[:hi link NeoTreeSymbolicLinkTarget NeoTreeDotFile]])
+
+        vim.keymap.set("n", "gt", reveal_current_file_in_neotree, {
+            desc = "Go to current file in neo-tree",
+        })
     end,
 }
