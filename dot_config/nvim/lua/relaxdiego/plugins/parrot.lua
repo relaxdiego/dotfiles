@@ -40,7 +40,7 @@ COMMUNICATION AND ITERATION
 
 return {
     "frankroeder/parrot.nvim",
-    commit = "28113b9c7d23cebe54cfc9adac36aa613096e718", -- adds support for claud 3.7 sonnet
+    commit = "28113b9c7d23cebe54cfc9adac36aa613096e718", -- Supports Claude 3.7 Sonnet
     dependencies = {
         "nvim-lua/plenary.nvim",
         "ibhagwan/fzf-lua",
