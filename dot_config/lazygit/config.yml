@@ -6,6 +6,8 @@ git:
   paging:
     colorArg: always
     pager: delta --paging=never
+gui:
+  nerdFontsVersion: "3"
 refresher:
   refreshInterval: 10
   fetchInterval: 0
@@ -27,7 +29,7 @@ customCommands:
     command: |
       GIT_EDITOR='vim -c "normal gg" -c "startinsert!"' git commit --edit  --template <(echo "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}{{if eq .Form.Breaking `yes`}}!{{end}}: ")
     description: "commit with commitizen"
-    context: "files"
+    context: files
     subprocess: true
     prompts:
       - type: "menu"
