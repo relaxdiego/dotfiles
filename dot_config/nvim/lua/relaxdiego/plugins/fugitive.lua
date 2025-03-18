@@ -18,13 +18,10 @@ return {
                 -- Check if .git-blame-ignore_revs exists and use it if it does
                 if vim.loop.fs_stat(vim.fn.getcwd() .. "/.git-blame-ignore-revs") then
                     vim.api.nvim_command("Git blame --ignore-revs-file=.git-blame-ignore-revs")
-                    require("notify")("Revisions listed in .git-blame-ignore-revs are hidden",
-                        "info",
-                        {
-                            title = "Git Blame",
-                            timeout = 1000,
-                        }
-                    )
+                    vim.notify("Revisions listed in .git-blame-ignore-revs are hidden", vim.log.levels.WARN, {
+                        title = "Git Blame",
+                        timeout = 3000,
+                    })
                 else
                     vim.api.nvim_command("Git blame")
                 end
