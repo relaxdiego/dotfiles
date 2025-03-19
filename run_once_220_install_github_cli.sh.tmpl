@@ -4,30 +4,56 @@
 
 echo "Installing https://cli.github.com/"
 
-version="2.23.0"
+version="2.68.1"
 unamestr=$(uname)
-tmp_dir=$(mktemp --directory --tmpdir=/tmp github-cli.XXX)
 
+# Use mktemp in a way that works on both macOS and Linux
+if [[ "$unamestr" == 'Darwin' ]]; then
+    tmp_dir=$(mktemp -d -t github-cli.XXX)
+else
+    tmp_dir=$(mktemp --directory --tmpdir=/tmp github-cli.XXX)
+fi
+
+# Set OS architecture and file extension appropriately
 if [[ "$unamestr" == 'Darwin' ]]; then
     os_arch="macOS_amd64"
+    file_ext="zip"
 elif [[ "$unamestr" == 'Linux' ]]; then
     os_arch="linux_amd64"
+    file_ext="tar.gz"
 else
     echo "I don't support installing in this OS yet!"
     exit 1
 fi
 
-url="https://github.com/cli/cli/releases/download/v${version}/gh_${version}_${os_arch}.tar.gz"
-archive_path="${tmp_dir}/archive.tar.gz"
+url="https://github.com/cli/cli/releases/download/v${version}/gh_${version}_${os_arch}.${file_ext}"
+archive_path="${tmp_dir}/archive.${file_ext}"
 
+echo "Downloading from: $url"
 curl -L "$url" -o "$archive_path"
 cd "$tmp_dir"
 pwd
 ls -l
-tar --strip-components=1 -xzvf "$archive_path"
-rm -f archive.tar.gz
+
+# Extract based on the file extension
+if [[ "$file_ext" == "zip" ]]; then
+    unzip "$archive_path"
+    # Find the directory that was created after extraction
+    extracted_dir=$(find . -type d -name "gh_*" | head -1)
+    if [[ -n "$extracted_dir" ]]; then
+        cd "$extracted_dir"
+    fi
+else
+    tar --strip-components=1 -xzvf "$archive_path"
+fi
+
+rm -f "$archive_path"
 ls -l
+
+# Create destination directory if it doesn't exist
 mkdir -p ~/.local/opt/github-cli
 rm -rf ~/.local/opt/github-cli/*
 mv ./* ~/.local/opt/github-cli/
+
+echo "GitHub CLI installed successfully to ~/.local/opt/github-cli/"
 exit 0
