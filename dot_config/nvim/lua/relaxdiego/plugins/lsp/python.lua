@@ -61,7 +61,7 @@ function M.setup(ctx)
         on_attach = function(client, bufnr)
             -- Call the regular on_attach function
             on_attach(client, bufnr)
-            
+
             -- Disable formatting for pylsp to avoid conflicts with Ruff
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false

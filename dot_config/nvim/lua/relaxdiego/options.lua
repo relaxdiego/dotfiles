@@ -19,16 +19,7 @@ vim.opt.smartindent = true
 
 -- The above indentation config messes up terraform. The following
 -- fixes that at the expense of no auto indentation on enter.
-vim.cmd("autocmd FileType terraform setlocal sts=2 ts=2 sw=2")
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = "terraform",
-    command = ":set nosmartindent",
-})
-
-vim.cmd("autocmd FileType jsonnet setlocal sts=2 ts=2 sw=2")
-
--- Force neovim to indent yamls properly
-vim.cmd("autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab")
+-- (Filetype-specific settings moved to filetypes.lua)
 
 vim.opt.wrap = false
 
@@ -50,9 +41,7 @@ vim.opt.updatetime = 50
 
 -- Turn on column rulers
 vim.opt.colorcolumn = "72,80,88"
--- ...except for certain window types
-vim.cmd("autocmd FileType qf setlocal colorcolumn=")
-vim.cmd("autocmd FileType Trouble setlocal colorcolumn=")
+-- ...except for certain window types (moved to filetypes.lua)
 
 vim.opt.list = true
 vim.opt.listchars:append("trail:⇢")
@@ -71,67 +60,6 @@ vim.cmd("set cursorline")
 -- Disable "Auto-wrap test using 'textwidth'"
 vim.opt.formatoptions:remove("t")
 
--- Set devbox.json filetype to json5 to support comments
-vim.cmd("autocmd BufNewFile,BufRead devbox.json setlocal filetype=json5")
+-- Set devbox.json filetype to json5 to support comments (moved to filetypes.lua)
 
--- BEGIN: Automatically set the filetype for *.*.jinja files.
---
--- From `:h ft`
---     When a dot appears in the value then this separates two filetype names
---     (Example: foo.c.jinja), this will use the "c" filetype first, then the
---     "jinja" filetype. This works both for filetype plugins and for syntax
---     files.  More than one dot may appear.
-
--- Mapping of file extensions to language names
-local extension_to_language = {
-    py = "python",
-    rb = "ruby",
-    js = "javascript",
-    ts = "typescript",
-    cpp = "cpp",
-    h = "c_header",
-}
-
-local function set_dotted_filetype()
-    -- Check if the current buffer has a filetype set by a modeline
-    local current_filetype = vim.api.nvim_buf_get_option(0, "filetype")
-    if current_filetype ~= "" then
-        return
-    end
-
-    -- Get the current buffer's name
-    local full_path = vim.api.nvim_buf_get_name(0)
-    local filename = full_path:match("^.+/(.+)$") or full_path
-
-    -- Remove templated sections enclosed in {{ }}
-    local sanitized_name = filename:gsub("{{.-}}", "")
-
-    -- Extract all extensions from filenames like 'foo.bar.baz.qux'
-    local extensions = {}
-    for ext in sanitized_name:gmatch("%.([^%.]+)") do
-        table.insert(extensions, ext)
-    end
-
-    -- Translate each extension to its corresponding language
-    local translated_extensions = {}
-    for _, ext in ipairs(extensions) do
-        local lang = extension_to_language[ext] or ext
-        table.insert(translated_extensions, lang)
-    end
-
-    -- Set the filetype to the concatenated translated extensions
-    vim.bo.filetype = table.concat(translated_extensions, ".")
-end
-
--- Create an autocommand group for custom filetype settings
-vim.api.nvim_create_augroup("DottedFileType", { clear = true })
-
--- Add an autocommand to this group
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    group = "DottedFileType",
-    pattern = "*.*.*",
-    callback = set_dotted_filetype,
-})
---
--- END: Automatically set the filetype for *.*.jinja files.
---
+-- Filetype detection for *.*.jinja files moved to filetypes.lua
