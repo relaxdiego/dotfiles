@@ -65,6 +65,9 @@ function M.setup(ctx)
             -- Disable formatting for pylsp to avoid conflicts with Ruff
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
+
+            -- Disable pylsp's redundant document highlighting
+            client.server_capabilities.documentHighlightProvider = false
         end,
         settings = {
             pylsp = {
