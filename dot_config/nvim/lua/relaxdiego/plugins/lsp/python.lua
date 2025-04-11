@@ -33,6 +33,12 @@ function M.setup(ctx)
             }
             vim.api.nvim_put(test_structure, "l", true, true)
         end, opts)
+
+        if client.name == "pyright" then
+            client.server_capabilities.renameProvider = true
+        else
+            client.server_capabilities.renameProvider = false
+        end
     end)
 
     -- 1. Pyright for type checking, with optimized settings
