@@ -59,6 +59,10 @@ return {
             desc = "Find buffer",
         })
 
+        vim.keymap.set("n", "<leader>fc", builtin.grep_string, {
+            desc = "Find word under cursor",
+        })
+
         vim.keymap.set("n", "<leader>fd", builtin.lsp_definitions, {
             desc = "Find definitions or jump if only 1 found",
         })
