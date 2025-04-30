@@ -86,22 +86,27 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
 
     -- Set autocommands conditional on server capabilities
-    if client.server_capabilities.documentHighlightProvider then
-        vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-        vim.api.nvim_clear_autocmds({ group = "lsp_document_highlight", buffer = bufnr })
-        vim.api.nvim_create_autocmd("CursorHold", {
-            callback = vim.lsp.buf.document_highlight,
-            buffer = bufnr,
-            group = "lsp_document_highlight",
-            desc = "Document Highlight",
-        })
-        vim.api.nvim_create_autocmd("CursorMoved", {
-            callback = vim.lsp.buf.clear_references,
-            buffer = bufnr,
-            group = "lsp_document_highlight",
-            desc = "Clear All the References",
-        })
-    end
+
+    --
+    -- Disabling this since it's slightly buggy: sometimes it just doesn't clear
+    -- the highlight unless I reload the buffer with `:e!`
+    --
+    -- if client.server_capabilities.documentHighlightProvider then
+    --     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+    --     vim.api.nvim_clear_autocmds({ group = "lsp_document_highlight", buffer = bufnr })
+    --     vim.api.nvim_create_autocmd("CursorHold", {
+    --         callback = vim.lsp.buf.document_highlight,
+    --         buffer = bufnr,
+    --         group = "lsp_document_highlight",
+    --         desc = "Document Highlight",
+    --     })
+    --     vim.api.nvim_create_autocmd("CursorMoved", {
+    --         callback = vim.lsp.buf.clear_references,
+    --         buffer = bufnr,
+    --         group = "lsp_document_highlight",
+    --         desc = "Clear All the References",
+    --     })
+    -- end
 
     -- Formatting capabilities check
     if client.server_capabilities.documentFormattingProvider then
