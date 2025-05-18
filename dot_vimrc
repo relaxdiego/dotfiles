@@ -2,531 +2,533 @@ set encoding=utf-8
 set nocompatible
 filetype plugin indent on
 syntax on
-execute pathogen#infect()
 let mapleader=","
 set mouse=a
 set nowrap
 set cursorline
-colorscheme evening
-colorscheme hybrid
 
-" Install vim-plug-managed plugins
-call plug#begin('~/.vim/plugged')
-Plug 'https://github.com/relaxdiego/vim-test', { 'commit': '5710a97f730699e72024c3ddc4b5b7520c0ce705', 'frozen': 'true' }
-Plug 'https://github.com/relaxdiego/context.vim', { 'commit': 'c06541451aa94957c1c07a9f8a7130ad97d83a65', 'frozen': 'true' }
-call plug#end()
+" DEPRECATED. Use noevim
 
-" Make the current line readable when in Vimdiff mode
-if &diff
-    " 214 = #ffaf00
-    " 016 = #000000
-    " https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-    :hi CursorLine cterm=NONE ctermbg=214 ctermfg=016 guibg=#ffaf00 guifg=#000000
-endif
-
-" Add a quick way to search for visually selected text
-" Just select some text in Visual mode then press //
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" Look for tags file in current file dir upwards. Failing that, it will
-" look for the file in .git/tags
-set tags=./tags;,.git/tags
-
-" Don't go back to beginning of file when scanning/search
-set nowrapscan
-
-set rtp+=/usr/local/opt/fzf
-
-" Toggle wrap
-nmap <leader>sw :set wrap!<CR>
-
-inoremap <C-y> <esc>gUiw`]a
-
-" Treat all numerals as decimal even if zero padded
-set nrformats=
-
-" Quickly edit/reload the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
-" Easier split movement
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" Don't lose what's in the register after paste
-xnoremap p pgvy
-
-" Open subject-under-cursor's definition in v-split
-nnoremap <leader>,  <C-W><C-V><C-]>
-
-" More natural split opening
-set splitbelow
-set splitright
-
-" Hide buffers instead of closing them
-set hidden
-
-" Show line numbers
-set number
-
-" Highlight search terms
-set hlsearch
-
-" Show search matches as you type
-set incsearch
-
-" Don't use old ways of protecting against data loss
-set nobackup
-set noswapfile
-
-set pastetoggle=<leader>p
-
-
-" Set indentation preferences
-"   ts='number of spaces that <Tab> in file uses'
-"   sts='number of spaces that <Tab> uses while editing'
-"   sw='number of spaces to use for (auto)indent step'
-" See: :help option-list
-set expandtab
-set ts=4 sw=4
-autocmd Filetype html setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
-autocmd Filetype python setlocal ts=4 sts=4 sw=4
-autocmd Filetype sh setlocal ts=4 sts=4 sw=4
-autocmd Filetype groovy setlocal ts=2 sts=2 sw=2
-autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
-" Match jsonnetfmt's default indentation
-autocmd Filetype jsonnet setlocal ts=2 sts=2 sw=2
-
-" Force filetypes of certain filenames
-autocmd BufNewFile,BufRead Dockerfile.* set ft=dockerfile
-autocmd BufNewFile,BufRead *.toml set ft=dosini
-autocmd BufNewFile,BufRead *.bashrc set ft=sh
-autocmd BufNewFile,BufRead dot_bashrc.tmpl set ft=sh
-
-" Auto-wrap Markdown paragraphs.
-" See: :help fo-table
-autocmd BufNewFile,BufRead,Filetype markdown setlocal tw=80 formatoptions+=t
-
-
-" Show column rulers
-set colorcolumn=72,80,88
-" But not for the quickfix window!
-au FileType qf setlocal colorcolumn=
-
-" Show whitespace
-set list
-set listchars=tab:\ \ ,trail:⇢,extends:>,precedes:<
-
-
+" execute pathogen#infect()
+" colorscheme evening
+" colorscheme hybrid
+" " Install vim-plug-managed plugins
+" call plug#begin('~/.vim/plugged')
+" Plug 'https://github.com/relaxdiego/vim-test', { 'commit': '5710a97f730699e72024c3ddc4b5b7520c0ce705', 'frozen': 'true' }
+" Plug 'https://github.com/relaxdiego/context.vim', { 'commit': 'c06541451aa94957c1c07a9f8a7130ad97d83a65', 'frozen': 'true' }
+" call plug#end()
 "
-" Syntastic Syntax Checker
+" " Make the current line readable when in Vimdiff mode
+" if &diff
+"     " 214 = #ffaf00
+"     " 016 = #000000
+"     " https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+"     :hi CursorLine cterm=NONE ctermbg=214 ctermfg=016 guibg=#ffaf00 guifg=#000000
+" endif
 "
-" See: Github repo <https://github.com/vim-syntastic/syntastic>
+" " Add a quick way to search for visually selected text
+" " Just select some text in Visual mode then press //
+" vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 "
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-let g:syntastic_ignore_files = ['\m^.*\.tmpl$']
-
+" " Look for tags file in current file dir upwards. Failing that, it will
+" " look for the file in .git/tags
+" set tags=./tags;,.git/tags
 "
-" Specific Checkers
+" " Don't go back to beginning of file when scanning/search
+" set nowrapscan
 "
-" See: Syntastic Checkers <https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt>
+" set rtp+=/usr/local/opt/fzf
 "
-
+" " Toggle wrap
+" nmap <leader>sw :set wrap!<CR>
 "
-" Python
+" inoremap <C-y> <esc>gUiw`]a
 "
-" NOTE: If a project uses a virtualenv, make sure to activate
-" that virtualenv before opening Vim. Otherwise, Syntastic
-" will bend up using the wrong Python version.
+" " Treat all numerals as decimal even if zero padded
+" set nrformats=
 "
-let g:syntastic_python_checkers = ['python', 'flake8', 'mypy']
-" Match Black profile https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#flake8
-let g:syntastic_python_flake8_args='--max-line-length=88 --extend-ignore=E203'
-
+" " Quickly edit/reload the vimrc file
+" nmap <silent> <leader>ev :e $MYVIMRC<CR>
+" nmap <silent> <leader>sv :so $MYVIMRC<CR>
 "
-" Go
+" " Easier split movement
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 "
-let g:go_list_type = 'quickfix'
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
+" " Don't lose what's in the register after paste
+" xnoremap p pgvy
 "
-" Rust
+" " Open subject-under-cursor's definition in v-split
+" nnoremap <leader>,  <C-W><C-V><C-]>
 "
-" NOTE: Rust's cargo is auto-register by the rust.vim plugin
+" " More natural split opening
+" set splitbelow
+" set splitright
 "
-
-
-
-" NERDTree settings
-" map <C-n> :NERDTreeToggle<CR>
-nmap <leader>nt :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.pyc$','^\.DS_Store$']
-" match the keyboard bindings of CtrlP
-autocmd FileType nerdtree nmap <buffer> <C-v> s
-autocmd FileType nerdtree nmap <buffer> <C-x> i
-
-" Might as well set the built in Explorer too
-let g:netrw_liststyle=3
-
-
-" Remove trailing whitespace for certain filetypes
-fun! <SID>StripTrailingWhitespaces()
-    let l=line(".")
-    let c=col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-
-autocmd FileType ansible,c,groovy,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
-        \ <buffer> :call <SID>StripTrailingWhitespaces()
-
-" Run Black just before saving a python file
-" https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
-augroup black_on_save
-  autocmd!
-  autocmd BufWritePre *.py Black
-augroup end
-
-
-" Disable arrow keys
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
-
-" Setting for ctrlp plugin
-let g:ctrlp_map='<c-p>'
-let g:ctrlp_max_files=0
-let g:ctrlp_max_depth=40
-let g:ctrlp_cmd='CtrlP'
-let g:ctrlp_working_path_mode=''
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
-set wildignore+=.DS_Store
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
-
-let g:ctrlp_custom_ignore={
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'coverage':  '\v(htmlcov|\.?coverage)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
-
-" Integrate ctrlp with ctags
-nnoremap <leader>. :CtrlPTag<cr>
-
-
-" Override grep to use Ag instead
-
-if executable('ag')
-  " Set up ack.vim
-  " Always start searching from the project root dir
-  let g:ag_working_path_mode="r"
-  " The ! in :Ack! below ensures it doesn't automatically jump to the
-  " first match. See https://github.com/mileszs/ack.vim/issues/59
-
-  " Keeping this ag keybinding because I'm used to it
-  nmap <leader>ag :Ack!<SPACE>""<Left>
-  " Search the word directly under the cursor. Although just running
-  " :Ack without arguments does the same trick, I'm doing it this way
-  " so that the search term also gets saved in vim's command history
-  nmap <leader>ac yiw:Ack!<SPACE>""<Left><C-R>"<cr>
-
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s --hidden -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-  let g:ackprg = 'ag --vimgrep --smart-case'
-endif
-
-" bind K to ack (find) word under cursor
-nnoremap K yiw:Ack<SPACE><C-R>0<CR>
-
-" Set up tagbar
-nmap <leader>tb :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_compact = 1
-
-" NOTE: Rust confg is setup by the rust.vim plugin
-
-let g:tagbar_type_ansible = {
-    \ 'ctagstype' : 'ansible',
-    \ 'kinds' : [
-    \ 't:tasks',
-    \ 'h:hosts'
-    \ ],
-    \ 'sort' : 0
-    \ }
-
-let g:tagbar_type_terraform = {
-    \ 'ctagstype' : 'terraform',
-    \ 'kinds' : [
-    \ 'r:resources',
-    \ 'm:modules',
-    \ 'o:outputs',
-    \ 'v:variables',
-    \ 'f:tfvars'
-    \ ],
-    \ 'sort' : 0
-    \ }
-
-let g:tagbar_type_make = {
-    \ 'kinds':[
-    \ 'm:macros',
-    \ 't:targets'
-    \ ]
-    \}
-
-let g:tagbar_type_sh = {
-    \ 'kinds':[
-    \ 'f:functions',
-    \ 'c:constants'
-    \ ]
-    \}
-
-let g:tagbar_type_markdown = {
-    \ 'ctagstype' : 'markdown',
-    \ 'kinds' : [
-    \ 'h:Heading_L1',
-    \ 'i:Heading_L2',
-    \ 'k:Heading_L3'
-    \ ]
-    \ }
-
-" Setup test.vim (https://github.com/relaxdiego/vim-test)
-" NOTE: Built in Rust support
-nmap <silent> <leader>s :TestNearest<CR>
-nmap <silent> <leader>t :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-" Run tests in a tmux pane
-let test#strategy = "tslime"
-
-" Determine the python test runner to use
-if filereadable("pytest.ini")
-    let test#python#runner = 'pytest'
-endif
-
-let test#shell#bats#options = "--recursive"
-
-" YouCompleteMe plugin
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-set completeopt-=preview
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_server_log_level = 'info'
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_extra_conf.py'
-
-" Lightline plugin
-let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'inactive': {
-    \   'left': [ [ 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ }
-" Always show the status line
-set laststatus=2
-" We don't need the extra vim mode info now that lightline is in use
-set noshowmode
-
-" ultisnips and friends
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "MyUltiSnips"]
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsListSnippets="<c-h>"
-" let g:ulti_expand_or_jump_res = 0
-function ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-let g:endwise_no_mappings = 1
-inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
-
-au BufRead,BufNewFile *.y*ml.* set ft=yaml
-au BufRead,BufNewFile *.sh.* set ft=sh
-au BufRead,BufNewFile gitconfig set ft=gitconfig
-
-" Only mess with window heights if not in Vimdiff mode
-if !&diff
-    " Set window height
-    let &winheight = &lines * 10 / 10
-    " Always expand the Quickfix window to 10 when in focus.
-    " Copied from:
-    " http://vim.wikia.com/wiki/Always_keep_quickfix_window_at_specified_height
-    "
-    " Maximize the window after entering it, be sure to keep the quickfix window
-    " at the specified height.
-    au WinEnter * call MaximizeAndResizeQuickfix(10)
-endif
-
-" Maximize current window and set the quickfix window to the specified height.
-function MaximizeAndResizeQuickfix(quickfixHeight)
-  " Redraw after executing the function.
-  set lazyredraw
-  " Ignore WinEnter events for now.
-  set ei=WinEnter
-  " Maximize current window.
-  wincmd _
-  " If the current window is the quickfix window
-  if (getbufvar(winbufnr(winnr()), "&buftype") == "quickfix")
-    " Maximize previous window, and resize the quickfix window to the
-    " specified height.
-    wincmd p
-    resize
-    wincmd p
-    exe "resize " . a:quickfixHeight
-  else
-    " Current window isn't the quickfix window, loop over all windows to
-    " find it (if it exists...)
-    let i = 1
-    let currBufNr = winbufnr(i)
-    while (currBufNr != -1)
-      " If the buffer in window i is the quickfix buffer.
-      if (getbufvar(currBufNr, "&buftype") == "quickfix")
-        " Go to the quickfix window, set height to quickfixHeight, and jump to the previous
-        " window.
-        exe i . "wincmd w"
-        exe "resize " . a:quickfixHeight
-        wincmd p
-        break
-      endif
-      let i = i + 1
-      let currBufNr = winbufnr(i)
-    endwhile
-  endif
-  set ei-=WinEnter
-  set nolazyredraw
-endfunction
-
-" Remap ,m to make and open error window if there are any errors. If there
-" weren't any errors, the current window is maximized.
-map <silent> ,m :mak<CR><CR>:cw<CR>:call MaximizeIfNotQuickfix()<CR>
-
-" Maximizes the current window if it is not the quickfix window.
-function MaximizeIfNotQuickfix()
-  if (getbufvar(winbufnr(winnr()), "&buftype") != "quickfix")
-    wincmd _
-  endif
-endfunction
-
-" Code from:
-" http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
-" then https://coderwall.com/p/if9mda
-" and then https://github.com/aaronjensen/vimfiles/blob/59a7019b1f2d08c70c28a41ef4e2612470ea0549/plugin/terminaltweaks.vim
-" to fix the escape time problem with insert mode.
+" " Hide buffers instead of closing them
+" set hidden
 "
-" Docs on bracketed paste mode:
-" http://www.xfree86.org/current/ctlseqs.html
-" Docs on mapping fast escape codes in vim
-" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
-
-if !exists("g:bracketed_paste_tmux_wrap")
-  let g:bracketed_paste_tmux_wrap = 1
-endif
-
-function! WrapForTmux(s)
-  if !g:bracketed_paste_tmux_wrap || !exists('$TMUX') || system('tmux -V')[5] >= '2'
-    return a:s
-  endif
-
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
-
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
-
-let &t_ti .= WrapForTmux("\<Esc>[?2004h")
-let &t_te .= WrapForTmux("\<Esc>[?2004l")
-
-function! XTermPasteBegin(ret)
-  set pastetoggle=<f29>
-  set paste
-  return a:ret
-endfunction
-
-execute "set <f28>=\<Esc>[200~"
-execute "set <f29>=\<Esc>[201~"
-map <expr> <f28> XTermPasteBegin("i")
-imap <expr> <f28> XTermPasteBegin("")
-vmap <expr> <f28> XTermPasteBegin("c")
-cmap <f28> <nop>
-cmap <f29> <nop>
-
-" golang
-let g:go_fmt_command = "goimports"
-
-" rust
-let g:rustfmt_autosave = 1
-
-" terraform
-let g:terraform_align = 1
-let g:terraform_fmt_on_save = 1
-
-" Disable EditorConfig https://github.com/editorconfig/editorconfig-vim) for gitcommits
-au FileType gitcommit let b:EditorConfig_disable = 1
-
-" Fugitive
-function! s:BlameToggle() abort
-  let found = 0
-  for winnr in range(1, winnr('$'))
-    if getbufvar(winbufnr(winnr), '&filetype') ==# 'fugitiveblame'
-      exe winnr . 'close'
-      let found = 1
-    endif
-  endfor
-  if !found
-    Git blame
-  endif
-endfunction
-nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
-
-" Recursively unfold the block where the cursor is, fold everything else
-"   zM - fold everything
-"   zv - unfold just enough so that the line under the cursor is visible
-"   zc - fold block where the cursor is (we need this so that zO has an effect)
-"   zO - recursively unfold the block where the cursor is
-"   z. - Redraw curosor line to center of window, cursor on first non-blank
-" See: :help z
-nmap zz <Esc>zMzvzczOz.
-
-" Enable folding for markdown files
-let g:markdown_folding = 1
-
-" Don't fold on open
-set nofoldenable
-
-" context.vim settings
-let g:context_highlight_normal = 'PMenu'
-let g:context_highlight_border = '<hide>'
+" " Show line numbers
+" set number
+"
+" " Highlight search terms
+" set hlsearch
+"
+" " Show search matches as you type
+" set incsearch
+"
+" " Don't use old ways of protecting against data loss
+" set nobackup
+" set noswapfile
+"
+" set pastetoggle=<leader>p
+"
+"
+" " Set indentation preferences
+" "   ts='number of spaces that <Tab> in file uses'
+" "   sts='number of spaces that <Tab> uses while editing'
+" "   sw='number of spaces to use for (auto)indent step'
+" " See: :help option-list
+" set expandtab
+" set ts=4 sw=4
+" autocmd Filetype html setlocal ts=2 sts=2 sw=2
+" autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+" autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+" autocmd Filetype python setlocal ts=4 sts=4 sw=4
+" autocmd Filetype sh setlocal ts=4 sts=4 sw=4
+" autocmd Filetype groovy setlocal ts=2 sts=2 sw=2
+" autocmd Filetype gitconfig setlocal ts=4 sts=4 sw=4
+" " Match jsonnetfmt's default indentation
+" autocmd Filetype jsonnet setlocal ts=2 sts=2 sw=2
+"
+" " Force filetypes of certain filenames
+" autocmd BufNewFile,BufRead Dockerfile.* set ft=dockerfile
+" autocmd BufNewFile,BufRead *.toml set ft=dosini
+" autocmd BufNewFile,BufRead *.bashrc set ft=sh
+" autocmd BufNewFile,BufRead dot_bashrc.tmpl set ft=sh
+"
+" " Auto-wrap Markdown paragraphs.
+" " See: :help fo-table
+" autocmd BufNewFile,BufRead,Filetype markdown setlocal tw=80 formatoptions+=t
+"
+"
+" " Show column rulers
+" set colorcolumn=72,80,88
+" " But not for the quickfix window!
+" au FileType qf setlocal colorcolumn=
+"
+" " Show whitespace
+" set list
+" set listchars=tab:\ \ ,trail:⇢,extends:>,precedes:<
+"
+"
+" "
+" " Syntastic Syntax Checker
+" "
+" " See: Github repo <https://github.com/vim-syntastic/syntastic>
+" "
+"
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 0
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_ignore_files = ['\m^.*\.tmpl$']
+"
+" "
+" " Specific Checkers
+" "
+" " See: Syntastic Checkers <https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt>
+" "
+"
+" "
+" " Python
+" "
+" " NOTE: If a project uses a virtualenv, make sure to activate
+" " that virtualenv before opening Vim. Otherwise, Syntastic
+" " will bend up using the wrong Python version.
+" "
+" let g:syntastic_python_checkers = ['python', 'flake8', 'mypy']
+" " Match Black profile https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#flake8
+" let g:syntastic_python_flake8_args='--max-line-length=88 --extend-ignore=E203'
+"
+" "
+" " Go
+" "
+" let g:go_list_type = 'quickfix'
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+"
+" "
+" " Rust
+" "
+" " NOTE: Rust's cargo is auto-register by the rust.vim plugin
+" "
+"
+"
+"
+" " NERDTree settings
+" " map <C-n> :NERDTreeToggle<CR>
+" nmap <leader>nt :NERDTreeToggle<CR>
+" let NERDTreeShowHidden=1
+" let NERDTreeIgnore=['\.pyc$','^\.DS_Store$']
+" " match the keyboard bindings of CtrlP
+" autocmd FileType nerdtree nmap <buffer> <C-v> s
+" autocmd FileType nerdtree nmap <buffer> <C-x> i
+"
+" " Might as well set the built in Explorer too
+" let g:netrw_liststyle=3
+"
+"
+" " Remove trailing whitespace for certain filetypes
+" fun! <SID>StripTrailingWhitespaces()
+"     let l=line(".")
+"     let c=col(".")
+"     %s/\s\+$//e
+"     call cursor(l, c)
+" endfun
+"
+" autocmd FileType ansible,c,groovy,cpp,java,php,ruby,python,sh,vim autocmd BufWritePre
+"         \ <buffer> :call <SID>StripTrailingWhitespaces()
+"
+" " Run Black just before saving a python file
+" " https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
+" augroup black_on_save
+"   autocmd!
+"   autocmd BufWritePre *.py Black
+" augroup end
+"
+"
+" " Disable arrow keys
+" noremap <Up> <NOP>
+" noremap <Down> <NOP>
+" noremap <Left> <NOP>
+" noremap <Right> <NOP>
+"
+"
+" " Setting for ctrlp plugin
+" let g:ctrlp_map='<c-p>'
+" let g:ctrlp_max_files=0
+" let g:ctrlp_max_depth=40
+" let g:ctrlp_cmd='CtrlP'
+" let g:ctrlp_working_path_mode=''
+" set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
+" set wildignore+=.DS_Store
+" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+"
+" let g:ctrlp_custom_ignore={
+"   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+"   \ 'coverage':  '\v(htmlcov|\.?coverage)$',
+"   \ 'file': '\v\.(exe|so|dll)$',
+"   \ }
+"
+" " Integrate ctrlp with ctags
+" nnoremap <leader>. :CtrlPTag<cr>
+"
+"
+" " Override grep to use Ag instead
+"
+" if executable('ag')
+"   " Set up ack.vim
+"   " Always start searching from the project root dir
+"   let g:ag_working_path_mode="r"
+"   " The ! in :Ack! below ensures it doesn't automatically jump to the
+"   " first match. See https://github.com/mileszs/ack.vim/issues/59
+"
+"   " Keeping this ag keybinding because I'm used to it
+"   nmap <leader>ag :Ack!<SPACE>""<Left>
+"   " Search the word directly under the cursor. Although just running
+"   " :Ack without arguments does the same trick, I'm doing it this way
+"   " so that the search term also gets saved in vim's command history
+"   nmap <leader>ac yiw:Ack!<SPACE>""<Left><C-R>"<cr>
+"
+"   " Use ag over grep
+"   set grepprg=ag\ --nogroup\ --nocolor
+"
+"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"   let g:ctrlp_user_command = 'ag %s --hidden -l --nocolor -g ""'
+"
+"   " ag is fast enough that CtrlP doesn't need to cache
+"   let g:ctrlp_use_caching = 0
+"   let g:ackprg = 'ag --vimgrep --smart-case'
+" endif
+"
+" " bind K to ack (find) word under cursor
+" nnoremap K yiw:Ack<SPACE><C-R>0<CR>
+"
+" " Set up tagbar
+" nmap <leader>tb :TagbarToggle<CR>
+" let g:tagbar_autofocus = 1
+" let g:tagbar_autoclose = 1
+" let g:tagbar_compact = 1
+"
+" " NOTE: Rust confg is setup by the rust.vim plugin
+"
+" let g:tagbar_type_ansible = {
+"     \ 'ctagstype' : 'ansible',
+"     \ 'kinds' : [
+"     \ 't:tasks',
+"     \ 'h:hosts'
+"     \ ],
+"     \ 'sort' : 0
+"     \ }
+"
+" let g:tagbar_type_terraform = {
+"     \ 'ctagstype' : 'terraform',
+"     \ 'kinds' : [
+"     \ 'r:resources',
+"     \ 'm:modules',
+"     \ 'o:outputs',
+"     \ 'v:variables',
+"     \ 'f:tfvars'
+"     \ ],
+"     \ 'sort' : 0
+"     \ }
+"
+" let g:tagbar_type_make = {
+"     \ 'kinds':[
+"     \ 'm:macros',
+"     \ 't:targets'
+"     \ ]
+"     \}
+"
+" let g:tagbar_type_sh = {
+"     \ 'kinds':[
+"     \ 'f:functions',
+"     \ 'c:constants'
+"     \ ]
+"     \}
+"
+" let g:tagbar_type_markdown = {
+"     \ 'ctagstype' : 'markdown',
+"     \ 'kinds' : [
+"     \ 'h:Heading_L1',
+"     \ 'i:Heading_L2',
+"     \ 'k:Heading_L3'
+"     \ ]
+"     \ }
+"
+" " Setup test.vim (https://github.com/relaxdiego/vim-test)
+" " NOTE: Built in Rust support
+" nmap <silent> <leader>s :TestNearest<CR>
+" nmap <silent> <leader>t :TestFile<CR>
+" nmap <silent> <leader>a :TestSuite<CR>
+" nmap <silent> <leader>l :TestLast<CR>
+" nmap <silent> <leader>g :TestVisit<CR>
+" " Run tests in a tmux pane
+" let test#strategy = "tslime"
+"
+" " Determine the python test runner to use
+" if filereadable("pytest.ini")
+"     let test#python#runner = 'pytest'
+" endif
+"
+" let test#shell#bats#options = "--recursive"
+"
+" " YouCompleteMe plugin
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" set completeopt-=preview
+" let g:ycm_add_preview_to_completeopt = 0
+" let g:ycm_server_log_level = 'info'
+" let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_extra_conf.py'
+"
+" " Lightline plugin
+" let g:lightline = {
+"     \ 'colorscheme': 'wombat',
+"     \ 'active': {
+"     \   'left': [ [ 'mode', 'paste' ],
+"     \             [ 'readonly', 'filename', 'modified' ] ]
+"     \ },
+"     \ 'inactive': {
+"     \   'left': [ [ 'readonly', 'filename', 'modified' ] ]
+"     \ },
+"     \ }
+" " Always show the status line
+" set laststatus=2
+" " We don't need the extra vim mode info now that lightline is in use
+" set noshowmode
+"
+" " ultisnips and friends
+" " Trigger configuration. Do not use <tab> if you use
+" " https://github.com/Valloric/YouCompleteMe.
+" let g:UltiSnipsSnippetDirectories=["UltiSnips", "MyUltiSnips"]
+" let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsListSnippets="<c-h>"
+" " let g:ulti_expand_or_jump_res = 0
+" function ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"         return snippet
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
+" let g:endwise_no_mappings = 1
+" inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>\<C-R>=EndwiseDiscretionary()\<CR>"
+"
+" au BufRead,BufNewFile *.y*ml.* set ft=yaml
+" au BufRead,BufNewFile *.sh.* set ft=sh
+" au BufRead,BufNewFile gitconfig set ft=gitconfig
+"
+" " Only mess with window heights if not in Vimdiff mode
+" if !&diff
+"     " Set window height
+"     let &winheight = &lines * 10 / 10
+"     " Always expand the Quickfix window to 10 when in focus.
+"     " Copied from:
+"     " http://vim.wikia.com/wiki/Always_keep_quickfix_window_at_specified_height
+"     "
+"     " Maximize the window after entering it, be sure to keep the quickfix window
+"     " at the specified height.
+"     au WinEnter * call MaximizeAndResizeQuickfix(10)
+" endif
+"
+" " Maximize current window and set the quickfix window to the specified height.
+" function MaximizeAndResizeQuickfix(quickfixHeight)
+"   " Redraw after executing the function.
+"   set lazyredraw
+"   " Ignore WinEnter events for now.
+"   set ei=WinEnter
+"   " Maximize current window.
+"   wincmd _
+"   " If the current window is the quickfix window
+"   if (getbufvar(winbufnr(winnr()), "&buftype") == "quickfix")
+"     " Maximize previous window, and resize the quickfix window to the
+"     " specified height.
+"     wincmd p
+"     resize
+"     wincmd p
+"     exe "resize " . a:quickfixHeight
+"   else
+"     " Current window isn't the quickfix window, loop over all windows to
+"     " find it (if it exists...)
+"     let i = 1
+"     let currBufNr = winbufnr(i)
+"     while (currBufNr != -1)
+"       " If the buffer in window i is the quickfix buffer.
+"       if (getbufvar(currBufNr, "&buftype") == "quickfix")
+"         " Go to the quickfix window, set height to quickfixHeight, and jump to the previous
+"         " window.
+"         exe i . "wincmd w"
+"         exe "resize " . a:quickfixHeight
+"         wincmd p
+"         break
+"       endif
+"       let i = i + 1
+"       let currBufNr = winbufnr(i)
+"     endwhile
+"   endif
+"   set ei-=WinEnter
+"   set nolazyredraw
+" endfunction
+"
+" " Remap ,m to make and open error window if there are any errors. If there
+" " weren't any errors, the current window is maximized.
+" map <silent> ,m :mak<CR><CR>:cw<CR>:call MaximizeIfNotQuickfix()<CR>
+"
+" " Maximizes the current window if it is not the quickfix window.
+" function MaximizeIfNotQuickfix()
+"   if (getbufvar(winbufnr(winnr()), "&buftype") != "quickfix")
+"     wincmd _
+"   endif
+" endfunction
+"
+" " Code from:
+" " http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
+" " then https://coderwall.com/p/if9mda
+" " and then https://github.com/aaronjensen/vimfiles/blob/59a7019b1f2d08c70c28a41ef4e2612470ea0549/plugin/terminaltweaks.vim
+" " to fix the escape time problem with insert mode.
+" "
+" " Docs on bracketed paste mode:
+" " http://www.xfree86.org/current/ctlseqs.html
+" " Docs on mapping fast escape codes in vim
+" " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
+"
+" if !exists("g:bracketed_paste_tmux_wrap")
+"   let g:bracketed_paste_tmux_wrap = 1
+" endif
+"
+" function! WrapForTmux(s)
+"   if !g:bracketed_paste_tmux_wrap || !exists('$TMUX') || system('tmux -V')[5] >= '2'
+"     return a:s
+"   endif
+"
+"   let tmux_start = "\<Esc>Ptmux;"
+"   let tmux_end = "\<Esc>\\"
+"
+"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+" endfunction
+"
+" let &t_ti .= WrapForTmux("\<Esc>[?2004h")
+" let &t_te .= WrapForTmux("\<Esc>[?2004l")
+"
+" function! XTermPasteBegin(ret)
+"   set pastetoggle=<f29>
+"   set paste
+"   return a:ret
+" endfunction
+"
+" execute "set <f28>=\<Esc>[200~"
+" execute "set <f29>=\<Esc>[201~"
+" map <expr> <f28> XTermPasteBegin("i")
+" imap <expr> <f28> XTermPasteBegin("")
+" vmap <expr> <f28> XTermPasteBegin("c")
+" cmap <f28> <nop>
+" cmap <f29> <nop>
+"
+" " golang
+" let g:go_fmt_command = "goimports"
+"
+" " rust
+" let g:rustfmt_autosave = 1
+"
+" " terraform
+" let g:terraform_align = 1
+" let g:terraform_fmt_on_save = 1
+"
+" " Disable EditorConfig https://github.com/editorconfig/editorconfig-vim) for gitcommits
+" au FileType gitcommit let b:EditorConfig_disable = 1
+"
+" " Fugitive
+" function! s:BlameToggle() abort
+"   let found = 0
+"   for winnr in range(1, winnr('$'))
+"     if getbufvar(winbufnr(winnr), '&filetype') ==# 'fugitiveblame'
+"       exe winnr . 'close'
+"       let found = 1
+"     endif
+"   endfor
+"   if !found
+"     Git blame
+"   endif
+" endfunction
+" nmap <silent> <Leader>b :call <SID>BlameToggle()<CR>
+"
+" " Recursively unfold the block where the cursor is, fold everything else
+" "   zM - fold everything
+" "   zv - unfold just enough so that the line under the cursor is visible
+" "   zc - fold block where the cursor is (we need this so that zO has an effect)
+" "   zO - recursively unfold the block where the cursor is
+" "   z. - Redraw curosor line to center of window, cursor on first non-blank
+" " See: :help z
+" nmap zz <Esc>zMzvzczOz.
+"
+" " Enable folding for markdown files
+" let g:markdown_folding = 1
+"
+" " Don't fold on open
+" set nofoldenable
+"
+" " context.vim settings
+" let g:context_highlight_normal = 'PMenu'
+" let g:context_highlight_border = '<hide>'

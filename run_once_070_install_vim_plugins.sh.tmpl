@@ -1,151 +1,153 @@
 #!/usr/bin/env bash
 set -e
 
-source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
-
-echo "Ensuring vim plugins and docs"
-
-# vim-test
-# NOTE: Because vim-test only supports installation via vim-plug, its
-# installation directive is located in dot_vimrc
-
-# ctrlp plugin
-ensure_plugin ctrlp.vim https://github.com/relaxdiego/ctrlp.vim.git
-
-# NERDTree plugin
-ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
-
-# syntastic plugin
-ensure_plugin syntastic https://github.com/relaxdiego/syntastic
-
-# Let's skip this for now since we're not using pyenv anymore
+# DEPRECATED
 #
-# # We're going to have to duplicate some ~/.bashrc code here
-# # until I find a more elegant solution.
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
+# source $HOME/.local/dotfiles.relaxdiego.com/vim_plugin_lib
 #
-# (pip3 list --disable-pip-version-check | grep -v flake8 1>/dev/null) || pip3 install flake8 --disable-pip-version-check
-
-# ack plugin (requires the ack executable)
-ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
-
-# More recent vim-test versions only support the vim-plug plugin manager
-ensure_plugin_absent test.vim
-
-# surround plugin
-ensure_plugin vim-surround https://github.com/relaxdiego/vim-surround
-
-# vim-repeat plugin
-ensure_plugin vim-repeat https://github.com/relaxdiego/vim-repeat
-
-# tagbar plugin
-ensure_plugin tagbar https://github.com/majutsushi/tagbar d7063c7484f0f99bfa182b02defef7f412a9289c
-
-# colorschemes plugin
-ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
-
-# lightline plugin
-ensure_plugin lightline.vim https://github.com/relaxdiego/lightline.vim
-
-# vim-endwise plugin
-ensure_plugin vim-endwise https://github.com/relaxdiego/vim-endwise
-
-# tslime.vim plugin
-ensure_plugin tslime.vim https://github.com/relaxdiego/tslime.vim
-
-# Tcomment plugin
-ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
-
-# ultisnips and friends
-ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
-ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
-
-# autopairs plugin
-ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
-
-ensure_plugin editorconfig-vim https://github.com/editorconfig/editorconfig-vim 3078cd10b28904e57d878c0d0dab42aa0a9fdc89
-
-# ansible-vim plugin
-#ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
-
-# Hashicorp vim tools
-#ensure_plugin hashicorp-tools https://github.com/hashivim/vim-hashicorp-tools
-
-# PowerShell plugin
-#ensure_plugin vim-ps1 https://github.com/PProvost/vim-ps1.git
-
-# YouCompleteMe plugin
-# See the file below for help on re-installing YCM
-$HOME/.local/dotfiles.relaxdiego.com/install-YouCompleteMe
-
-# Generate the docs for all plugins
-# echo "Running 'Helptags' command"
-# vim +Helptags +q
-
-# Add puppet syntax highlighting
-# if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
-#     echo "Adding puppet syntax highlighting and goodies"
-#     tmp_puppetvims=/tmp/puppetvims
-#     mkdir -p $tmp_puppetvims
-#     cd $tmp_puppetvims
-#     git init
-#     git remote add -f origin https://github.com/puppetlabs/puppet
-#     git config core.sparseCheckout true
-#     mkdir -p .git/info
-#     echo "ext/vim/" >> .git/info/sparse-checkout
-#     git pull origin master
-#     cp -r ext/vim/* $dotvim_path
-#     cd -
+# echo "Ensuring vim plugins and docs"
+#
+# # vim-test
+# # NOTE: Because vim-test only supports installation via vim-plug, its
+# # installation directive is located in dot_vimrc
+#
+# # ctrlp plugin
+# ensure_plugin ctrlp.vim https://github.com/relaxdiego/ctrlp.vim.git
+#
+# # NERDTree plugin
+# ensure_plugin nerdtree https://github.com/scrooloose/nerdtree.git
+#
+# # syntastic plugin
+# ensure_plugin syntastic https://github.com/relaxdiego/syntastic
+#
+# # Let's skip this for now since we're not using pyenv anymore
+# #
+# # # We're going to have to duplicate some ~/.bashrc code here
+# # # until I find a more elegant solution.
+# # export PYENV_ROOT="$HOME/.pyenv"
+# # export PATH="$PYENV_ROOT/bin:$PATH"
+# # eval "$(pyenv init -)"
+# # eval "$(pyenv virtualenv-init -)"
+# #
+# # (pip3 list --disable-pip-version-check | grep -v flake8 1>/dev/null) || pip3 install flake8 --disable-pip-version-check
+#
+# # ack plugin (requires the ack executable)
+# ensure_plugin ack.vim https://github.com/relaxdiego/ack.vim
+#
+# # More recent vim-test versions only support the vim-plug plugin manager
+# ensure_plugin_absent test.vim
+#
+# # surround plugin
+# ensure_plugin vim-surround https://github.com/relaxdiego/vim-surround
+#
+# # vim-repeat plugin
+# ensure_plugin vim-repeat https://github.com/relaxdiego/vim-repeat
+#
+# # tagbar plugin
+# ensure_plugin tagbar https://github.com/majutsushi/tagbar d7063c7484f0f99bfa182b02defef7f412a9289c
+#
+# # colorschemes plugin
+# ensure_plugin vim-colorschemes https://github.com/relaxdiego/vim-colorschemes
+#
+# # lightline plugin
+# ensure_plugin lightline.vim https://github.com/relaxdiego/lightline.vim
+#
+# # vim-endwise plugin
+# ensure_plugin vim-endwise https://github.com/relaxdiego/vim-endwise
+#
+# # tslime.vim plugin
+# ensure_plugin tslime.vim https://github.com/relaxdiego/tslime.vim
+#
+# # Tcomment plugin
+# ensure_plugin tcomment.vim https://github.com/relaxdiego/tcomment_vim
+#
+# # ultisnips and friends
+# ensure_plugin ultisnips https://github.com/relaxdiego/ultisnips
+# ensure_plugin vim-snippets https://github.com/relaxdiego/vim-snippets
+#
+# # autopairs plugin
+# ensure_plugin auto-pairs https://github.com/relaxdiego/auto-pairs
+#
+# ensure_plugin editorconfig-vim https://github.com/editorconfig/editorconfig-vim 3078cd10b28904e57d878c0d0dab42aa0a9fdc89
+#
+# # ansible-vim plugin
+# #ensure_plugin ansible-vim https://github.com/relaxdiego/ansible-vim
+#
+# # Hashicorp vim tools
+# #ensure_plugin hashicorp-tools https://github.com/hashivim/vim-hashicorp-tools
+#
+# # PowerShell plugin
+# #ensure_plugin vim-ps1 https://github.com/PProvost/vim-ps1.git
+#
+# # YouCompleteMe plugin
+# # See the file below for help on re-installing YCM
+# $HOME/.local/dotfiles.relaxdiego.com/install-YouCompleteMe
+#
+# # Generate the docs for all plugins
+# # echo "Running 'Helptags' command"
+# # vim +Helptags +q
+#
+# # Add puppet syntax highlighting
+# # if ! [ -f ${dotvim_path}/syntax/puppet.vim ]; then
+# #     echo "Adding puppet syntax highlighting and goodies"
+# #     tmp_puppetvims=/tmp/puppetvims
+# #     mkdir -p $tmp_puppetvims
+# #     cd $tmp_puppetvims
+# #     git init
+# #     git remote add -f origin https://github.com/puppetlabs/puppet
+# #     git config core.sparseCheckout true
+# #     mkdir -p .git/info
+# #     echo "ext/vim/" >> .git/info/sparse-checkout
+# #     git pull origin master
+# #     cp -r ext/vim/* $dotvim_path
+# #     cd -
+# # else
+# #     echo "Puppet syntax highlighting and goodies already exist"
+# # fi
+#
+# # Add python indentation script
+# if ! [ -f ${dotvim_path}/indent/python.vim ]; then
+#     echo "Adding python indentation script"
+#     mkdir -p $dotvim_path/indent
+#     wget -O $dotvim_path/indent/python.vim http://www.vim.org/scripts/download_script.php?src_id=4316
 # else
-#     echo "Puppet syntax highlighting and goodies already exist"
+#     echo "Python indentation script already exist"
 # fi
-
-# Add python indentation script
-if ! [ -f ${dotvim_path}/indent/python.vim ]; then
-    echo "Adding python indentation script"
-    mkdir -p $dotvim_path/indent
-    wget -O $dotvim_path/indent/python.vim http://www.vim.org/scripts/download_script.php?src_id=4316
-else
-    echo "Python indentation script already exist"
-fi
-
-# Add terraform plugin
-ensure_plugin vim-terraform https://github.com/relaxdiego/vim-terraform
-
-# Fugitive
-ensure_plugin vim-fugitive https://github.com/relaxdiego/vim-fugitive
-
-# BATS
-ensure_plugin bats.vim https://github.com/relaxdiego/bats.vim.git
-
-# Better YAML folding
-ensure_plugin vim-yaml-folds https://github.com/pedrohdz/vim-yaml-folds.git 890ccd8e5370808d569e96dbb06cbeca2cf5993a
-
-# vim-jsonnet
-ensure_plugin vim-jsonnet https://github.com/google/vim-jsonnet 4ebc6619ddce5d032a985b42a9864154c3d20e4a
-
 #
-# Plugins that are installed using the Vim 8.1+ native package manager
+# # Add terraform plugin
+# ensure_plugin vim-terraform https://github.com/relaxdiego/vim-terraform
 #
-
-ensure_native_plugin_git \
-    vim-hcl \
-    jvirtanen/start \
-    https://github.com/relaxdiego/vim-hcl.git
-
-# Add Black
-ensure_plugin_absent black  # Remove the pathogen-based plugin first
-# See: https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
-ensure_native_plugin_vimfile \
-    plugin \
-    psf/black/start \
-    https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/plugin/black.vim
-ensure_native_plugin_vimfile \
-    autoload \
-    psf/black/start \
-    https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/autoload/black.vim
-# Ensure a fresh install of Black
-rm -rf ~/.vim/black
+# # Fugitive
+# ensure_plugin vim-fugitive https://github.com/relaxdiego/vim-fugitive
+#
+# # BATS
+# ensure_plugin bats.vim https://github.com/relaxdiego/bats.vim.git
+#
+# # Better YAML folding
+# ensure_plugin vim-yaml-folds https://github.com/pedrohdz/vim-yaml-folds.git 890ccd8e5370808d569e96dbb06cbeca2cf5993a
+#
+# # vim-jsonnet
+# ensure_plugin vim-jsonnet https://github.com/google/vim-jsonnet 4ebc6619ddce5d032a985b42a9864154c3d20e4a
+#
+# #
+# # Plugins that are installed using the Vim 8.1+ native package manager
+# #
+#
+# ensure_native_plugin_git \
+#     vim-hcl \
+#     jvirtanen/start \
+#     https://github.com/relaxdiego/vim-hcl.git
+#
+# # Add Black
+# ensure_plugin_absent black  # Remove the pathogen-based plugin first
+# # See: https://black.readthedocs.io/en/stable/integrations/editors.html#vim-8-native-plugin-management
+# ensure_native_plugin_vimfile \
+#     plugin \
+#     psf/black/start \
+#     https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/plugin/black.vim
+# ensure_native_plugin_vimfile \
+#     autoload \
+#     psf/black/start \
+#     https://raw.githubusercontent.com/relaxdiego/black/4bb6e4f64ab3820ab9fae6716cd59479d34b7edf/autoload/black.vim
+# # Ensure a fresh install of Black
+# rm -rf ~/.vim/black

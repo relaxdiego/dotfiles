@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -e
+
+# Create ~/bin directory if it doesn't exist and add to PATH if needed
+mkdir -p ~/bin
+export PATH="$HOME/bin:$PATH"
+
+# Determine OS and architecture
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+if [[ "$OS" != "linux" && "$OS" != "darwin" ]]; then
+  echo "Error: Unsupported OS. This script works only on Linux or macOS."
+  exit 1
+fi
+
+# Determine architecture
+ARCH=$(uname -m)
+if [[ "$ARCH" == "x86_64" ]]; then
+  ARCH="amd64"
+elif [[ "$ARCH" == "aarch64" || "$ARCH" == "arm64" ]]; then
+  ARCH="arm64"
+else
+  echo "Error: Unsupported architecture. This script works only on x86_64/amd64 or arm64."
+  exit 1
+fi
+
+echo "Detected: OS=$OS, ARCH=$ARCH"
+
+# Get latest Go version
+echo "Fetching latest Go version..."
+LATEST_GO_VERSION=$(curl -s https://go.dev/VERSION?m=text | head -n 1)
+LATEST_GO_VERSION=${LATEST_GO_VERSION#go}  # Remove 'go' prefix
+echo "Latest Go version: $LATEST_GO_VERSION"
+
+# Download and install Go
+GO_TARBALL="go${LATEST_GO_VERSION}.${OS}-${ARCH}.tar.gz"
+GO_URL="https://go.dev/dl/${GO_TARBALL}"
+echo "Downloading Go from $GO_URL"
+TMP_DIR=$(mktemp -d)
+curl -L "$GO_URL" -o "$TMP_DIR/$GO_TARBALL"
+
+echo "Extracting Go to temporary location..."
+tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GO_TARBALL"
+
+echo "Installing Go to ~/bin..."
+# This creates a go directory inside ~/bin with all Go files
+cp -rf "$TMP_DIR/go" ~/bin/
+
+# Create symlinks for go executables in ~/bin
+ln -sf ~/bin/go/bin/go ~/bin/go
+ln -sf ~/bin/go/bin/gofmt ~/bin/gofmt
+
+# Clean up
+rm -rf "$TMP_DIR"
+echo "Go $LATEST_GO_VERSION installed successfully in ~/bin"
+
+# Install additional tools
+echo "Installing additional Go tools..."
+
+# Install golangci-lint
+GOLANGCI_LINT_VERSION="1.55.2"
+echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION}"
+GOLANGCI_LINT_ARCHIVE="golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}.tar.gz"
+GOLANGCI_LINT_URL="https://github.com/golangci/golangci-lint/releases/download/v${GOLANGCI_LINT_VERSION}/${GOLANGCI_LINT_ARCHIVE}"
+TMP_DIR=$(mktemp -d)
+curl -L "$GOLANGCI_LINT_URL" -o "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
+tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
+cp "$TMP_DIR/golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}/golangci-lint" ~/bin/
+rm -rf "$TMP_DIR"
+
+GO_BIN=~/bin/go/bin/go
+
+# Install goimports and gofumpt
+export GOBIN=~/bin
+export PATH="$GOBIN:$PATH"
+echo "Installing https://github.com/mvdan/goimports latest"
+$GO_BIN install golang.org/x/tools/cmd/goimports@latest
+
+echo "Installing https://github.com/mvdan/gofumpt latest"
+GOFUMPT_VERSION="636d7a7b9ae6db4704a12cd990b57a7c8f0ede78" # v0.6.0
+$GO_BIN install mvdan.cc/gofumpt@"${GOFUMPT_VERSION}"
+
+echo "Installation complete. Make sure ~/bin is in your PATH."
+echo "You may want to add the following line to your shell profile:"
+echo "export PATH=\"\$HOME/bin:\$PATH\""

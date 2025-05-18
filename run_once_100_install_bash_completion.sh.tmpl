@@ -2,5 +2,4 @@
 {{ if eq .chezmoi.os "darwin" -}}
 ((brew info bash-completion@2 | grep -i "not installed") && brew install bash-completion@2 \
     || echo "bash-completions@2 already installed")
-ln -sf /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash /usr/local/etc/bash_completion.d/git
 {{ end }}

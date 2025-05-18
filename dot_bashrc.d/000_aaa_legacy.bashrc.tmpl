@@ -123,7 +123,8 @@ export GPG_TTY=$(tty)
 
 [ -f ~/mount-home ] && ~/mount-home
 
-export PATH=$HOME/bin:$PATH:$HOME/.local/bin
+export SHELL=/opt/homebrew/bin/bash
+export PATH=$HOME/bin:/opt/homebrew/bin:$PATH:$HOME/.local/bin
 export PATH=$HOME/node/current/bin:$PATH
 
 alias k="kubectl"

@@ -1,5 +1,5 @@
 #!/bin/bash -ex
-starship_version="1.10.3"
+starship_version="1.22.1"
 
 if which starship; then
     current_version=$(starship --version | head -n 1 | awk '{print $2}')
@@ -8,15 +8,21 @@ fi
 
 {{ if (eq .chezmoi.os "linux") }}
 OS_BINARY=unknown-linux-gnu
+ARCH="x86_64"
 {{ else if (eq .chezmoi.os "darwin") }}
 OS_BINARY=apple-darwin
+{{ if (eq .chezmoi.arch "arm64") }}
+ARCH="aarch64"
+{{ else }}
+ARCH="x86_64"
+{{ end }}
 {{ else }}
 echo "ERROR: Unexpected operating system '{{ .chezmoi.os }}'"
 {{ end }}
 
 cd /tmp
-wget -O starship.tar.gz https://github.com/starship/starship/releases/download/v${starship_version}/starship-x86_64-${OS_BINARY}.tar.gz
-wget -O starship.tar.gz.sha256 https://github.com/starship/starship/releases/download/v${starship_version}/starship-x86_64-${OS_BINARY}.tar.gz.sha256
+wget -O starship.tar.gz https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz
+wget -O starship.tar.gz.sha256 https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz.sha256
 test "$(sha256sum starship.tar.gz | cut -d' ' -f1)" == "$(cat starship.tar.gz.sha256)" || echo "ERROR: starship CLI checksum did not match!!!"
 tar -xvf starship.tar.gz
 mkdir -p $HOME/bin

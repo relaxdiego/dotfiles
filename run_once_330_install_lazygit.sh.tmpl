@@ -6,17 +6,13 @@ BASE_URL="https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_
 echo "Installing lazygit ${LAZYGIT_VERSION}..."
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    if [[ "$(uname -m)" == "x86_64" ]]; then
-        DOWNLOAD_URL="${BASE_URL}/lazygit_${LAZYGIT_VERSION}_Darwin_x86_64.tar.gz"
-    elif [[ "$(uname -m)" == "arm64" ]]; then
-        DOWNLOAD_URL="${BASE_URL}/lazygit_${LAZYGIT_VERSION}_Darwin_arm64.tar.gz"
-    fi
+    brew install lazygit
 elif [[ "$(uname)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
     DOWNLOAD_URL="${BASE_URL}/lazygit_${LAZYGIT_VERSION}_Linux_32-bit.tar.gz"
+    curl -L "${DOWNLOAD_URL}" | tar xz -C /usr/local/bin lazygit
+    echo "Installed lazygit ${LAZYGIT_VERSION}"
 else
     echo "Unable to install lazygit: unsupported OS"
     exit 1
 fi
 
-curl -L "${DOWNLOAD_URL}" | tar xz -C /usr/local/bin lazygit
-echo "Installed lazygit ${LAZYGIT_VERSION}"

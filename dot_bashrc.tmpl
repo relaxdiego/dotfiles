@@ -17,4 +17,4 @@ done
 
 if [ -f ~/.bash-custom-local ]; then source ~/.bash-custom-local; fi
 
-. "$HOME/.local/bin/env"
+if [ -f "$HOME/local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
