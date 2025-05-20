@@ -52,10 +52,10 @@ return {
     },
     config = function()
         -- Load shared LSP utilities
-        local lsp_utils = require("relaxdiego.plugins.lsp")
+        local lsp_utils = require "relaxdiego.plugins.lsp"
 
         -- Set logging level
-        vim.lsp.set_log_level("error")
+        vim.lsp.set_log_level "error"
 
         -- Setup diagnostic signs and configuration
         lsp_utils.setup_diagnostic_signs()
@@ -65,7 +65,7 @@ return {
         require("lspconfig.ui.windows").default_options.border = "single"
 
         -- Setup Mason for LSP server management
-        require("mason").setup({
+        require("mason").setup {
             ui = {
                 border = "single",
                 icons = {
@@ -74,9 +74,9 @@ return {
                     package_uninstalled = "✗",
                 },
             },
-        })
+        }
 
-        require("mason-lspconfig").setup({
+        require("mason-lspconfig").setup {
             ensure_installed = {
                 "gopls",
                 "lua_ls",
@@ -86,16 +86,25 @@ return {
                 "jsonls",
                 "pyright",
             },
-        })
+        }
+        require("mason-null-ls").setup {
+            ensure_installed = {
+                "stylua", -- Lua formatter
+                "prettier", -- Optional: for HTML, JS, CSS, etc.
+                "ruff", -- Optional: for Python
+                "shellcheck", -- Optional: for shell scripts
+            },
+            automatic_installation = true,
+        }
 
         -- Setup completion
-        local cmp = require("cmp")
-        local luasnip = require("luasnip")
+        local cmp = require "cmp"
+        local luasnip = require "luasnip"
 
         -- Load snippets
         require("luasnip.loaders.from_vscode").lazy_load()
 
-        cmp.setup({
+        cmp.setup {
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
@@ -105,14 +114,14 @@ return {
                 completion = cmp.config.window.bordered(),
                 documentation = cmp.config.window.bordered(),
             },
-            mapping = cmp.mapping.preset.insert({
+            mapping = cmp.mapping.preset.insert {
                 ["<C-k>"] = cmp.mapping.select_prev_item(),
                 ["<C-j>"] = cmp.mapping.select_next_item(),
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                ["<CR>"] = cmp.mapping.confirm { select = false },
                 -- Tab completion
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
@@ -132,17 +141,17 @@ return {
                         fallback()
                     end
                 end, { "i", "s" }),
-            }),
-            sources = cmp.config.sources({
+            },
+            sources = cmp.config.sources {
                 { name = "nvim_lsp" },
                 { name = "nvim_lsp_signature_help" },
                 { name = "luasnip" },
                 { name = "buffer" },
                 { name = "path" },
                 { name = "nvim_lua" },
-            }),
+            },
             preselect = cmp.PreselectMode.None,
-        })
+        }
 
         -- Autocompletion for / and ?
         cmp.setup.cmdline({ "/", "?" }, {
@@ -163,7 +172,7 @@ return {
         })
 
         -- Setup null-ls
-        local null_ls = require("null-ls")
+        local null_ls = require "null-ls"
 
         -- Create a context object to share with language modules
         local lsp_context = {
@@ -184,9 +193,9 @@ return {
         require("relaxdiego.plugins.lsp.json").setup(lsp_context)
 
         -- Start null-ls with all configured sources from language modules
-        null_ls.setup({
+        null_ls.setup {
             debug = false,
             sources = lsp_context.null_ls_sources,
-        })
+        }
     end,
 }
