@@ -25,7 +25,7 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = os.getenv "HOME" .. "/.vim/undodir"
 vim.opt.undofile = true
 
 vim.opt.hlsearch = true
@@ -35,7 +35,7 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+vim.opt.isfname:append "@-@"
 
 vim.opt.updatetime = 50
 
@@ -44,25 +44,21 @@ vim.opt.colorcolumn = "72,80,88"
 -- ...except for certain window types (moved to filetypes.lua)
 
 vim.opt.list = true
-vim.opt.listchars:append("trail:⇢")
+vim.opt.listchars:append "trail:⇢"
 
 -- Enable folding for markdown files
 vim.g.markdown_folding = 1
 -- Don't fold on open
 vim.opt.foldenable = false
 
-vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd "colorscheme kanagawa-dragon"
 -- The Tree Sitter capture "@comment.arrange_act_assert" is defined in queries/python/highlights.scm
 -- The highlight group "ArrangeActAssertComment" is defined in plugins/colorscheme-kanagawa.lua
 vim.api.nvim_set_hl(0, "@comment.arrange_act_assert", { link = "ArrangeActAssertComment" })
-vim.cmd("set cursorline")
+vim.cmd "set cursorline"
 
 -- Disable "Auto-wrap test using 'textwidth'"
-vim.opt.formatoptions:remove("t")
-
--- Remove special handling of `#` at the start of a line so that Shift->> indents it correctly
-vim.opt.cindent = true
-vim.opt.cinkeys:remove('0#')
+vim.opt.formatoptions:remove "t"
 
 
 -- Set devbox.json filetype to json5 to support comments (moved to filetypes.lua)
