@@ -52,6 +52,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
 })
 
+-- Python
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    group = filetype_group,
+    pattern = "python",
+    callback = function()
+        -- Fix for `Shift >>` not working when the line starts with `#`
+        vim.opt_local.cindent = true
+        vim.opt_local.cinkeys:remove("0#")
+    end,
+})
+
 -- YAML specific settings
 vim.api.nvim_create_autocmd({ "FileType" }, {
     group = filetype_group,
