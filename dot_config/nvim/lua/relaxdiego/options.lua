@@ -60,6 +60,9 @@ vim.cmd "set cursorline"
 -- Disable "Auto-wrap test using 'textwidth'"
 vim.opt.formatoptions:remove "t"
 
+-- Spell files are installed by run_once_350_install_nvim_spell_files.sh.tmpl
+vim.opt.spell = true
+vim.opt.spelllang = "en_us"
 
 -- Set devbox.json filetype to json5 to support comments (moved to filetypes.lua)
 

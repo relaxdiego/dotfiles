@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+echo "Downloading Vim spelling files..."
+
+mkdir -p ~/.local/share/nvim/site/spell/
+rm -f ~/.local/share/nvim/site/spell/en.utf-8.spl
+curl -o ~/.local/share/nvim/site/spell/en.utf-8.spl https://raw.githubusercontent.com/vim/vim/master/runtime/spell/en.utf-8.spl
