@@ -60,6 +60,11 @@ vim.cmd("set cursorline")
 -- Disable "Auto-wrap test using 'textwidth'"
 vim.opt.formatoptions:remove("t")
 
+-- Remove special handling of `#` at the start of a line so that Shift->> indents it correctly
+vim.opt.cindent = true
+vim.opt.cinkeys:remove('0#')
+
+
 -- Set devbox.json filetype to json5 to support comments (moved to filetypes.lua)
 
 -- Filetype detection for *.*.jinja files moved to filetypes.lua
