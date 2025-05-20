@@ -7,5 +7,6 @@ tags
 .config/nvim/plugin/packer_compiled.lua
 .config/nvim/lua/.luarc.json
 .config/nvim/.luarc.json
+.config/nvim/spell/*
 .bashrc.d/*chezmoi-ignored.bashrc*
 .DS_Store
