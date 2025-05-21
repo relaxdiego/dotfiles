@@ -3,7 +3,7 @@ return {
     commit = "v0.9.3",
     build = ":TSUpdate",
     config = function()
-        require("nvim-treesitter.configs").setup({
+        require("nvim-treesitter.configs").setup {
             -- A list of parser names, or "all"
             ensure_installed = {
                 "git_config",
@@ -45,7 +45,11 @@ return {
             autotag = {
                 enable = true,
             },
-        })
+
+            indent = {
+                enable = true,
+            },
+        }
         -- Enable treesitter-based folding
         -- See: https://github.com/nvim-treesitter/nvim-treesitter#folding
         vim.opt.foldmethod = "expr"
