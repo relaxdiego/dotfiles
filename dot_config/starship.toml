@@ -82,27 +82,28 @@ diverged = "⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 
 [package]
-format = "[ $version]($style) "
+format = "[ $version]($style) "
 disabled = true
 
 [golang]
 format = "[$symbol($version )]($style)"
-symbol = " "
+symbol = "🐹"
 
 [nodejs]
 format = "[$symbol($version )]($style)"
+symbol = " "
 
 [python]
 format = '[$symbol${pyenv_prefix}(${version})]($style)[( $virtualenv) ](bold #6699BB)'
-symbol = " "
+symbol = "🐍"
 
 [ruby]
 format = "[$symbol($version )]($style)"
-symbol = " "
+symbol = "💎"
 
 [terraform]
 format = "[$symbol$version]($style) "
-symbol = " "
+symbol = " "
 disabled = true
 
 [cmd_duration]
@@ -134,5 +135,5 @@ disabled = true
 symbol = "󰢱 "
 
 [nix_shell]
-symbol = "❄️ "
+symbol = "❄️"
 format = '[$symbol$state( \($name\))]($style) '
