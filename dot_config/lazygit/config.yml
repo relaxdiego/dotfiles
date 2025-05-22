@@ -27,7 +27,7 @@ customCommands:
     context: files
   - key: "c"
     command: |
-      GIT_EDITOR='vim -c "normal gg" -c "startinsert!"' git commit --edit  --template <(echo "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}{{if eq .Form.Breaking `yes`}}!{{end}}: ")
+      GIT_EDITOR='~/bin/nvim -c "normal gg" -c "startinsert!"' git commit --edit  --template <(echo "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}{{if eq .Form.Breaking `yes`}}!{{end}}: ")
     description: "commit with commitizen"
     context: files
     subprocess: true
