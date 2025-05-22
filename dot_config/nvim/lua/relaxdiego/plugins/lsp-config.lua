@@ -182,7 +182,7 @@ return {
         }
 
         -- Load basic null-ls configuration
-        require("relaxdiego.plugins.lsp.null_ls").setup(null_ls)
+        require("relaxdiego.plugins.lsp.null-ls").setup(null_ls)
 
         -- Initialize each language-specific configuration with shared context
         require("relaxdiego.plugins.lsp.python").setup(lsp_context)
