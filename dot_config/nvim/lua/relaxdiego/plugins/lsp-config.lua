@@ -85,12 +85,14 @@ return {
                 "yamlls",
                 "jsonls",
                 "pyright",
+                "tsserver",
             },
         }
         require("mason-null-ls").setup {
             ensure_installed = {
                 "stylua", -- Lua formatter
-                "prettier", -- Optional: for HTML, JS, CSS, etc.
+                "prettier", -- JavaScript/TypeScript formatter
+                "eslint_d", -- JavaScript/TypeScript linter
                 "ruff", -- Optional: for Python
                 "shellcheck", -- Optional: for shell scripts
             },
@@ -191,6 +193,7 @@ return {
         require("relaxdiego.plugins.lsp.terraform").setup(lsp_context)
         require("relaxdiego.plugins.lsp.yaml").setup(lsp_context)
         require("relaxdiego.plugins.lsp.json").setup(lsp_context)
+        require("relaxdiego.plugins.lsp.javascript").setup(lsp_context)
 
         -- Start null-ls with all configured sources from language modules
         null_ls.setup {
