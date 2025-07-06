@@ -6,6 +6,11 @@
 # place your custom config there. 
 #
 
+# Added by OrbStack: 'orb' SSH host for Linux machines
+# This only works if it's at the top of ssh_config (before any Host blocks).
+# This won't be added again if you remove it.
+Include ~/.orbstack/ssh/config
+
 Include config.d/*
 
 # From: https://1password.community/discussion/comment/660153/#Comment_660153
