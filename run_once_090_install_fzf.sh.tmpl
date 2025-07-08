@@ -1,16 +1,13 @@
 #!/bin/bash -e
-{{ $version := "0.34.0" -}}
+{{ $version := "0.64.0" -}}
 {{ $extension := "tar.gz" }}
-{{ if eq .chezmoi.os "darwin" }}
-    {{ $extension = "zip" }}
-{{ end  }}
 {{ $filename := printf "fzf-%s-%s_%s.%s" $version .chezmoi.os .chezmoi.arch $extension -}}
 
 cd /tmp
-wget -O {{ $filename  }} https://github.com/junegunn/fzf/releases/download/{{ $version }}/{{ $filename }}
+wget -O {{ $filename  }} https://github.com/junegunn/fzf/releases/download/v{{ $version }}/{{ $filename }}
 
 {{ if eq .chezmoi.os "darwin" }}
-    unzip {{ $filename }}
+    /opt/homebrew/opt/gnu-tar/libexec/gnubin/tar -xvf {{ $filename }}
 {{ else  }}
     tar -xvf {{ $filename }}
 {{ end  }}
