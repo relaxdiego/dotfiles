@@ -1,6 +1,7 @@
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "$HOME/.config/fzf-completion.bash" 2> /dev/null
+# Commented out since it's conflicting with bash-completion@2
+# [[ $- == *i* ]] && source "$HOME/.config/fzf-completion.bash" 2> /dev/null
 
 # Key bindings
 # ------------
