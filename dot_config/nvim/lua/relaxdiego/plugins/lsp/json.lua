@@ -78,8 +78,7 @@ function M.setup(ctx)
                             description = "devcontainer.json override",
                             fileMatch = { "devcontainer.json" },
                             name = "devcontainer.json",
-                            url =
-                            "https://raw.githubusercontent.com/relaxdiego/SchemaStoreOverrides/main/schemas/devContainer.schema.json",
+                            url = "https://raw.githubusercontent.com/relaxdiego/SchemaStoreOverrides/main/schemas/devContainer.schema.json",
                         },
                     },
                 }),
