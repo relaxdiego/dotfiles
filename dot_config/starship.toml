@@ -33,8 +33,16 @@ style_root = "red"
 format = "[$hostname]($style) "
 style = "#777777"
 
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+truncation_length = 8
+truncate_to_repo = true
+style = "cyan"
+
 [docker_context]
+symbol = " "
 format = '[$symbol$context]($style) '
+style = "blue"
 
 [aws]
 symbol = " "
@@ -42,8 +50,9 @@ style = "dimmed"
 format = '[$symbol($profile )(\($region\) )]($style)'
 
 [kubernetes]
-symbol = "⛵ "
+symbol = " "
 disabled = false
+format = '[$symbol$context(\($namespace\))]($style) '
 
 [[kubernetes.contexts]]
 context_pattern = 'arn:aws:eks:(?P<var_region>[\w-]+):\d+:cluster/(?P<var_cluster>[\w-]+)$'
@@ -65,16 +74,10 @@ style = "yellow"
 context_pattern = "prod.*"
 style = "red"
 
-[directory]
-format = "[$path]($style)[$read_only]($read_only_style) "
-truncation_length = 8
-truncate_to_repo = true
-# truncation_symbol = "…/"
-# fish_style_pwd_dir_length = 3
-
 [git_branch]
 format = "[$symbol$branch]($style) "
 symbol = " "
+style = "purple"
 
 [git_status]
 ahead = "⇡${count}"
@@ -87,19 +90,23 @@ disabled = true
 
 [golang]
 format = "[$symbol($version )]($style)"
-symbol = "🐹"
+symbol = "󰟓 "
+style = "cyan"
 
 [nodejs]
 format = "[$symbol($version )]($style)"
 symbol = " "
+style = "green"
 
 [python]
 format = '[$symbol${pyenv_prefix}(${version})]($style)[( $virtualenv) ](bold #6699BB)'
-symbol = "🐍"
+symbol = " "
+style = "yellow"
 
 [ruby]
 format = "[$symbol($version )]($style)"
-symbol = "💎"
+symbol = " "
+style = "red"
 
 [terraform]
 format = "[$symbol$version]($style) "
@@ -117,7 +124,7 @@ charging_symbol = "󰂇 "
 discharging_symbol = "󰁼"
 
 [[battery.display]]
-threshold = 30
+threshold = 20
 style = "bold red"
 
 [character]
@@ -132,8 +139,11 @@ format = "[helm:$version](bold #9999FF) "
 disabled = true
 
 [lua]
+format = '[$symbol($version )]($style)'
 symbol = "󰢱 "
+style = "blue"
 
 [nix_shell]
 symbol = "󱄅 "
-format = '[$symbol$state( \($name\))]($style) '
+format = '[$symbol$state(\($name\))]($style) '
+style = "blue"
