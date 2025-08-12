@@ -67,6 +67,9 @@ return {
             cmd = "lazygit",
             hidden = true,
             direction = "float",
+            on_close = function()
+                require("neo-tree.events").fire_event("git_event")
+            end,
         })
 
         local function toggle_lazygit()

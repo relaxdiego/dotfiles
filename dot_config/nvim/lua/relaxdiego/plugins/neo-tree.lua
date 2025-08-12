@@ -68,11 +68,12 @@ return {
             filesystem = {
                 filtered_items = {
                     visible = false,
+                    show_hidden_count = false,
                 },
                 hijack_netrw_behavior = "open_default",
                 use_libuv_file_watcher = true,
+                enable_git_status = true,
                 window = {
-                    width = 28,
                     mapping_options = {
                         noremap = true,
                         nowait = true,

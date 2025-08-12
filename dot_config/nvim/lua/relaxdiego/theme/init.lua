@@ -55,4 +55,31 @@ dashboard.config.layout = {
     dashboard.section.footer,
 }
 
+-- Auto-open Neo-tree when Alpha dashboard is displayed
+dashboard.config.opts.setup = function()
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "AlphaReady",
+        callback = function()
+            -- Longer delay to let Alpha finish all initialization
+            vim.defer_fn(function()
+                vim.cmd("Neotree show")
+                -- Use vim.schedule to run after all pending operations
+                vim.schedule(function()
+                    vim.defer_fn(function()
+                        -- Find and focus the Neo-tree window
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            local buf = vim.api.nvim_win_get_buf(win)
+                            local buf_name = vim.api.nvim_buf_get_name(buf)
+                            if string.match(buf_name, "neo%-tree") then
+                                vim.api.nvim_set_current_win(win)
+                                break
+                            end
+                        end
+                    end, 100)
+                end)
+            end, 200)
+        end,
+    })
+end
+
 return dashboard
