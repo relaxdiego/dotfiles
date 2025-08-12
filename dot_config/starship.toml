@@ -147,3 +147,4 @@ style = "blue"
 symbol = "󱄅 "
 format = '[$symbol$state(\($name\))]($style) '
 style = "blue"
+disabled = true
