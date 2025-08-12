@@ -4,3 +4,6 @@ tags.lock
 tags.temp
 
 .worktrees
+
+.claude-todos-12345
+.claude/settings.local.json
