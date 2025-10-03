@@ -1,6 +1,6 @@
 return {
-    "vim-test/vim-test",
-    commit = "08250c56f11cb3460c8a02c8fdb80c8a39c92173",
+    "relaxdiego/vim-test",
+    commit = "c63b94c1e5089807f4532e05f087351ddb5a207c",
     config = function()
         -- See: https://github.com/vim-test/vim-test
         vim.keymap.set("n", "<leader>s", ":TestNearest<CR>", { desc = "Run nearest test" })
