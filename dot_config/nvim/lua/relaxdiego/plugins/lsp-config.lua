@@ -27,6 +27,28 @@ return {
             "b0o/schemastore.nvim",
             commit = "f0ca13e2634f08f127e086909d18a9387a47e760",
         },
+        {
+            "hrsh7th/cmp-nvim-lsp",
+            -- PINNED TO PRE-BREAKING-CHANGE COMMIT FOR NEOVIM <0.11 COMPATIBILITY
+            --
+            -- ISSUE: As of commit 'bd5a7d6' (Aug 13, 2025), cmp-nvim-lsp updated its LSP client calls
+            --        from dot notation (client.request(...)) to colon notation (client:request(...))
+            --        for better Neovim 0.11+ support. This shifts function arguments in older Neovim
+            --        versions, causing the error: "bufnr: expected number, got function" during
+            --        TextChangedI autocompletion requests (traced to vim.lsp.client.lua:643).
+            --
+            -- WHY PINNED: This commit ('a8912b8') uses the old dot notation, avoiding the arg mismatch
+            --             on Neovim <0.11 without breaking other functionality. Run ':Lazy sync' after
+            --             adding this to install/pin.
+            --
+            -- LONG-TERM FIX: Upgrade to Neovim 0.11+ (e.g., via 'brew upgrade neovim' on macOS) for
+            --                native support of the new LSP method syntax. Once upgraded, remove this
+            --                'commit' line and run ':Lazy sync' to get the latest version. Verify with
+            --                ':checkhealth lsp' and test autocompletion in insert mode.
+            --
+            -- TRACK: Monitor https://github.com/hrsh7th/cmp-nvim-lsp for backports or further 0.10.x fixes.
+            commit = "a8912b8",
+        },
         -- Autocompletion
         {
             "hrsh7th/nvim-cmp",
@@ -52,10 +74,10 @@ return {
     },
     config = function()
         -- Load shared LSP utilities
-        local lsp_utils = require "relaxdiego.plugins.lsp"
+        local lsp_utils = require("relaxdiego.plugins.lsp")
 
         -- Set logging level
-        vim.lsp.set_log_level "error"
+        vim.lsp.set_log_level("error")
 
         -- Setup diagnostic signs and configuration
         lsp_utils.setup_diagnostic_signs()
@@ -65,7 +87,7 @@ return {
         require("lspconfig.ui.windows").default_options.border = "single"
 
         -- Setup Mason for LSP server management
-        require("mason").setup {
+        require("mason").setup({
             ui = {
                 border = "single",
                 icons = {
@@ -74,9 +96,9 @@ return {
                     package_uninstalled = "✗",
                 },
             },
-        }
+        })
 
-        require("mason-lspconfig").setup {
+        require("mason-lspconfig").setup({
             ensure_installed = {
                 "gopls",
                 "lua_ls",
@@ -87,8 +109,8 @@ return {
                 "pyright",
                 "tsserver",
             },
-        }
-        require("mason-null-ls").setup {
+        })
+        require("mason-null-ls").setup({
             ensure_installed = {
                 "stylua", -- Lua formatter
                 "prettier", -- JavaScript/TypeScript formatter
@@ -97,16 +119,16 @@ return {
                 "shellcheck", -- Optional: for shell scripts
             },
             automatic_installation = true,
-        }
+        })
 
         -- Setup completion
-        local cmp = require "cmp"
-        local luasnip = require "luasnip"
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
 
         -- Load snippets
         require("luasnip.loaders.from_vscode").lazy_load()
 
-        cmp.setup {
+        cmp.setup({
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
@@ -116,14 +138,14 @@ return {
                 completion = cmp.config.window.bordered(),
                 documentation = cmp.config.window.bordered(),
             },
-            mapping = cmp.mapping.preset.insert {
+            mapping = cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(),
                 ["<C-j>"] = cmp.mapping.select_next_item(),
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm { select = false },
+                ["<CR>"] = cmp.mapping.confirm({ select = false }),
                 -- Tab completion
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
@@ -143,17 +165,17 @@ return {
                         fallback()
                     end
                 end, { "i", "s" }),
-            },
-            sources = cmp.config.sources {
+            }),
+            sources = cmp.config.sources({
                 { name = "nvim_lsp" },
                 { name = "nvim_lsp_signature_help" },
                 { name = "luasnip" },
                 { name = "buffer" },
                 { name = "path" },
                 { name = "nvim_lua" },
-            },
+            }),
             preselect = cmp.PreselectMode.None,
-        }
+        })
 
         -- Autocompletion for / and ?
         cmp.setup.cmdline({ "/", "?" }, {
@@ -174,7 +196,7 @@ return {
         })
 
         -- Setup null-ls
-        local null_ls = require "null-ls"
+        local null_ls = require("null-ls")
 
         -- Create a context object to share with language modules
         local lsp_context = {
@@ -196,9 +218,9 @@ return {
         require("relaxdiego.plugins.lsp.javascript").setup(lsp_context)
 
         -- Start null-ls with all configured sources from language modules
-        null_ls.setup {
+        null_ls.setup({
             debug = false,
             sources = lsp_context.null_ls_sources,
-        }
+        })
     end,
 }
