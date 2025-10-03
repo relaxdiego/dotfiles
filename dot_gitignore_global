@@ -6,4 +6,5 @@ tags.temp
 .worktrees
 
 .claude-todos-12345
+.claude-todos
 .claude/settings.local.json
