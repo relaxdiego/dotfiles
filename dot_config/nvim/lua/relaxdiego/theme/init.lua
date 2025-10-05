@@ -17,15 +17,14 @@ math.randomseed(os.time())
 local art_file = files[math.random(#files)]
 
 -- get the height of the current window
+local MIN_HEIGHT_FOR_ART = 30
 local win_id = vim.api.nvim_get_current_win()
 local height = vim.api.nvim_win_get_height(win_id)
 
-if height > 30 then
+if height > MIN_HEIGHT_FOR_ART then
     dashboard.section.terminal.command = "cat | " .. art_file
     dashboard.section.terminal.width = 25
     dashboard.section.terminal.height = 13
-else
-    dashboard.section.terminal.height = 1
 end
 
 local smol = {
@@ -44,16 +43,22 @@ local header = {
 
 dashboard.section.header = header
 
-dashboard.config.layout = {
+local layout = {
     { type = "padding", val = 1 },
-    dashboard.section.terminal,
-    { type = "padding", val = 1 },
-    dashboard.section.header,
-    { type = "padding", val = 2 },
-    dashboard.section.buttons,
-    { type = "padding", val = 1 },
-    dashboard.section.footer,
 }
+
+if height > MIN_HEIGHT_FOR_ART then
+    table.insert(layout, dashboard.section.terminal)
+    table.insert(layout, { type = "padding", val = 1 })
+end
+
+table.insert(layout, dashboard.section.header)
+table.insert(layout, { type = "padding", val = 2 })
+table.insert(layout, dashboard.section.buttons)
+table.insert(layout, { type = "padding", val = 1 })
+table.insert(layout, dashboard.section.footer)
+
+dashboard.config.layout = layout
 
 -- Auto-open Neo-tree when Alpha dashboard is displayed
 dashboard.config.opts.setup = function()
