@@ -4,8 +4,8 @@ require("alpha.term")
 local dashboard = require("alpha.themes.dashboard")
 dashboard.section.buttons.val = {
     dashboard.button("Ctrl p", "󰈞  Find file", "<C-P>"),
-    dashboard.button("<leader> ag", "󰑑  Live Grep"),
-    dashboard.button("<leader> nt", "󰙅  Tree view"),
+    dashboard.button("<leader> ag", "󰑑  Live grep"),
+    dashboard.button("<leader> nt", "󰙅  Toggle tree"),
     dashboard.button("e", "  New file", "<cmd>ene <CR>"),
     dashboard.button("(Sorry, you're stuck)", "󰩈  Quit", ":q<CR>"),
 }
