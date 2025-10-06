@@ -86,14 +86,16 @@ dashboard.config.opts.setup = function()
         end,
     })
 
-    -- Close alpha buffer when another buffer is opened
+    -- Close alpha buffer when another buffer is opened in a normal window
     vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
             local buf = vim.api.nvim_get_current_buf()
             local buftype = vim.api.nvim_buf_get_option(buf, "filetype")
+            local win = vim.api.nvim_get_current_win()
+            local win_config = vim.api.nvim_win_get_config(win)
 
-            -- Check if we're entering a real file buffer (not alpha, neo-tree, etc)
-            if buftype ~= "alpha" and buftype ~= "neo-tree" then
+            -- Check if we're entering a real file buffer in a normal (non-floating) window
+            if buftype ~= "alpha" and buftype ~= "neo-tree" and win_config.relative == "" then
                 -- Find and delete the alpha buffer
                 for _, b in ipairs(vim.api.nvim_list_bufs()) do
                     if vim.api.nvim_buf_is_valid(b) and vim.api.nvim_buf_get_option(b, "filetype") == "alpha" then
