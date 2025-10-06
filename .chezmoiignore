@@ -10,3 +10,4 @@ tags
 .config/nvim/spell/*
 .bashrc.d/*chezmoi-ignored.bashrc*
 .DS_Store
+.claude
