@@ -16,7 +16,7 @@ return {
                     not diffmode then
                     vim.cmd('wincmd _')
                 end
-                if vim.bo.filetype == 'trouble' then
+                if vim.bo.filetype == 'trouble' or vim.bo.filetype == 'qf' then
                     vim.cmd('set winheight=10')
                     vim.cmd('set winminheight=10')
                 end
