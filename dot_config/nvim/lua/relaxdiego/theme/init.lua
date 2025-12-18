@@ -60,32 +60,8 @@ table.insert(layout, dashboard.section.footer)
 
 dashboard.config.layout = layout
 
--- Auto-open Neo-tree when Alpha dashboard is displayed
+-- Setup function for dashboard behavior
 dashboard.config.opts.setup = function()
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "AlphaReady",
-        callback = function()
-            -- Longer delay to let Alpha finish all initialization
-            vim.defer_fn(function()
-                vim.cmd("Neotree show")
-                -- Use vim.schedule to run after all pending operations
-                vim.schedule(function()
-                    vim.defer_fn(function()
-                        -- Find and focus the Neo-tree window
-                        for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            local buf = vim.api.nvim_win_get_buf(win)
-                            local buf_name = vim.api.nvim_buf_get_name(buf)
-                            if string.match(buf_name, "neo%-tree") then
-                                vim.api.nvim_set_current_win(win)
-                                break
-                            end
-                        end
-                    end, 100)
-                end)
-            end, 200)
-        end,
-    })
-
     -- Close alpha buffer when another buffer is opened in a normal window
     vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
@@ -96,6 +72,20 @@ dashboard.config.opts.setup = function()
 
             -- Check if we're entering a real file buffer in a normal (non-floating) window
             if buftype ~= "alpha" and buftype ~= "neo-tree" and win_config.relative == "" then
+                -- Close all terminal windows associated with alpha first
+                for _, w in ipairs(vim.api.nvim_list_wins()) do
+                    if vim.api.nvim_win_is_valid(w) then
+                        local win_buf = vim.api.nvim_win_get_buf(w)
+                        if vim.api.nvim_buf_is_valid(win_buf) then
+                            local term_buftype = vim.api.nvim_buf_get_option(win_buf, "buftype")
+                            -- Close terminal windows that are part of alpha
+                            if term_buftype == "terminal" then
+                                pcall(vim.api.nvim_win_close, w, true)
+                            end
+                        end
+                    end
+                end
+
                 -- Find and delete the alpha buffer
                 for _, b in ipairs(vim.api.nvim_list_bufs()) do
                     if vim.api.nvim_buf_is_valid(b) and vim.api.nvim_buf_get_option(b, "filetype") == "alpha" then
