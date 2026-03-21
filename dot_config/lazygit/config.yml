@@ -3,9 +3,9 @@ git:
     showGraph: always
   autoFetch: false
   fetchInterval: 0
-  paging:
-    colorArg: always
-    pager: delta --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never
 gui:
   nerdFontsVersion: "3"
 refresher:
@@ -13,7 +13,7 @@ refresher:
   fetchInterval: 0
 keybinding:
   files:
-    findBaseCommitForFixup: <disabled>  # Use <c-f> to page down
+    findBaseCommitForFixup: <disabled> # Use <c-f> to page down
   universal:
     nextPage: <c-f>
     prevPage: <c-b>
@@ -30,7 +30,6 @@ customCommands:
       GIT_EDITOR='~/bin/nvim -c "normal gg" -c "startinsert!"' git commit --edit  --template <(echo "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}{{if eq .Form.Breaking `yes`}}!{{end}}: ")
     description: "commit staged changes"
     context: files
-    subprocess: true
     prompts:
       - type: "menu"
         title: "Type of commit?"
@@ -80,3 +79,4 @@ customCommands:
             value: "no"
           - name: "Breaks its public API"
             value: "yes"
+    output: terminal
