@@ -8,3 +8,7 @@ tags.temp
 .claude-todos-12345
 .claude-todos
 .claude/settings.local.json
+.claude/napkin.md
+.claude/CLAUDE.md
+
+.ropeproject
