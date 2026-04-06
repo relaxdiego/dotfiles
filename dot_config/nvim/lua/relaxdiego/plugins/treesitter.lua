@@ -3,6 +3,18 @@ return {
     commit = "v0.9.3",
     build = ":TSUpdate",
     config = function()
+        -- Register the Caddyfile tree-sitter parser
+        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+        parser_config.caddyfile = {
+            install_info = {
+                url = "https://github.com/matthewpi/tree-sitter-caddyfile",
+                files = { "src/parser.c" },
+                branch = "master",
+                revision = "2c74f94ca43748e01f336b774324b98f93aa0de4",
+            },
+            filetype = "caddyfile",
+        }
+
         require("nvim-treesitter.configs").setup {
             -- A list of parser names, or "all"
             ensure_installed = {

@@ -84,6 +84,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
 })
 
+-- Caddyfile detection
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    group = filetype_group,
+    pattern = { "Caddyfile", "Caddyfile.*", "*.Caddyfile" },
+    command = "setfiletype caddyfile",
+})
+
 -- Set devbox.json filetype to json5 to support comments
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = filetype_group,
