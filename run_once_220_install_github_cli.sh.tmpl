@@ -15,8 +15,9 @@ verify_sha256() {  # <expected> <file>
 
 echo "Installing https://cli.github.com/"
 
-version="2.68.1"
+version="2.95.0"
 unamestr=$(uname)
+machinestr=$(uname -m)
 
 # Use mktemp in a way that works on both macOS and Linux
 if [[ "$unamestr" == 'Darwin' ]]; then
@@ -26,16 +27,21 @@ else
 fi
 
 # Set OS architecture, file extension, and pinned checksum appropriately.
-# To upgrade: bump the version and update both sha256 values from
+# To upgrade: bump the version and update all three sha256 values from
 # https://github.com/cli/cli/releases/download/v<ver>/gh_<ver>_checksums.txt
 if [[ "$unamestr" == 'Darwin' ]]; then
-    os_arch="macOS_amd64"
     file_ext="zip"
-    sha256="8cafbf34bb7b9bdd37af34158626d00094f0223dbe6c9b543f20e0a6b34c943b"
+    if [[ "$machinestr" == 'arm64' ]]; then
+        os_arch="macOS_arm64"
+        sha256="3677f9c27965825f9c7d50395473c134edaea4b484373ef6b25de653570a0489"
+    else
+        os_arch="macOS_amd64"
+        sha256="985707e9ac60c95ed51cddd808c338b481abe69fffa77e9d6547c3750045f77e"
+    fi
 elif [[ "$unamestr" == 'Linux' ]]; then
     os_arch="linux_amd64"
     file_ext="tar.gz"
-    sha256="b4f533bf21d1fc0750976b4755e479ae3f59bfc42c9c22dfb0c0c5491ab1e152"
+    sha256="25d1e4729e8808c9ed3d613e96ebd3f3e44446f2d368c89d878a71a36ddb3d8c"
 else
     echo "I don't support installing in this OS yet!"
     exit 1

@@ -11,7 +11,7 @@ verify_sha256() {  # <expected> <file>
   fi
 }
 
-LAZYGIT_VERSION="0.58.1"
+LAZYGIT_VERSION="0.62.2"
 BASE_URL="https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}"
 
 echo "Installing lazygit ${LAZYGIT_VERSION}..."
@@ -22,7 +22,7 @@ elif [[ "$(uname)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
     # Pinned checksum. To upgrade: bump LAZYGIT_VERSION and update the sha256
     # from https://github.com/jesseduffield/lazygit/releases/download/v<ver>/checksums.txt
     archive="lazygit_${LAZYGIT_VERSION}_linux_x86_64.tar.gz"
-    sha256="61b6b839390c193466fb692f75df4e75ef5e9ced2bf5e0ca8b3848902f0adea9"
+    sha256="8b9a4c2d0969cbea92b45c956dd2a44e1ba76900c9df49f1c60984045ce77984"
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
     curl -fLsS "${BASE_URL}/${archive}" -o "$tmp_dir/$archive"

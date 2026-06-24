@@ -83,15 +83,15 @@ echo "Go $LATEST_GO_VERSION installed successfully in ~/bin"
 echo "Installing additional Go tools..."
 
 # Install golangci-lint
-GOLANGCI_LINT_VERSION="1.55.2"
+GOLANGCI_LINT_VERSION="2.12.2"
 echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION}"
 GOLANGCI_LINT_ARCHIVE="golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}.tar.gz"
 GOLANGCI_LINT_URL="https://github.com/golangci/golangci-lint/releases/download/v${GOLANGCI_LINT_VERSION}/${GOLANGCI_LINT_ARCHIVE}"
 # Pinned checksum. To upgrade: bump the version and update the sha256 values from
 # golangci-lint-<ver>-checksums.txt in the matching GitHub release.
 case "${OS}-${ARCH}" in
-  linux-amd64)  GOLANGCI_LINT_SHA256="ca21c961a33be3bc15e4292dc40c98c8dcc5463a7b6768a3afc123761630c09c" ;;
-  darwin-arm64) GOLANGCI_LINT_SHA256="234463f059249f82045824afdcdd5db5682d0593052f58f6a3039a0a1c3899f6" ;;
+  linux-amd64)  GOLANGCI_LINT_SHA256="8df580d2670fed8fa984aac0507099af8df275e665215f5c7a2ae3943893a553" ;;
+  darwin-arm64) GOLANGCI_LINT_SHA256="a9c54498731b3128f79e090be6110f3e5fffccc617b08142ed244d4126c73f29" ;;
   *) echo "Error: no golangci-lint checksum pinned for ${OS}-${ARCH}" >&2; exit 1 ;;
 esac
 TMP_DIR=$(mktemp -d)

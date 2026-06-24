@@ -10,16 +10,16 @@ verify_sha256() {  # <expected> <file>
     echo "$1  $2" | shasum -a 256 -c -
   fi
 }
-{{ $version := "0.64.0" -}}
+{{ $version := "0.73.1" -}}
 {{ $extension := "tar.gz" -}}
 {{ $filename := printf "fzf-%s-%s_%s.%s" $version .chezmoi.os .chezmoi.arch $extension -}}
 {{/* Pinned checksums. To upgrade: bump $version and update the sha256 values from
      https://github.com/junegunn/fzf/releases/download/v<ver>/fzf_<ver>_checksums.txt */}}
 {{ $sha256 := "" -}}
 {{ if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") -}}
-{{   $sha256 = "c71d2528e090de5d4765017d745f8a4fed44b43703f93247a28f6dc2aa4c7c01" -}}
+{{   $sha256 = "d27fd68c04fb9b42f7c73a3f7d38069a74d308e40174f64a072c747213e97286" -}}
 {{ else if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
-{{   $sha256 = "e61bdbb4356ee243d2247c2e0bf990b23eb8b8346557d0f496898c61bc835880" -}}
+{{   $sha256 = "f3252c2c366bc1700d3c85781ec8c9695998927ac127870eb049ceea2d540f8a" -}}
 {{ end -}}
 {{ if eq $sha256 "" }}
 echo "ERROR: no fzf checksum pinned for {{ .chezmoi.os }}/{{ .chezmoi.arch }}" >&2

@@ -30,8 +30,8 @@ elif [[ "$unamestr" == 'Linux' ]]; then
         # Delta does not publish a checksum file, so this sha256 was computed
         # from the released .deb. To upgrade: bump the version and recompute with
         # curl -sL <url> | sha256sum
-        deb_sha256="5ff245b2c66510b746e68bfdda65f31a66c9c79d10d2a8241c19cbceb12d3caa"
-        wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb
+        deb_sha256="ea4f0222950ee750a3d38dd80d03bce4cee07a3f63928fc47548383bcaf23093"
+        wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.19.2/git-delta_0.19.2_amd64.deb
         verify_sha256 "${deb_sha256}" "/tmp/git-delta.deb"
         sudo dpkg -i /tmp/git-delta.deb
     elif hash dnf 1>&2>/dev/null; then
