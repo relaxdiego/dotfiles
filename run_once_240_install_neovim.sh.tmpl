@@ -1,4 +1,16 @@
 #!/bin/bash -eux
+
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 version="0.10.4"
 
 {{ if (eq .chezmoi.os "linux") }}
@@ -15,11 +27,7 @@ cd /tmp
 wget -O nvim.tar.gz https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz
 wget -O nvim.tar.gz.sha256sum https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz.sha256sum
 expected_sha="$(cut -d' ' -f1 nvim.tar.gz.sha256sum)"
-actual_sha="$(sha256sum nvim.tar.gz | cut -d' ' -f1)"
-if [ "$actual_sha" != "$expected_sha" ]; then
-    echo "ERROR: Neovim checksum did not match!!!" >&2
-    exit 1
-fi
+verify_sha256 "$expected_sha" nvim.tar.gz
 tar -xvf nvim.tar.gz
 rm -rf "$HOME/bin/${tarball_basename}"
 mv "${tarball_basename}" "$HOME/bin/"

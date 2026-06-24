@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 # Create ~/bin directory if it doesn't exist and add to PATH if needed
 mkdir -p ~/bin
 export PATH="$HOME/bin:$PATH"
@@ -51,7 +62,7 @@ fi
 echo "Downloading Go from $GO_URL"
 TMP_DIR=$(mktemp -d)
 curl -L "$GO_URL" -o "$TMP_DIR/$GO_TARBALL"
-echo "${GO_SHA256}  $TMP_DIR/$GO_TARBALL" | sha256sum -c -
+verify_sha256 "${GO_SHA256}" "$TMP_DIR/$GO_TARBALL"
 
 echo "Extracting Go to temporary location..."
 tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GO_TARBALL"
@@ -85,7 +96,7 @@ case "${OS}-${ARCH}" in
 esac
 TMP_DIR=$(mktemp -d)
 curl -L "$GOLANGCI_LINT_URL" -o "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
-echo "${GOLANGCI_LINT_SHA256}  $TMP_DIR/$GOLANGCI_LINT_ARCHIVE" | sha256sum -c -
+verify_sha256 "${GOLANGCI_LINT_SHA256}" "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
 tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
 cp "$TMP_DIR/golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}/golangci-lint" ~/bin/
 rm -rf "$TMP_DIR"

@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 echo "Node.js"
 
 # Backup ~/.bashrc before installer execution
@@ -10,7 +21,7 @@ cp ~/.bashrc ~/.bashrc.87cce59.backup
 nvm_install_sha256="2d8359a64a3cb07c02389ad88ceecd43f2fa469c06104f92f98df5b6f315275f"
 nvm_install_sh="$(mktemp)"
 curl -fLsS -o "$nvm_install_sh" https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh
-echo "${nvm_install_sha256}  ${nvm_install_sh}" | sha256sum -c -
+verify_sha256 "${nvm_install_sha256}" "${nvm_install_sh}"
 bash "$nvm_install_sh"
 rm -f "$nvm_install_sh"
 # Restore original bashrc. Settings are in ~/.bashrc.d/100_nvm.bashrc already

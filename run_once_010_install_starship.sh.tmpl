@@ -1,4 +1,16 @@
 #!/bin/bash -ex
+
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 starship_version="1.22.1"
 
 if which starship; then
@@ -24,11 +36,7 @@ cd /tmp
 wget -O starship.tar.gz https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz
 wget -O starship.tar.gz.sha256 https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz.sha256
 expected_sha="$(cut -d' ' -f1 starship.tar.gz.sha256)"
-actual_sha="$(sha256sum starship.tar.gz | cut -d' ' -f1)"
-if [ "$actual_sha" != "$expected_sha" ]; then
-    echo "ERROR: starship CLI checksum did not match!!!" >&2
-    exit 1
-fi
+verify_sha256 "$expected_sha" starship.tar.gz
 tar -xvf starship.tar.gz
 mkdir -p $HOME/bin
 mv starship $HOME/bin

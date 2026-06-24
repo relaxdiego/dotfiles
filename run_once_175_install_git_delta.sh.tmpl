@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 echo "Installing github.com/dandavison/delta"
 
 platform='unknown'
@@ -21,7 +32,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
         # curl -sL <url> | sha256sum
         deb_sha256="5ff245b2c66510b746e68bfdda65f31a66c9c79d10d2a8241c19cbceb12d3caa"
         wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb
-        echo "${deb_sha256}  /tmp/git-delta.deb" | sha256sum -c -
+        verify_sha256 "${deb_sha256}" "/tmp/git-delta.deb"
         sudo dpkg -i /tmp/git-delta.deb
     elif hash dnf 1>&2>/dev/null; then
         sudo dnf install git-delta

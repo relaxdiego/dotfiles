@@ -1,4 +1,15 @@
 #!/bin/bash -e
+
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
 {{ $version := "0.64.0" -}}
 {{ $extension := "tar.gz" -}}
 {{ $filename := printf "fzf-%s-%s_%s.%s" $version .chezmoi.os .chezmoi.arch $extension -}}
@@ -16,7 +27,7 @@ exit 1
 {{ end }}
 cd /tmp
 wget -O {{ $filename  }} https://github.com/junegunn/fzf/releases/download/v{{ $version }}/{{ $filename }}
-echo "{{ $sha256 }}  {{ $filename }}" | sha256sum -c -
+verify_sha256 "{{ $sha256 }}" "{{ $filename }}"
 
 {{ if eq .chezmoi.os "darwin" }}
     /opt/homebrew/opt/gnu-tar/libexec/gnubin/tar -xvf {{ $filename }}

@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 # From: https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 
 echo "Installing https://cli.github.com/"
@@ -35,7 +46,7 @@ archive_path="${tmp_dir}/archive.${file_ext}"
 
 echo "Downloading from: $url"
 curl -L "$url" -o "$archive_path"
-echo "${sha256}  ${archive_path}" | sha256sum -c -
+verify_sha256 "${sha256}" "${archive_path}"
 cd "$tmp_dir"
 pwd
 ls -l

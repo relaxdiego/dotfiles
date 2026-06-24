@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 LAZYGIT_VERSION="0.58.1"
 BASE_URL="https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}"
 
@@ -15,7 +26,7 @@ elif [[ "$(uname)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
     curl -fLsS "${BASE_URL}/${archive}" -o "$tmp_dir/$archive"
-    echo "${sha256}  ${tmp_dir}/${archive}" | sha256sum -c -
+    verify_sha256 "${sha256}" "${tmp_dir}/${archive}"
     tar -xzf "$tmp_dir/$archive" -C "$tmp_dir" lazygit
     mkdir -p "$HOME/bin"
     mv "$tmp_dir/lazygit" "$HOME/bin/lazygit"

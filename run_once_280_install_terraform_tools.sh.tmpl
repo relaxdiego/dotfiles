@@ -1,5 +1,16 @@
 #!/bin/bash -e
 
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
 echo "Installing tflint"
 
 unamestr=$(uname)
@@ -18,7 +29,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
     curl -fLsS "$url" -o "$tmp_dir/$archive"
-    echo "${tflint_sha256}  ${tmp_dir}/${archive}" | sha256sum -c -
+    verify_sha256 "${tflint_sha256}" "${tmp_dir}/${archive}"
 
     unzip -o "$tmp_dir/$archive" -d "$tmp_dir"
     mkdir -p "$HOME/bin"
