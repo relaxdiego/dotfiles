@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-version="0.26.7"
+version="0.27.3"
 echo "Installing github.com/derailed/k9s ${version}"
 
 unamestr=$(uname)
@@ -16,10 +16,16 @@ if [[ "$unamestr" == 'Darwin' ]]; then
     fi
 elif [[ "$unamestr" == 'Linux' ]]; then
     echo "Get the binary from https://github.com/derailed/k9s/releases"
+    # Pinned checksum. To upgrade: bump the version above and update the sha256
+    # from https://github.com/derailed/k9s/releases/download/v<ver>/checksums.txt
+    archive="k9s_Linux_amd64.tar.gz"
+    sha256="b0eb5fb0decedbee5b6bd415f72af8ce6135ffb8128f9709bc7adcd5cbfa690b"
     mkdir -p /tmp/k9s
     cd /tmp/k9s
-    wget https://github.com/derailed/k9s/releases/download/v0.27.3/k9s_Linux_amd64.tar.gz
-    tar -xvf k9s_Linux_amd64.tar.gz
+    wget "https://github.com/derailed/k9s/releases/download/v${version}/${archive}"
+    echo "${sha256}  ${archive}" | sha256sum -c -
+    tar -xvf "${archive}"
+    mkdir -p ~/bin
     cp k9s ~/bin/
 else
     echo "ERROR: I don't support installation for this OS yet!"
