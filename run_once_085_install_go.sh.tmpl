@@ -34,9 +34,24 @@ echo "Latest Go version: $LATEST_GO_VERSION"
 # Download and install Go
 GO_TARBALL="go${LATEST_GO_VERSION}.${OS}-${ARCH}.tar.gz"
 GO_URL="https://go.dev/dl/${GO_TARBALL}"
+
+# Go publishes a per-file sha256 in its release index. Fetch it for this exact
+# tarball so even the "latest" build is verified before we trust it.
+echo "Fetching Go checksum for $GO_TARBALL..."
+GO_SHA256=$(curl -sL "https://go.dev/dl/?mode=json&include=all" \
+  | grep -A 6 "\"${GO_TARBALL}\"" \
+  | grep '"sha256"' \
+  | head -n 1 \
+  | sed -E 's/.*"sha256": "([a-f0-9]+)".*/\1/')
+if [[ -z "$GO_SHA256" ]]; then
+  echo "Error: could not find a published sha256 for $GO_TARBALL" >&2
+  exit 1
+fi
+
 echo "Downloading Go from $GO_URL"
 TMP_DIR=$(mktemp -d)
 curl -L "$GO_URL" -o "$TMP_DIR/$GO_TARBALL"
+echo "${GO_SHA256}  $TMP_DIR/$GO_TARBALL" | sha256sum -c -
 
 echo "Extracting Go to temporary location..."
 tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GO_TARBALL"
@@ -61,8 +76,16 @@ GOLANGCI_LINT_VERSION="1.55.2"
 echo "Installing golangci-lint ${GOLANGCI_LINT_VERSION}"
 GOLANGCI_LINT_ARCHIVE="golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}.tar.gz"
 GOLANGCI_LINT_URL="https://github.com/golangci/golangci-lint/releases/download/v${GOLANGCI_LINT_VERSION}/${GOLANGCI_LINT_ARCHIVE}"
+# Pinned checksum. To upgrade: bump the version and update the sha256 values from
+# golangci-lint-<ver>-checksums.txt in the matching GitHub release.
+case "${OS}-${ARCH}" in
+  linux-amd64)  GOLANGCI_LINT_SHA256="ca21c961a33be3bc15e4292dc40c98c8dcc5463a7b6768a3afc123761630c09c" ;;
+  darwin-arm64) GOLANGCI_LINT_SHA256="234463f059249f82045824afdcdd5db5682d0593052f58f6a3039a0a1c3899f6" ;;
+  *) echo "Error: no golangci-lint checksum pinned for ${OS}-${ARCH}" >&2; exit 1 ;;
+esac
 TMP_DIR=$(mktemp -d)
 curl -L "$GOLANGCI_LINT_URL" -o "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
+echo "${GOLANGCI_LINT_SHA256}  $TMP_DIR/$GOLANGCI_LINT_ARCHIVE" | sha256sum -c -
 tar -C "$TMP_DIR" -xzf "$TMP_DIR/$GOLANGCI_LINT_ARCHIVE"
 cp "$TMP_DIR/golangci-lint-${GOLANGCI_LINT_VERSION}-${OS}-${ARCH}/golangci-lint" ~/bin/
 rm -rf "$TMP_DIR"
