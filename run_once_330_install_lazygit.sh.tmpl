@@ -8,8 +8,18 @@ echo "Installing lazygit ${LAZYGIT_VERSION}..."
 if [[ "$(uname)" == "Darwin" ]]; then
     brew install lazygit
 elif [[ "$(uname)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
-    DOWNLOAD_URL="${BASE_URL}/lazygit_${LAZYGIT_VERSION}_Linux_32-bit.tar.gz"
-    curl -L "${DOWNLOAD_URL}" | tar xz -C /usr/local/bin lazygit
+    # Pinned checksum. To upgrade: bump LAZYGIT_VERSION and update the sha256
+    # from https://github.com/jesseduffield/lazygit/releases/download/v<ver>/checksums.txt
+    archive="lazygit_${LAZYGIT_VERSION}_linux_x86_64.tar.gz"
+    sha256="61b6b839390c193466fb692f75df4e75ef5e9ced2bf5e0ca8b3848902f0adea9"
+    tmp_dir="$(mktemp -d)"
+    trap 'rm -rf "$tmp_dir"' EXIT
+    curl -fLsS "${BASE_URL}/${archive}" -o "$tmp_dir/$archive"
+    echo "${sha256}  ${tmp_dir}/${archive}" | sha256sum -c -
+    tar -xzf "$tmp_dir/$archive" -C "$tmp_dir" lazygit
+    mkdir -p "$HOME/bin"
+    mv "$tmp_dir/lazygit" "$HOME/bin/lazygit"
+    chmod +x "$HOME/bin/lazygit"
     echo "Installed lazygit ${LAZYGIT_VERSION}"
 else
     echo "Unable to install lazygit: unsupported OS"
