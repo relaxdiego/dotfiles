@@ -1,10 +1,22 @@
 #!/bin/bash -e
 {{ $version := "0.64.0" -}}
-{{ $extension := "tar.gz" }}
+{{ $extension := "tar.gz" -}}
 {{ $filename := printf "fzf-%s-%s_%s.%s" $version .chezmoi.os .chezmoi.arch $extension -}}
-
+{{/* Pinned checksums. To upgrade: bump $version and update the sha256 values from
+     https://github.com/junegunn/fzf/releases/download/v<ver>/fzf_<ver>_checksums.txt */}}
+{{ $sha256 := "" -}}
+{{ if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") -}}
+{{   $sha256 = "c71d2528e090de5d4765017d745f8a4fed44b43703f93247a28f6dc2aa4c7c01" -}}
+{{ else if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
+{{   $sha256 = "e61bdbb4356ee243d2247c2e0bf990b23eb8b8346557d0f496898c61bc835880" -}}
+{{ end -}}
+{{ if eq $sha256 "" }}
+echo "ERROR: no fzf checksum pinned for {{ .chezmoi.os }}/{{ .chezmoi.arch }}" >&2
+exit 1
+{{ end }}
 cd /tmp
 wget -O {{ $filename  }} https://github.com/junegunn/fzf/releases/download/v{{ $version }}/{{ $filename }}
+echo "{{ $sha256 }}  {{ $filename }}" | sha256sum -c -
 
 {{ if eq .chezmoi.os "darwin" }}
     /opt/homebrew/opt/gnu-tar/libexec/gnubin/tar -xvf {{ $filename }}
