@@ -4,8 +4,15 @@ echo "Node.js"
 
 # Backup ~/.bashrc before installer execution
 cp ~/.bashrc ~/.bashrc.87cce59.backup
-# installs nvm (Node Version Manager)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# installs nvm (Node Version Manager). The installer is pinned to git tag
+# v0.40.3, so its bytes are immutable; verify the sha256 before running it.
+# To upgrade: bump the tag and update the sha256 of that tag's install.sh.
+nvm_install_sha256="2d8359a64a3cb07c02389ad88ceecd43f2fa469c06104f92f98df5b6f315275f"
+nvm_install_sh="$(mktemp)"
+curl -fLsS -o "$nvm_install_sh" https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh
+echo "${nvm_install_sha256}  ${nvm_install_sh}" | sha256sum -c -
+bash "$nvm_install_sh"
+rm -f "$nvm_install_sh"
 # Restore original bashrc. Settings are in ~/.bashrc.d/100_nvm.bashrc already
 mv ~/.bashrc ~/.bashrc.node
 mv ~/.bashrc.87cce59.backup ~/.bashrc
