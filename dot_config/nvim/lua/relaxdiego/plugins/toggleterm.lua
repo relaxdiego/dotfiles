@@ -1,5 +1,6 @@
 return {
     "akinsho/toggleterm.nvim",
+    commit = "9a88eae817ef395952e08650b3283726786fb5fb",
     event = "VeryLazy",
     config = function()
         local function compute_width()

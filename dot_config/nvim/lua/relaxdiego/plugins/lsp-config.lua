@@ -18,6 +18,7 @@ return {
         -- For formatters and linters
         {
             "nvimtools/none-ls.nvim",
+            commit = "01f8e62ea11603e59ad9ff7afcfa94fd183f76d6",
             dependencies = {
                 "nvim-lua/plenary.nvim",
             },
@@ -54,13 +55,14 @@ return {
             "hrsh7th/nvim-cmp",
             commit = "5260e5e8ecadaf13e6b82cf867a909f54e15fd07",
             dependencies = {
+                -- cmp-nvim-lsp is pinned in its own spec block above
                 "hrsh7th/cmp-nvim-lsp",
-                "hrsh7th/cmp-buffer",
-                "hrsh7th/cmp-path",
-                "hrsh7th/cmp-cmdline",
-                "hrsh7th/cmp-nvim-lsp-signature-help",
-                "hrsh7th/cmp-nvim-lua",
-                "saadparwaiz1/cmp_luasnip",
+                { "hrsh7th/cmp-buffer", commit = "b74fab3656eea9de20a9b8116afa3cfc4ec09657" },
+                { "hrsh7th/cmp-path", commit = "c642487086dbd9a93160e1679a1327be111cbc25" },
+                { "hrsh7th/cmp-cmdline", commit = "d126061b624e0af6c3a556428712dd4d4194ec6d" },
+                { "hrsh7th/cmp-nvim-lsp-signature-help", commit = "fd3e882e56956675c620898bf1ffcf4fcbe7ec84" },
+                { "hrsh7th/cmp-nvim-lua", commit = "e3a22cb071eb9d6508a156306b102c45cd2d573d" },
+                { "saadparwaiz1/cmp_luasnip", commit = "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
             },
         },
         -- Snippets
@@ -68,7 +70,7 @@ return {
             "L3MON4D3/LuaSnip",
             commit = "3d2ad0c0fa25e4e272ade48a62a185ebd0fe26c1",
             dependencies = {
-                "rafamadriz/friendly-snippets",
+                { "rafamadriz/friendly-snippets", commit = "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
             },
         },
     },

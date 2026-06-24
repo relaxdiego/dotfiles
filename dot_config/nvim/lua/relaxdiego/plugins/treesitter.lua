@@ -1,6 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    commit = "v0.9.3",
+    commit = "cfc6f2c117aaaa82f19bcce44deec2c194d900ab", -- v0.9.3
     build = ":TSUpdate",
     config = function()
         -- Register the Caddyfile tree-sitter parser
