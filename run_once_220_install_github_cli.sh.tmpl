@@ -14,13 +14,17 @@ else
     tmp_dir=$(mktemp --directory --tmpdir=/tmp github-cli.XXX)
 fi
 
-# Set OS architecture and file extension appropriately
+# Set OS architecture, file extension, and pinned checksum appropriately.
+# To upgrade: bump the version and update both sha256 values from
+# https://github.com/cli/cli/releases/download/v<ver>/gh_<ver>_checksums.txt
 if [[ "$unamestr" == 'Darwin' ]]; then
     os_arch="macOS_amd64"
     file_ext="zip"
+    sha256="8cafbf34bb7b9bdd37af34158626d00094f0223dbe6c9b543f20e0a6b34c943b"
 elif [[ "$unamestr" == 'Linux' ]]; then
     os_arch="linux_amd64"
     file_ext="tar.gz"
+    sha256="b4f533bf21d1fc0750976b4755e479ae3f59bfc42c9c22dfb0c0c5491ab1e152"
 else
     echo "I don't support installing in this OS yet!"
     exit 1
@@ -31,6 +35,7 @@ archive_path="${tmp_dir}/archive.${file_ext}"
 
 echo "Downloading from: $url"
 curl -L "$url" -o "$archive_path"
+echo "${sha256}  ${archive_path}" | sha256sum -c -
 cd "$tmp_dir"
 pwd
 ls -l
