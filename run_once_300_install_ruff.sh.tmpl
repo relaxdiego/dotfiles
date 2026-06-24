@@ -6,8 +6,24 @@ unamestr=$(uname)
 
 if [[ "$unamestr" == 'Darwin' ]]; then
     brew install ruff
-elif [[ "$unamestr" == 'Linux' ]] && which apt >/dev/null 2>&1; then
-    curl -LsSf https://astral.sh/ruff/install.sh | sudo sh
+elif [[ "$unamestr" == 'Linux' ]]; then
+    # Pinned release + hardcoded checksum. Installs to ~/bin (no sudo).
+    # To upgrade: bump the version and update the sha256 from
+    # https://github.com/astral-sh/ruff/releases/download/<ver>/<archive>.sha256
+    ruff_version="0.15.19"
+    ruff_sha256="0bfabff71f317e0e3b8c363043b888f045eff092073d5d9bd0ac7f8ede465711"
+    archive="ruff-x86_64-unknown-linux-gnu.tar.gz"
+    url="https://github.com/astral-sh/ruff/releases/download/${ruff_version}/${archive}"
+
+    tmp_dir="$(mktemp -d)"
+    trap 'rm -rf "$tmp_dir"' EXIT
+    curl -fLsS "$url" -o "$tmp_dir/$archive"
+    echo "${ruff_sha256}  ${tmp_dir}/${archive}" | sha256sum -c -
+
+    tar -xzf "$tmp_dir/$archive" -C "$tmp_dir"
+    mkdir -p "$HOME/bin"
+    find "$tmp_dir" -type f -name ruff -exec mv {} "$HOME/bin/ruff" \;
+    chmod +x "$HOME/bin/ruff"
 else
     echo "ERROR: I don't support installation for this OS yet!"
     exit 1

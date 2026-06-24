@@ -7,7 +7,23 @@ unamestr=$(uname)
 if [[ "$unamestr" == 'Darwin' ]]; then
     brew install tflint
 elif [[ "$unamestr" == 'Linux' ]]; then
-    curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | sudo bash
+    # Pinned release + hardcoded checksum. Installs to ~/bin (no sudo).
+    # To upgrade: bump the version and update the sha256 from the
+    # checksums.txt of https://github.com/terraform-linters/tflint/releases
+    tflint_version="0.63.1"
+    tflint_sha256="8441a7d97df20431f19c9b9d27ff4c63e308c964e86660bc7cc0cf7bbe0725e8"
+    archive="tflint_linux_amd64.zip"
+    url="https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/${archive}"
+
+    tmp_dir="$(mktemp -d)"
+    trap 'rm -rf "$tmp_dir"' EXIT
+    curl -fLsS "$url" -o "$tmp_dir/$archive"
+    echo "${tflint_sha256}  ${tmp_dir}/${archive}" | sha256sum -c -
+
+    unzip -o "$tmp_dir/$archive" -d "$tmp_dir"
+    mkdir -p "$HOME/bin"
+    mv "$tmp_dir/tflint" "$HOME/bin/tflint"
+    chmod +x "$HOME/bin/tflint"
 else
     echo "ERROR: I don't support installation for this OS yet!"
     exit 1
