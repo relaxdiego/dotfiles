@@ -38,6 +38,8 @@ brew --version || (/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/
 wget --version || brew install wget
 xcode-select --install || echo "XCode CLI tools already installed"
 ((brew info cmake | grep -i "not installed") && brew install cmake) || echo "cmake already installed"
-which jq || brew install jq
+# macOS now ships /usr/bin/jq, so `which jq` would always short-circuit and
+# never install brew's (patched) jq. Check brew's own install state instead.
+((brew info jq | grep -i "not installed") && brew install jq) || echo "jq already installed"
 
 {{ end -}}
