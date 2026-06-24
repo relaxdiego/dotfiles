@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+echo "Installing pinentry"
+
+{{ if eq .chezmoi.os "darwin" -}}
+# pinentry-mac shows a native GUI prompt that never touches the terminal,
+# so it does not disrupt running TUI apps.
+((brew info pinentry-mac | grep -i "not installed" 1>/dev/null) && brew install pinentry-mac) \
+    || echo "pinentry-mac already installed"
+
+{{ else if eq .chezmoi.os "linux" -}}
+which pinentry-curses 1>/dev/null && echo "pinentry-curses already installed" \
+    || sudo apt-get install -y pinentry-curses
+
+{{ end -}}
+# Reload gpg-agent so the updated gpg-agent.conf (pinentry program + cache
+# TTL) takes effect without waiting for a reboot. The agent restarts
+# automatically the next time it is used.
+gpgconf --kill gpg-agent || true

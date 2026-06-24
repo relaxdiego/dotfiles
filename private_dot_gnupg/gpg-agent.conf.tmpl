@@ -1,2 +1,20 @@
-default-cache-ttl 34560000
-max-cache-ttl 34560000
+# vim: set ft=conf:
+# Managed by chezmoi.
+
+# Cache an unlocked key for one workday (8h). You unlock once -- ideally
+# before launching a TUI -- and are not re-prompted for the rest of the
+# session. max-cache-ttl is the absolute limit from the first unlock.
+default-cache-ttl 28800
+max-cache-ttl 28800
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Native macOS GUI prompt. It opens in its own window and never touches the
+# terminal, so it does not disrupt a running TUI (LazyGit, Neovim, Claude
+# Code, etc.).
+pinentry-program /opt/homebrew/bin/pinentry-mac
+{{- else if eq .chezmoi.os "linux" }}
+# Terminal-only box has no GUI to pop a dialog into. pinentry-curses plus the
+# workday cache above means you unlock once up front instead of being
+# interrupted mid-TUI.
+pinentry-program /usr/bin/pinentry-curses
+{{- end }}
