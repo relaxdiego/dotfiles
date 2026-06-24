@@ -23,7 +23,12 @@ echo "ERROR: Unexpected operating system '{{ .chezmoi.os }}'"
 cd /tmp
 wget -O starship.tar.gz https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz
 wget -O starship.tar.gz.sha256 https://github.com/starship/starship/releases/download/v${starship_version}/starship-${ARCH}-${OS_BINARY}.tar.gz.sha256
-test "$(sha256sum starship.tar.gz | cut -d' ' -f1)" == "$(cat starship.tar.gz.sha256)" || echo "ERROR: starship CLI checksum did not match!!!"
+expected_sha="$(cut -d' ' -f1 starship.tar.gz.sha256)"
+actual_sha="$(sha256sum starship.tar.gz | cut -d' ' -f1)"
+if [ "$actual_sha" != "$expected_sha" ]; then
+    echo "ERROR: starship CLI checksum did not match!!!" >&2
+    exit 1
+fi
 tar -xvf starship.tar.gz
 mkdir -p $HOME/bin
 mv starship $HOME/bin

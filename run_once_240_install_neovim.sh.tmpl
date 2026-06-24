@@ -14,7 +14,12 @@ echo "ERROR: Unsupported operating system 'OS: {{ .chezmoi.os }}; ARCH: {{ .chez
 cd /tmp
 wget -O nvim.tar.gz https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz
 wget -O nvim.tar.gz.sha256sum https://github.com/neovim/neovim/releases/download/v${version}/${tarball_basename}.tar.gz.sha256sum
-test "$(sha256sum nvim.tar.gz | cut -d' ' -f1)" == "$(cat nvim.tar.gz.sha256)" || echo "ERROR: Neovim checksum did not match!!!"
+expected_sha="$(cut -d' ' -f1 nvim.tar.gz.sha256sum)"
+actual_sha="$(sha256sum nvim.tar.gz | cut -d' ' -f1)"
+if [ "$actual_sha" != "$expected_sha" ]; then
+    echo "ERROR: Neovim checksum did not match!!!" >&2
+    exit 1
+fi
 tar -xvf nvim.tar.gz
 rm -rf "$HOME/bin/${tarball_basename}"
 mv "${tarball_basename}" "$HOME/bin/"
