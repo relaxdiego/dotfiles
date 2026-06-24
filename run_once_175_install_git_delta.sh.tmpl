@@ -16,7 +16,12 @@ if [[ "$unamestr" == 'Darwin' ]]; then
     fi
 elif [[ "$unamestr" == 'Linux' ]]; then
     if hash apt-get 1>&2>/dev/null; then
+        # Delta does not publish a checksum file, so this sha256 was computed
+        # from the released .deb. To upgrade: bump the version and recompute with
+        # curl -sL <url> | sha256sum
+        deb_sha256="5ff245b2c66510b746e68bfdda65f31a66c9c79d10d2a8241c19cbceb12d3caa"
         wget -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.16.5/git-delta_0.16.5_amd64.deb
+        echo "${deb_sha256}  /tmp/git-delta.deb" | sha256sum -c -
         sudo dpkg -i /tmp/git-delta.deb
     elif hash dnf 1>&2>/dev/null; then
         sudo dnf install git-delta
