@@ -15,7 +15,9 @@ if [ -n "$top" ]; then
     # ordinary clone: anchor to the repo root folder
     label="$(basename "$top")"
   fi
-  sub="${cwd#"$top"}"; sub="${sub#/}"
+  # use git's own sub-path so casing/symlink differences between pwd and
+  # the repo toplevel can't break a string strip
+  sub="$(git rev-parse --show-prefix 2>/dev/null)"; sub="${sub%/}"
   [ -n "$sub" ] && label="$label/$sub"
   printf '%s' "$label"
 else
