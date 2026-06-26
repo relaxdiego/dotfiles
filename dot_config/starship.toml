@@ -7,14 +7,13 @@ command_timeout = 300
 format = """
 $username\
 $hostname\
-$directory\
+${custom.repopath}\
 $git_branch\
 $git_commit\
 $git_state\
 $git_status\
 $docker_context\
 $package\
-$custom\
 $all\
 $status\
 $line_break\
@@ -33,10 +32,21 @@ style_root = "red"
 format = "[$hostname]($style) "
 style = "#777777"
 
+# Replaced by [custom.repopath], which is bare-worktree aware and shows
+# repo/worktree instead of the worktree folder name (e.g. "main").
 [directory]
+disabled = true
 format = "[$path]($style)[$read_only]($read_only_style) "
 truncation_length = 8
 truncate_to_repo = true
+style = "cyan"
+
+[custom.repopath]
+description = "repo/worktree path label (bare-worktree aware)"
+command = "~/.config/starship/repo-path.sh"
+when = true
+shell = ["bash", "--noprofile", "--norc"]
+format = "[$output]($style) "
 style = "cyan"
 
 [docker_context]
