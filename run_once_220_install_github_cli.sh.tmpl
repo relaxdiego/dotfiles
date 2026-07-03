@@ -15,7 +15,7 @@ verify_sha256() {  # <expected> <file>
 
 echo "Installing https://cli.github.com/"
 
-version="2.95.0"
+version="2.96.0"
 unamestr=$(uname)
 machinestr=$(uname -m)
 
@@ -33,19 +33,19 @@ if [[ "$unamestr" == 'Darwin' ]]; then
     file_ext="zip"
     if [[ "$machinestr" == 'arm64' ]]; then
         os_arch="macOS_arm64"
-        sha256="3677f9c27965825f9c7d50395473c134edaea4b484373ef6b25de653570a0489"
+        sha256="f23a0c37d963aacc3bed703ccbd59b41c5ca22101fab7f00eb2b7cad23aba463"
     else
         os_arch="macOS_amd64"
-        sha256="985707e9ac60c95ed51cddd808c338b481abe69fffa77e9d6547c3750045f77e"
+        sha256="4bd449df9ad639391bc62b8032546f0fe9edcd8526e06682a4f88abd8c5d163c"
     fi
 elif [[ "$unamestr" == 'Linux' ]]; then
     file_ext="tar.gz"
     if [[ "$machinestr" == 'aarch64' ]]; then
         os_arch="linux_arm64"
-        sha256="d41e0b3b6218e5741c8bb4db39b16e53a59e0e06299a8489bd38f623ef7ebaae"
+        sha256="06f86ec7103d41993b76cd78072f43595c34aaa56506d971d9860e67140bf909"
     else
         os_arch="linux_amd64"
-        sha256="25d1e4729e8808c9ed3d613e96ebd3f3e44446f2d368c89d878a71a36ddb3d8c"
+        sha256="83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60"
     fi
 else
     echo "I don't support installing in this OS yet!"
