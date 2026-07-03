@@ -42,10 +42,20 @@ within reach of your left pinky while `[` is within reach of your right pinky!
 
 Remember: The home row is where the art of terminal productivity is!
 
+## Pick Your Machine Type
+
+The first thing `chezmoi init` asks is the machine type:
+
+| Type | Use it for | What you get |
+|---|---|---|
+| `personal` | My own workstations | Everything, including SSH/GPG keys pulled from 1Password |
+| `shared` | Machines other people can access | Configs only. No identity, no secrets |
+| `agent` | Throwaway machines where coding agents run | Configs + git identity with a signing-only key. No valuable secrets |
+
 ## Install `op`
 
-NOTE: If you're installing these dotfiles in a shared machine, you may
-      skip this section.
+NOTE: Only `personal` machines need this. If you answered `shared` or
+      `agent`, skip this section.
 
 I use 1Password to store secrets used by this repo. You'll need to install the
 `op` CLI utility. [Get it here](https://1password.com/downloads/command-line/).

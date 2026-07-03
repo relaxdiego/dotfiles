@@ -1,0 +1,35 @@
+{{ if and (hasKey . "agent") .agent -}}
+#!/bin/bash -e
+
+# One-time setup for agent machines.
+
+# 1. Generate a commit-signing SSH key. Upload this to GitHub as a
+#    "Signing Key" (NOT an "Authentication Key") so that it can only
+#    sign commits. It cannot be used to push, pull, or log in.
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+if [ ! -f ~/.ssh/agent_signing_key ]; then
+    echo "Generating commit signing key"
+    ssh-keygen -t ed25519 -f ~/.ssh/agent_signing_key -N "" -C "agent-signing-{{ .chezmoi.hostname }}"
+fi
+
+# 2. Print the steps that cannot be automated.
+cat <<EOF
+
+=====================================================================
+Agent machine: remaining manual steps
+=====================================================================
+1. Authenticate gh with your fine-grained PAT, then let it handle
+   git's HTTPS credentials:
+
+       gh auth login    # GitHub.com > HTTPS > paste the PAT
+       gh auth setup-git
+
+2. Upload the signing key below to https://github.com/settings/keys
+   Choose key type "Signing Key" (NOT "Authentication Key"):
+
+$(sed 's/^/       /' ~/.ssh/agent_signing_key.pub)
+=====================================================================
+
+EOF
+{{ end -}}

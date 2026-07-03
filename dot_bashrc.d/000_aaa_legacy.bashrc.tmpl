@@ -147,7 +147,7 @@ export PIPENV_VERBOSITY=-1
 
 export GOPATH=$HOME
 
-{{ if not .shared_machine -}}
+{{ if or (not .shared_machine) (and (hasKey . "agent") .agent) -}}
 # https://starship.rs/guide/#%F0%9F%9A%80-installation
 # Note, startship is installed by chezmoi/run_once_001_install_starshipt.sh.tmpl
 #

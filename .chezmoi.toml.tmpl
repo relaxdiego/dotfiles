@@ -1,4 +1,6 @@
-{{- $sharedMachine := promptString "Is this a shared machine (y/n)" -}}
+{{- $machineType := promptString "Machine type (personal/shared/agent)" -}}
+{{- $personal := eq $machineType "personal" -}}
+{{- $agent := eq $machineType "agent" -}}
 {{- $fullname := "" -}}
 {{- $email := "" -}}
 {{- $githubUsername := "" -}}
@@ -7,7 +9,7 @@
 {{- $gpgSSHPrivateKey1PasswordUUID := "" -}}
 {{- $gpgSSHPublicKey1PasswordUUID := "" -}}
 
-{{- if ne $sharedMachine "y" -}}
+{{- if $personal -}}
     {{- $fullname = promptString "Full Name" -}}
     {{- $email = promptString "Email" -}}
     {{- $githubUsername = promptString "GitHub Username" -}}
@@ -15,11 +17,16 @@
     {{- $gpgFingerprint1PasswordUUID = promptString "1Password UUID of GPG fingerprint" -}}
     {{- $gpgSSHPrivateKey1PasswordUUID = promptString "1Password UUID of SSH private key" -}}
     {{- $gpgSSHPublicKey1PasswordUUID = promptString "1Password UUID of SSH public key" -}}
+{{- else if $agent -}}
+    {{- $fullname = promptString "Full Name" -}}
+    {{- $email = promptString "Email (use your GitHub noreply address)" -}}
+    {{- $githubUsername = promptString "GitHub Username" -}}
 {{- end -}}
 
 [data]
-    shared_machine = {{ eq $sharedMachine "y" }}
-{{- if ne $sharedMachine "y" }}
+    shared_machine = {{ not $personal }}
+    agent = {{ $agent }}
+{{- if $personal }}
     fullname = "{{ $fullname }}"
     email = "{{ $email }}"
     github_username = "{{ $githubUsername }}"
@@ -28,4 +35,8 @@
     gpg_fingerprint = "{{ (onepasswordDetailsFields $gpgFingerprint1PasswordUUID).password.value }}"
     ssh_private_key_1password_uuid = "{{ $gpgSSHPrivateKey1PasswordUUID }}"
     ssh_public_key_1password_uuid = "{{ $gpgSSHPublicKey1PasswordUUID -}}"
+{{- else if $agent }}
+    fullname = "{{ $fullname }}"
+    email = "{{ $email }}"
+    github_username = "{{ $githubUsername }}"
 {{- end }}
