@@ -13,6 +13,13 @@ Include ~/.orbstack/ssh/config
 
 Include config.d/*
 
+{{ if and (hasKey . "agent") .agent -}}
+# Agent machine: never use an SSH agent, including one forwarded into this
+# machine. Keys in files (IdentityFile) still work. Override per host in
+# config.d if ever needed (it is included above, so it wins).
+Host *
+    IdentityAgent none
+{{ else -}}
 # From: https://1password.community/discussion/comment/660153/#Comment_660153
 #
 # This works in concert with ~/.ssh/rc so that if you were to connect to
@@ -20,4 +27,5 @@ Include config.d/*
 # use of your SSH keys.
 Match host * exec "test -S ~/.ssh/ssh_auth_sock"
     IdentityAgent ~/.ssh/ssh_auth_sock
+{{ end -}}
 

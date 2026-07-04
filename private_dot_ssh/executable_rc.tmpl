@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # vim: set ft=bash:
 
+{{ if and (hasKey . "agent") .agent -}}
+# Agent machine: do not expose a forwarded SSH agent socket. Also remove
+# any symlink left over from before this machine was flagged as an agent.
+rm -f ~/.ssh/ssh_auth_sock
+{{ else -}}
 # From: https://1password.community/discussion/comment/660153/#Comment_660153
 #
 # This works in concert with ~/.ssh/config so that if you were to connect to
@@ -14,3 +19,4 @@
 if [ -n "$SSH_TTY" ] && [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
+{{ end -}}
