@@ -118,12 +118,6 @@ alias k="kubectl"
 # Add dotfiles scripts to PATH
 export PATH="$HOME/.local/dotfiles.relaxdiego.com:$PATH"
 
-# Configure shell with rust goodness
-rust_cargo_env=$HOME/.cargo/env
-if [ -f $rust_cargo_env ]; then
-  source $rust_cargo_env
-fi
-
 # Load direnv hooks
 eval "$(direnv hook bash)"
 

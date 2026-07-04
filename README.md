@@ -125,11 +125,6 @@ If you're happy with the changes, run:
 chezmoi apply
 ```
 
-## Need Rust Support?
-
-Just run `install-rust`
-
-
 ## Troubleshooting
 
 #### [ERROR] session expired
@@ -153,8 +148,3 @@ chezmoi init
 ```
 
 Then re-run the `chezmoi` command you were trying to run beforehand.
-
-
-#### Vim can't find the python used to compile YouCompleteMe
-
-Edit `~/.vim/.ycm_global_extra_conf.py` and follow the instructions there.
