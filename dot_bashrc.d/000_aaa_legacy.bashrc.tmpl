@@ -109,8 +109,18 @@ export GPG_TTY=$(tty)
 
 [ -f ~/mount-home ] && ~/mount-home
 
-export SHELL=/opt/homebrew/bin/bash
-export PATH=$HOME/bin:/opt/homebrew/bin:$PATH:$HOME/.local/bin
+# Initialize Homebrew for the current platform (macOS Apple Silicon, macOS
+# Intel, or Linux/linuxbrew): puts brew on PATH and sets HOMEBREW_* vars.
+for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    [ -x "$_brew" ] && eval "$("$_brew" shellenv)" && break
+done
+unset _brew
+
+# Keep our own bin dirs ahead of everything (including brew).
+export PATH=$HOME/bin:$PATH:$HOME/.local/bin
+
+# macOS ships an ancient bash; prefer Homebrew's when it's installed.
+[ -n "$HOMEBREW_PREFIX" ] && [ -x "$HOMEBREW_PREFIX/bin/bash" ] && export SHELL="$HOMEBREW_PREFIX/bin/bash"
 export PATH=$HOME/node/current/bin:$PATH
 
 alias k="kubectl"
