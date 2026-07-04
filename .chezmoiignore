@@ -1,5 +1,8 @@
 LICENSE
 README.md
+AGENTS.md
+CLAUDE.md
+verify-inventory.sh
 logo.png
 screenshot*.png
 tmux*.log
