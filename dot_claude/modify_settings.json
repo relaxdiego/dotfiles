@@ -4,4 +4,18 @@
 {{-   $settings = fromJson .chezmoi.stdin -}}
 {{- end -}}
 {{- $_ := set $settings "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
+{{- /* Never let Claude read .envrc.local (direnv local overrides, often secrets) */ -}}
+{{- $permissions := dict -}}
+{{- if hasKey $settings "permissions" -}}
+{{-   $permissions = get $settings "permissions" -}}
+{{- end -}}
+{{- $deny := list -}}
+{{- if hasKey $permissions "deny" -}}
+{{-   $deny = get $permissions "deny" -}}
+{{- end -}}
+{{- if not (has "Read(.envrc.local)" $deny) -}}
+{{-   $deny = append $deny "Read(.envrc.local)" -}}
+{{- end -}}
+{{- $_ := set $permissions "deny" $deny -}}
+{{- $_ := set $settings "permissions" $permissions -}}
 {{- $settings | toPrettyJson | trim }}
