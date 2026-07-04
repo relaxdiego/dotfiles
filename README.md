@@ -77,7 +77,7 @@ those Nerd-ified fonts from [https://nerdfonts.com](https://github.com/ryanoasis
 ## Install `chezmoi`
 
 Because we're fancy like that 'round these parts.
-See https://www.chezmoi.io/docs/install/
+See https://www.chezmoi.io/install/
 
 
 ## Initialize and Apply
