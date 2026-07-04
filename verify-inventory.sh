@@ -93,7 +93,6 @@ probe bat            bat            --version
 probe ripgrep        rg             --version
 probe shellharden    shellharden    --version
 probe fd             fd             --version
-probe meteor         meteor         --version
 probe devbox         devbox         version
 probe homebrew       brew           --version
 
