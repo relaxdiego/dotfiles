@@ -19,11 +19,23 @@ cat <<EOF
 =====================================================================
 Agent machine: remaining manual steps
 =====================================================================
-1. Authenticate gh with your fine-grained PAT, then let it handle
-   git's HTTPS credentials:
+1. Give the agent one fine-grained PAT per GitHub org it should reach.
+   Put them in ~/.config/gh-org-tokens (readable only by you), one
+   "<org>=<token>" per line, plus an optional "default=<token>" used
+   outside any repo:
 
-       gh auth login    # GitHub.com > HTTPS > paste the PAT
-       gh auth setup-git
+       install -m 600 /dev/null ~/.config/gh-org-tokens
+       \$EDITOR ~/.config/gh-org-tokens        # e.g.:
+       #   my-org=github_pat_xxx
+       #   other-org=github_pat_yyy
+       #   default=github_pat_xxx
+
+   git then picks the right token per repo automatically (via
+   ~/.local/bin/git-credential-gh-org). Authenticate gh once so it
+   works outside a repo; do NOT run 'gh auth setup-git' — the per-org
+   helper already owns git's HTTPS credentials:
+
+       gh auth login    # GitHub.com > HTTPS > paste your default-org PAT
 
 2. Upload the signing key below to https://github.com/settings/keys
    Choose key type "Signing Key" (NOT "Authentication Key"):

@@ -12,6 +12,18 @@
 
 [github]
     user = {{ .github_username }}
+
+; This machine reaches repos across several GitHub orgs. A fine-grained PAT
+; belongs to a single org, so a per-org credential helper hands git the right
+; token based on the repo path (github.com/<org>/...). No manual token
+; switching. Tokens live in ~/.config/gh-org-tokens (mode 600, not in this
+; repo). useHttpPath makes git pass the path so the helper can see the org.
+; The empty helper line first clears any inherited helper so ours is the only
+; one consulted for github.com. See ~/.local/bin/git-credential-gh-org.
+[credential "https://github.com"]
+    helper =
+    helper = "!~/.local/bin/git-credential-gh-org"
+    useHttpPath = true
 {{ else if not .shared_machine -}}
 [user]
     name = {{ .fullname }}

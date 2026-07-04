@@ -1,0 +1,30 @@
+{{ if and (hasKey . "agent") .agent -}}
+# Per-org auth for the gh CLI. git already picks the right token per repo via
+# ~/.local/bin/git-credential-gh-org, but gh authenticates its API calls
+# separately. This wrapper reads the current repo's origin org and exports the
+# matching token from ~/.config/gh-org-tokens for that one command, so
+# `gh pr create` and friends hit the right org without manual `gh auth switch`.
+#
+# Outside a repo (or when no matching token exists) it falls through to gh's
+# own stored auth. `gh auth ...` is never wrapped so login/logout keep working.
+gh() {
+    local file="${GH_ORG_TOKENS_FILE:-$HOME/.config/gh-org-tokens}"
+    local url org token
+
+    case "${1:-}" in
+        auth) command gh "$@"; return ;;
+    esac
+
+    if [ -f "$file" ] && url=$(command git config --get remote.origin.url 2>/dev/null); then
+        org=$(printf '%s' "$url" | sed -E 's#(git@github\.com:|https://github\.com/)([^/]+)/.*#\2#')
+        token=$(grep -E "^${org}=" "$file" 2>/dev/null | head -n1 | cut -d= -f2-)
+        [ -n "$token" ] || token=$(grep -E '^default=' "$file" 2>/dev/null | head -n1 | cut -d= -f2-)
+    fi
+
+    if [ -n "${token:-}" ]; then
+        GH_TOKEN="$token" command gh "$@"
+    else
+        command gh "$@"
+    fi
+}
+{{ end -}}

@@ -11,3 +11,6 @@ tags
 .bashrc.d/*chezmoi-ignored.bashrc*
 .DS_Store
 .claude
+{{ if not (and (hasKey . "agent") .agent) }}
+.local/bin/git-credential-gh-org
+{{ end }}
