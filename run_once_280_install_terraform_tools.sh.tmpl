@@ -22,8 +22,11 @@ elif [[ "$unamestr" == 'Linux' ]]; then
     # To upgrade: bump the version and update the sha256 from the
     # checksums.txt of https://github.com/terraform-linters/tflint/releases
     tflint_version="0.63.1"
-    tflint_sha256="8441a7d97df20431f19c9b9d27ff4c63e308c964e86660bc7cc0cf7bbe0725e8"
-    archive="tflint_linux_amd64.zip"
+    case "$(uname -m)" in
+        x86_64)        archive="tflint_linux_amd64.zip"; tflint_sha256="8441a7d97df20431f19c9b9d27ff4c63e308c964e86660bc7cc0cf7bbe0725e8" ;;
+        aarch64|arm64) archive="tflint_linux_arm64.zip"; tflint_sha256="6d858ca7f11858c3fe3c5e29cc746823abccb55e2d2e2da130fa7ad7ea4eecb8" ;;
+        *) echo "ERROR: unsupported architecture $(uname -m)" >&2; exit 1 ;;
+    esac
     url="https://github.com/terraform-linters/tflint/releases/download/v${tflint_version}/${archive}"
 
     tmp_dir="$(mktemp -d)"

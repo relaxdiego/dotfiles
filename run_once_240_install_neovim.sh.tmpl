@@ -14,7 +14,11 @@ verify_sha256() {  # <expected> <file>
 version="0.10.4"
 
 {{ if (eq .chezmoi.os "linux") }}
-tarball_basename=nvim-linux64
+{{ if (eq .chezmoi.arch "arm64") }}
+tarball_basename=nvim-linux-arm64
+{{ else }}
+tarball_basename=nvim-linux-x86_64
+{{ end }}
 {{ else if (and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "amd64")) }}
 tarball_basename=nvim-macos-x86_64
 {{ else if (and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64")) }}
@@ -34,4 +38,4 @@ mv "${tarball_basename}" "$HOME/bin/"
 cd "$HOME/bin"
 rm -f nvim
 ln -s "${tarball_basename}/bin/nvim" nvim
-nvim --headless -c 'TSUpdate' -c 'q'
+"$HOME/bin/nvim" --headless -c 'TSUpdate' -c 'q'

@@ -22,8 +22,11 @@ elif [[ "$unamestr" == 'Linux' ]]; then
     # To upgrade: bump the version and update the sha256 from
     # https://github.com/astral-sh/ruff/releases/download/<ver>/<archive>.sha256
     ruff_version="0.15.19"
-    ruff_sha256="0bfabff71f317e0e3b8c363043b888f045eff092073d5d9bd0ac7f8ede465711"
-    archive="ruff-x86_64-unknown-linux-gnu.tar.gz"
+    case "$(uname -m)" in
+        x86_64)        archive="ruff-x86_64-unknown-linux-gnu.tar.gz"; ruff_sha256="0bfabff71f317e0e3b8c363043b888f045eff092073d5d9bd0ac7f8ede465711" ;;
+        aarch64|arm64) archive="ruff-aarch64-unknown-linux-gnu.tar.gz"; ruff_sha256="b00f8c17424c0abea8f87ca52880b864d10ae8e5c5d09ee61730a80ee3874a97" ;;
+        *) echo "ERROR: unsupported architecture $(uname -m)" >&2; exit 1 ;;
+    esac
     url="https://github.com/astral-sh/ruff/releases/download/${ruff_version}/${archive}"
 
     tmp_dir="$(mktemp -d)"

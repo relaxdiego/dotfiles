@@ -7,7 +7,7 @@ set -e
 
 echo "Ensuring Neovim plugins are up-to-date..."
 
-nvim --headless "+Lazy! sync" +qa
+"$HOME/bin/nvim" --headless "+Lazy! sync" +qa
 
 # Ensure a newline is printed after the previous command
 echo

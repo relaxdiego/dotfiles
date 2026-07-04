@@ -18,11 +18,14 @@ echo "Installing lazygit ${LAZYGIT_VERSION}..."
 
 if [[ "$(uname)" == "Darwin" ]]; then
     brew install lazygit
-elif [[ "$(uname)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
+elif [[ "$(uname)" == "Linux" ]]; then
     # Pinned checksum. To upgrade: bump LAZYGIT_VERSION and update the sha256
     # from https://github.com/jesseduffield/lazygit/releases/download/v<ver>/checksums.txt
-    archive="lazygit_${LAZYGIT_VERSION}_linux_x86_64.tar.gz"
-    sha256="8b9a4c2d0969cbea92b45c956dd2a44e1ba76900c9df49f1c60984045ce77984"
+    case "$(uname -m)" in
+        x86_64)        archive="lazygit_${LAZYGIT_VERSION}_linux_x86_64.tar.gz"; sha256="8b9a4c2d0969cbea92b45c956dd2a44e1ba76900c9df49f1c60984045ce77984" ;;
+        aarch64|arm64) archive="lazygit_${LAZYGIT_VERSION}_linux_arm64.tar.gz"; sha256="9ab63dd75a7e9711c4c68a37d77f4334b8099a5d6a3f8fbe8f4e2768b159c9e9" ;;
+        *) echo "Unable to install lazygit: unsupported arch $(uname -m)" >&2; exit 1 ;;
+    esac
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf "$tmp_dir"' EXIT
     curl -fLsS "${BASE_URL}/${archive}" -o "$tmp_dir/$archive"

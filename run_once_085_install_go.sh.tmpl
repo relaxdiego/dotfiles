@@ -91,6 +91,7 @@ GOLANGCI_LINT_URL="https://github.com/golangci/golangci-lint/releases/download/v
 # golangci-lint-<ver>-checksums.txt in the matching GitHub release.
 case "${OS}-${ARCH}" in
   linux-amd64)  GOLANGCI_LINT_SHA256="8df580d2670fed8fa984aac0507099af8df275e665215f5c7a2ae3943893a553" ;;
+  linux-arm64)  GOLANGCI_LINT_SHA256="44cd40a8c76c86755375adfeea52cfd3533cb43d7bd647771e0ae065e166df3a" ;;
   darwin-arm64) GOLANGCI_LINT_SHA256="a9c54498731b3128f79e090be6110f3e5fffccc617b08142ed244d4126c73f29" ;;
   *) echo "Error: no golangci-lint checksum pinned for ${OS}-${ARCH}" >&2; exit 1 ;;
 esac

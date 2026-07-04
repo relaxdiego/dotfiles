@@ -19,8 +19,13 @@ if which starship; then
 fi
 
 {{ if (eq .chezmoi.os "linux") }}
+{{ if (eq .chezmoi.arch "arm64") }}
+OS_BINARY=unknown-linux-musl
+ARCH="aarch64"
+{{ else }}
 OS_BINARY=unknown-linux-gnu
 ARCH="x86_64"
+{{ end }}
 {{ else if (eq .chezmoi.os "darwin") }}
 OS_BINARY=apple-darwin
 {{ if (eq .chezmoi.arch "arm64") }}

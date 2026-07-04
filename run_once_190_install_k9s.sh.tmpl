@@ -29,8 +29,11 @@ elif [[ "$unamestr" == 'Linux' ]]; then
     echo "Get the binary from https://github.com/derailed/k9s/releases"
     # Pinned checksum. To upgrade: bump the version above and update the sha256
     # from https://github.com/derailed/k9s/releases/download/v<ver>/checksums.sha256
-    archive="k9s_Linux_amd64.tar.gz"
-    sha256="c3752ad51a5a4015a113819c4eeb6e55a4d0e4b8e652494797532f6fc8161dd7"
+    case "$(uname -m)" in
+        x86_64)        archive="k9s_Linux_amd64.tar.gz"; sha256="c3752ad51a5a4015a113819c4eeb6e55a4d0e4b8e652494797532f6fc8161dd7" ;;
+        aarch64|arm64) archive="k9s_Linux_arm64.tar.gz"; sha256="3ee05c82e5f9198928a4e86133608ba6a2c10a2244d6a7789e820f78319d640c" ;;
+        *) echo "ERROR: unsupported architecture $(uname -m)" >&2; exit 1 ;;
+    esac
     mkdir -p /tmp/k9s
     cd /tmp/k9s
     wget "https://github.com/derailed/k9s/releases/download/v${version}/${archive}"

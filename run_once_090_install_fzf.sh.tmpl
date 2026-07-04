@@ -20,6 +20,8 @@ verify_sha256() {  # <expected> <file>
 {{   $sha256 = "d27fd68c04fb9b42f7c73a3f7d38069a74d308e40174f64a072c747213e97286" -}}
 {{ else if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
 {{   $sha256 = "f3252c2c366bc1700d3c85781ec8c9695998927ac127870eb049ceea2d540f8a" -}}
+{{ else if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64") -}}
+{{   $sha256 = "a408b0b6c08d486307b8f1554f967b8b50ee1b3ea8b4035e3161bab31fdfc28d" -}}
 {{ end -}}
 {{ if eq $sha256 "" }}
 echo "ERROR: no fzf checksum pinned for {{ .chezmoi.os }}/{{ .chezmoi.arch }}" >&2
