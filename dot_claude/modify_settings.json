@@ -1,0 +1,7 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $settings := dict -}}
+{{- if .chezmoi.stdin -}}
+{{-   $settings = fromJson .chezmoi.stdin -}}
+{{- end -}}
+{{- $_ := set $settings "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
+{{- $settings | toPrettyJson | trim }}
