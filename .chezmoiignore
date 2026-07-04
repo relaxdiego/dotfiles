@@ -16,6 +16,7 @@ tags
 .claude/*
 !.claude/CLAUDE.md
 !.claude/settings.json
+!.claude/statusline.sh
 {{ if not (and (hasKey . "agent") .agent) }}
 .local/bin/git-credential-gh-org
 {{ end }}

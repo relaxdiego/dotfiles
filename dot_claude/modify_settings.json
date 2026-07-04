@@ -4,6 +4,7 @@
 {{-   $settings = fromJson .chezmoi.stdin -}}
 {{- end -}}
 {{- $_ := set $settings "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
+{{- $_ := set $settings "statusLine" (dict "type" "command" "command" "~/.claude/statusline.sh") -}}
 {{- /* Never let Claude read .envrc.local (direnv local overrides, often secrets) */ -}}
 {{- $permissions := dict -}}
 {{- if hasKey $settings "permissions" -}}
