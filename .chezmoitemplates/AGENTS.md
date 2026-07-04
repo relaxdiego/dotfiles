@@ -77,3 +77,16 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - No `Co-Authored-By: Claude ...` trailer on commits.
 - No "Generated with Claude Code" line in PR bodies.
 - Applies to all projects and repos.
+{{ if and (hasKey . "agent") .agent }}
+
+## 6. Machine Notes
+
+Tool-specific setup notes for this machine live in
+`~/.local/share/agent-docs/` — read the matching note before
+troubleshooting a tool. Current notes:
+
+- `github-auth.md` — `git` (HTTPS) and `gh` authenticate automatically
+  with one token per GitHub org. Read it before any cross-org GitHub
+  work; short version: pass `-R <org>/<repo>` to `gh` when the target
+  repo is not the current checkout's org.
+{{ end }}

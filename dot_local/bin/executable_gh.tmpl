@@ -1,0 +1,114 @@
+{{ if and (hasKey . "agent") .agent -}}
+#!/usr/bin/env bash
+# gh — wrapper that exports the right per-org GitHub token, then runs the
+# real gh. Counterpart to git-credential-gh-org (same directory), which
+# does the same for git over HTTPS; see it for the token file format.
+#
+# This is a script on PATH (shadowing the real binary) rather than a shell
+# function so that non-interactive shells — coding agents in particular —
+# go through it too.
+#
+# Org resolution order:
+#   1. -R/--repo flag            (gh pr view 123 -R org/repo)
+#   2. gh api endpoint path      (gh api repos/org/repo/...)
+#   3. gh repo <cmd> positional  (gh repo view org/repo)
+#   4. origin URL of the current repo
+#
+# Agent-facing docs: ~/.local/share/agent-docs/github-auth.md
+set -uo pipefail
+
+real_gh="$HOME/.local/opt/github-cli/bin/gh"
+tokens_file="${GH_ORG_TOKENS_FILE:-$HOME/.config/gh-org-tokens}"
+
+# Never wrap auth commands; never override an explicit GH_TOKEN.
+if [ "${1:-}" = "auth" ] || [ -n "${GH_TOKEN:-}" ] || [ ! -f "$tokens_file" ]; then
+    exec "$real_gh" "$@"
+fi
+
+# Reduce a repo reference (URL, HOST/OWNER/REPO, or OWNER/REPO) to its org.
+org_of() {
+    local ref=$1
+    ref=${ref#*://}
+    ref=${ref#git@}
+    ref=${ref#github.com/}
+    ref=${ref#github.com:}
+    printf '%s' "${ref%%/*}"
+}
+
+org=""
+
+# 1. Explicit -R/--repo anywhere in the arguments.
+prev=""
+for arg in "$@"; do
+    if [ "$prev" = "-R" ] || [ "$prev" = "--repo" ]; then
+        org=$(org_of "$arg")
+        break
+    fi
+    case "$arg" in
+        --repo=*) org=$(org_of "${arg#--repo=}"); break ;;
+        -R|--repo) prev=$arg ;;
+        *) prev="" ;;
+    esac
+done
+
+# 2. Target embedded in the command itself.
+if [ -z "$org" ]; then
+    case "${1:-}" in
+        api)
+            for arg in "${@:2}"; do
+                case "${arg#/}" in
+                    repos/*/*|orgs/*|users/*)
+                        p=${arg#/}
+                        p=${p#*/}
+                        org=${p%%/*}
+                        break ;;
+                esac
+            done ;;
+        repo)
+            for arg in "${@:3}"; do
+                case "$arg" in
+                    -*) ;;
+                    */*) org=$(org_of "$arg"); break ;;
+                esac
+            done ;;
+    esac
+fi
+
+# 3. Fall back to the current repo's origin.
+if [ -z "$org" ]; then
+    url=$(git config --get remote.origin.url 2>/dev/null || true)
+    [ -n "$url" ] && org=$(org_of "$url")
+fi
+
+# Print the token for key $1 from the tokens file, if present.
+lookup() {
+    local key val
+    while IFS='=' read -r key val; do
+        case "$key" in ''|\#*) continue ;; esac
+        if [ "$key" = "$1" ]; then
+            printf '%s' "$val"
+            return 0
+        fi
+    done < "$tokens_file"
+    return 1
+}
+
+token=""
+[ -n "$org" ] && token=$(lookup "$org" || true)
+[ -n "$token" ] || token=$(lookup default || true)
+
+if [ -z "$token" ]; then
+    if [ -n "$org" ]; then
+        orgs=$(grep -oE '^[^=#[:space:]]+' "$tokens_file" | grep -vx default | paste -sd ', ' - || true)
+        {
+            echo "gh wrapper: no GitHub token for org '$org' (tokens exist for: $orgs)."
+            echo "gh wrapper: this machine authenticates gh with one token per org, picked"
+            echo "gh wrapper: from -R <org>/<repo>, the gh api path, or the origin URL."
+            echo "gh wrapper: details: ~/.local/share/agent-docs/github-auth.md"
+        } >&2
+    fi
+    exec "$real_gh" "$@"
+fi
+
+GH_TOKEN="$token" exec "$real_gh" "$@"
+{{ end -}}
