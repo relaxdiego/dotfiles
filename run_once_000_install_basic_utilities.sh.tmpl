@@ -21,6 +21,7 @@ packages=(
     python3-openssl \
     python3-dev \
     tk-dev \
+    tree \
     unzip \
     wget \
     xz-utils \
@@ -36,6 +37,7 @@ touch ~/.bash_profile
 grep -i "source ~/.bashrc" ~/.bash_profile || (echo "source ~/.bashrc" >> ~/.bash_profile && source ~/.bash_profile)
 brew --version || (/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)")
 wget --version || brew install wget
+tree --version || brew install tree
 xcode-select --install || echo "XCode CLI tools already installed"
 ((brew info cmake | grep -i "not installed") && brew install cmake) || echo "cmake already installed"
 # macOS now ships /usr/bin/jq, so `which jq` would always short-circuit and
