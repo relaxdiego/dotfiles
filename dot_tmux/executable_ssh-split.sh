@@ -11,6 +11,8 @@
 #
 # Works on Linux and macOS. Uses only bash 3.2 features (macOS ships 3.2).
 #
+# Set SSH_SPLIT_DEBUG=1 to append diagnostics to $TMPDIR/ssh-split.log.
+#
 # Usage: ssh-split.sh -h   (left/right split)
 #        ssh-split.sh -v   (top/bottom split)
 
@@ -21,6 +23,11 @@ orient="${1:--v}"
 pane_pid="$(tmux display -p '#{pane_pid}')"
 pane_path="$(tmux display -p '#{pane_current_path}')"
 
+debug() {
+  [[ -n "${SSH_SPLIT_DEBUG:-}" ]] || return 0
+  printf '%s\n' "$*" >> "${TMPDIR:-/tmp}/ssh-split.log"
+}
+
 is_ssh_comm() {
   # Match on the executable basename only.
   case "${1##*/}" in
@@ -29,32 +36,45 @@ is_ssh_comm() {
   esac
 }
 
-# Print "pid comm" for processes belonging to the current pane.
-list_pane_procs() {
-  if [[ "$(uname -s)" == "Darwin" ]]; then
-    # macOS: -g filters by process group, which misses a foreground ssh,
-    # so match direct children of the pane shell instead.
-    ps -ax -o pid=,ppid=,comm= | awk -v p="$pane_pid" '$2 == p { $2 = ""; print }'
-  else
-    # Linux: -g selects the whole session, so it also catches a
-    # foreground ssh that lives in its own process group.
-    ps -o pid=,comm= -g "$pane_pid"
-  fi
+# Print the pid of the first ssh-family process in the descendant tree of
+# $1. Walking by ppid works the same on Linux and macOS and finds ssh
+# whether it is a direct child or nested, foreground or background — it
+# does not depend on session/process-group semantics, which differ across
+# platforms.
+find_ssh_pid() {
+  local root="$1"
+  local snapshot cur pid ppid comm
+  # -A is POSIX and lists every process on both Linux and macOS.
+  snapshot="$(ps -Ao pid=,ppid=,comm=)"
+
+  local queue="$root"
+  while [[ -n "$queue" ]]; do
+    cur="${queue%% *}"
+    if [[ "$queue" == *" "* ]]; then queue="${queue#* }"; else queue=""; fi
+
+    while read -r pid ppid comm; do
+      [[ "$ppid" == "$cur" ]] || continue
+      if is_ssh_comm "$comm"; then
+        printf '%s\n' "$pid"
+        return 0
+      fi
+      queue="$queue $pid"
+    done <<< "$snapshot"
+  done
+  return 1
 }
 
 # Do an ordinary split that keeps the local working directory.
 plain_split() {
+  debug "plain split ($orient) in $pane_path"
   tmux split-window "$orient" -c "$pane_path"
   exit 0
 }
 
-ssh_pid=""
-while read -r pid comm; do
-  if is_ssh_comm "$comm"; then
-    ssh_pid="$pid"
-    break
-  fi
-done < <(list_pane_procs 2>/dev/null)
+debug "--- trigger: orient=$orient pane_pid=$pane_pid os=$(uname -s) ---"
+
+ssh_pid="$(find_ssh_pid "$pane_pid" || true)"
+debug "ssh_pid=${ssh_pid:-<none>}"
 
 [[ -n "$ssh_pid" ]] || plain_split
 
@@ -79,6 +99,7 @@ for arg in "${argv[@]}"; do
   cmd+="$(printf '%q ' "$arg")"
 done
 
+debug "reconnect cmd: $cmd"
 tmux split-window "$orient" "$cmd"
 
 # vim: set ft=bash et ts=2 sw=2 :
