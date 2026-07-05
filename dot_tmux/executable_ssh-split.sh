@@ -11,22 +11,39 @@
 #
 # Works on Linux and macOS. Uses only bash 3.2 features (macOS ships 3.2).
 #
-# Set SSH_SPLIT_DEBUG=1 to append diagnostics to $TMPDIR/ssh-split.log.
+# Set SSH_SPLIT_DEBUG=1 to append diagnostics to /tmp/ssh-split.log.
+# A fixed path is used on purpose: $TMPDIR differs between an interactive
+# shell and tmux's run-shell environment (especially on macOS), which would
+# otherwise scatter the log across files.
 #
 # Usage: ssh-split.sh -h   (left/right split)
 #        ssh-split.sh -v   (top/bottom split)
 
 set -euo pipefail
 
-orient="${1:--v}"
-
-pane_pid="$(tmux display -p '#{pane_pid}')"
-pane_path="$(tmux display -p '#{pane_current_path}')"
-
 debug() {
   [[ -n "${SSH_SPLIT_DEBUG:-}" ]] || return 0
-  printf '%s\n' "$*" >> "${TMPDIR:-/tmp}/ssh-split.log"
+  printf '%s\n' "$*" >> /tmp/ssh-split.log
 }
+# Log why we bailed out if the script exits non-zero before splitting.
+# shellcheck disable=SC2154  # rc is assigned inside the trap string
+trap 'rc=$?; [[ $rc -ne 0 ]] && debug "abnormal exit rc=$rc near line $LINENO"' EXIT
+
+orient="${1:--v}"
+
+debug "=== trigger orient=$orient os=$(uname -s) TMUX_PANE=${TMUX_PANE:-<unset>} ==="
+debug "tmux=$(command -v tmux || echo NOT_FOUND) PATH=$PATH"
+
+# Resolve the pane that triggered us. run-shell sets TMUX_PANE; targeting it
+# explicitly avoids acting on the wrong pane when several are active.
+if [[ -n "${TMUX_PANE:-}" ]]; then
+  pane_pid="$(tmux display -p -t "$TMUX_PANE" '#{pane_pid}')"
+  pane_path="$(tmux display -p -t "$TMUX_PANE" '#{pane_current_path}')"
+else
+  pane_pid="$(tmux display -p '#{pane_pid}')"
+  pane_path="$(tmux display -p '#{pane_current_path}')"
+fi
+debug "pane_pid=$pane_pid pane_path=$pane_path"
 
 is_ssh_comm() {
   # Match on the executable basename only.
@@ -70,8 +87,6 @@ plain_split() {
   tmux split-window "$orient" -c "$pane_path"
   exit 0
 }
-
-debug "--- trigger: orient=$orient pane_pid=$pane_pid os=$(uname -s) ---"
 
 ssh_pid="$(find_ssh_pid "$pane_pid" || true)"
 debug "ssh_pid=${ssh_pid:-<none>}"
