@@ -31,7 +31,36 @@ clone() {
     fi
 
     mkdir -p "$container" || return 1
-    if ! git clone --bare "$url" "$container/.bare"; then
+
+    # If the repo is not reachable over the given protocol, retry with the
+    # others. Try the provided protocol first, then the other URL form, then
+    # `gh repo clone`, until one succeeds or all fail.
+    local host="${s%%/*}"   # host
+    local path="${s#*/}"    # owner/repo
+    local first second
+    case "$url" in
+        git@*|ssh://*) first=ssh;   second=https ;;
+        *)             first=https; second=ssh ;;
+    esac
+
+    local proto cloned=
+    for proto in "$first" "$second" gh; do
+        case "$proto" in
+            ssh)   git clone --bare -- "git@$host:$path.git" "$container/.bare" ;;
+            https) git clone --bare -- "https://$host/$path.git" "$container/.bare" ;;
+            gh)    if command -v gh >/dev/null 2>&1; then
+                       gh repo clone "$path" "$container/.bare" -- --bare
+                   else
+                       false
+                   fi ;;
+        esac
+        if [ $? -eq 0 ]; then
+            cloned=1
+            break
+        fi
+        rm -rf "$container/.bare"
+    done
+    if [ -z "$cloned" ]; then
         rmdir "$container" 2>/dev/null
         return 1
     fi
