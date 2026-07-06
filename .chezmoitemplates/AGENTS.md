@@ -78,6 +78,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - No "Generated with Claude Code" line in PR bodies.
 - Applies to all projects and repos.
 {{ if and (hasKey . "agent") .agent }}
+**Never `git push` unless I explicitly say so.** Committing locally is
+fine. I can pull directly from this VM, so pushing to origin is not
+needed to share work — wait for an explicit push instruction.
 
 ## 6. Machine Notes
 
