@@ -2,12 +2,21 @@
 # ssh-split.sh — split the current window; if the pane is running SSH,
 # reconnect to the same host in the new pane.
 #
-# Safe by design: this only re-executes the exact ssh argv that YOU
-# already launched (read from the running process). It never reads any
-# remote-controlled data — no shell-prompt scraping, no OSC7, no remote
-# working directory — so a malicious remote host cannot inject commands
-# onto this workstation. Each argument is requoted with printf %q, so no
-# shell metacharacters can leak into the command tmux runs.
+# For ssh, the new pane also cd's into the directory that session is
+# currently in. tmux cannot learn the remote directory on its own
+# (pane_current_path is the LOCAL ssh client's cwd), so we ask the remote
+# host: match this exact session by its SSH_CONNECTION client port and read
+# the session shell's cwd from /proc. This works even when Claude Code or
+# Neovim is in the foreground, because we read the shell's cwd, not
+# anything drawn on screen.
+#
+# Safe by design: the ssh command is only ever the exact argv YOU launched
+# (read from the local process), requoted with printf %q. The remote
+# discovery reads only YOUR OWN processes on the host you already trust,
+# and the single value taken from the remote (the cwd) is used solely as a
+# `cd` target there, POSIX single-quoted — it never runs on this
+# workstation. If discovery finds nothing (non-Linux host, no port match),
+# the reconnect just lands in the remote $HOME, exactly as before.
 #
 # Works on Linux and macOS. Uses only bash 3.2 features (macOS ships 3.2).
 #
@@ -88,6 +97,55 @@ plain_split() {
   exit 0
 }
 
+# Print the local source TCP port of the ssh session's connection. The
+# remote sshd exposes this same port in SSH_CONNECTION, so it uniquely
+# identifies this session on the remote host. Empty if it can't be found.
+source_port() {
+  local pid="$1" lsof_bin
+  lsof_bin="$(command -v lsof || true)"
+  [[ -n "$lsof_bin" ]] || { [[ -x /usr/sbin/lsof ]] && lsof_bin=/usr/sbin/lsof; }
+  [[ -n "$lsof_bin" ]] || return 0
+  # The NAME column looks like 10.0.0.5:53422->10.0.0.9:22 — take the port
+  # right before '->'. An interactive ssh has one established connection.
+  "$lsof_bin" -nPan -p "$pid" -iTCP -sTCP:ESTABLISHED 2>/dev/null \
+    | sed -n 's/.*:\([0-9][0-9]*\)->.*/\1/p' | head -1
+}
+
+# Build the remote command: find the session shell whose SSH_CONNECTION
+# client port is $1, cd into its working directory, then start an
+# interactive login shell. The remote script reads only our own processes
+# and uses no data from outside the remote host. $1 is a validated number,
+# so it is embedded directly.
+remote_cd_script() {
+  local script
+  script="$(cat <<'REMOTE'
+target=__PORT__
+dir=
+for e in /proc/[0-9]*/environ; do
+  [ -r "$e" ] || continue
+  # Group-redirect stderr so a failed open (readable per mode bits but
+  # blocked by the kernel ptrace check) does not leak into the new pane.
+  cc=$( { tr '\0' '\n' < "$e" | sed -n 's/^SSH_CONNECTION=//p'; } 2>/dev/null )
+  [ -n "$cc" ] || continue
+  set -- $cc
+  [ "${2:-}" = "$target" ] || continue
+  p=${e%/environ}
+  st=$(cat "$p/stat" 2>/dev/null) || continue
+  set -- ${st##*) }
+  pcomm=$(cat "/proc/${2:-0}/comm" 2>/dev/null)
+  d=$(readlink "$p/cwd" 2>/dev/null) || continue
+  case "$pcomm" in
+    sshd*) dir=$d; break ;;
+    *) [ -n "$dir" ] || dir=$d ;;
+  esac
+done
+[ -n "$dir" ] && cd -- "$dir" 2>/dev/null
+exec "${SHELL:-/bin/sh}" -l
+REMOTE
+)"
+  printf '%s' "${script//__PORT__/$1}"
+}
+
 ssh_pid="$(find_ssh_pid "$pane_pid" || true)"
 debug "ssh_pid=${ssh_pid:-<none>}"
 
@@ -114,10 +172,37 @@ for arg in "${argv[@]}"; do
   cmd+="$(printf '%q ' "$arg")"
 done
 
-debug "reconnect cmd: $cmd"
-# Run ssh, then hand the pane to a local login shell. Without the `exec`,
-# ssh would be the pane's main process, so exiting the remote host would
-# close the pane instead of dropping back to the local shell.
-tmux split-window "$orient" "$cmd; exec \"\${SHELL:-/bin/sh}\" -l"
+# The trailing `exec "${SHELL}" -l` runs LOCALLY after ssh returns, so
+# exiting the remote host drops back to a local login shell instead of
+# closing the pane.
+plain_reconnect() {
+  debug "reconnect cmd: $cmd"
+  tmux split-window "$orient" "$cmd; exec \"\${SHELL:-/bin/sh}\" -l"
+}
+
+case "${argv[0]##*/}" in
+  ssh | autossh)
+    # Reconnect and cd into the remote session's directory (see header).
+    # || true: lsof exits non-zero when it lists nothing; without the guard
+    # set -e would abort the split instead of falling back to a plain one.
+    port="$(source_port "$ssh_pid" || true)"
+    debug "ssh source port=${port:-<none>}"
+    if [[ "$port" =~ ^[0-9]+$ ]]; then
+      remote_cmd="$(remote_cd_script "$port")"
+      # POSIX single-quote remote_cmd for the LOCAL split shell (which may
+      # be any sh), rather than printf %q which is bash-specific.
+      local_arg="'${remote_cmd//\'/\'\\\'\'}'"
+      debug "reconnect with remote-cwd discovery (port $port)"
+      tmux split-window "$orient" \
+        "$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
+    else
+      plain_reconnect
+    fi
+    ;;
+  *)
+    # mosh and friends: no matching SSH_CONNECTION port, reconnect plainly.
+    plain_reconnect
+    ;;
+esac
 
 # vim: set ft=bash et ts=2 sw=2 :
