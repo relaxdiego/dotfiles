@@ -115,6 +115,9 @@ for arg in "${argv[@]}"; do
 done
 
 debug "reconnect cmd: $cmd"
-tmux split-window "$orient" "$cmd"
+# Run ssh, then hand the pane to a local login shell. Without the `exec`,
+# ssh would be the pane's main process, so exiting the remote host would
+# close the pane instead of dropping back to the local shell.
+tmux split-window "$orient" "$cmd; exec \"\${SHELL:-/bin/sh}\" -l"
 
 # vim: set ft=bash et ts=2 sw=2 :
