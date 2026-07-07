@@ -3,6 +3,7 @@ README.md
 AGENTS.md
 CLAUDE.md
 verify-inventory.sh
+install-commit-hook.sh
 logo.png
 screenshot*.png
 tmux*.log
