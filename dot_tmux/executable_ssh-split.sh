@@ -27,19 +27,24 @@
 #
 # Works on Linux and macOS. Uses only bash 3.2 features (macOS ships 3.2).
 #
-# Set SSH_SPLIT_DEBUG=1 to append diagnostics to /tmp/ssh-split.log.
+# Set SSH_SPLIT_DEBUG=1 to append diagnostics to ~/.cache/ssh-split.log.
 # A fixed path is used on purpose: $TMPDIR differs between an interactive
 # shell and tmux's run-shell environment (especially on macOS), which would
-# otherwise scatter the log across files.
+# otherwise scatter the log across files. It lives under $HOME rather than
+# /tmp so other local users can neither read it (it logs the full ssh argv)
+# nor pre-create the path.
 #
 # Usage: ssh-split.sh -h   (left/right split)
 #        ssh-split.sh -v   (top/bottom split)
 
 set -euo pipefail
 
+debug_log="$HOME/.cache/ssh-split.log"
+
 debug() {
   [[ -n "${SSH_SPLIT_DEBUG:-}" ]] || return 0
-  printf '%s\n' "$*" >> /tmp/ssh-split.log
+  mkdir -p "${debug_log%/*}"
+  printf '%s\n' "$*" >> "$debug_log"
 }
 # Log why we bailed out if the script exits non-zero before splitting.
 # shellcheck disable=SC2154  # rc is assigned inside the trap string
@@ -248,7 +253,7 @@ debug "reconnect with remote-cwd discovery (port $port, dest $dest)"
 tmux_cmd="$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
 if [[ -n "${SSH_SPLIT_DEBUG:-}" ]]; then
   debug "=== tmux_cmd byte dump begin ==="
-  printf '%s' "$tmux_cmd" | od -An -c >> /tmp/ssh-split.log 2>&1
+  printf '%s' "$tmux_cmd" | od -An -c >> "$debug_log" 2>&1
   debug "=== tmux_cmd byte dump end ==="
 fi
 tmux split-window "$orient" "$tmux_cmd"
