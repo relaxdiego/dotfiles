@@ -20,5 +20,5 @@ tags
 {{ if not (and (hasKey . "agent") .agent) }}
 .local/bin/git-credential-gh-org
 .local/bin/gh
-.local/share/agent-docs
+.local/share/agent-docs/github-auth.md
 {{ end }}
