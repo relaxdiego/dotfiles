@@ -18,6 +18,13 @@
 # workstation. If discovery finds nothing (non-Linux host, no port match),
 # the reconnect just lands in the remote $HOME, exactly as before.
 #
+# The reconnect is deliberately limited to the agent VM: it only happens
+# when the ssh connection's destination address is inside $vm_net_prefix
+# (the local VMware Fusion NAT subnet, i.e. the trusted single-user VM).
+# SSH sessions to any other host — shared, production, IPv6 — and non-ssh
+# tools like mosh just get a plain local split, exactly as if no ssh were
+# running.
+#
 # Works on Linux and macOS. Uses only bash 3.2 features (macOS ships 3.2).
 #
 # Set SSH_SPLIT_DEBUG=1 to append diagnostics to /tmp/ssh-split.log.
@@ -39,6 +46,12 @@ debug() {
 trap 'rc=$?; [[ $rc -ne 0 ]] && debug "abnormal exit rc=$rc near line $LINENO"' EXIT
 
 orient="${1:--v}"
+
+# Reconnecting only happens for ssh sessions into this subnet (VMware
+# Fusion NAT /24; the agent VM is the only host we trust with the
+# discovery script). A simple prefix match is enough for a /24. Update if
+# the VM network moves.
+vm_net_prefix="172.16.29."
 
 debug "=== trigger orient=$orient os=$(uname -s) TMUX_PANE=${TMUX_PANE:-<unset>} ==="
 debug "tmux=$(command -v tmux || echo NOT_FOUND) PATH=$PATH"
@@ -97,18 +110,19 @@ plain_split() {
   exit 0
 }
 
-# Print the local source TCP port of the ssh session's connection. The
-# remote sshd exposes this same port in SSH_CONNECTION, so it uniquely
-# identifies this session on the remote host. Empty if it can't be found.
-source_port() {
+# Print the ssh session's TCP connection as lsof's NAME column shows it,
+# e.g. 10.0.0.5:53422->172.16.29.137:22. The source port uniquely
+# identifies this session on the remote host (sshd exposes it in
+# SSH_CONNECTION); the destination address gates the reconnect to the
+# agent VM. Empty if it can't be found.
+ssh_connection() {
   local pid="$1" lsof_bin
   lsof_bin="$(command -v lsof || true)"
   [[ -n "$lsof_bin" ]] || { [[ -x /usr/sbin/lsof ]] && lsof_bin=/usr/sbin/lsof; }
   [[ -n "$lsof_bin" ]] || return 0
-  # The NAME column looks like 10.0.0.5:53422->10.0.0.9:22 — take the port
-  # right before '->'. An interactive ssh has one established connection.
+  # An interactive ssh has one established connection.
   "$lsof_bin" -nPan -p "$pid" -iTCP -sTCP:ESTABLISHED 2>/dev/null \
-    | sed -n 's/.*:\([0-9][0-9]*\)->.*/\1/p' | head -1
+    | sed -n 's/.*[[:space:]]\([^[:space:]]*->[^[:space:]]*\).*/\1/p' | head -1
 }
 
 # Build the remote command: find the session shell whose SSH_CONNECTION
@@ -204,42 +218,39 @@ for arg in "${argv[@]}"; do
   cmd+="$(printf '%q ' "$arg")"
 done
 
-# The trailing `exec "${SHELL}" -l` runs LOCALLY after ssh returns, so
-# exiting the remote host drops back to a local login shell instead of
-# closing the pane.
-plain_reconnect() {
-  debug "reconnect cmd: $cmd"
-  tmux split-window "$orient" "$cmd; exec \"\${SHELL:-/bin/sh}\" -l"
-}
-
+# Only ssh/autossh sessions can be matched by SSH_CONNECTION port; mosh
+# and friends get an ordinary split.
 case "${argv[0]##*/}" in
-  ssh | autossh)
-    # Reconnect and cd into the remote session's directory (see header).
-    # || true: lsof exits non-zero when it lists nothing; without the guard
-    # set -e would abort the split instead of falling back to a plain one.
-    port="$(source_port "$ssh_pid" || true)"
-    debug "ssh source port=${port:-<none>}"
-    if [[ "$port" =~ ^[0-9]+$ ]]; then
-      remote_cmd="$(remote_cd_script "$port")"
-      # POSIX single-quote remote_cmd for the LOCAL split shell (which may
-      # be any sh), rather than printf %q which is bash-specific.
-      local_arg="'${remote_cmd//\'/\'\\\'\'}'"
-      debug "reconnect with remote-cwd discovery (port $port)"
-      tmux_cmd="$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
-      if [[ -n "${SSH_SPLIT_DEBUG:-}" ]]; then
-        debug "=== tmux_cmd byte dump begin ==="
-        printf '%s' "$tmux_cmd" | od -An -c >> /tmp/ssh-split.log 2>&1
-        debug "=== tmux_cmd byte dump end ==="
-      fi
-      tmux split-window "$orient" "$tmux_cmd"
-    else
-      plain_reconnect
-    fi
-    ;;
-  *)
-    # mosh and friends: no matching SSH_CONNECTION port, reconnect plainly.
-    plain_reconnect
-    ;;
+  ssh | autossh) ;;
+  *) plain_split ;;
 esac
+
+# || true: lsof exits non-zero when it lists nothing; without the guard
+# set -e would abort the split instead of falling back to a plain one.
+conn="$(ssh_connection "$ssh_pid" || true)"
+port="${conn%%->*}"; port="${port##*:}"
+dest="${conn##*->}"; dest="${dest%:*}"
+debug "conn=${conn:-<none>} port=${port:-<none>} dest=${dest:-<none>}"
+
+# Reconnect only when this session's destination is the agent VM; any
+# other host gets an ordinary split (see header).
+[[ "$port" =~ ^[0-9]+$ && "$dest" == "$vm_net_prefix"* ]] || plain_split
+
+# Reconnect and cd into the remote session's directory (see header). The
+# trailing `exec "${SHELL}" -l` runs LOCALLY after ssh returns, so exiting
+# the remote host drops back to a local login shell instead of closing the
+# pane.
+remote_cmd="$(remote_cd_script "$port")"
+# POSIX single-quote remote_cmd for the LOCAL split shell (which may
+# be any sh), rather than printf %q which is bash-specific.
+local_arg="'${remote_cmd//\'/\'\\\'\'}'"
+debug "reconnect with remote-cwd discovery (port $port, dest $dest)"
+tmux_cmd="$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
+if [[ -n "${SSH_SPLIT_DEBUG:-}" ]]; then
+  debug "=== tmux_cmd byte dump begin ==="
+  printf '%s' "$tmux_cmd" | od -An -c >> /tmp/ssh-split.log 2>&1
+  debug "=== tmux_cmd byte dump end ==="
+fi
+tmux split-window "$orient" "$tmux_cmd"
 
 # vim: set ft=bash et ts=2 sw=2 :
