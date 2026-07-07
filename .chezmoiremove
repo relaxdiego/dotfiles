@@ -1,0 +1,3 @@
+# Retired: the git commit-message template is replaced by the commit-msg hook
+# and ~/.local/share/agent-docs/commit-style.md.
+.git-commit-template

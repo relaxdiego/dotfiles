@@ -72,11 +72,14 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## 5. Git Messages
 
-**Never add Claude/Anthropic attribution to git messages.**
+**Commit messages follow a fixed standard: Conventional Commits + Linux-kernel
+style.** Read `~/.local/share/agent-docs/commit-style.md` before writing a
+commit message; a `commit-msg` hook enforces the structure. In short:
+`type(scope): summary` — lowercase, imperative, 72 chars max.
 
-- No `Co-Authored-By: Claude ...` trailer on commits.
-- No "Generated with Claude Code" line in PR bodies.
-- Applies to all projects and repos.
+- **Never add Claude/Anthropic attribution.** No `Co-Authored-By: Claude`
+  trailer on commits; no "Generated with Claude Code" line in PR bodies.
+- In a team repo, follow that repo's own commit config instead.
 {{ if and (hasKey . "agent") .agent }}
 **Never `git push` unless I explicitly say so.** Committing locally is
 fine. I can pull directly from this VM, so pushing to origin is not

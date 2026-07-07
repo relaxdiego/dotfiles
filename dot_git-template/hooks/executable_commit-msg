@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+# commit-msg — validate commit messages against Mark's commit standard.
+#
+# Standard: Conventional Commits + Linux-kernel style.
+# Full spec: ~/.local/share/agent-docs/commit-style.md
+#
+# Blocks on structural violations, warns on mood/style, and defers entirely to
+# repos that already validate with conventional-pre-commit.
+set -euo pipefail
+
+msg_file="$1"
+
+# Defer to team repos that already enforce Conventional Commits via pre-commit.
+root="$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
+if [ -f "$root/.pre-commit-config.yaml" ] &&
+    grep -q 'conventional-pre-commit' "$root/.pre-commit-config.yaml"; then
+    exit 0
+fi
+
+allowed='build chore ci docs feat fix perf refactor revert style test'
+
+# Non-imperative leading words (heuristic; warn only).
+non_imperative='added adds adding removed removes removing fixed fixes fixing updated updates updating changed changes changing created creates creating deleted deletes deleting renamed renames renaming moved moves moving implemented implements implementing refactored refactors refactoring improved improves improving bumped bumps bumping merged merges merging reverted reverts reverting introduced introduces introducing enabled enables enabling disabled disables disabling replaced replaces replacing wrote written made built'
+
+errors=()
+warnings=()
+
+# Read the message: drop comment lines, stop at the verbose-diff scissors line.
+subject=''
+body_lines=()
+seen_subject=0
+while IFS= read -r line || [ -n "$line" ]; do
+    case "$line" in
+        '# ------------------------ >8'*) break ;;
+        '#'*) continue ;;
+    esac
+    if [ "$seen_subject" -eq 0 ]; then
+        [ -z "$line" ] && continue
+        subject="$line"
+        seen_subject=1
+    else
+        body_lines+=("$line")
+    fi
+done < "$msg_file"
+
+# Forbidden attribution (block).
+if grep -qiE 'co-authored-by:[[:space:]]*claude|generated with claude' "$msg_file"; then
+    errors+=('Contains Claude/Anthropic attribution (Co-Authored-By: Claude / "Generated with Claude").')
+fi
+
+# Skip auto-generated commits we do not author by hand.
+case "$subject" in
+    Merge\ *|Revert\ *|fixup!\ *|squash!\ *|amend!\ *) exit 0 ;;
+esac
+
+# Structure (block).
+re='^([a-z]+)(\([^)]+\))?(!)?: .+'
+if [ -z "$subject" ]; then
+    errors+=('Empty commit message.')
+elif [[ ! $subject =~ $re ]]; then
+    errors+=("Subject must be 'type(scope): description'. Got: $subject")
+else
+    ctype="${BASH_REMATCH[1]}"
+    case " $allowed " in
+        *" $ctype "*) : ;;
+        *) errors+=("Unknown type '$ctype'. Allowed: $allowed") ;;
+    esac
+
+    if [ "${#subject}" -gt 72 ]; then
+        errors+=("Subject is ${#subject} chars; keep it 72 or fewer.")
+    fi
+    case "$subject" in
+        *.) errors+=('Subject must not end with a period.') ;;
+    esac
+
+    # Mood / style (warn).
+    desc="${subject#*: }"
+    first="${desc%% *}"
+    lc="$(printf '%s' "$first" | tr '[:upper:]' '[:lower:]' | tr -d '[:punct:]')"
+    case " $non_imperative " in
+        *" $lc "*) warnings+=("Description looks non-imperative ('$first'). Use imperative mood: 'add', not 'added'/'adds'.") ;;
+    esac
+    case "$first" in
+        [A-Z]*) warnings+=("Description starts with a capital ('$first'). Prefer lowercase unless it is a proper noun.") ;;
+    esac
+fi
+
+# Body wrap (warn).
+if [ "${#body_lines[@]}" -gt 0 ]; then
+    for l in "${body_lines[@]}"; do
+        if [ "${#l}" -gt 72 ]; then
+            warnings+=("Body line over 72 chars: ${l:0:50}...")
+        fi
+    done
+fi
+
+if [ "${#errors[@]}" -gt 0 ]; then
+    {
+        echo "commit-msg: rejected"
+        for e in "${errors[@]}"; do echo "  x $e"; done
+        for w in "${warnings[@]}"; do echo "  ! $w"; done
+        echo
+        echo "  Standard: Conventional Commits + kernel style."
+        echo "  See ~/.local/share/agent-docs/commit-style.md"
+    } >&2
+    exit 1
+fi
+
+if [ "${#warnings[@]}" -gt 0 ]; then
+    {
+        echo "commit-msg: warnings (commit allowed)"
+        for w in "${warnings[@]}"; do echo "  ! $w"; done
+        echo "  See ~/.local/share/agent-docs/commit-style.md"
+    } >&2
+fi
+exit 0
