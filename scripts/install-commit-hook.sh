@@ -8,9 +8,9 @@
 # overwrites a repo's own commit-msg hook (pre-commit, husky, etc.).
 #
 # Usage:
-#   ./install-commit-hook.sh            # dry run — show what would change
-#   ./install-commit-hook.sh --apply    # actually install
-#   SRC=~/code ./install-commit-hook.sh # scan a different tree (default ~/src)
+#   ./scripts/install-commit-hook.sh            # dry run — show what would change
+#   ./scripts/install-commit-hook.sh --apply    # actually install
+#   SRC=~/code ./scripts/install-commit-hook.sh # scan a different tree (default ~/src)
 #
 # Portable to macOS: avoids bash 4 features (no associative arrays).
 set -euo pipefail

@@ -10,7 +10,7 @@
 # tools differ between hosts, so re-run it on each machine. Tools not installed
 # here are simply reported as ABSENT.
 #
-# Usage:  ./verify-inventory.sh
+# Usage:  ./scripts/verify-inventory.sh
 # Read-only: it installs nothing and changes nothing.
 #
 # grep/find caveat: an interactive shell may define `grep`/`find` as aliases or

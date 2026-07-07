@@ -36,13 +36,13 @@ the version and its SHA256.
 
 ## Checking installed tool versions
 
-`verify-inventory.sh` (repo root) prints the real installed path + version of
+`scripts/verify-inventory.sh` prints the real installed path + version of
 each common tool on the current host. Run it to take an accurate software
 inventory — for a security / CVE review, for example — instead of trusting the
 version pins in the install scripts, which drift between machines. Output is
 host-specific, so re-run it on each host.
 
-Prefer `./verify-inventory.sh` over a tool's `--version` by hand. Some shells
+Prefer `./scripts/verify-inventory.sh` over a tool's `--version` by hand. Some shells
 wrap `grep`/`find` with aliases or functions, so a manual check can report the
 wrong binary; the script avoids that by running in a clean subprocess.
 

@@ -2,8 +2,7 @@ LICENSE
 README.md
 AGENTS.md
 CLAUDE.md
-verify-inventory.sh
-install-commit-hook.sh
+scripts/**
 logo.png
 screenshot*.png
 tmux*.log
