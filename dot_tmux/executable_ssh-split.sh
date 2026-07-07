@@ -116,6 +116,18 @@ source_port() {
 # interactive login shell. The remote script reads only our own processes
 # and uses no data from outside the remote host. $1 is a validated number,
 # so it is embedded directly.
+#
+# The script unsets __ETC_PROFILE_NIX_SOURCED before the final login shell.
+# sshd runs this whole script as a non-login "sh -c", so the exec below is a
+# nested login shell. If sshd's own environment carries nix's
+# __ETC_PROFILE_NIX_SOURCED guard (it does when sshd was started from a nix
+# shell), /etc/profile wipes PATH but /etc/profile.d/nix.sh then skips
+# re-adding nix, so nix disappears from PATH and direnv/devbox break. A real
+# login shell has no such guard set, so clearing it restores that behavior.
+#
+# Keep the here-doc body free of backticks and apostrophes: it is embedded in
+# a single-quoted argument on the local side, and those characters have broken
+# the quoting on macOS bash 3.2.
 remote_cd_script() {
   local script
   script="$(cat <<'REMOTE'
@@ -140,6 +152,8 @@ for e in /proc/[0-9]*/environ; do
   esac
 done
 [ -n "$dir" ] && cd -- "$dir" 2>/dev/null
+# Clear nix guard so the login shell below rebuilds PATH (see function header).
+unset __ETC_PROFILE_NIX_SOURCED
 exec "${SHELL:-/bin/sh}" -l
 REMOTE
 )"
@@ -164,6 +178,24 @@ else
   # injection-safe because every field is requoted below.
   read -r -a argv < <(ps -ww -o command= -p "$ssh_pid" 2>/dev/null)
 fi
+
+[[ ${#argv[@]} -gt 0 ]] || plain_split
+
+# If this pane is itself a previous ssh-split reconnect, its argv already
+# carries the "-t '<remote script>'" we injected last time. Replaying that
+# would wrap our own command in a second layer of quoting (and on macOS,
+# ps/read turns the script's newlines into literal \012), producing a broken
+# remote command. Strip our trailer back to the base ssh invocation so we
+# rebuild a fresh, clean reconnect. Our trailer is a "-t" whose next argument
+# is the remote script, which always begins with "target=<digits>" — a value
+# no one would type by hand, so a real "ssh -t host cmd" is left untouched.
+for (( i=0; i<${#argv[@]}; i++ )); do
+  if [[ "${argv[$i]}" == "-t" && "${argv[$((i+1))]:-}" =~ ^target=[0-9]+ ]]; then
+    argv=( "${argv[@]:0:i}" )
+    debug "stripped previous reconnect trailer at argv[$i]"
+    break
+  fi
+done
 
 [[ ${#argv[@]} -gt 0 ]] || plain_split
 
@@ -193,8 +225,13 @@ case "${argv[0]##*/}" in
       # be any sh), rather than printf %q which is bash-specific.
       local_arg="'${remote_cmd//\'/\'\\\'\'}'"
       debug "reconnect with remote-cwd discovery (port $port)"
-      tmux split-window "$orient" \
-        "$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
+      tmux_cmd="$cmd -t $local_arg; exec \"\${SHELL:-/bin/sh}\" -l"
+      if [[ -n "${SSH_SPLIT_DEBUG:-}" ]]; then
+        debug "=== tmux_cmd byte dump begin ==="
+        printf '%s' "$tmux_cmd" | od -An -c >> /tmp/ssh-split.log 2>&1
+        debug "=== tmux_cmd byte dump end ==="
+      fi
+      tmux split-window "$orient" "$tmux_cmd"
     else
       plain_reconnect
     fi
