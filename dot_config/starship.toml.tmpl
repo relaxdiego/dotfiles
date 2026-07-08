@@ -30,7 +30,11 @@ style_root = "red"
 
 [hostname]
 format = "[$hostname]($style) "
+{{ if and (hasKey . "agent") .agent -}}
+style = "#ff8700"
+{{- else -}}
 style = "#777777"
+{{- end }}
 
 # Replaced by [custom.repopath], which is bare-worktree aware and shows
 # repo/worktree instead of the worktree folder name (e.g. "main").
