@@ -26,7 +26,7 @@ $character
 [username]
 format = "[$user]($style)@"
 style_user = "#777777"
-style_root = "red"
+style_root = "#c4746e"
 {{ if and (hasKey . "agent") .agent -}}
 disabled = true
 {{- end }}
@@ -46,7 +46,7 @@ disabled = true
 format = "[$path]($style)[$read_only]($read_only_style) "
 truncation_length = 8
 truncate_to_repo = true
-style = "cyan"
+style = "#8ea4a2"
 
 [custom.repopath]
 description = "repo/worktree path label (bare-worktree aware)"
@@ -54,16 +54,16 @@ command = "~/.config/starship/repo-path.sh"
 when = true
 shell = ["bash", "--noprofile", "--norc"]
 format = "[$output]($style) "
-style = "cyan"
+style = "#8ea4a2"
 
 [docker_context]
 symbol = " "
 format = '[$symbol$context]($style) '
-style = "blue"
+style = "#8ba4b0"
 
 [aws]
 symbol = " "
-style = "dimmed"
+style = "#a6a69c"
 format = '[$symbol($profile )(\($region\) )]($style)'
 
 [kubernetes]
@@ -81,20 +81,20 @@ context_alias = '$var_cluster.$var_region'
 
 [[kubernetes.contexts]]
 context_pattern = "dev.*"
-style = "green"
+style = "#8a9a7b"
 
 [[kubernetes.contexts]]
 context_pattern = "staging.*"
-style = "yellow"
+style = "#c4b28a"
 
 [[kubernetes.contexts]]
 context_pattern = "prod.*"
-style = "red"
+style = "#c4746e"
 
 [git_branch]
 format = "[$symbol$branch]($style) "
 symbol = " "
-style = "purple"
+style = "#a292a3"
 
 [git_status]
 ahead = "⇡${count}"
@@ -108,22 +108,22 @@ disabled = true
 [golang]
 format = "[$symbol($version )]($style)"
 symbol = "󰟓 "
-style = "cyan"
+style = "#8ea4a2"
 
 [nodejs]
 format = "[$symbol($version )]($style)"
 symbol = " "
-style = "green"
+style = "#8a9a7b"
 
 [python]
 format = '[$symbol${pyenv_prefix}(${version})]($style)[( $virtualenv) ](bold #6699BB)'
 symbol = " "
-style = "yellow"
+style = "#c4b28a"
 
 [ruby]
 format = "[$symbol($version )]($style)"
 symbol = " "
-style = "red"
+style = "#c4746e"
 
 [terraform]
 format = "[$symbol$version]($style) "
@@ -142,11 +142,11 @@ discharging_symbol = "󰁼"
 
 [[battery.display]]
 threshold = 20
-style = "bold red"
+style = "bold #c4746e"
 
 [character]
-success_symbol = "[\\$](bold green)"
-error_symbol = "[\\$](bold red)"
+success_symbol = "[\\$](bold #8a9a7b)"
+error_symbol = "[\\$](bold #c4746e)"
 
 [status]
 disabled = false
@@ -158,10 +158,10 @@ disabled = true
 [lua]
 format = '[$symbol($version )]($style)'
 symbol = "󰢱 "
-style = "blue"
+style = "#8ba4b0"
 
 [nix_shell]
 symbol = "󱄅 "
 format = '[$symbol$state(\($name\))]($style) '
-style = "blue"
+style = "#8ba4b0"
 disabled = true
