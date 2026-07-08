@@ -5,6 +5,7 @@ add_newline = false
 command_timeout = 300
 
 format = """
+$username\
 $hostname\
 ${custom.repopath}\
 $git_branch\
@@ -21,6 +22,14 @@ $battery\
 $time\
 $character
 """
+
+[username]
+format = "[$user]($style)@"
+style_user = "#777777"
+style_root = "red"
+{{ if and (hasKey . "agent") .agent -}}
+disabled = true
+{{- end }}
 
 [hostname]
 format = "[$hostname]($style) "
