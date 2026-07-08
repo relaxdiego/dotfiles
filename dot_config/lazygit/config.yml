@@ -8,6 +8,37 @@ git:
       pager: delta --paging=never
 gui:
   nerdFontsVersion: "3"
+  # Pin lazygit's UI colors to kanagawa-dragon's palette (the colors Neovim's
+  # :terminal uses) so shell lazygit matches Neovim lazygit. These are explicit
+  # hex versions of lazygit's default theme; named ANSI colors would otherwise
+  # follow each terminal's own 16-color palette and differ between the two.
+  # Note: the commit graph and some file-status colors are not themeable, so
+  # they still follow the terminal palette.
+  theme:
+    activeBorderColor:
+      - "#8a9a7b"
+      - bold
+    inactiveBorderColor:
+      - "#c5c9c5"
+    searchingActiveBorderColor:
+      - "#8ea4a2"
+      - bold
+    optionsTextColor:
+      - "#8ba4b0"
+    selectedLineBgColor:
+      - "#8ba4b0"
+    cherryPickedCommitFgColor:
+      - "#8ba4b0"
+    cherryPickedCommitBgColor:
+      - "#8ea4a2"
+    markedBaseCommitFgColor:
+      - "#8ba4b0"
+    markedBaseCommitBgColor:
+      - "#c4b28a"
+    unstagedChangesColor:
+      - "#c4746e"
+    defaultFgColor:
+      - "#c5c9c5"
 refresher:
   refreshInterval: 10
   fetchInterval: 0
