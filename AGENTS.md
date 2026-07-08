@@ -46,6 +46,13 @@ Prefer `./scripts/verify-inventory.sh` over a tool's `--version` by hand. Some s
 wrap `grep`/`find` with aliases or functions, so a manual check can report the
 wrong binary; the script avoids that by running in a clean subprocess.
 
+## Colors and theming
+
+The terminal color setup (git-delta, lazygit, Neovim, tmux, and the terminal
+emulator palette) is interrelated and easy to get wrong. Before touching any of
+it, read `docs/color-scheme.md`. Do not assume a specific terminal emulator —
+ask the user which one they use.
+
 ## Conventions
 
 - History goes straight to `main`. Do not open PRs unless asked.

@@ -2,6 +2,7 @@ LICENSE
 README.md
 AGENTS.md
 CLAUDE.md
+docs/**
 scripts/**
 logo.png
 screenshot*.png
