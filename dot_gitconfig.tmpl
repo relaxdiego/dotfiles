@@ -197,8 +197,14 @@
     line-numbers-right-format = "{np:>4}│"
     line-numbers-right-style = "#666666"
 [delta "decorations"]
-    file-style = yellow
-    file-decoration-style = dim yellow ol ul
+    # Named ANSI colors (yellow, white) render through the terminal's own
+    # 16-color palette, which differs between a plain shell and Neovim's
+    # built-in :terminal (Neovim maps them to the colorscheme's
+    # g:terminal_color_* — kanagawa-dragon here). Using explicit hex keeps
+    # the theme identical everywhere. These hex values are kanagawa-dragon's
+    # yellow (#c4b28a) and white (#C8C093).
+    file-style = "#c4b28a"
+    file-decoration-style = dim "#c4b28a" ol ul
     file-added-label = [add]
     file-copied-label = [cop]
     file-modified-label = [mod]
@@ -207,7 +213,7 @@
     hunk-header-decoration-style = none
     hunk-header-style = dim syntax
     hunk-label = ""
-    minus-style = dim white "#321313"
+    minus-style = dim "#C8C093" "#321313"
     plus-style = syntax "#132E13"
     zero-style = dim syntax
 [delta "highlight-moved-code"]
@@ -217,8 +223,8 @@
     #
     # Adapted from https://github.com/chtenb/delta/blob/master/themes.gitconfig
     map-styles = \
-       bold purple => dim white "#3A142D", \
-       bold blue => dim white "#491939", \
+       bold purple => dim "#C8C093" "#3A142D", \
+       bold blue => dim "#C8C093" "#491939", \
        bold cyan => syntax "#002A2A", \
        bold yellow => syntax "#0A3939"
 
