@@ -1,8 +1,9 @@
 # How this repo controls colors
 
 Notes for a future agent (or human) so you don't have to re-derive the color
-setup from scratch. This covers the terminal diff/UI colors: git-delta,
-lazygit, Neovim, tmux, and the terminal emulator palette.
+setup from scratch. It aims to cover everything in the repo that controls
+terminal color: git-delta, lazygit, Neovim, tmux, starship, git's own output,
+fzf, the syntax-highlighting theme, and the terminal emulator palette.
 
 ## Read this first: the layer model
 
@@ -108,6 +109,64 @@ status bar is unaffected (only its `white`/`red` shift).
 > their palette differently (kitty `color0..15`/`url_color`, WezTerm Lua,
 > Ghostty config, Alacritty TOML). Generate an equivalent preset for their
 > terminal from the palette values below.
+
+## Everything else in the repo that emits color
+
+The same layer rule explains all of these: **named ANSI colors follow whatever
+palette is drawing the screen (the terminal emulator, in the shell); explicit
+hex is fixed truecolor and ignores the palette.**
+
+### tmux status bar (`dot_tmux.conf`)
+
+Uses 256-color indices (`colour235/248/253/232/236/142/255`) for the status bar
+and pane borders, plus `white` (status text) and one `red` (the `(synced)`
+badge). The `colourNNN` indices live in the 256-color cube/grayscale ramp and
+are **not** changed by a 16-color palette preset, so the bar keeps its look —
+only `white` and that `red` shift with the palette. Truecolor passthrough is
+also configured here (`terminal-features ",*:RGB"`).
+
+### starship prompt (`dot_config/starship.toml.tmpl`)
+
+A template, so it varies by host (for example the hostname color and whether
+the username shows differ on agent machines). It mixes **named colors** (`red`,
+`cyan`, `blue`, `green`, `yellow`, `purple`, `dimmed`) with a few **hardcoded
+hex** values (user `#777777`, hostname `#ff8700`, and a couple of language
+segments). Consequence: the named-color segments follow the terminal palette —
+so after importing the kanagawa-dragon terminal preset they render in kanagawa
+tones — while the hardcoded-hex segments stay fixed. This is expected, not a
+bug. To pin the whole prompt regardless of terminal, replace its named colors
+with explicit hex.
+
+### git's own colored output (`[color …]` in `dot_gitconfig.tmpl`)
+
+`[color "branch"]`, `[color "diff"]`, and `[color "status"]` set named colors
+for git's *own* output — `git branch`, `git status`, and diff output that does
+not go through delta. Named colors, so they follow the terminal palette. These
+are independent of the delta theme.
+
+### fzf (`dot_bashrc.d/030_fzf.bashrc`)
+
+`FZF_DEFAULT_OPTS` sets `--color=16`, keeping fzf on the 16 ANSI colors, so its
+colors follow the terminal palette. Its preview window uses `bat` (below).
+
+### Syntax highlighting inside diffs and previews (a separate layer)
+
+Code *content* colors are not the ANSI palette — they come from a bat/syntect
+theme. delta is pinned to `syntax-theme = "Visual Studio Dark+"` (truecolor,
+palette-independent). Plain `bat` (the `cat` alias and the fzf preview) uses
+bat's own default theme; no `BAT_THEME` is set, so the two are not identical.
+
+### Present but minor or not themed
+
+- **Neovim lualine** — `theme = "auto"`, so the statusline follows the active
+  colorscheme (kanagawa). Truecolor.
+- **Neovim dashboard art** — alpha-nvim shows random ASCII art that emits its
+  own ANSI colors, rendered through Neovim's `:terminal` palette. Cosmetic.
+- **byobu** (`dot_byobu/`) — status config is present, but no install script
+  sets byobu up and tmux is used directly, so it is effectively unused.
+- **k9s** — installed, but no skin is managed here, so it uses its default.
+- **Legacy bash `PS1`** (`dot_bashrc.d/000_aaa_legacy.bashrc.tmpl`) — a colored
+  fallback prompt, superseded by starship when starship is active.
 
 ## The kanagawa-dragon palette (source of truth = the active Neovim theme)
 
