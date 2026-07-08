@@ -128,14 +128,18 @@ also configured here (`terminal-features ",*:RGB"`).
 ### starship prompt (`dot_config/starship.toml.tmpl`)
 
 A template, so it varies by host (for example the hostname color and whether
-the username shows differ on agent machines). It mixes **named colors** (`red`,
-`cyan`, `blue`, `green`, `yellow`, `purple`, `dimmed`) with a few **hardcoded
-hex** values (user `#777777`, hostname `#ff8700`, and a couple of language
-segments). Consequence: the named-color segments follow the terminal palette —
-so after importing the kanagawa-dragon terminal preset they render in kanagawa
-tones — while the hardcoded-hex segments stay fixed. This is expected, not a
-bug. To pin the whole prompt regardless of terminal, replace its named colors
-with explicit hex.
+the username shows differ on agent machines). Every color is written as
+**explicit hex**, so the prompt renders **identically regardless of terminal
+or palette** — it does not follow the imported terminal preset. Most segments
+use kanagawa-dragon hex (matching the rest of the theme); a few are their own
+fixed hex by intent (user `#777777`, agent-machine hostname `#ff8700` orange,
+and a couple of language segments like `#6699BB`). The only intentional
+per-host variation comes from the template branches, not the terminal.
+
+This was a deliberate choice: originally the prompt used named colors (`red`,
+`cyan`, …) which followed the terminal palette and shifted when the
+kanagawa-dragon preset was imported. If you add a new segment, use hex, not a
+named color, to keep the prompt terminal-independent.
 
 ### git's own colored output (`[color …]` in `dot_gitconfig.tmpl`)
 
