@@ -150,8 +150,17 @@ are independent of the delta theme.
 
 ### fzf (`dot_bashrc.d/030_fzf.bashrc`)
 
-`FZF_DEFAULT_OPTS` sets `--color=16`, keeping fzf on the 16 ANSI colors, so its
-colors follow the terminal palette. Its preview window uses `bat` (below).
+`FZF_DEFAULT_OPTS` sets `--color=16`, keeping fzf on the 16 ANSI colors, so most
+of its colors follow the terminal palette. Its preview window uses `bat` (below).
+
+Three exceptions are pinned to **explicit hex** after the `16` base: the current
+(highlighted) line's background `bg+` `#c4b28a`, its text `fg+` `#1d1c19`, and
+the matched characters on it `hl+` `#7a2f2a`. Under the plain `16` scheme those
+resolved to two near-identical light tones from the kanagawa-dragon palette
+(white `#C8C093`, bright black `#a6a69c`, bright white `#c5c9c5`), so the
+selected line was unreadable. The hex pin also keeps the highlight the same in
+any terminal. Note the pointer (`>`) still comes from the 16-color base, so it
+draws as ANSI red over that yellow background.
 
 ### Syntax highlighting inside diffs and previews (a separate layer)
 
