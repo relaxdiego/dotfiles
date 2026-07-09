@@ -1,0 +1,21 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $config := dict -}}
+{{- if .chezmoi.stdin -}}
+{{-   $config = fromYaml .chezmoi.stdin -}}
+{{- end -}}
+{{- $statusLine := dict -}}
+{{- if hasKey $config "statusLine" -}}
+{{-   $statusLine = get $config "statusLine" -}}
+{{- end -}}
+{{- /* Mirror the Claude Code status line: model, context %, cost, git branch, path. */ -}}
+{{- $_ := set $statusLine "preset" "custom" -}}
+{{- $_ := set $statusLine "separator" "none" -}}
+{{- $_ := set $statusLine "leftSegments" (list "model" "context_pct" "cost" "git" "path") -}}
+{{- $_ := set $statusLine "rightSegments" (list) -}}
+{{- $_ := set $statusLine "segmentOptions" (dict
+      "model" (dict "showThinkingLevel" false)
+      "git" (dict "showBranch" true "showStaged" false "showUnstaged" false "showUntracked" false)
+      "path" (dict "abbreviate" true "stripWorkPrefix" true)
+    ) -}}
+{{- $_ := set $config "statusLine" $statusLine -}}
+{{- $config | toYaml -}}
