@@ -1,3 +1,12 @@
 # Retired: the git commit-message template is replaced by the commit-msg hook
 # and ~/.local/share/agent-docs/commit-style.md.
 .git-commit-template
+
+# Retired: ctags is no longer used. Deleting the source files does not remove
+# the copies already in ~, so list them here. Keep hooks/commit-msg.
+.ctags
+.git-template/hooks/ctags
+.git-template/hooks/post-checkout
+.git-template/hooks/post-commit
+.git-template/hooks/post-merge
+.git-template/hooks/post-rewrite

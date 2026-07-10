@@ -77,7 +77,6 @@ probe cmake          cmake          --version
 probe jq             jq             --version
 probe gnu-tar        tar            --version
 probe gzip           gzip           --version
-probe universal-ctags ctags         --version
 probe gnupg2         gpg            --version
 probe vim            vim            --version
 probe silver-searcher ag            --version
