@@ -83,6 +83,21 @@
     "statusLineUntracked": 174,
     "statusLineSubagents": 141
   },
+  "symbols": {
+    "overrides": {
+      "icon.model": "",
+      "icon.branch": "",
+      "icon.context": "",
+      "icon.folder": "",
+      "icon.scratchFolder": "",
+      "thinking.minimal": "min",
+      "thinking.low": "low",
+      "thinking.medium": "med",
+      "thinking.high": "high",
+      "thinking.xhigh": "xhigh",
+      "thinking.autoPending": ""
+    }
+  },
   "export": {
     "pageBg": "brushedTitanium",
     "cardBg": "darkTitanium",

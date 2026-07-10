@@ -20,7 +20,7 @@
 {{- $_ := set $statusLine "leftSegments" (list "model" "context_pct" "cost" "git" "path") -}}
 {{- $_ := set $statusLine "rightSegments" (list) -}}
 {{- $_ := set $statusLine "segmentOptions" (dict
-      "model" (dict "showThinkingLevel" false)
+      "model" (dict "showThinkingLevel" true)
       "git" (dict "showBranch" true "showStaged" false "showUnstaged" false "showUntracked" false)
       "path" (dict "abbreviate" true "stripWorkPrefix" true)
     ) -}}
