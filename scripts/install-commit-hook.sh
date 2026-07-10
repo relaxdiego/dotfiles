@@ -11,11 +11,15 @@
 #   ./scripts/install-commit-hook.sh            # dry run — show what would change
 #   ./scripts/install-commit-hook.sh --apply    # actually install
 #   SRC=~/code ./scripts/install-commit-hook.sh # scan a different tree (default ~/src)
+#   DEPTH=20 ./scripts/install-commit-hook.sh   # search deeper (default 12)
 #
 # Portable to macOS: avoids bash 4 features (no associative arrays).
 set -euo pipefail
 
 SRC="${SRC:-$HOME/src}"
+# Deep enough to reach vendored clones, e.g. a pip editable install at
+# <repo>/services/<svc>/.venv/src/<dep>/.git — 10 levels below ~/src.
+DEPTH="${DEPTH:-12}"
 HOOK="$HOME/.git-template/hooks/commit-msg"
 APPLY=0
 [ "${1:-}" = "--apply" ] && APPLY=1
@@ -31,7 +35,7 @@ resolve_hooks_dirs() {
         hooks="$(cd "$dir" && git rev-parse --git-path hooks 2>/dev/null)" || continue
         case "$hooks" in /*) ;; *) hooks="$(cd "$dir" && pwd)/$hooks" ;; esac
         ( cd "$(dirname "$hooks")" 2>/dev/null && printf '%s/%s\n' "$(pwd)" "$(basename "$hooks")" )
-    done < <(find "$SRC" -maxdepth 5 \( -name .git -o -name .bare \) 2>/dev/null)
+    done < <(find "$SRC" -maxdepth "$DEPTH" \( -name .git -o -name .bare \) 2>/dev/null)
 }
 
 installed=0 existing=0
