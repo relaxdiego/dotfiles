@@ -3,6 +3,12 @@
 {{- if .chezmoi.stdin -}}
 {{-   $config = fromYaml .chezmoi.stdin -}}
 {{- end -}}
+{{- $theme := dict -}}
+{{- if hasKey $config "theme" -}}
+{{-   $theme = get $config "theme" -}}
+{{- end -}}
+{{- $_ := set $theme "dark" "relaxdiego" -}}
+{{- $_ := set $config "theme" $theme -}}
 {{- $statusLine := dict -}}
 {{- if hasKey $config "statusLine" -}}
 {{-   $statusLine = get $config "statusLine" -}}
@@ -10,6 +16,7 @@
 {{- /* Mirror the Claude Code status line: model, context %, cost, git branch, path. */ -}}
 {{- $_ := set $statusLine "preset" "custom" -}}
 {{- $_ := set $statusLine "separator" "none" -}}
+{{- $_ := set $statusLine "transparent" true -}}
 {{- $_ := set $statusLine "leftSegments" (list "model" "context_pct" "cost" "git" "path") -}}
 {{- $_ := set $statusLine "rightSegments" (list) -}}
 {{- $_ := set $statusLine "segmentOptions" (dict
