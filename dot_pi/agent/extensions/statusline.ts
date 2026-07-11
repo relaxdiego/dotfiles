@@ -20,11 +20,11 @@ const C_COST = "\x1b[38;5;180m"; // soft tan
 const C_BRANCH = "\x1b[38;5;108m"; // soft green
 const C_PATH = "\x1b[38;5;245m"; // gray
 
-// 1000000 -> /1M, 200000 -> /200k. Empty when the size is unknown.
-function formatContextWindow(size: number): string {
-	if (size >= 1_000_000) return `/${Math.floor(size / 1_000_000)}M`;
-	if (size >= 1_000) return `/${Math.floor(size / 1_000)}k`;
-	return "";
+// 76000 -> 76k, 1000000 -> 1M. Small numbers pass through unchanged.
+function formatCount(n: number): string {
+	if (n >= 1_000_000) return `${Math.floor(n / 1_000_000)}M`;
+	if (n >= 1_000) return `${Math.floor(n / 1_000)}k`;
+	return `${n}`;
 }
 
 export default function (pi: ExtensionAPI) {
@@ -45,11 +45,13 @@ export default function (pi: ExtensionAPI) {
 						? pi.getThinkingLevel()
 						: undefined;
 
-					// Context window usage percentage, and the window it is
-					// measured against.
+					// Context window usage: percentage, token count, and the
+					// context window size, large numbers shortened to k/M.
 					const usage = ctx.getContextUsage();
 					const ctxPct = Math.floor(usage?.percent ?? 0);
-					const ctxSize = formatContextWindow(usage?.contextWindow ?? 0);
+					const ctxTokens =
+						usage?.tokens != null ? formatCount(usage.tokens) : "?";
+					const ctxWindow = formatCount(usage?.contextWindow ?? 0);
 
 					// Estimated session cost: sum of assistant usage.
 					let cost = 0;
@@ -68,7 +70,7 @@ export default function (pi: ExtensionAPI) {
 
 					let line = `${C_MODEL}${model}${R}`;
 					if (effort) line += `  ${C_EFFORT}${effort}${R}`;
-					line += `  ${C_CTX}${ctxPct}%${ctxSize} ctx${R}`;
+					line += `  ${C_CTX}${ctxPct}% ${ctxTokens}/${ctxWindow}${R}`;
 					line += `  ${C_COST}$${cost.toFixed(2)}${R}`;
 					if (branch) line += `  ${C_BRANCH}⎇ ${branch}${R}`;
 					line += `  ${C_PATH}${path}${R}`;
