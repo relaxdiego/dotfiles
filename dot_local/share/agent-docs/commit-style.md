@@ -18,6 +18,9 @@ optional footers
   letter (unless a proper noun), no trailing period, 50 chars target / 72 hard
   max.
 - **Body** (optional): explain *what* and *why*, not *how*. Wrap at 72.
+  If the reader can learn it from the diff ("renamed X to Y", "moved A
+  to B"), leave it out — the body carries what the diff cannot show:
+  motivation, context, constraints, tradeoffs. No change-lists.
 
 ## Types
 
