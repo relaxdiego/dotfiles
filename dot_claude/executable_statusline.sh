@@ -2,18 +2,23 @@
 # Claude Code status line: reads session JSON on stdin, prints one line.
 # "-" is a placeholder for effort: it is absent on models that have no
 # effort setting, and an empty field would collapse under IFS=tab.
-IFS=$'\t' read -r model effort ctx ctx_size cost dir < <(
-  jq -r '"\(.model.display_name)\t\(.effort.level // "-")\t\(.context_window.used_percentage // 0 | floor)\t\(.context_window.context_window_size // 0)\t\(.cost.total_cost_usd // 0)\t\(.workspace.current_dir // .cwd)"'
+IFS=$'\t' read -r model effort ctx ctx_tokens ctx_size cost dir < <(
+  jq -r '"\(.model.display_name)\t\(.effort.level // "-")\t\(.context_window.used_percentage // 0 | floor)\t\(.context_window.total_input_tokens // 0)\t\(.context_window.context_window_size // 0)\t\(.cost.total_cost_usd // 0)\t\(.workspace.current_dir // .cwd)"'
 )
 
-# 1000000 -> 1M, 200000 -> 200k. Empty when the size is unknown.
-if [ "$ctx_size" -ge 1000000 ]; then
-  ctx_size="/$((ctx_size / 1000000))M"
-elif [ "$ctx_size" -ge 1000 ]; then
-  ctx_size="/$((ctx_size / 1000))k"
-else
-  ctx_size=""
-fi
+# 76000 -> 76k, 1000000 -> 1M. Small numbers pass through unchanged.
+format_count() {
+  local n=$1
+  if [ "$n" -ge 1000000 ]; then
+    echo "$((n / 1000000))M"
+  elif [ "$n" -ge 1000 ]; then
+    echo "$((n / 1000))k"
+  else
+    echo "$n"
+  fi
+}
+ctx_tokens=$(format_count "$ctx_tokens")
+ctx_size=$(format_count "$ctx_size")
 
 # Abbreviate $HOME to ~ for a shorter path.
 path="${dir/#$HOME/\~}"
@@ -33,7 +38,7 @@ c_path=$'\033[38;5;245m'    # gray
 
 line="${c_model}${model}${r}"
 [ "$effort" != "-" ] && line="${line}  ${c_effort}${effort}${r}"
-line="${line}  ${c_ctx}${ctx}%${ctx_size} ctx${r}"
+line="${line}  ${c_ctx}${ctx}% ${ctx_tokens}/${ctx_size}${r}"
 
 # Estimated usage value: token count times public API prices. This is
 # shown even on subscription plans, where it is not an actual charge.
