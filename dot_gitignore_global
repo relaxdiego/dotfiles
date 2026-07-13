@@ -9,6 +9,7 @@ tags.temp
 .claude-todos
 .claude/settings.local.json
 .claude/napkin.md
-.claude/CLAUDE.md
 
 .ropeproject
+
+**/.claude/.cc-writes/
