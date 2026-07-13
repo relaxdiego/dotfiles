@@ -123,8 +123,12 @@ Tool-specific setup notes for this machine live in
 `~/.local/share/agent-docs/` — read the matching note before
 troubleshooting a tool. Current notes:
 
+- `commit-style.md` — the commit message standard (see section 5). Read it
+  before writing any commit message.
 - `github-auth.md` — `git` (HTTPS) and `gh` authenticate automatically
   with one token per GitHub org. Read it before any cross-org GitHub
   work; short version: pass `-R <org>/<repo>` to `gh` when the target
   repo is not the current checkout's org.
+- `worktrees.md` — the bare + worktree layout of repos under `~/src`
+  (see section 6). Read it before creating or removing a branch there.
 {{ end }}
