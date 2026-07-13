@@ -95,8 +95,29 @@ run `git worktree add ../<branch-dir> -b <branch> origin/main` instead, and
 `git worktree remove` when done.
 
 - The chezmoi source directory is a normal clone. Do not worktree it.
+
+## 7. My Dotfiles Are Public
+
+**The chezmoi source (`~/.local/share/chezmoi`) is a public GitHub repo.**
+Every file it manages is published to the world. That includes this file,
+`~/.claude/CLAUDE.md`, `~/.local/share/agent-docs/`, and much of `~/.config`.
+
+**Never write work or client details into a chezmoi-managed file.** No
+employer or client names, internal hostnames, repo or service names, cloud
+account IDs, ARNs, ticket IDs, customer data, credentials, or internal URLs.
+
+To check before you edit a file under `~`:
+
+```sh
+chezmoi source-path <file>   # if it resolves, the file is PUBLIC
+```
+
+Work-specific notes belong in the private work repo they describe — in its
+`AGENTS.md` or `docs/` — not in my dotfiles. If I ask you to "remember"
+something work-specific, put it there, or in your own memory directory, and
+say which you chose.
 {{ if and (hasKey . "agent") .agent }}
-## 7. Machine Notes
+## 8. Machine Notes
 
 Tool-specific setup notes for this machine live in
 `~/.local/share/agent-docs/` — read the matching note before
