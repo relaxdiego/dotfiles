@@ -84,8 +84,19 @@ commit message; a `commit-msg` hook enforces the structure. In short:
 **Never `git push` unless I explicitly say so.** Committing locally is
 fine. I can pull directly from this VM, so pushing to origin is not
 needed to share work — wait for an explicit push instruction.
+{{ end }}
+## 6. Git Worktrees
 
-## 6. Machine Notes
+**Repos under `~/src` use a bare + worktree layout, one directory per
+branch, where the directory name IS the branch name.** Read
+`~/.local/share/agent-docs/worktrees.md` before creating a branch or
+cleaning one up there. In short: never `git checkout -b` inside a worktree —
+run `git worktree add ../<branch-dir> -b <branch> origin/main` instead, and
+`git worktree remove` when done.
+
+- The chezmoi source directory is a normal clone. Do not worktree it.
+{{ if and (hasKey . "agent") .agent }}
+## 7. Machine Notes
 
 Tool-specific setup notes for this machine live in
 `~/.local/share/agent-docs/` — read the matching note before
