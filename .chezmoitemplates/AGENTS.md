@@ -1,5 +1,3 @@
-# AGENTS.md
-
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 0. Language
