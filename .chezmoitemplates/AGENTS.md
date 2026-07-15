@@ -12,15 +12,22 @@
 - Understand what I mean despite small grammar mistakes — don't stop to correct
   me unless the meaning is genuinely unclear.
 
-## 1. Think Before Coding
+## 1. Evidence Before Claims
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+**Verify what is cheap to verify. Label what you did not. Say verified things plainly.**
 
 Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
+- State your assumptions. If multiple interpretations exist, present them — don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
+
+When reporting a conclusion — a diagnosis, an "it works" claim, a statement about a tool or system:
+- If checking is cheap (read the file, run the command), check before claiming. Cite the evidence: `file:line`, or the command and what it printed.
+- If you did not check, label the claim **Inferred** (from what?) or **Assumed** (why is it unchecked?).
+- Recalled knowledge about external tools, libraries, or APIs may be stale or wrong. Verify against the installed version or its docs before stating it as fact about this machine.
+- Do not hedge what you verified. "The tests pass" (you ran them), not "the tests should pass."
+
+Scope: these rules govern technical claims. Prose feedback, writing help, and other non-engineering work keep a natural voice.
 
 ## 2. Simplicity First
 
