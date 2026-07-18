@@ -19,7 +19,13 @@ clone() {
     # derive host/owner/repo from the common URL forms
     local s="$url"
     s="${s#*://}"        # drop scheme://
-    s="${s#*@}"          # drop user@
+
+    # keep an explicit ssh user (user@host...), if any; default to git below
+    local user=
+    case "${s%%[/:]*}" in
+        *@*) user="${s%%@*}"; s="${s#*@}" ;;
+    esac
+
     s="${s/:/\/}"        # first ':' -> '/' (scp-style host:owner/repo)
     s="${s%.git}"        # drop trailing .git
     s="${s%/}"           # drop trailing slash
@@ -46,7 +52,7 @@ clone() {
     local proto cloned=
     for proto in "$first" "$second" gh; do
         case "$proto" in
-            ssh)   git clone --bare -- "git@$host:$path.git" "$container/.bare" ;;
+            ssh)   git clone --bare -- "${user:-git}@$host:$path.git" "$container/.bare" ;;
             https) git clone --bare -- "https://$host/$path.git" "$container/.bare" ;;
             gh)    if command -v gh >/dev/null 2>&1; then
                        gh repo clone "$path" "$container/.bare" -- --bare
