@@ -27,8 +27,17 @@ clone() {
     esac
 
     s="${s/:/\/}"        # first ':' -> '/' (scp-style host:owner/repo)
-    s="${s%.git}"        # drop trailing .git
     s="${s%/}"           # drop trailing slash
+
+    # suffix appended to host:path when rebuilding the remote url. a source in
+    # bare+worktree layout points straight at its .bare git dir, so clone that
+    # verbatim and keep .bare out of the local identity. anything else is a
+    # normal host/owner/repo and gets .git.
+    local rsuffix=.git
+    case "$s" in
+        */.bare) rsuffix=/.bare; s="${s%/.bare}" ;;
+        *.git)   s="${s%.git}" ;;
+    esac
 
     local container="$HOME/src/$s"
     if [ -e "$container/.bare" ]; then
@@ -45,15 +54,15 @@ clone() {
     local path="${s#*/}"    # owner/repo
     local first second
     case "$url" in
-        git@*|ssh://*) first=ssh;   second=https ;;
-        *)             first=https; second=ssh ;;
+        git@*|ssh://*|*@*:*) first=ssh;   second=https ;;
+        *)                   first=https; second=ssh ;;
     esac
 
     local proto cloned=
     for proto in "$first" "$second" gh; do
         case "$proto" in
-            ssh)   git clone --bare -- "${user:-git}@$host:$path.git" "$container/.bare" ;;
-            https) git clone --bare -- "https://$host/$path.git" "$container/.bare" ;;
+            ssh)   git clone --bare -- "${user:-git}@$host:$path$rsuffix" "$container/.bare" ;;
+            https) git clone --bare -- "https://$host/$path$rsuffix" "$container/.bare" ;;
             gh)    if command -v gh >/dev/null 2>&1; then
                        gh repo clone "$path" "$container/.bare" -- --bare
                    else
