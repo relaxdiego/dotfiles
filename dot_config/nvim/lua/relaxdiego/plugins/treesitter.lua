@@ -29,6 +29,8 @@ return {
                 "hcl",
                 "json",
                 "lua",
+                "markdown",
+                "markdown_inline",
                 "python",
                 "terraform",
                 "toml",

@@ -41,7 +41,6 @@ return {
         vim.keymap.set("n", "<C-p>", builtin.find_files, {})
         vim.keymap.set("n", "<leader>ag", builtin.live_grep, {})
         vim.keymap.set("n", "<leader>c", builtin.buffers, { desc = "Find buffer" })
-        vim.keymap.set("n", "<leader>m", builtin.resume, { desc = "Resume last Telescope search" })
         vim.keymap.set("n", "<leader>p", builtin.pickers, { desc = "Telescope history" })
         vim.keymap.set("n", "gr", builtin.lsp_references, { desc = "List references for word under the cursor" })
         vim.keymap.set("n", "<C-]>", builtin.lsp_definitions, {})
