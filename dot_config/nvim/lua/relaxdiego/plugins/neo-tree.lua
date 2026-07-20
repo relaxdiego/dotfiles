@@ -89,6 +89,15 @@ return {
                         ["<C-b>"] = function(state)
                             vim.cmd("normal! \x02") -- <C-b> in normal mode
                         end,
+                        -- Leave the neo-tree sidebar before opening Telescope
+                        -- so the picked file opens in a normal editor window.
+                        -- Launching Telescope from the tree window makes it
+                        -- open the file there, which leaks the file's syntax
+                        -- onto the neo-tree buffer (e.g. red markdown markers).
+                        ["<C-p>"] = function(state)
+                            vim.cmd("wincmd p")
+                            require("telescope.builtin").find_files()
+                        end,
                         -- Don't map `f` so that we can use that for parrot.nvim
                         ["f"] = false,
                         -- Override the default / key map
