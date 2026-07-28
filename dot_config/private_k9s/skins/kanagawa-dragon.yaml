@@ -1,0 +1,105 @@
+# kanagawa-dragon skin for k9s.
+#
+# Colors are the same ones Neovim uses (rebelot/kanagawa.nvim, dragon variant).
+# All values are explicit hex (truecolor), so this looks the same in every
+# terminal and does not follow the terminal's 16-color palette.
+#
+# Re-extract the values from the running Neovim theme if the colorscheme
+# changes; see docs/color-scheme.md.
+k9s:
+  body:
+    fgColor: "#c5c9c5"
+    bgColor: "#1d1c19"
+    logoColor: "#c4b28a"
+
+  prompt:
+    fgColor: "#c5c9c5"
+    bgColor: "#0d0c0c"
+    suggestColor: "#737c73"
+
+  info:
+    fgColor: "#c5c9c5"
+    sectionColor: "#8ba4b0"
+
+  dialog:
+    fgColor: "#c5c9c5"
+    bgColor: "#1d1c19"
+    buttonFgColor: "#1d1c19"
+    buttonBgColor: "#8ba4b0"
+    buttonFocusFgColor: "#1d1c19"
+    buttonFocusBgColor: "#c4b28a"
+    labelFgColor: "#ff9e3b"
+    fieldFgColor: "#c5c9c5"
+
+  frame:
+    border:
+      fgColor: "#393836"
+      focusColor: "#8ba4b0"
+    menu:
+      fgColor: "#c5c9c5"
+      keyColor: "#8ba4b0"
+      numKeyColor: "#c4b28a"
+    crumbs:
+      fgColor: "#1d1c19"
+      bgColor: "#393836"
+      activeColor: "#c4b28a"
+    status:
+      newColor: "#8ea4a2"
+      modifyColor: "#8ba4b0"
+      addColor: "#8a9a7b"
+      pendingColor: "#b6927b"
+      errorColor: "#c4746e"
+      highlightColor: "#ff9e3b"
+      killColor: "#a292a3"
+      completedColor: "#737c73"
+    title:
+      fgColor: "#c5c9c5"
+      bgColor: "#1d1c19"
+      highlightColor: "#ff9e3b"
+      counterColor: "#a292a3"
+      filterColor: "#8a9a7b"
+
+  views:
+    charts:
+      bgColor: "#1d1c19"
+      defaultDialColors:
+        - "#8a9a7b"
+        - "#c4746e"
+      defaultChartColors:
+        - "#8a9a7b"
+        - "#c4746e"
+      resourceColors:
+        cpu:
+          - "#8ba4b0"
+          - "#a292a3"
+        mem:
+          - "#8a9a7b"
+          - "#c4b28a"
+    table:
+      fgColor: "#c5c9c5"
+      bgColor: "#1d1c19"
+      cursorFgColor: "#1d1c19"
+      cursorBgColor: "#c4b28a"
+      markColor: "#ff9e3b"
+      header:
+        fgColor: "#c5c9c5"
+        bgColor: "#1d1c19"
+        sorterColor: "#8ea4a2"
+    xray:
+      fgColor: "#c5c9c5"
+      bgColor: "#1d1c19"
+      cursorColor: "#c4b28a"
+      cursorTextColor: "#1d1c19"
+      graphicColor: "#8ba4b0"
+    yaml:
+      keyColor: "#8ba4b0"
+      colonColor: "#737c73"
+      valueColor: "#c5c9c5"
+    logs:
+      fgColor: "#c5c9c5"
+      bgColor: "#1d1c19"
+      indicator:
+        fgColor: "#c5c9c5"
+        bgColor: "#223249"
+        toggleOnColor: "#8a9a7b"
+        toggleOffColor: "#737c73"

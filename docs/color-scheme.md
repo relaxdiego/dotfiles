@@ -141,6 +141,23 @@ This was a deliberate choice: originally the prompt used named colors (`red`,
 kanagawa-dragon preset was imported. If you add a new segment, use hex, not a
 named color, to keep the prompt terminal-independent.
 
+### k9s (`dot_config/private_k9s/skins/kanagawa-dragon.yaml`)
+
+A kanagawa-dragon skin written in **explicit hex**, so k9s looks the same in
+any terminal and does not follow the terminal palette.
+
+- The skin is selected by `K9S_SKIN=kanagawa-dragon`, exported in
+  `dot_bashrc.d/026_k9s.bashrc`. k9s also supports a `ui.skin` key in
+  `~/.config/k9s/config.yaml`, but **k9s rewrites that file itself**, so it is
+  deliberately not managed by chezmoi. The env var avoids that conflict.
+- The selected-row colors (dark text `#1d1c19` on yellow `#c4b28a`) match the
+  fzf highlight below, on purpose.
+- Verified against k9s v0.51.0: the skin loads with no schema errors and the
+  log line `Loading env skin skin=kanagawa-dragon` confirms the env var path.
+  k9s validates skins against an embedded schema, so **check the log at
+  `~/.local/state/k9s/k9s.log` after changing the skin** — a bad key is
+  reported there, not on screen.
+
 ### git's own colored output (`[color …]` in `dot_gitconfig.tmpl`)
 
 `[color "branch"]`, `[color "diff"]`, and `[color "status"]` set named colors
@@ -177,7 +194,6 @@ bat's own default theme; no `BAT_THEME` is set, so the two are not identical.
   own ANSI colors, rendered through Neovim's `:terminal` palette. Cosmetic.
 - **byobu** (`dot_byobu/`) — status config is present, but no install script
   sets byobu up and tmux is used directly, so it is effectively unused.
-- **k9s** — installed, but no skin is managed here, so it uses its default.
 - **Legacy bash `PS1`** (`dot_bashrc.d/000_aaa_legacy.bashrc.tmpl`) — a colored
   fallback prompt, superseded by starship when starship is active.
 
