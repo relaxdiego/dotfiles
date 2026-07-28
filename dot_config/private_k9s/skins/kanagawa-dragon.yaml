@@ -20,6 +20,16 @@ k9s:
   info:
     fgColor: "#c5c9c5"
     sectionColor: "#8ba4b0"
+    k9sRevColor: "#737c73"
+    cpuColor: "#8ba4b0"
+    memColor: "#a292a3"
+
+  help:
+    fgColor: "#c5c9c5"
+    bgColor: "#1d1c19"
+    keyColor: "#8ba4b0"
+    numKeyColor: "#c4b28a"
+    sectionColor: "#8a9a7b"
 
   dialog:
     fgColor: "#c5c9c5"
@@ -40,8 +50,11 @@ k9s:
       keyColor: "#8ba4b0"
       numKeyColor: "#c4b28a"
     crumbs:
+      # k9s uses ONE fgColor for every crumb and only swaps the background
+      # (activeColor for the last crumb). So this fg has to stay readable on
+      # both backgrounds -- keep them light and the text dark.
       fgColor: "#1d1c19"
-      bgColor: "#393836"
+      bgColor: "#8ea4a2"
       activeColor: "#c4b28a"
     status:
       newColor: "#8ea4a2"
