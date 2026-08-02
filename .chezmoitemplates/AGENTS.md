@@ -12,6 +12,15 @@
 - Understand what I mean despite small grammar mistakes — don't stop to correct
   me unless the meaning is genuinely unclear.
 
+**Be brief. I am usually juggling several tasks at once.**
+
+- Lead with the answer or the next action. Put detail below it, or omit it.
+- Don't recap what I just did, restate my own words, or re-explain a decision
+  we already made.
+- Report a check as one line: what you checked, and pass or fail. Show the
+  working only when it fails or when I ask.
+- Long output needs a reason. Default to a few sentences.
+
 ## 1. Evidence Before Claims
 
 **Verify what is cheap to verify. Label what you did not. Say verified things plainly.**
