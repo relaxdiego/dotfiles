@@ -34,6 +34,14 @@ keybind = super+l=text:\x1bl
 # use, and on macOS also when a new window, tab, or split opens.
 mouse-hide-while-typing = true
 
+# Close tabs and windows without the "are you sure?" dialog. The default
+# `true` skips the dialog only when the shell is at a prompt, which it learns
+# from shell integration. tmux does not support that, and Ghostty only sees
+# `tmux: client` as the child process, so every tmux tab always asks. Ghostty
+# has no per-process exception (ghostty-org/ghostty discussions 2677, 12719),
+# so turn the dialog off everywhere.
+confirm-close-surface = false
+
 # Put selected text in the system clipboard right away. Inside tmux a
 # selection made with Shift+drag can vanish on its own, and this keeps the
 # text anyway. The default `true` only fills Ghostty's own selection
