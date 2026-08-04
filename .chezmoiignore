@@ -20,6 +20,7 @@ tags
 !.claude/statusline.sh
 {{ if ne .chezmoi.os "darwin" }}
 .config/iterm2/**
+.local/bin/ghostty-thicken
 {{ end }}
 {{ if not (and (hasKey . "agent") .agent) }}
 .local/bin/git-credential-gh-org

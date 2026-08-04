@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Turn Ghostty's font stroke thickening on or off.
+#
+# Thicker strokes look right on a low-DPI external monitor and too heavy on
+# the MacBook's Retina screen. Ghostty has no per-display setting, so this
+# writes ~/.config/ghostty/thicken.conf, which ~/.config/ghostty/config
+# includes with `config-file = ?thicken.conf`. chezmoi does not manage that
+# file, so `chezmoi apply` leaves it alone.
+#
+# Ghostty re-reads its config only when asked. Reload it after running this.
+
+set -euo pipefail
+
+conf="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/thicken.conf"
+
+state() {
+    if [ ! -f "$conf" ]; then
+        echo off   # the value set in ~/.config/ghostty/config
+    elif grep -q 'font-thicken = true' "$conf"; then
+        echo on
+    else
+        echo off
+    fi
+}
+
+write_conf() {
+    local value
+    if [ "$1" = on ]; then value=true; else value=false; fi
+
+    cat > "$conf" <<EOF
+# Written by ghostty-thicken. Not managed by chezmoi.
+font-thicken = $value
+EOF
+
+    echo "font thickening: $1 -- reload Ghostty's config to apply"
+}
+
+case "${1:-toggle}" in
+    on)     write_conf on ;;
+    off)    write_conf off ;;
+    toggle) if [ "$(state)" = on ]; then write_conf off; else write_conf on; fi ;;
+    status) echo "font thickening: $(state)" ;;
+    *)      echo "usage: ${0##*/} [on|off|toggle|status]" >&2; exit 1 ;;
+esac

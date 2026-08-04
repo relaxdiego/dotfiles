@@ -1,5 +1,16 @@
 font-family = JetBrainsMonoNL Nerd Font
+font-size = 15
 cursor-style = block
+
+# Thicker strokes stop text from looking thin and jagged on a low-DPI
+# external monitor, but look too heavy on the MacBook's own screen, so they
+# are off here. macOS only. iTerm2 switches this per display; Ghostty has no
+# such setting, so run `ghostty-thicken on` at the work desk. It writes
+# thicken.conf next to this file to override the value below, and chezmoi
+# does not manage that file. The strength applies once thickening is on.
+font-thicken = false
+font-thicken-strength = 128
+config-file = ?thicken.conf
 
 # Cursor trail animation. The path is relative to this config file. Needs
 # cursor-style = block above. See shaders/CREDITS.md for provenance.
