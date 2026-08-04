@@ -1,0 +1,20 @@
+#!/bin/bash -e
+{{ if eq .chezmoi.os "darwin" -}}
+# The terminal font, set by dot_config/ghostty/config. The cask carries the
+# whole family, which matters: with only the Regular face installed, Ghostty
+# fakes bold by drawing an outline around each glyph, and that outline reads
+# as a drop shadow on a low-DPI screen. Check what Ghostty actually found
+# with:
+#
+#   /Applications/Ghostty.app/Contents/MacOS/ghostty +list-fonts \
+#       --family="JetBrainsMonoNL Nerd Font"
+#
+# --force is needed because a face already sitting in ~/Library/Fonts from a
+# hand install stops the cask, and that failure rolls back every face it had
+# already placed. --force overwrites instead.
+if brew info --cask font-jetbrains-mono-nerd-font | grep -qi "not installed"; then
+    brew install --cask --force font-jetbrains-mono-nerd-font
+else
+    echo "JetBrains Mono Nerd Font already installed"
+fi
+{{ end -}}
