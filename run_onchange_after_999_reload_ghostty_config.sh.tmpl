@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+# Remind me to reload Ghostty after its config changes. chezmoi re-runs a
+# run_onchange_ script only when the text of the script itself changes, so the
+# hash below is what makes this script change whenever the config does.
+#
+# ghostty config hash: {{ include "dot_config/ghostty/config" | sha256sum }}
+
+echo
+{{ if eq .chezmoi.os "darwin" -}}
+echo 'Ghostty config changed. Press Cmd+Shift+, in Ghostty to reload it.'
+{{- else -}}
+echo 'Ghostty config changed. Press Ctrl+Shift+, in Ghostty to reload it.'
+{{- end }}
