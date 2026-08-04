@@ -14,10 +14,10 @@ import { homedir } from "node:os";
 // Muted 256-color palette, same codes as statusline.sh.
 const R = "\x1b[0m";
 const C_MODEL = "\x1b[38;5;110m"; // soft blue
-const C_EFFORT = "\x1b[38;5;139m"; // soft mauve
+const C_EFFORT = "\x1b[38;5;108m"; // soft green
 const C_CTX = "\x1b[38;5;144m"; // soft khaki
 const C_COST = "\x1b[38;5;180m"; // soft tan
-const C_BRANCH = "\x1b[38;5;108m"; // soft green
+const C_BRANCH = "\x1b[38;2;162;146;163m"; // mauve, same as the starship git_branch
 const C_PATH = "\x1b[38;5;245m"; // gray
 
 // 76000 -> 76k, 1000000 -> 1M. Small numbers pass through unchanged.

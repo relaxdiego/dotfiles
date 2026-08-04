@@ -30,10 +30,10 @@ branch=$(git -C "$dir" rev-parse --abbrev-ref HEAD 2>/dev/null)
 # need "·" dividers. Low saturation to stay easy on the eyes.
 r=$'\033[0m'
 c_model=$'\033[38;5;110m'   # soft blue
-c_effort=$'\033[38;5;139m'  # soft mauve
+c_effort=$'\033[38;5;108m'  # soft green
 c_ctx=$'\033[38;5;144m'     # soft khaki
 c_cost=$'\033[38;5;180m'    # soft tan
-c_branch=$'\033[38;5;108m'  # soft green
+c_branch=$'\033[38;2;162;146;163m'  # mauve, same as the starship git_branch
 c_path=$'\033[38;5;245m'    # gray
 
 line="${c_model}${model}${r}"
