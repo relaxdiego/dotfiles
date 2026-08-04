@@ -2,6 +2,13 @@ font-family = JetBrainsMonoNL Nerd Font
 font-size = 15
 cursor-style = block
 
+# Shell integration turns the cursor into a bar at the prompt, which overrides
+# cursor-style above. The blaze shader measures its minimum jump against the
+# cursor width, so a thin bar drops the threshold below one cell and the trail
+# fires on every keystroke. Only the cursor feature is turned off here; title
+# and path keep their defaults.
+shell-integration-features = no-cursor
+
 # Thicker strokes stop text from looking thin and jagged on a low-DPI
 # external monitor, but look too heavy on the MacBook's own screen, so they
 # are off here. macOS only. iTerm2 switches this per display; Ghostty has no
