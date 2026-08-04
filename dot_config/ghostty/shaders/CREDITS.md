@@ -1,10 +1,38 @@
 # Credits
 
-`cursor_smear_fade.glsl` is the cursor-trail shader referenced by
-`custom-shader` in `../config`. It is third-party work, kept here so the setup
-survives a rebuild.
+The shaders here are the cursor-trail effects for `custom-shader` in
+`../config`. They are third-party work, kept here so the setup survives a
+rebuild.
 
-## Origin
+- `cursor_blaze.glsl` — in use. Yellow-to-red trail that also lights up the
+  cursor block itself.
+- `cursor_smear_fade.glsl` — the previous one, a plain yellow trail.
+
+## Origin: cursor_blaze.glsl
+
+Downloaded August 2026 from **KroneCorylus/ghostty-shader-playground**, path
+`public/shaders/cursor_blaze.glsl`, branch `main`:
+https://github.com/KroneCorylus/ghostty-shader-playground
+
+That repo is **MIT licensed** (checked August 2026). It is the same repository
+credited below under its old name, `KroneCorylus/shader-playground` — GitHub
+now redirects the old name to the new one, which is why the paths in the next
+section no longer resolve.
+
+The file is upstream's byte for byte, plus two local changes, both marked
+`LOCAL CHANGE` in the file:
+
+- It returns early when the cursor moves less than `MIN_JUMP_CELLS`
+  (1.5 cells), so typing does not set off the effect.
+- `DURATION` is 0.1s, down from upstream's 0.3s, matching the speed of the
+  older `cursor_smear_fade.glsl`.
+
+A different copy of this shader circulates in `0xhckr/ghostty-shaders` with a
+built-in `DRAW_THRESHOLD` that does the same job. It was not used here: that
+repo has no license, and its trail drops upstream's saturation pass, so the
+colors come out flatter.
+
+## Origin: cursor_smear_fade.glsl
 
 Traced to **KroneCorylus/shader-playground**, a playground for building Ghostty
 shaders: https://github.com/KroneCorylus/shader-playground
@@ -20,12 +48,18 @@ a copy here with attribution.
 Two caveats, both checked August 2026:
 
 - The exact file path on GitHub could not be loaded to compare byte for byte —
-  the directory listing returned 404, so the repo layout may have changed since
-  the file was downloaded in December 2025.
+  the directory listing returned 404. The repo has since been renamed to
+  `KroneCorylus/ghostty-shader-playground` and now keeps its shaders under
+  `public/shaders/`, which explains the 404; it holds no `cursor_smear_fade`,
+  so this copy could not be re-checked against it.
 - The copy here has no comment header, so it appears to be KroneCorylus's
   original rather than reshen's modified version. reshen's variant adds a trail
   color that follows Ghostty's `cursor-color` plus a configurable
   `TRAIL_MAX_OPACITY` — worth a look if this one ever needs replacing.
+
+It carries the same local change as `cursor_blaze.glsl`: it skips the effect
+when the cursor moves less than `MIN_JUMP_CELLS` (1.5 cells), so typing does
+not flash it. Marked `LOCAL CHANGE` in the file.
 
 All shaders in this family build on Inigo Quilez's 2D signed-distance-function
 techniques, cited in their own headers:

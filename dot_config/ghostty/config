@@ -14,7 +14,9 @@ config-file = ?thicken.conf
 
 # Cursor trail animation. The path is relative to this config file. Needs
 # cursor-style = block above. See shaders/CREDITS.md for provenance.
-custom-shader = shaders/cursor_smear_fade.glsl
+# cursor_smear_fade.glsl is the older, plain-yellow trail; swap the two lines
+# to go back to it.
+custom-shader = shaders/cursor_blaze.glsl
 
 # Shift+Enter inserts a newline instead of submitting. Ghostty otherwise
 # sends `[27;2;13~`, which Claude Code reads as a plain Enter. Claude
