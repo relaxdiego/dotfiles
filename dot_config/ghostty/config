@@ -30,6 +30,10 @@ keybind = super+j=text:\x1bj
 keybind = super+k=text:\x1bk
 keybind = super+l=text:\x1bl
 
+# Get the pointer out of the way while typing. It comes back on any mouse
+# use, and on macOS also when a new window, tab, or split opens.
+mouse-hide-while-typing = true
+
 # Put selected text in the system clipboard right away. Inside tmux a
 # selection made with Shift+drag can vanish on its own, and this keeps the
 # text anyway. The default `true` only fills Ghostty's own selection
