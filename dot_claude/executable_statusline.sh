@@ -43,5 +43,5 @@ line="${line}  ${c_ctx}${ctx}% ${ctx_tokens}/${ctx_size}${r}"
 # Estimated usage value: token count times public API prices. This is
 # shown even on subscription plans, where it is not an actual charge.
 line="${line}  ${c_cost}$(printf '$%.2f' "$cost")${r}"
-[ -n "$branch" ] && line="${line}  ${c_branch}⎇ ${branch}${r}"
+[ -n "$branch" ] && line="${line}  ${c_branch} ${branch}${r}"
 printf '%s  %s%s%s\n' "$line" "$c_path" "$path" "$r"

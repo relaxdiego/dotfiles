@@ -72,7 +72,7 @@ export default function (pi: ExtensionAPI) {
 					if (effort) line += `  ${C_EFFORT}${effort}${R}`;
 					line += `  ${C_CTX}${ctxPct}% ${ctxTokens}/${ctxWindow}${R}`;
 					line += `  ${C_COST}$${cost.toFixed(2)}${R}`;
-					if (branch) line += `  ${C_BRANCH}⎇ ${branch}${R}`;
+					if (branch) line += `  ${C_BRANCH} ${branch}${R}`;
 					line += `  ${C_PATH}${path}${R}`;
 
 					return [truncateToWidth(line, width)];
