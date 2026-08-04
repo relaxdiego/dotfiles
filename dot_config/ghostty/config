@@ -1,0 +1,48 @@
+font-family = JetBrainsMonoNL Nerd Font
+cursor-style = block
+
+# Cursor trail animation. The path is relative to this config file. Needs
+# cursor-style = block above. See shaders/CREDITS.md for provenance.
+custom-shader = shaders/cursor_smear_fade.glsl
+
+# Shift+Enter inserts a newline instead of submitting. Ghostty otherwise
+# sends `[27;2;13~`, which Claude Code reads as a plain Enter. Claude
+# Code's /terminal-setup handles iTerm2 but not Ghostty.
+keybind = shift+enter=text:\n
+
+# Cmd+hjkl resizes tmux panes. tmux binds resize to M-hjkl (dot_tmux.conf),
+# and Cmd never reaches tmux on its own, so send ESC+key here instead.
+keybind = super+h=text:\x1bh
+keybind = super+j=text:\x1bj
+keybind = super+k=text:\x1bk
+keybind = super+l=text:\x1bl
+
+# kanagawa-dragon palette, matching the Neovim colorscheme.
+# See docs/color-scheme.md for where these values come from and how to
+# re-extract them if the Neovim theme changes.
+
+background = #1d1c19
+foreground = #c5c9c5
+
+cursor-color = #c5c9c5
+cursor-text = #1d1c19
+
+selection-background = #223249
+selection-foreground = #c5c9c5
+
+palette = 0=#0d0c0c
+palette = 1=#c4746e
+palette = 2=#8a9a7b
+palette = 3=#c4b28a
+palette = 4=#8ba4b0
+palette = 5=#a292a3
+palette = 6=#8ea4a2
+palette = 7=#C8C093
+palette = 8=#a6a69c
+palette = 9=#E46876
+palette = 10=#87a987
+palette = 11=#E6C384
+palette = 12=#7FB4CA
+palette = 13=#938AA9
+palette = 14=#7AA89F
+palette = 15=#c5c9c5

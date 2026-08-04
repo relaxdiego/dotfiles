@@ -96,6 +96,24 @@ plus `ls`, `grep`, git's default output, …) match the editor, the terminal
 emulator's own 16 ANSI palette must equal kanagawa-dragon. This is the only
 lever for those colors; nothing in this repo's config can reach them.
 
+A config for **Ghostty** ships at `dot_config/ghostty/config`. Ghostty reads
+`~/.config/ghostty/config` on both macOS and Linux, so it needs no manual import
+— `chezmoi apply` is enough. On macOS, a config written by Ghostty's own
+settings UI lands in `~/Library/Application Support/com.mitchellh.ghostty/` and
+is loaded *after* this one, so any color set there wins. Ghostty is installed by
+hand, not by this repo.
+
+That config also sets `custom-shader`, a cursor-trail animation. The shader
+ships at `dot_config/ghostty/shaders/cursor_smear_fade.glsl`, and the path in
+the config is relative to the config file. It is third-party GLSL from
+`KroneCorylus/shader-playground` (MIT) — see
+`dot_config/ghostty/shaders/CREDITS.md` for the full trail and for other
+collections to pull different effects from.
+
+Cursor shaders only render correctly with `cursor-style = block`, which is why
+the config sets it. Inside tmux this makes no difference — tmux normalizes the
+cursor to a block on its own — but it matters for windows opened outside tmux.
+
 A preset for **iTerm2** ships at `dot_config/iterm2/kanagawa-dragon.itermcolors`
 (macOS-only; gated out of chezmoi for other OSes in `.chezmoiignore`). It is
 imported manually in iTerm2 (Settings → Profiles → Colors → Color Presets →
