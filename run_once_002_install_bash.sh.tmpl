@@ -1,0 +1,12 @@
+#!/bin/bash -e
+{{ if eq .chezmoi.os "darwin" -}}
+# macOS still ships bash 3.2, the last GPLv2 release. Install brew's current
+# bash so this machine matches the Linux hosts.
+((brew info bash | grep -i "not installed" 1>/dev/null) && brew install bash) || echo "bash already installed"
+
+# chsh refuses a shell that is not in /etc/shells. Registering it here does
+# NOT change the login shell -- run `chsh -s "$(brew --prefix)/bin/bash"`
+# yourself for that.
+bash_path="$(brew --prefix)/bin/bash"
+grep -qxF "$bash_path" /etc/shells || echo "$bash_path" | sudo tee -a /etc/shells
+{{ end -}}
