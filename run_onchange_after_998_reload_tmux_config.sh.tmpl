@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+# Remind me to reload tmux after its config changes. chezmoi re-runs a
+# run_onchange_ script only when the text of the script itself changes, so the
+# hash below is what makes this script change whenever the config does.
+#
+# tmux config hash: {{ include "dot_tmux.conf" | sha256sum }}
+
+echo
+echo 'tmux config changed. Press Ctrl+a then r in tmux to reload it.'
