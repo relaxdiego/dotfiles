@@ -9,14 +9,17 @@ if not vim.loop.fs_stat(lazypath) then
         "--branch=stable",
         lazypath,
     })
+    -- Land the fresh clone on the pinned revision. Only on clone: checking out
+    -- on every start would fight `Lazy sync`, and whichever ran last would win.
+    -- From here on the plugins/lazy.lua spec is what holds the version.
+    vim.fn.system({
+        "git",
+        "-C",      -- Execute the command in the provided directory
+        lazypath,  -- The directory to execute the command in
+        "checkout",
+        require("relaxdiego.plugins.lazy").commit,
+    })
 end
-vim.fn.system({
-    "git",
-    "-C",      -- Execute the command in the provided directory
-    lazypath,  -- The directory to execute the command in
-    "checkout",
-    "de0a911", -- v9.25.0
-})
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {}
@@ -28,4 +31,10 @@ for _, file in ipairs(files) do
     table.insert(plugins, require("relaxdiego.plugins." .. module))
 end
 
-require("lazy").setup(plugins)
+require("lazy").setup(plugins, {
+    -- Keep the lockfile inside the chezmoi source dir so `:Lazy update` writes
+    -- straight into the repo, ready to commit. chezmoi skips source entries
+    -- whose name starts with a dot, so .nvim/ is tracked by git but never
+    -- installed into $HOME. See docs/nvim-plugins.md.
+    lockfile = vim.fn.expand("~/.local/share/chezmoi/.nvim/lazy-lock.json"),
+})

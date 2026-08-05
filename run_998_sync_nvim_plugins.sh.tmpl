@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -e
+
+# This is intentionally not a "run once" script because the plugin specs or the
+# lockfile may change at any time. Running on every apply keeps the installed
+# plugins matching what the repo records.
+#
+# `lockfile = true` makes lazy.nvim install missing plugins, delete removed
+# ones, and check every plugin out to the exact commit in .nvim/lazy-lock.json.
+# The lockfile wins over the `commit =` pins in the specs, so this is a
+# reproducible restore, not an upgrade. See docs/nvim-plugins.md.
+
+LOCKFILE="{{ .chezmoi.sourceDir }}/.nvim/lazy-lock.json"
+
+echo "Tidying up Neovim plugins to match the lockfile..."
+
+before=$(sha256sum "$LOCKFILE" 2>/dev/null || true)
+
+"$HOME/bin/nvim" --headless \
+    "+lua require('lazy').sync({ lockfile = true, wait = true })" +qa
+
+after=$(sha256sum "$LOCKFILE" 2>/dev/null || true)
+
+# A sync should not move the lockfile. If it did, a plugin was added or removed
+# and lazy.nvim recorded it, so the repo now has an uncommitted change.
+#
+# The reminder is not printed here. It goes into a note file that the closing
+# banner (run_after_final_home_is_where_the_heart_is.sh.tmpl) prints in its box.
+# The tab matters: the banner splits on it and lines the two halves up.
+if [ "$before" != "$after" ]; then
+    printf 'nvim lockfile changed\tcommit it in chezmoi\n' \
+        >> "${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"
+fi
+
+# Ensure a newline is printed after the previous command
+echo

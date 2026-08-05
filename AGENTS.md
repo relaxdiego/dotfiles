@@ -34,6 +34,14 @@ git tag/commit, `latest` fetched at apply time, or whatever the OS package
 manager (brew/apt) provides. When you bump a checksum-pinned tool, update BOTH
 the version and its SHA256.
 
+## Neovim plugins
+
+Plugin versions live in two places: a `commit =` pin in each spec under
+`dot_config/nvim/lua/relaxdiego/plugins/`, and `.nvim/lazy-lock.json` in the
+source root. The lockfile wins at apply time, so editing a pin alone changes
+nothing. Read `docs/nvim-plugins.md` before changing, adding, or removing a
+plugin.
+
 ## Checking installed tool versions
 
 `scripts/verify-inventory.sh` prints the real installed path + version of

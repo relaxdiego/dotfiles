@@ -2,6 +2,11 @@
 # and ~/.local/share/agent-docs/commit-style.md.
 .git-commit-template
 
+# Retired: the Neovim lockfile now lives in the chezmoi source dir at
+# .nvim/lazy-lock.json, so lazy.nvim writes straight into the repo. The copy
+# chezmoi already installed under ~ is unmanaged now, so remove it.
+.config/nvim/lazy-lock.json
+
 # Retired: ctags is no longer used. Deleting the source files does not remove
 # the copies already in ~, so list them here. Keep hooks/commit-msg.
 .ctags
