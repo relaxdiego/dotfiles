@@ -1,5 +1,5 @@
 return {
-    "nvim-treesitter/nvim-treesitter",
+    "relaxdiego/nvim-treesitter",
     commit = "cfc6f2c117aaaa82f19bcce44deec2c194d900ab", -- v0.9.3
     -- The branch is named here so every machine records the same lockfile line.
     -- Without it lazy.nvim writes whatever refs/remotes/origin/HEAD says in the
