@@ -123,3 +123,9 @@ branch = "main",
 `treesitter.lua` and `git-blame.lua` have that line for this reason. Add it to
 any other plugin that starts flapping, and make sure the pinned commit really is
 on the branch you name.
+
+Name the branch your config belongs to, not simply the newest one.
+`nvim-treesitter` says `master`: its `main` is an incompatible rewrite that
+needs Neovim 0.12 and drops the module `treesitter.lua` calls. The pinned commit
+happens to exist on both branches, so only the label tells you which line you
+are on.

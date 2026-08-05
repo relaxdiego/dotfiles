@@ -3,9 +3,14 @@ return {
     commit = "cfc6f2c117aaaa82f19bcce44deec2c194d900ab", -- v0.9.3
     -- The branch is named here so every machine records the same lockfile line.
     -- Without it lazy.nvim writes whatever refs/remotes/origin/HEAD says in the
-    -- local clone, and a clone made before upstream renamed master to main
-    -- keeps saying "master" forever. See docs/nvim-plugins.md.
-    branch = "main",
+    -- local clone, and clones made at different times disagree. See
+    -- docs/nvim-plugins.md.
+    --
+    -- master, not main: main is an incompatible rewrite that dropped the
+    -- nvim-treesitter.configs module the config below calls, and it needs
+    -- Neovim 0.12. master is frozen but supported. Moving to main means
+    -- rewriting this file, not bumping the commit.
+    branch = "master",
     build = ":TSUpdate",
     config = function()
         -- Register the Caddyfile tree-sitter parser
