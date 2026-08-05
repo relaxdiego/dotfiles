@@ -7,6 +7,7 @@
 # tmux config hash: {{ include "dot_tmux.conf" | sha256sum }}
 
 # The reminder is not printed here. It goes into a note file that the closing
-# banner (run_after_final_home_is_where_the_heart_is.sh) prints inside its box.
-echo 'tmux config changed — reload with Ctrl+a then r' \
+# banner (run_after_final_home_is_where_the_heart_is.sh.tmpl) prints in its box.
+# The tab matters: the banner splits on it and lines the two halves up.
+printf 'tmux config changed\treload with Ctrl+a then r\n' \
     >> "${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"

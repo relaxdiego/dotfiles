@@ -1,0 +1,27 @@
+#!/bin/bash -e
+
+# The opening banner for `chezmoi apply`. It runs before anything is written,
+# so the scrollback records which revision of the source produced the changes
+# below it. The closing banner is run_after_final_home_is_where_the_heart_is.sh.
+
+{{ template "banner.sh" . }}
+SRC='{{ .chezmoi.sourceDir }}'
+
+REV="$(git -C "$SRC" rev-parse --short HEAD 2>/dev/null)" || REV=unknown
+if [ -n "$(git -C "$SRC" status --porcelain 2>/dev/null)" ]; then
+    REV="$REV-dirty"
+fi
+
+LINE="applying revision $REV"
+
+echo
+bar
+echo
+indent ${#LINE}
+dim
+printf '%s' "$LINE"
+off
+echo
+echo
+bar
+echo

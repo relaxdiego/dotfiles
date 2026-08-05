@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+# Remind me to restart bash after its config changes. chezmoi re-runs a
+# run_onchange_ script only when the text of the script itself changes, so the
+# hashes below are what make this script change whenever the config does. The
+# config is a directory of fragments, so every one of them is hashed here.
+#
+# bashrc hash: {{ include "dot_bashrc.tmpl" | sha256sum }}
+{{ range (glob (joinPath .chezmoi.sourceDir "dot_bashrc.d" "*")) -}}
+# {{ base . }} hash: {{ include . | sha256sum }}
+{{ end }}
+# The reminder is not printed here. It goes into a note file that the closing
+# banner (run_after_final_home_is_where_the_heart_is.sh.tmpl) prints inside its
+# box. The tab matters: the banner splits on it and lines the two halves up.
+#
+# A new shell, not "source ~/.bashrc": re-sourcing keeps aliases and functions
+# that the new config no longer defines, and PATH entries repeat because the
+# fragments prepend to the inherited $PATH.
+printf 'bash config changed\tstart a new shell\n' \
+    >> "${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"

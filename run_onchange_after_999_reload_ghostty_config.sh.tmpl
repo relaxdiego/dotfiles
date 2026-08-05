@@ -7,10 +7,11 @@
 # ghostty config hash: {{ include "dot_config/ghostty/config" | sha256sum }}
 
 # The reminder is not printed here. It goes into a note file that the closing
-# banner (run_after_final_home_is_where_the_heart_is.sh) prints inside its box.
+# banner (run_after_final_home_is_where_the_heart_is.sh.tmpl) prints in its box.
+# The tab matters: the banner splits on it and lines the two halves up.
 {{ if eq .chezmoi.os "darwin" -}}
-echo 'Ghostty config changed — reload with Cmd+Shift+,' \
+printf 'Ghostty config changed\treload with Cmd+Shift+,\n' \
 {{- else -}}
-echo 'Ghostty config changed — reload with Ctrl+Shift+,' \
+printf 'Ghostty config changed\treload with Ctrl+Shift+,\n' \
 {{- end }}
     >> "${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"

@@ -1,0 +1,48 @@
+#!/bin/bash -e
+
+# The closing banner for `chezmoi apply`. It runs last (after_ + a name that
+# sorts past the numbered scripts) so it can collect the reminders that the
+# run_onchange_ scripts leave in NOTES and show them inside the same banner.
+
+{{ template "banner.sh" . }}
+NOTES="${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"
+
+TITLE=relaxdiego/dotfiles
+
+echo
+bar
+echo
+indent ${#TITLE}
+title "$TITLE"
+echo
+
+# Each note is a "what" and a "how", separated by a tab. Pad every "what" to
+# the same width so the dashes line up, then centre the whole block under the
+# title. Two passes: measure first, print second.
+if [ -s "$NOTES" ]; then
+    labelw=0
+    howw=0
+    while IFS=$'\t' read -r what how; do
+        if [ ${#what} -gt "$labelw" ]; then labelw=${#what}; fi
+        if [ ${#how} -gt "$howw" ]; then howw=${#how}; fi
+    done < "$NOTES"
+
+    echo
+    while IFS=$'\t' read -r what how; do
+        # 5 = the "▸ " prefix plus the " — " separator.
+        indent $((labelw + howw + 5))
+        accent
+        printf '▸ '
+        off
+        printf '%-*s' "$labelw" "$what"
+        dim
+        printf ' — '
+        off
+        printf '%s\n' "$how"
+    done < "$NOTES"
+fi
+rm -f "$NOTES"
+
+echo
+bar
+echo
