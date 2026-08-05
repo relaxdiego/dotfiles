@@ -16,9 +16,9 @@ pin.
 the *record*: the exact commit of every installed plugin, including anything the
 pins miss. It is what actually gets installed.
 
-The lockfile wins. When `chezmoi apply` runs the sync, lazy.nvim checks out what
-the lockfile says and ignores the pins. So changing only a pin does nothing —
-see the upgrade steps below.
+The lockfile wins. When `chezmoi apply` runs the restore, lazy.nvim checks out
+what the lockfile says and ignores the pins. So changing only a pin does nothing
+— see the upgrade steps below.
 
 ## Why the lockfile lives in `.nvim/`
 
@@ -83,12 +83,32 @@ it then runs on every start and fights the sync, and whichever ran last wins.
 `run_998_sync_nvim_plugins.sh.tmpl` runs on every apply:
 
 ```lua
-require('lazy').sync({ lockfile = true, wait = true })
+require('lazy').restore({ wait = true })
+require('lazy').install({ wait = true, lockfile = true })
+require('lazy').clean({ wait = true })
 ```
 
-That installs missing plugins, deletes removed ones, and checks everything out
-to the lockfile. It is a restore, not an upgrade — it will never move you to a
-newer version.
+That checks every installed plugin out to the lockfile, installs missing ones,
+and deletes removed ones. It is a restore, not an upgrade — it will never move
+you to a newer version.
 
-If the sync changes the lockfile, the closing banner reminds you to commit it.
+Three separate calls, restore first, and deliberately not `:Lazy sync`. Every
+lazy.nvim operation ends by rewriting the lockfile from whatever is *installed*
+(`manage/lock.lua`, `M.update`), and `sync` starts its clean, install and update
+stages at the same time. So the rewrite races the checkout that is supposed to
+read the lockfile. On a machine whose plugins had drifted, the install won that
+race: the drift was written into the lockfile instead of being undone. Restoring
+first means the checkout reads the file before anything can overwrite it.
+
+If the restore changes the lockfile, the closing banner reminds you to commit it.
 That normally means a plugin was added or removed somewhere else.
+
+One field the lockfile cannot control is `branch`. lazy.nvim records whatever
+`refs/remotes/origin/HEAD` says in each plugin clone, and that ref is set once,
+at clone time. A clone made before an upstream renamed `master` to `main` keeps
+reporting `master`, so that machine rewrites the line on every apply even though
+the commit matches. Fix the clone, not the lockfile:
+
+```sh
+git -C ~/.local/share/nvim/lazy/<plugin> remote set-head origin -a
+```
