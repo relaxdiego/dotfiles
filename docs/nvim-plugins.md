@@ -103,12 +103,23 @@ first means the checkout reads the file before anything can overwrite it.
 If the restore changes the lockfile, the closing banner reminds you to commit it.
 That normally means a plugin was added or removed somewhere else.
 
-One field the lockfile cannot control is `branch`. lazy.nvim records whatever
-`refs/remotes/origin/HEAD` says in each plugin clone, and that ref is set once,
-at clone time. A clone made before an upstream renamed `master` to `main` keeps
-reporting `master`, so that machine rewrites the line on every apply even though
-the commit matches. Fix the clone, not the lockfile:
+## The `branch` field, and why two specs name it
 
-```sh
-git -C ~/.local/share/nvim/lazy/<plugin> remote set-head origin -a
+Each lockfile entry carries a `branch` as well as a commit. lazy.nvim does not
+get that name from the repo. It reads `refs/remotes/origin/HEAD` in the plugin
+clone, and git writes that ref once, at clone time, and never revisits it. So a
+machine that cloned a plugin before upstream renamed `master` to `main` keeps
+writing `master`, another machine writes `main`, and the two rewrite the same
+line back and forth on every apply. The commit is identical either way — the
+installed version is fine — but the banner keeps asking you to commit it.
+
+Naming the branch in the spec ends it, because `Git.get_branch` returns
+`plugin.branch` when it is set and only falls back to the clone otherwise:
+
+```lua
+branch = "main",
 ```
+
+`treesitter.lua` and `git-blame.lua` have that line for this reason. Add it to
+any other plugin that starts flapping, and make sure the pinned commit really is
+on the branch you name.

@@ -1,6 +1,11 @@
 return {
     "nvim-treesitter/nvim-treesitter",
     commit = "cfc6f2c117aaaa82f19bcce44deec2c194d900ab", -- v0.9.3
+    -- The branch is named here so every machine records the same lockfile line.
+    -- Without it lazy.nvim writes whatever refs/remotes/origin/HEAD says in the
+    -- local clone, and a clone made before upstream renamed master to main
+    -- keeps saying "master" forever. See docs/nvim-plugins.md.
+    branch = "main",
     build = ":TSUpdate",
     config = function()
         -- Register the Caddyfile tree-sitter parser
