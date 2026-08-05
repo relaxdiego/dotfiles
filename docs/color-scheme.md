@@ -128,6 +128,29 @@ status bar is unaffected (only its `white`/`red` shift).
 > Ghostty config, Alacritty TOML). Generate an equivalent preset for their
 > terminal from the palette values below.
 
+## Selection highlight (the one place kanagawa is overridden)
+
+Dragging the mouse produces a highlight drawn by a *different program*
+depending on what is running, and each one has its own color setting:
+
+| What is running | Who draws the highlight | Setting |
+|---|---|---|
+| A plain shell, no tmux | the terminal emulator | Ghostty `selection-background` |
+| tmux, and the pane's program does not ask for mouse events | tmux copy-mode | `mode-style` in `dot_tmux.conf` |
+| a program that asks for mouse events (Claude Code, Neovim) | that program | its own theme |
+
+A program that enables mouse reporting receives the drag itself, which is why
+tmux never sees it. Holding **Shift** makes the terminal emulator ignore mouse
+reporting and select natively, so Shift+drag always uses the emulator's color.
+
+All three are set to **`#264F78`**. That is *not* a kanagawa-dragon value: it
+is what Claude Code hardcodes for `selectionBg` in its dark theme, with no
+setting to change it. Since it cannot move, the other two were moved to it.
+The kanagawa selection color `#223249` (Neovim's `Visual` bg, in the palette
+table below) is still what Neovim uses internally, so a selection inside
+Neovim does not match one outside it. That is a known, accepted mismatch —
+do not "fix" it by reverting the two settings above.
+
 ## Everything else in the repo that emits color
 
 The same layer rule explains all of these: **named ANSI colors follow whatever
