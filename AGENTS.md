@@ -53,6 +53,11 @@ emulator palette) is interrelated and easy to get wrong. Before touching any of
 it, read `docs/color-scheme.md`. Do not assume a specific terminal emulator —
 ask the user which one they use.
 
+One color is spread across four unrelated files and has no shared variable:
+the selection highlight, set in the Ghostty config, `dot_tmux.conf`, the
+Neovim kanagawa spec, and (unchangeably) Claude Code. Change all of them in
+one commit or none — see the selection section of `docs/color-scheme.md`.
+
 ## Conventions
 
 - History goes straight to `main`. Do not open PRs unless asked.

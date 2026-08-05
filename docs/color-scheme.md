@@ -145,16 +145,48 @@ reporting and select natively, so Shift+drag always uses the emulator's color.
 
 All of them are set to **`#264F78`**. That is *not* a kanagawa-dragon value:
 it is what Claude Code hardcodes for `selectionBg` in its dark theme, with no
-setting to change it. Since it cannot move, everything else was moved to it:
+setting to change it. Since it cannot move, everything else was moved to it.
 
-- Ghostty `selection-background` in `dot_config/ghostty/config`
-- `mode-style` in `dot_tmux.conf`
-- the `Visual` highlight override in the kanagawa plugin spec
-  (`dot_config/nvim/lua/relaxdiego/plugins/colorscheme-kanagawa.lua`)
+### These four places must change together
+
+There is no shared variable behind them — each program is configured in its
+own file, in its own syntax, and nothing fails if they disagree. They just
+look wrong. So change all four in one commit, or none.
+
+| Where | Setting | Making it take effect |
+|---|---|---|
+| `dot_config/ghostty/config` | `selection-background` | quit Ghostty fully and reopen; it does not reload the palette |
+| `dot_tmux.conf` | the `bg=` in `mode-style` | `prefix + r`, or restart the tmux server |
+| `dot_config/nvim/lua/relaxdiego/plugins/colorscheme-kanagawa.lua` | the `Visual` override | restart Neovim |
+| Claude Code | `selectionBg`, hardcoded in the binary | nothing to change — see below |
+
+Verifying, after `chezmoi apply`:
+
+```sh
+# tmux
+tmux show -g mode-style
+
+# Neovim's Visual background
+nvim --headless \
+  -c 'lua local v=vim.api.nvim_get_hl(0,{name="Visual"}); print(string.format("#%06x", v.bg))' \
+  -c 'qa!'
+
+# What Claude Code uses. Prints two values: the light theme first, then the
+# dark theme — the dark one is the one that matters here. Re-run this after a
+# Claude Code upgrade if the selection suddenly stops matching.
+grep -ao 'selectionBg:"rgb([0-9, ]*)"' "$(readlink -f "$(command -v claude)")" | sort -u
+```
+
+Ghostty has no equivalent query; check it by eye, or read the config file.
+
+Claude Code is the anchor only because it is the one that cannot be
+configured. If a future version adds a setting for it, the constraint
+disappears and any value will do — including going back to kanagawa. Until
+then, keep the other three equal to it.
 
 The kanagawa selection color is `#223249`, listed in the palette table below.
 It is deliberately overridden and no longer appears anywhere on screen. Do
-not "fix" the deviation by reverting these three settings to it.
+not "fix" the deviation by reverting these settings to it.
 
 ## Everything else in the repo that emits color
 
