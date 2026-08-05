@@ -55,6 +55,16 @@ confirm-close-surface = false
 # pasteboard, which Cmd+V cannot read on macOS.
 copy-on-select = clipboard
 
+# Recolored app icon: a purple ghost on a red-orange screen. macOS only, and
+# it changes the Dock and app-switcher icon only. The Finder icon comes from
+# the signed bundle and cannot be changed at runtime. Ghostty calls
+# custom-style experimental, so these keys may need updating on a version
+# bump. Both color keys are required when custom-style is set.
+macos-icon = custom-style
+macos-icon-frame = aluminum
+macos-icon-ghost-color = #9f85ed
+macos-icon-screen-color = #ff6763,#ff3000
+
 # kanagawa-dragon palette, matching the Neovim colorscheme.
 # See docs/color-scheme.md for where these values come from and how to
 # re-extract them if the Neovim theme changes.
