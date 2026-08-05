@@ -6,5 +6,7 @@
 #
 # tmux config hash: {{ include "dot_tmux.conf" | sha256sum }}
 
-echo
-echo 'tmux config changed. Press Ctrl+a then r in tmux to reload it.'
+# The reminder is not printed here. It goes into a note file that the closing
+# banner (run_after_final_home_is_where_the_heart_is.sh) prints inside its box.
+echo 'tmux config changed — reload with Ctrl+a then r' \
+    >> "${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"
