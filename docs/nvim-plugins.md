@@ -31,26 +31,41 @@ file in the repo.
 name starts with a dot, so `.nvim/` is tracked by git but never installed
 anywhere. `:Lazy update` writes into the repo, and you commit it.
 
-## Upgrading a plugin
+## The one command: `:Lazy sync`
 
-1. Edit the `commit = "..."` line in the plugin's spec file.
-2. Run `:Lazy update` in Neovim. No lockfile flag, so the pins win: it moves
-   the plugin to your new commit and rewrites `.nvim/lazy-lock.json`.
-3. Commit both files together. They must not disagree.
+Whatever you changed — added, removed, or repinned — the command is the same:
 
-To upgrade *everything* to the newest available, you have to remove the pins
-first — with pins in place, `:Lazy update` only ever moves a plugin to its pin.
+```vim
+:Lazy sync
+```
+
+Plain `:Lazy sync`, with no lockfile flag, so the pins win and the lockfile is
+rewritten to match. Then commit the spec file and `.nvim/lazy-lock.json`
+together. They must never disagree.
+
+Do not use `:Lazy update` here. It only acts on plugins that are already
+installed, so it will not install a plugin you just added, and it does not
+delete one you removed. `:Lazy sync` is install + clean + update, which covers
+all three cases.
 
 ## Adding a plugin
 
 Drop a new file in `dot_config/nvim/lua/relaxdiego/plugins/`. Every `*.lua` file
 there is loaded automatically. Include a `commit = "..."` so the first install is
-pinned, then run `:Lazy update` and commit both files.
+pinned. Then `:Lazy sync` and commit both files.
 
 ## Removing a plugin
 
-Delete its spec file, then run `:Lazy update`. The sync deletes the plugin and
-drops it from the lockfile. Commit both.
+Delete its spec file, then `:Lazy sync`. The clean step deletes the plugin
+directory and drops it from the lockfile. Commit both.
+
+## Upgrading a plugin
+
+Edit the `commit = "..."` line in the spec, then `:Lazy sync` and commit both.
+
+To find a newer commit, open `:Lazy`, press `U` to check for updates, and read
+the log. To upgrade *everything* to the newest available you would have to drop
+the pins first — with a pin in place, a sync only ever moves a plugin to its pin.
 
 ## lazy.nvim pins itself twice, on purpose
 
