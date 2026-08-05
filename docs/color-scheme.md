@@ -143,13 +143,18 @@ A program that enables mouse reporting receives the drag itself, which is why
 tmux never sees it. Holding **Shift** makes the terminal emulator ignore mouse
 reporting and select natively, so Shift+drag always uses the emulator's color.
 
-All three are set to **`#264F78`**. That is *not* a kanagawa-dragon value: it
-is what Claude Code hardcodes for `selectionBg` in its dark theme, with no
-setting to change it. Since it cannot move, the other two were moved to it.
-The kanagawa selection color `#223249` (Neovim's `Visual` bg, in the palette
-table below) is still what Neovim uses internally, so a selection inside
-Neovim does not match one outside it. That is a known, accepted mismatch —
-do not "fix" it by reverting the two settings above.
+All of them are set to **`#264F78`**. That is *not* a kanagawa-dragon value:
+it is what Claude Code hardcodes for `selectionBg` in its dark theme, with no
+setting to change it. Since it cannot move, everything else was moved to it:
+
+- Ghostty `selection-background` in `dot_config/ghostty/config`
+- `mode-style` in `dot_tmux.conf`
+- the `Visual` highlight override in the kanagawa plugin spec
+  (`dot_config/nvim/lua/relaxdiego/plugins/colorscheme-kanagawa.lua`)
+
+The kanagawa selection color is `#223249`, listed in the palette table below.
+It is deliberately overridden and no longer appears anywhere on screen. Do
+not "fix" the deviation by reverting these three settings to it.
 
 ## Everything else in the repo that emits color
 
@@ -253,7 +258,10 @@ nvim --headless \
 ```
 
 - Foreground `#c5c9c5`, Background `#1d1c19`
-- Selection (Visual bg) `#223249`, Cursor `#c5c9c5` on `#1d1c19`
+- Selection (Visual bg) `#223249` — the theme's own value, overridden to
+  `#264F78`; see the selection section above. The extraction command reports
+  the override, not this number.
+- Cursor `#c5c9c5` on `#1d1c19`
 - 16 ANSI colors:
 
 | # | Role | Hex | | # | Role | Hex |
