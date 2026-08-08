@@ -5,21 +5,52 @@
 # below it. The closing banner is run_after_final_home_is_where_the_heart_is.sh.
 
 {{ template "banner.sh" . }}
-SRC='{{ .chezmoi.sourceDir }}'
 
-REV="$(git -C "$SRC" rev-parse --short HEAD 2>/dev/null)" || REV=unknown
-if [ -n "$(git -C "$SRC" status --porcelain 2>/dev/null)" ]; then
-    REV="$REV-dirty"
+# The README logo, redrawn in text: $HOME spelled as a shell expansion with a
+# house standing in for the word. LOGO_WIDTH is columns, not characters: six
+# plain glyphs plus one double-width emoji.
+if [ "$UNICODE" = yes ]; then
+    LOGO='${🏠}/.*'
+    LOGO_WIDTH=8
+else
+    LOGO='${HOME}/.*'
+    LOGO_WIDTH=11
 fi
 
-LINE="applying revision $REV"
+TITLE="Mark Maglana's Dotfiles"
+REPO=relaxdiego/dotfiles
+LEAD="Applying revision "
 
 echo
 bar
 echo
-indent ${#LINE}
+indent $LOGO_WIDTH
+bold
 dim
-printf '%s' "$LINE"
+printf '%s' "$LOGO"
+off
+echo
+indent ${#TITLE}
+bright
+printf '%s' "$TITLE"
+off
+echo
+indent ${#REPO}
+dim
+printf '%s' "$REPO"
+off
+echo
+echo
+# 3 = the trailing "...".
+indent $((${#LEAD} + ${#REV} + 3))
+dim
+printf '%s' "$LEAD"
+off
+sha
+printf '%s' "$REV"
+off
+dim
+printf '...'
 off
 echo
 echo

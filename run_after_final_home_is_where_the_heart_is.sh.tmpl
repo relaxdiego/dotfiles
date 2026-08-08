@@ -7,18 +7,23 @@
 {{ template "banner.sh" . }}
 NOTES="${TMPDIR:-/tmp}/chezmoi-apply-notes.$(id -u)"
 
-TITLE=relaxdiego/dotfiles
+LEAD="Applied revision "
 
 echo
 bar
 echo
-indent ${#TITLE}
-title "$TITLE"
+indent $((${#LEAD} + ${#REV}))
+dim
+printf '%s' "$LEAD"
+off
+sha
+printf '%s' "$REV"
+off
 echo
 
 # Each note is a "what" and a "how", separated by a tab. Pad every "what" to
 # the same width so the dashes line up, then centre the whole block under the
-# title. Two passes: measure first, print second.
+# line above. Two passes: measure first, print second.
 if [ -s "$NOTES" ]; then
     labelw=0
     howw=0
@@ -29,14 +34,14 @@ if [ -s "$NOTES" ]; then
 
     echo
     while IFS=$'\t' read -r what how; do
-        # 5 = the "▸ " prefix plus the " — " separator.
+        # 5 = the bullet plus its space, and the separator plus its two spaces.
         indent $((labelw + howw + 5))
         accent
-        printf '▸ '
+        printf '%s ' "$BULLET"
         off
         printf '%-*s' "$labelw" "$what"
         dim
-        printf ' — '
+        printf ' %s ' "$SEP"
         off
         printf '%s\n' "$how"
     done < "$NOTES"
