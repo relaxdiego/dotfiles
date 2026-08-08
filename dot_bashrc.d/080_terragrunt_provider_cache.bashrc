@@ -1,2 +1,2 @@
-# See: https://terragrunt.gruntwork.io/docs/features/provider-cache-server/#provider-cache-server
-export TERRAGRUNT_PROVIDER_CACHE=1
+# See: https://docs.terragrunt.com/features/provider-cache-server/
+export TG_PROVIDER_CACHE=true
