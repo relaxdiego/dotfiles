@@ -1,9 +1,10 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/logo.png">
-</p>
+<h3 align="center">
+  <img src="https://raw.githubusercontent.com/relaxdiego/dotfiles/main/logo.png"><br>
+  Mark Maglana's Dotfiles<br>
+  <sub><a href="https://github.com/relaxdiego/dotfiles">relaxdiego/dotfiles</a></sub>
+</h3>
 
-
-# Mark Maglana's Dotfiles
+<hr>
 
 Automates the configuration of Vim, Tmux/BYOBU, and friends for make benefit
 of glorious `$HOME`, life embetterment, great success, and world peace!
