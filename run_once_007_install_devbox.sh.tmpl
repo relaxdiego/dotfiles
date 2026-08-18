@@ -1,3 +1,11 @@
 #!/bin/bash -e
 
-(which devbox && exit 0) || curl -fsSL https://get.jetify.com/devbox | bash
+which devbox >/dev/null || curl -fsSL https://get.jetify.com/devbox | bash
+{{ if and (and (hasKey . "agent") .agent) (eq .chezmoi.os "linux") }}
+# /usr/local/bin/devbox is a launcher *script*, and the installer leaves it
+# mode 711. Reading a script needs the read bit, so o+x alone is not enough:
+# a guest user gets "Permission denied". Widen it to 0755. Each user still
+# caches its own devbox binary under its own ~/.cache/devbox.
+# See the "Guest users" section of AGENTS.md.
+sudo chmod 0755 "$(command -v devbox)"
+{{ end }}
