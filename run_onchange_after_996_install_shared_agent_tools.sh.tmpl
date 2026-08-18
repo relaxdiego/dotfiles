@@ -1,0 +1,56 @@
+{{ if and (and (hasKey . "agent") .agent) (eq .chezmoi.os "linux") -}}
+#!/bin/bash -e
+
+# Install the GitHub shims host-wide, so guest users can run them.
+#
+# A guest's home is 0700 and so is the owner's: neither can read the other's
+# ~/.local/bin. /opt/relaxdiego is this repo's host-wide prefix — root owned,
+# world readable — so it is the one place every user on the host can reach.
+#
+# Each shim comes from a single source in .chezmoitemplates/, installed both
+# here and into the owner's ~/.local/bin, so the two copies cannot drift.
+# This script re-runs whenever a source changes. The shims share code only:
+# each reads $HOME/.config/gh-org-tokens, so every user gets its own tokens
+# and nobody else's. See the "Guest users" section of AGENTS.md.
+#
+# git-credential-gh-org hash: {{ include ".chezmoitemplates/git-credential-gh-org" | sha256sum }}
+# gh hash: {{ include ".chezmoitemplates/gh" | sha256sum }}
+
+shared_bin=/opt/relaxdiego/usr/local/bin
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+cat > "$tmp/git-credential-gh-org" <<'SHARED_HELPER_EOF'
+{{ template "git-credential-gh-org" . -}}
+SHARED_HELPER_EOF
+
+cat > "$tmp/gh" <<'SHARED_GH_EOF'
+{{ template "gh" . -}}
+SHARED_GH_EOF
+
+# The PATH entry every guest needs to find the shims. Appended, not
+# prepended, so a user's own ~/.local/bin still wins.
+cat > "$tmp/relaxdiego-agent-tools.sh" <<'SHARED_PROFILE_EOF'
+# Host-wide agent tools, shared by every user on this machine including
+# guests. Written by chezmoi (run_onchange_after_996_*).
+case ":$PATH:" in
+    *:/opt/relaxdiego/usr/local/bin:*) ;;
+    *) PATH="$PATH:/opt/relaxdiego/usr/local/bin" ;;
+esac
+export PATH
+SHARED_PROFILE_EOF
+
+install_shared() {  # <source basename> <destination path> <mode>
+    if sudo cmp -s "$tmp/$1" "$2" 2>/dev/null; then
+        return
+    fi
+    echo "Installing $2"
+    sudo install -d -o root -g root -m 0755 "$(dirname "$2")"
+    sudo install -o root -g root -m "$3" "$tmp/$1" "$2"
+}
+
+install_shared git-credential-gh-org "$shared_bin/git-credential-gh-org" 0755
+install_shared gh                    "$shared_bin/gh"                    0755
+install_shared relaxdiego-agent-tools.sh /etc/profile.d/relaxdiego-agent-tools.sh 0644
+{{ end -}}
