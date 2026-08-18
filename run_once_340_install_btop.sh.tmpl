@@ -1,0 +1,46 @@
+#!/bin/bash -e
+
+# Verify <file> against <expected> sha256. Prefer sha256sum (Linux/coreutils);
+# fall back to shasum, which is always present on macOS even when the coreutils
+# gnubin dir is not on PATH (run_once_003 installs coreutils as gsha256sum).
+verify_sha256() {  # <expected> <file>
+  if command -v sha256sum >/dev/null 2>&1; then
+    echo "$1  $2" | sha256sum -c -
+  else
+    echo "$1  $2" | shasum -a 256 -c -
+  fi
+}
+
+BTOP_VERSION="1.4.7"
+BASE_URL="https://github.com/aristocratos/btop/releases/download/v${BTOP_VERSION}"
+
+echo "Installing btop ${BTOP_VERSION}..."
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    brew install btop
+elif [[ "$(uname)" == "Linux" ]]; then
+    # Pinned checksum. To upgrade: bump BTOP_VERSION, download the archive from
+    # https://github.com/aristocratos/btop/releases and sha256sum it yourself
+    # (the release does not publish a checksums file).
+    case "$(uname -m)" in
+        x86_64)        archive="btop-x86_64-unknown-linux-musl.tar.gz";  sha256="5099054dd6a101bd12eb6ff3702a9a6a3f57aaa27923a0da478ae5b517faf335" ;;
+        aarch64|arm64) archive="btop-aarch64-unknown-linux-musl.tar.gz"; sha256="6270de0ef4c84cf0eea61cb148b3ad9ae91a11e9c3309867ffc6b3751024c252" ;;
+        *) echo "Unable to install btop: unsupported arch $(uname -m)" >&2; exit 1 ;;
+    esac
+    tmp_dir="$(mktemp -d)"
+    trap 'rm -rf "$tmp_dir"' EXIT
+    curl -fLsS "${BASE_URL}/${archive}" -o "$tmp_dir/$archive"
+    verify_sha256 "${sha256}" "${tmp_dir}/${archive}"
+    tar -xzf "$tmp_dir/$archive" -C "$tmp_dir" ./btop/bin/btop ./btop/themes
+    mkdir -p "$HOME/bin" "$HOME/.config/btop"
+    mv "$tmp_dir/btop/bin/btop" "$HOME/bin/btop"
+    chmod +x "$HOME/bin/btop"
+    # btop ships only a built-in Default theme unless the theme files are on
+    # disk; brew and apt install them too, so keep the two paths in step.
+    rm -rf "$HOME/.config/btop/themes"
+    mv "$tmp_dir/btop/themes" "$HOME/.config/btop/themes"
+    echo "Installed btop ${BTOP_VERSION}"
+else
+    echo "Unable to install btop: unsupported OS"
+    exit 1
+fi

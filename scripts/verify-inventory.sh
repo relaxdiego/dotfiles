@@ -53,6 +53,7 @@ probe git-delta      delta          --version
 probe tflint         tflint         --version
 probe ruff           ruff           --version
 probe lazygit        lazygit        --version
+probe btop           btop           --version
 probe krew           kubectl-krew   version
 probe devcontainer   devcontainer   --version
 
