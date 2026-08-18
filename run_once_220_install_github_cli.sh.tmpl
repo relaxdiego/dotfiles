@@ -77,10 +77,28 @@ fi
 rm -f "$archive_path"
 ls -l
 
-# Create destination directory if it doesn't exist
-mkdir -p ~/.local/opt/github-cli
-rm -rf ~/.local/opt/github-cli/*
-mv ./* ~/.local/opt/github-cli/
+# Where the binary lands. On agent machines it goes host-wide under
+# /opt/relaxdiego so guest users can run it too — their 0700 homes cannot see
+# ~/.local/opt. See "Guest users" in AGENTS.md. Everywhere else it stays in
+# $HOME,
+# no sudo needed, exactly as before.
+{{ if and (and (hasKey . "agent") .agent) (eq .chezmoi.os "linux") -}}
+dest="/opt/relaxdiego/usr/local/opt/github-cli"
+sudo mkdir -p "$dest"
+sudo rm -rf "${dest:?}"/*
+sudo mv ./* "$dest"/
+sudo chown -R root:root "$dest"
+sudo chmod -R a+rX "$dest"
 
-echo "GitHub CLI installed successfully to ~/.local/opt/github-cli/"
+# ~/.local/bin/gh prefers a copy in $HOME, so drop the stale one; otherwise
+# an old version would keep winning over the host-wide install.
+rm -rf ~/.local/opt/github-cli
+{{ else -}}
+dest="$HOME/.local/opt/github-cli"
+mkdir -p "$dest"
+rm -rf "${dest:?}"/*
+mv ./* "$dest"/
+{{ end -}}
+
+echo "GitHub CLI installed successfully to $dest"
 exit 0
