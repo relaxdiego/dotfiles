@@ -1,0 +1,536 @@
+{{ if and (and (hasKey . "agent") .agent) (eq .chezmoi.os "linux") -}}
+#!/usr/bin/env bash
+# guest — manage unprivileged Unix users for coding agents to run as.
+#
+# One Unix user per trust domain (for example "work" or "personal"). The
+# agent runs AS that user, so it sees only that user's tokens: not the
+# owner's, and not another guest's. The boundary is the 0700 home.
+#
+# No secret is ever copied from the owner's home. `guest add` creates EMPTY
+# token files; the owner fills them in with `guest secrets`.
+#
+# Only `add` and `rm` need root; they re-run themselves under sudo. The rest
+# are thin wrappers over sudo, kept here so the right form is always at hand.
+#
+# chezmoi installs this on Linux agent machines only. On macOS, keep using
+# the owner account: extra macOS users do not isolate the same way.
+#
+# Rationale: the "Guest users" section of AGENTS.md in the dotfiles repo.
+set -euo pipefail
+
+owner="{{ .chezmoi.username }}"
+group="guests"
+shared_bin=/opt/relaxdiego/usr/local/bin
+shared_helper="$shared_bin/git-credential-gh-org"
+direnv_marker="# guest: direnv hook"
+refresh=false   # `sync` sets this; `add` leaves existing files alone
+
+die() { echo "guest: $*" >&2; exit 1; }
+say() { echo "guest: $*"; }
+
+usage() {
+    cat <<EOF
+usage: guest <command> [args]
+
+  add     <name>              create the guest: group $group, 0700 home, no
+                              sudo, empty 600 token files, own signing key
+  enter   <name>              log in as the guest (sudo -u <name> -i)
+  run     <name> [--] cmd...  run one command as the guest
+  secrets <name> [gh|bearer]  edit that guest's own secret file, in nvim.
+                              gh = GitHub tokens (the default), bearer = MCP
+  steps   <name>              print that guest's manual steps again
+  sync    [name]              re-write the managed agent files from the
+                              current source; all guests if no name given
+  list                        list the guests on this host
+  rm      <name>              delete the guest AND its home
+
+Isolation only holds if the agent STARTS as the guest:
+
+    guest run work -- claude
+EOF
+}
+
+# --- helpers ---------------------------------------------------------------
+
+home_of() { getent passwd "$1" | cut -d: -f6; }
+
+guest_names() { getent group "$group" | cut -d: -f4 | tr ',' ' '; }
+
+valid_name() {
+    [[ "$1" =~ ^[a-z][a-z0-9_-]{0,30}$ ]] || die "'$1' is not a usable POSIX user name."
+    case "$1" in
+        root|"$owner"|nobody|daemon|nixbld*) die "'$1' is reserved." ;;
+    esac
+}
+
+# Everything except `add` refuses to touch a user that is not a guest, so a
+# typo can never reach a system account or the owner.
+require_guest() {
+    id -u "$1" >/dev/null 2>&1 || die "no such user '$1'. Create it with: guest add $1"
+    id -nG "$1" | tr ' ' '\n' | grep -qx "$group" \
+        || die "'$1' exists but is not in the $group group. Refusing to touch it."
+}
+
+need_root() {
+    [ "$(id -u)" -eq 0 ] || exec sudo -- "$0" "${argv[@]}"
+}
+
+# --- commands --------------------------------------------------------------
+
+# --- agent instructions ------------------------------------------------------
+
+# `add` never overwrites a file that exists: an agent may have edited its own
+# instructions. `sync` does overwrite, but keeps a .bak of anything that
+# differs first, so an edit is never simply lost.
+write_needed() {  # <dest> <candidate>
+    [ -e "$1" ] || return 0
+    $refresh || return 1
+    cmp -s "$1" "$2" && return 1
+    cp -p "$1" "$1.bak"
+    say "kept ${1}.bak — it had drifted from the source"
+    return 0
+}
+
+# The notes the instructions point at, verbatim from the same files the owner
+# reads.
+write_agent_doc() {  # <guest> <dir> <basename> ; stdin is the content
+    local tmp
+    tmp="$(mktemp)"
+    cat > "$tmp"
+    if write_needed "$2/$3" "$tmp"; then
+        install -o "$1" -g "$1" -m 0644 "$tmp" "$2/$3"
+        say "wrote .local/share/agent-docs/$3."
+    fi
+    rm -f "$tmp"
+}
+
+write_agent_docs() {  # <guest> <home>
+    local dir="$2/.local/share/agent-docs"
+    install -d -o "$1" -g "$1" -m 0755 "$2/.local" "$2/.local/share" "$dir"
+
+    write_agent_doc "$1" "$dir" commit-style.md <<'DOC_COMMIT_EOF'
+{{ include "dot_local/share/agent-docs/commit-style.md" -}}
+DOC_COMMIT_EOF
+
+    write_agent_doc "$1" "$dir" github-auth.md <<'DOC_GHAUTH_EOF'
+{{ include "dot_local/share/agent-docs/github-auth.md" -}}
+DOC_GHAUTH_EOF
+
+    write_agent_doc "$1" "$dir" worktrees.md <<'DOC_WORKTREES_EOF'
+{{ include "dot_local/share/agent-docs/worktrees.md" -}}
+DOC_WORKTREES_EOF
+}
+
+
+# The same instructions the owner's agents read, from the same source
+# (.chezmoitemplates/AGENTS.md), plus a short preamble for the parts that are
+# different in a guest account.
+agent_md() {  # <guest> — emits the full document body, no H1
+    cat <<EOF
+## You are a guest user
+
+You are running as the Unix user \`$1\` on \`{{ .chezmoi.hostname }}\`. This
+account exists so that each agent has its own credentials. You cannot read
+the owner's home, and other guests cannot read yours.
+
+What is different here, compared to the sections below:
+
+- **No sudo.** You cannot install host packages. Use
+  \`nix profile install nixpkgs#<pkg>\` or devbox, which install into your own
+  profile. If something really needs root, ask the owner in plain words.
+- **No chezmoi source directory.** Section 7 is about the owner's dotfiles
+  repo; \`chezmoi source-path\` does not exist in this account. Its rule still
+  holds everywhere: never write work or client details into a file that ends
+  up in a public repo.
+- **The GitHub shims live under \`/opt/relaxdiego/usr/local/bin/\`**, not
+  \`~/.local/bin\`, because they are shared by every user on this host. Their
+  behaviour is exactly as described in \`agent-docs/github-auth.md\`, and they
+  read *your* \`~/.config/gh-org-tokens\` — nobody else's.
+- **Your tokens are yours.** Never copy a credential out of this account, and
+  never ask the owner to paste theirs in.
+
+EOF
+    cat <<'SHARED_AGENTS_EOF'
+{{ template "AGENTS.md" . -}}
+SHARED_AGENTS_EOF
+}
+
+write_agent_md() {  # <guest> <home> <dest> <h1> <dir mode>
+    local name="$1" home="$2" dest="$3" tmp
+    install -d -o "$name" -g "$name" -m "$5" "$(dirname "$dest")"
+    tmp="$(mktemp)"
+    { printf '# %s\n\n' "$4"; agent_md "$name"; } > "$tmp"
+    if write_needed "$dest" "$tmp"; then
+        install -o "$name" -g "$name" -m 0644 "$tmp" "$dest"
+        say "wrote ${dest#"$home"/}."
+    fi
+    rm -f "$tmp"
+}
+
+# Everything `guest` keeps up to date inside a guest's home. Never secrets,
+# never .gitconfig — those are the guest's own.
+write_managed_files() {  # <guest> <home>
+    local name="$1" home="$2"
+
+    # direnv does nothing without a shell hook, and /etc/skel/.bashrc has
+    # none. Appending as root keeps the file owned by the guest.
+    if ! grep -qF "$direnv_marker" "$home/.bashrc" 2>/dev/null; then
+        cat >> "$home/.bashrc" <<EOF
+
+$direnv_marker
+if command -v direnv >/dev/null; then
+    eval "\$(direnv hook bash)"
+fi
+EOF
+        say "added the direnv hook to .bashrc."
+    fi
+
+    write_agent_md "$name" "$home" "$home/.claude/CLAUDE.md"    CLAUDE.md 0700
+    write_agent_md "$name" "$home" "$home/.codex/AGENTS.md"     AGENTS.md 0700
+    write_agent_md "$name" "$home" "$home/.pi/agent/AGENTS.md"  AGENTS.md 0700
+    write_agent_md "$name" "$home" "$home/.config/AGENTS.md"    AGENTS.md 0700
+    write_agent_docs "$name" "$home"
+}
+
+cmd_add() {
+    local name="$1" home key devbox
+    valid_name "$name"
+
+    # Check before escalating, so a bad name fails without a sudo round trip.
+    if id -u "$name" >/dev/null 2>&1; then
+        id -nG "$name" | tr ' ' '\n' | grep -qx "$group" \
+            || die "user '$name' already exists and is not a $group member. Refusing to touch it."
+        # Said after need_root, or the re-exec below prints it twice.
+        [ "$(id -u)" -eq 0 ] && say "user '$name' exists; filling in anything missing."
+    fi
+
+    need_root
+
+    getent group "$group" >/dev/null || groupadd "$group"
+
+    if ! id -u "$name" >/dev/null 2>&1; then
+        # --user-group gives the guest its own primary group, so files are
+        # never group-shared with another guest. $group is supplementary,
+        # which is what makes `guest list` able to find them.
+        useradd --create-home --shell /bin/bash --user-group --groups "$group" \
+                --comment "guest ($name)" "$name"
+        say "created user '$name'."
+    fi
+
+    home="$(home_of "$name")"
+    if [ -z "$home" ] || [ ! -d "$home" ]; then
+        die "no home directory for '$name'."
+    fi
+    chmod 0700 "$home"
+
+    ensure_dir() {  # <path> <mode>
+        [ -d "$1" ] || install -d -o "$name" -g "$name" -m "$2" "$1"
+    }
+
+    ensure_file() {  # <path> <mode> ; never truncates an existing file
+        [ -e "$1" ] || install -o "$name" -g "$name" -m "$2" /dev/null "$1"
+    }
+
+    ensure_dir  "$home/.config"            0700
+    ensure_dir  "$home/.config/mcp-http"   0700
+    ensure_dir  "$home/.ssh"               0700
+    ensure_dir  "$home/bin"                0755
+    ensure_dir  "$home/src"                0755
+
+    # Empty on purpose. The owner fills these in; nothing is copied.
+    ensure_file "$home/.config/gh-org-tokens"    0600
+    ensure_file "$home/.config/mcp-http/bearer"  0600
+
+    # Host-wide things a guest depends on, but that this command does not
+    # own: each is installed by the owner's `chezmoi apply`. Warn rather than
+    # fix, so the mode and the install stay defined in exactly one place.
+    if [ ! -x "$shared_helper" ]; then
+        say "warning: $shared_helper is missing — run 'chezmoi apply' as $owner,"
+        say "         otherwise this guest cannot reach private repos over HTTPS."
+    fi
+
+    # devbox's launcher is a script, so a guest needs read as well as
+    # execute. run_once_007 widens it to 0755.
+    devbox="$(command -v devbox || true)"
+    if [ -n "$devbox" ] && ! runuser -u "$name" -- test -r "$devbox"; then
+        say "warning: $name cannot read $devbox — run 'chezmoi apply' as $owner,"
+        say "         otherwise devbox fails for this guest with 'Permission denied'."
+    fi
+
+    # Its own signing key, so one leak is revocable without touching the others.
+    key="$home/.ssh/agent_signing_key"
+    if [ ! -f "$key" ]; then
+        runuser -u "$name" -- ssh-keygen -t ed25519 -f "$key" -N "" \
+            -C "agent-signing-{{ .chezmoi.hostname }}-$name" >/dev/null
+        say "generated commit signing key."
+    fi
+
+    # Debian's /etc/skel already gives the guest a .profile that puts ~/bin
+    # and ~/.local/bin on PATH, and /etc/profile.d puts nix and the shared
+    # tools there. So the only skeleton worth writing is the git identity.
+    write_skel() {  # <path> <mode> ; stdin is the content, an existing file wins
+        if [ -e "$1" ]; then
+            cat >/dev/null
+            return
+        fi
+        install -o "$name" -g "$name" -m "$2" /dev/stdin "$1"
+        say "wrote ${1#"$home"/}."
+    }
+
+    # direnv is installed host-wide by apt, and devbox lives in
+    write_skel "$home/.gitconfig" 0644 <<EOF
+; Skeleton written by \`guest add\`. Yours to edit.
+[user]
+    name = {{ .fullname }}
+    email = {{ .email }}
+    ; This guest's own signing key. Register it in GitHub as a "Signing Key"
+    ; (NOT an "Authentication Key") so it cannot push, pull, or log in.
+    signingkey = ~/.ssh/agent_signing_key.pub
+    useConfigOnly = true
+
+[github]
+    user = {{ .github_username }}
+
+; Per-org GitHub tokens, read from THIS user's ~/.config/gh-org-tokens. The
+; helper itself is the host-wide copy under /opt/relaxdiego, because a guest
+; cannot read the owner's ~/.local/bin. The empty helper line first clears
+; any inherited helper so ours is the only one consulted for github.com.
+[credential "https://github.com"]
+    helper =
+    helper = $shared_helper
+    useHttpPath = true
+
+[gpg]
+    format = ssh
+
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
+
+[init]
+    defaultBranch = main
+
+[pull]
+    ff = only
+EOF
+
+    write_managed_files "$name" "$home"
+
+    print_steps "$name"
+}
+
+# Prints [x] if the check passes, [ ] if not. Every check runs through sudo:
+# a guest's home is 0700, so from the owner's side an unreadable file would
+# otherwise look like an empty one.
+mark_if() {  # <command...>
+    if "$@" >/dev/null 2>&1; then printf '[x]'; else printf '[ ]'; fi
+}
+
+# The manual steps, each marked with whether it is already done. Printed by
+# `add`, and again by `steps` whenever you need them back — nothing here
+# changes anything, so it is safe to re-run.
+print_steps() {  # <guest>
+    local name="$1" home key m_gh m_bearer m_claude
+
+    home="$(home_of "$name")"
+    key="$home/.ssh/agent_signing_key.pub"
+
+    # A real token line: not a comment, and "<key>=<value>" with both sides
+    # filled in. The commented sample that `secrets` writes does not count.
+    m_gh="$(mark_if sudo grep -qE '^[^#[:space:]][^=]*=.+' "$home/.config/gh-org-tokens")"
+    m_bearer="$(mark_if sudo grep -qE '[^[:space:]]' "$home/.config/mcp-http/bearer")"
+    m_claude="$(mark_if sudo test -s "$home/.claude/.credentials.json")"
+
+    cat <<EOF
+
+=====================================================================
+Guest '$name': remaining manual steps
+=====================================================================
+[x] done   [ ] to do   [?] not checkable here   [-] as needed
+
+$m_gh 1. Give it its OWN GitHub PATs — do not reuse yours. One
+       "<org>=<token>" line each, plus an optional "default=<token>":
+
+           guest secrets $name gh
+
+       That opens ~/.config/gh-org-tokens in nvim, pre-filled with a
+       commented sample of the format. Once real lines are in, git and
+       gh pick the right token per repo by themselves. Use HTTPS
+       remotes; this guest has no SSH key.
+
+$m_bearer 2. Put the HTTP MCP bearer in, if this guest needs one:
+
+           guest secrets $name bearer
+
+       That is ~/.config/mcp-http/bearer: the token on one line,
+       nothing else.
+
+[?] 3. Upload the key below to https://github.com/settings/keys
+       Choose key type "Signing Key" (NOT "Authentication Key"). Only
+       GitHub knows whether this is done:
+
+$(sudo sed 's/^/           /' "$key")
+
+$m_claude 4. Sign in to the agents AS the guest. An agent started as you
+       keeps YOUR tokens and YOUR sudo:
+
+           guest enter $name
+           claude          # sign in here, in this shell
+
+           guest run $name -- claude
+
+       The mark tracks Claude only (~/.claude/.credentials.json).
+       Other agents are not checked.
+
+[-] 5. Tools: this guest sees none of your \$HOME. It does get the
+       host-wide ones — git, gh, direnv, devbox, nix. Anything else it
+       installs into its own nix profile, as the guest:
+
+           nix profile install nixpkgs#ripgrep
+=====================================================================
+
+EOF
+}
+
+cmd_enter() {
+    require_guest "$1"
+    exec sudo -u "$1" -i
+}
+
+cmd_run() {
+    local name="$1"
+    require_guest "$name"
+    shift
+    [ "${1:-}" = "--" ] && shift
+    [ $# -gt 0 ] || die "nothing to run. Try: guest run $name -- claude"
+    # -i so the command gets a login shell: PATH, nix, and the shared tools.
+    exec sudo -u "$name" -i -- "$@"
+}
+
+# A commented-out sample, written into an empty tokens file so the format is
+# in front of you when the editor opens. Every line starts with #, so the
+# file stays functionally empty until you fill it in: the credential helper
+# and the gh wrapper both skip comments.
+seed_tokens() {  # <guest> <file>
+    cat <<EOF | sudo -u "$1" tee "$2" >/dev/null
+# GitHub tokens for the guest user '$1'. One line per org:
+#
+#     <org>=<fine-grained PAT>
+#
+# <org> is the first path segment of the repo URL, github.com/<org>/<repo>.
+# An optional 'default=<token>' line covers every org with no line of its
+# own. Lines starting with # are ignored, as are blank lines.
+#
+# This guest needs its OWN tokens. Do not paste in the owner's: separate
+# credentials are the whole point of a guest user.
+#
+# Example:
+#
+# {{ .github_username }}=github_pat_xxxxxxxxxxxxxxxxxxxxxxxx
+# some-other-org=github_pat_yyyyyyyyyyyyyyyyyyyyyyyy
+# default=github_pat_xxxxxxxxxxxxxxxxxxxxxxxx
+EOF
+    sudo chmod 0600 "$2"
+    sudo chown "$1:$1" "$2"
+}
+
+cmd_secrets() {
+    local name="$1" home file editor
+    require_guest "$name"
+    home="$(home_of "$name")"
+    case "${2:-gh}" in
+        gh)     file="$home/.config/gh-org-tokens" ;;
+        bearer) file="$home/.config/mcp-http/bearer" ;;
+        *)      die "unknown secret '${2}'. Use 'gh' or 'bearer'." ;;
+    esac
+
+    # The guest's home is 0700, so ask root whether the file has content.
+    # Testing it directly would say "empty" for anything unreadable, and
+    # then the seed below would wipe real tokens.
+    if ! sudo test -s "$file"; then
+        case "${2:-gh}" in
+            gh)     seed_tokens "$name" "$file" ;;
+            bearer) say "put the bearer token on one line, nothing else." ;;
+        esac
+    fi
+
+    editor="$(command -v nvim || true)"
+    [ -n "$editor" ] || editor="$HOME/bin/nvim"
+    [ -x "$editor" ] || die "nvim not found. Looked on PATH and in $HOME/bin."
+
+    # sudoedit copies the file out, runs the editor as YOU, and copies it
+    # back as the guest. The editor never runs as the guest. SUDO_EDITOR
+    # wins over VISUAL and EDITOR, so this is always nvim.
+    SUDO_EDITOR="$editor" exec sudoedit -u "$name" "$file"
+}
+
+cmd_steps() {
+    require_guest "$1"
+    print_steps "$1"
+}
+
+cmd_sync() {
+    local name
+    [ $# -eq 0 ] || require_guest "$1"
+    need_root
+    refresh=true
+
+    for name in ${1:-$(guest_names)}; do
+        say "syncing $name"
+        write_managed_files "$name" "$(home_of "$name")"
+    done
+}
+
+cmd_list() {
+    local members
+    members="$(guest_names)"
+    if [ -z "${members// }" ]; then
+        say "no guests on this host yet."
+        return
+    fi
+    for m in $members; do
+        printf '%s\t%s\n' "$m" "$(home_of "$m")"
+    done
+}
+
+cmd_rm() {
+    local name="$1" home answer
+    require_guest "$name"
+    home="$(home_of "$name")"
+
+    need_root
+
+    say "this deletes user '$name' and everything under $home."
+    [ -t 0 ] || die "refusing to remove '$name' with no terminal to confirm on."
+    read -r -p "guest: type the guest name to confirm: " answer
+    [ "$answer" = "$name" ] || die "aborted; nothing was removed."
+
+    userdel --remove "$name"
+    say "removed '$name'."
+}
+
+# --- dispatch --------------------------------------------------------------
+
+argv=("$@")
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+    add|enter|secrets|steps|rm)
+        [ $# -ge 1 ] || { usage >&2; exit 2; }
+        "cmd_$cmd" "$@" ;;
+    run)
+        [ $# -ge 2 ] || { usage >&2; exit 2; }
+        cmd_run "$@" ;;
+    list)
+        cmd_list ;;
+    sync)
+        cmd_sync "$@" ;;
+    ""|-h|--help|help)
+        usage ;;
+    *)
+        usage >&2; exit 2 ;;
+esac
+{{ end -}}
