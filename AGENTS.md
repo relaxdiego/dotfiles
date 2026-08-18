@@ -66,6 +66,52 @@ the selection highlight, set in the Ghostty config, `dot_tmux.conf`, the
 Neovim kanagawa spec, and (unchangeably) Claude Code. Change all of them in
 one commit or none — see the selection section of `docs/color-scheme.md`.
 
+## Guest users
+
+**This whole section describes Linux agent machines only.** This file lives
+in the repo, not in `$HOME`, so you are reading it on every machine. On a
+personal or shared machine none of it is installed: there is no `guest`
+command, no `/opt/relaxdiego`, and `gh` stays in `~/.local/opt/github-cli`.
+Check which kind of machine you are on with:
+
+```sh
+chezmoi data | grep '"agent"'
+```
+
+On a Linux agent machine, `~/.local/bin/guest` (source:
+`dot_local/bin/executable_guest.tmpl`) creates one unprivileged Unix user per
+trust domain, so an agent runs as that user and sees only its own tokens:
+`guest add / enter / run / secrets / steps / sync / list / rm`. Never copy a
+secret from the owner's home into a guest — share code instead.
+
+`/opt/relaxdiego/usr/local/` is the host-wide prefix that makes that
+possible, because a guest's `0700` home cannot see the owner's. The GitHub
+shims live in `.chezmoitemplates/` (`git-credential-gh-org` and `gh`, with no
+chezmoi data in them, on purpose). From that one source they go to the
+owner's `~/.local/bin` — on agent machines only, `.chezmoiignore` drops them
+elsewhere — and host-wide by
+`run_onchange_after_996_install_shared_agent_tools.sh.tmpl`, where
+`run_once_220` also puts the `gh` binary itself under `/opt/relaxdiego`.
+Every shim reads `$HOME/.config/gh-org-tokens`, so each user gets only its
+own tokens.
+
+Three rules hold this together. **The boundary is the `0700` home** — nothing
+else. Guests share the kernel, the network, and `/proc`, so never put a
+secret in a command line, and never run an unauthenticated service on
+localhost. **The owner's `chezmoi apply` owns every host-wide install and
+mode**; `guest add` owns nothing outside a guest's home and only warns when
+something host-wide is missing, so each mode is defined in one place.
+**Never put a guest in `sudo`, `docker`, or any other root-equivalent
+group** — a root daemon it can talk to is a way out of the boundary.
+
+`guest add` also writes the agent instruction files into each guest —
+`.claude/CLAUDE.md`, `.codex/AGENTS.md`, `.pi/agent/AGENTS.md`,
+`.config/AGENTS.md` — from the same `.chezmoitemplates/AGENTS.md` the owner's
+copies use, plus `~/.local/share/agent-docs/`. After editing either source,
+run `guest sync` to push it to every guest. If you add a new consumer of that
+template for the owner, add it to `write_managed_files` in the guest script
+too.
+
 ## Conventions
 
 - History goes straight to `main`. Do not open PRs unless asked.
