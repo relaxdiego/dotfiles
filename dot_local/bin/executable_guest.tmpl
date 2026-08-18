@@ -6,8 +6,8 @@
 # agent runs AS that user, so it sees only that user's tokens: not the
 # owner's, and not another guest's. The boundary is the 0700 home.
 #
-# No secret is ever copied from the owner's home. `guest add` creates EMPTY
-# token files; the owner fills them in with `guest secrets`.
+# No secret is ever copied from the owner's home. `guest add` creates an EMPTY
+# token file; the owner fills it in with `guest secrets`.
 #
 # Only `add` and `rm` need root; they re-run themselves under sudo. The rest
 # are thin wrappers over sudo, kept here so the right form is always at hand.
@@ -36,8 +36,7 @@ usage: guest <command> [args]
                               sudo, empty 600 token files, own signing key
   enter   <name>              log in as the guest (sudo -u <name> -i)
   run     <name> [--] cmd...  run one command as the guest
-  secrets <name> [gh|bearer]  edit that guest's own secret file, in nvim.
-                              gh = GitHub tokens (the default), bearer = MCP
+  secrets <name> [gh]         edit that guest's own GitHub tokens, in nvim
   steps   <name>              print that guest's manual steps again
   sync    [name]              re-write the managed agent files from the
                               current source; all guests if no name given
@@ -232,14 +231,12 @@ cmd_add() {
     }
 
     ensure_dir  "$home/.config"            0700
-    ensure_dir  "$home/.config/mcp-http"   0700
     ensure_dir  "$home/.ssh"               0700
     ensure_dir  "$home/bin"                0755
     ensure_dir  "$home/src"                0755
 
-    # Empty on purpose. The owner fills these in; nothing is copied.
+    # Empty on purpose. The owner fills it in; nothing is copied.
     ensure_file "$home/.config/gh-org-tokens"    0600
-    ensure_file "$home/.config/mcp-http/bearer"  0600
 
     # Host-wide things a guest depends on, but that this command does not
     # own: each is installed by the owner's `chezmoi apply`. Warn rather than
@@ -332,7 +329,7 @@ mark_if() {  # <command...>
 # `add`, and again by `steps` whenever you need them back — nothing here
 # changes anything, so it is safe to re-run.
 print_steps() {  # <guest>
-    local name="$1" home key m_gh m_bearer m_claude
+    local name="$1" home key m_gh m_claude
 
     home="$(home_of "$name")"
     key="$home/.ssh/agent_signing_key.pub"
@@ -340,7 +337,6 @@ print_steps() {  # <guest>
     # A real token line: not a comment, and "<key>=<value>" with both sides
     # filled in. The commented sample that `secrets` writes does not count.
     m_gh="$(mark_if sudo grep -qE '^[^#[:space:]][^=]*=.+' "$home/.config/gh-org-tokens")"
-    m_bearer="$(mark_if sudo grep -qE '[^[:space:]]' "$home/.config/mcp-http/bearer")"
     m_claude="$(mark_if sudo test -s "$home/.claude/.credentials.json")"
 
     cat <<EOF
@@ -360,20 +356,13 @@ $m_gh 1. Give it its OWN GitHub PATs — do not reuse yours. One
        gh pick the right token per repo by themselves. Use HTTPS
        remotes; this guest has no SSH key.
 
-$m_bearer 2. Put the HTTP MCP bearer in, if this guest needs one:
-
-           guest secrets $name bearer
-
-       That is ~/.config/mcp-http/bearer: the token on one line,
-       nothing else.
-
-[?] 3. Upload the key below to https://github.com/settings/keys
+[?] 2. Upload the key below to https://github.com/settings/keys
        Choose key type "Signing Key" (NOT "Authentication Key"). Only
        GitHub knows whether this is done:
 
 $(sudo sed 's/^/           /' "$key")
 
-$m_claude 4. Sign in to the agents AS the guest. An agent started as you
+$m_claude 3. Sign in to the agents AS the guest. An agent started as you
        keeps YOUR tokens and YOUR sudo:
 
            guest enter $name
@@ -384,7 +373,7 @@ $m_claude 4. Sign in to the agents AS the guest. An agent started as you
        The mark tracks Claude only (~/.claude/.credentials.json).
        Other agents are not checked.
 
-[-] 5. Tools: this guest sees none of your \$HOME. It does get the
+[-] 4. Tools: this guest sees none of your \$HOME. It does get the
        host-wide ones — git, gh, direnv, devbox, nix. Anything else it
        installs into its own nix profile, as the guest:
 
@@ -441,19 +430,15 @@ cmd_secrets() {
     require_guest "$name"
     home="$(home_of "$name")"
     case "${2:-gh}" in
-        gh)     file="$home/.config/gh-org-tokens" ;;
-        bearer) file="$home/.config/mcp-http/bearer" ;;
-        *)      die "unknown secret '${2}'. Use 'gh' or 'bearer'." ;;
+        gh) file="$home/.config/gh-org-tokens" ;;
+        *)  die "unknown secret '${2}'. The only one is 'gh'." ;;
     esac
 
     # The guest's home is 0700, so ask root whether the file has content.
     # Testing it directly would say "empty" for anything unreadable, and
     # then the seed below would wipe real tokens.
     if ! sudo test -s "$file"; then
-        case "${2:-gh}" in
-            gh)     seed_tokens "$name" "$file" ;;
-            bearer) say "put the bearer token on one line, nothing else." ;;
-        esac
+        seed_tokens "$name" "$file"
     fi
 
     editor="$(command -v nvim || true)"
