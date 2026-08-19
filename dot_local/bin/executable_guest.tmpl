@@ -166,6 +166,34 @@ write_agent_md() {  # <guest> <home> <dest> <h1> <dir mode>
     rm -f "$tmp"
 }
 
+# The owner's Claude Code status line, from the same file the owner runs, plus
+# the one setting that turns it on. The rest of settings.json is the guest's
+# own, so it is merged, never replaced.
+write_claude_statusline() {  # <guest> <home>
+    local name="$1" home="$2" dest="$2/.claude/statusline.sh" cfg="$2/.claude/settings.json" tmp
+    install -d -o "$name" -g "$name" -m 0700 "$home/.claude"
+
+    tmp="$(mktemp)"
+    cat > "$tmp" <<'STATUSLINE_EOF'
+{{ include "dot_claude/executable_statusline.sh" -}}
+STATUSLINE_EOF
+    if write_needed "$dest" "$tmp"; then
+        install -o "$name" -g "$name" -m 0755 "$tmp" "$dest"
+        say "wrote .claude/statusline.sh."
+    fi
+    rm -f "$tmp"
+
+    tmp="$(mktemp)"
+    { [ -s "$cfg" ] && cat "$cfg" || echo '{}'; } \
+        | jq '.statusLine = {"type": "command", "command": "~/.claude/statusline.sh"}' > "$tmp"
+    if ! cmp -s "$cfg" "$tmp"; then
+        install -o "$name" -g "$name" -m 0644 "$tmp" "$cfg"
+        say "set statusLine in .claude/settings.json."
+    fi
+    rm -f "$tmp"
+}
+
+
 # Everything `guest` keeps up to date inside a guest's home. Never secrets,
 # never .gitconfig — those are the guest's own.
 write_managed_files() {  # <guest> <home>
@@ -189,6 +217,7 @@ EOF
     write_agent_md "$name" "$home" "$home/.pi/agent/AGENTS.md"  AGENTS.md 0700
     write_agent_md "$name" "$home" "$home/.config/AGENTS.md"    AGENTS.md 0700
     write_agent_docs "$name" "$home"
+    write_claude_statusline "$name" "$home"
 }
 
 cmd_add() {
