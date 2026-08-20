@@ -11,8 +11,11 @@ Two shims pick the right token automatically:
   `~/.local/bin/git-credential-gh-org` (wired in `~/.gitconfig` with
   `useHttpPath = true`) takes the org from the URL path. Clone, fetch,
   and push against `https://github.com/<org>/<repo>` just work for any
-  org that has a token. SSH remotes are NOT authenticated on this
-  machine — always prefer HTTPS remote URLs.
+  org that has a token. SSH keys are NOT usable for fetch or push here
+  (the only key is a signing key), so `~/.gitconfig` rewrites the SSH
+  forms of a github.com URL to HTTPS with `url.insteadOf`. Prefer HTTPS
+  remotes anyway; the rewrite exists for URLs you cannot change, such as
+  a git dependency pinned to `git+ssh://git@github.com/...`.
 - **`gh`** — `~/.local/bin/gh` is a wrapper script that shadows the real
   binary on PATH and exports `GH_TOKEN` for that one command. It resolves
   the target org from, in order: a `-R/--repo` flag, a

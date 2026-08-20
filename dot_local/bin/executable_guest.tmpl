@@ -297,6 +297,15 @@ cmd_add() {
     helper = $shared_helper
     useHttpPath = true
 
+; SSH is not authenticated here: the only key is a commit signing key, which
+; GitHub refuses for fetch and push. Rewrite the SSH forms of a github.com
+; remote to HTTPS so the helper above supplies a token. Needed for remotes we
+; do not control, such as a dependency pinned to git+ssh://git@github.com/...
+[url "https://github.com/"]
+    insteadOf = ssh://git@github.com/
+    insteadOf = git@github.com:
+    insteadOf = git://github.com/
+
 [gpg]
     format = ssh
 

@@ -24,6 +24,18 @@
     helper =
     helper = "!~/.local/bin/git-credential-gh-org"
     useHttpPath = true
+
+; SSH is not authenticated on this machine: the only key here is a commit
+; signing key, which GitHub refuses for fetch and push. So rewrite every SSH
+; form of a github.com remote to HTTPS, where the helper above supplies a
+; token. This matters for remotes we do not control: a dependency pinned to
+; git+ssh://git@github.com/... (pip, uv, poetry, go get) would otherwise fail
+; with "Permission denied (publickey)". Git applies the rewrite before it
+; connects, so those tools need no change.
+[url "https://github.com/"]
+    insteadOf = ssh://git@github.com/
+    insteadOf = git@github.com:
+    insteadOf = git://github.com/
 {{ else if not .shared_machine -}}
 [user]
     name = {{ .fullname }}
