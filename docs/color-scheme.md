@@ -236,6 +236,30 @@ any terminal and does not follow the terminal palette.
   `~/.local/state/k9s/k9s.log` after changing the skin** — a bad key is
   reported there, not on screen.
 
+### opencode (`dot_config/opencode/`)
+
+The opencode TUI theme lives at
+`dot_config/opencode/themes/kanagawa-dragon.json` and is selected by
+`"theme": "kanagawa-dragon"` in `dot_config/opencode/tui.json`. Every color is
+written as **explicit hex**, so opencode renders the same in any terminal and
+does not follow the terminal palette — the same rule as starship and k9s.
+
+- opencode's custom-theme schema is a flat map of semantic keys: `primary`,
+  `secondary`, `accent`, the `error`/`warning`/`success`/`info` status colors,
+  `text`/`textMuted`, `background`/`backgroundPanel`/`backgroundElement`,
+  `border`/`borderActive`/`borderSubtle`, plus `diff*`, `markdown*`, and
+  `syntax*` groups. Values came from the running Neovim theme (the palette
+  table below), so re-extract them if the colorscheme changes.
+- Each key is written with `dark`/`light` variants, both holding the same
+  value: dragon is dark-only and this setup is always dark, so `light` just
+  repeats the dark palette.
+- The theme schema has **no selection key**, so the `#264F78`
+  selection-override rule above does not apply to opencode.
+- opencode's config dir was previously unmanaged by chezmoi; `tui.json` and
+  `themes/kanagawa-dragon.json` are the only files this repo writes there. The
+  `opencode.jsonc`, `package.json`, and `node_modules/` already present in
+  `~/.config/opencode/` are not managed by this repo.
+
 ### git's own colored output (`[color …]` in `dot_gitconfig.tmpl`)
 
 `[color "branch"]`, `[color "diff"]`, and `[color "status"]` set named colors
