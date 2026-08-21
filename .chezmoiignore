@@ -18,6 +18,8 @@ tags
 !.claude/CLAUDE.md
 !.claude/settings.json
 !.claude/statusline.sh
+!.claude/themes
+!.claude/themes/**
 {{ if (and (hasKey . "agent") .agent) }}
 !.claude/skills
 !.claude/skills/**

@@ -75,12 +75,10 @@ foreground = #c5c9c5
 cursor-color = #c5c9c5
 cursor-text = #1d1c19
 
-# Selection deliberately departs from kanagawa here. Claude Code paints its
-# own selection with a hardcoded rgb(38, 79, 120) and offers no setting, so
-# that color is the fixed point and everything else matches it. tmux
-# mode-style in dot_tmux.conf is set to the same value. Neovim's own Visual
-# highlight stays kanagawa #223249 and no longer matches.
-selection-background = #264F78
+# The selection highlight is drawn by whichever program owns the mouse, so
+# this value has to agree with tmux mode-style, Neovim's Visual, and the
+# Claude Code theme. See docs/color-scheme.md.
+selection-background = #223249
 selection-foreground = #c5c9c5
 
 palette = 0=#0d0c0c

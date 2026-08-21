@@ -128,7 +128,7 @@ status bar is unaffected (only its `white`/`red` shift).
 > Ghostty config, Alacritty TOML). Generate an equivalent preset for their
 > terminal from the palette values below.
 
-## Selection highlight (the one place kanagawa is overridden)
+## Selection highlight (four programs, one color)
 
 Dragging the mouse produces a highlight drawn by a *different program*
 depending on what is running, and each one has its own color setting:
@@ -143,9 +143,7 @@ A program that enables mouse reporting receives the drag itself, which is why
 tmux never sees it. Holding **Shift** makes the terminal emulator ignore mouse
 reporting and select natively, so Shift+drag always uses the emulator's color.
 
-All of them are set to **`#264F78`**. That is *not* a kanagawa-dragon value:
-it is what Claude Code hardcodes for `selectionBg` in its dark theme, with no
-setting to change it. Since it cannot move, everything else was moved to it.
+All of them are set to kanagawa's own selection color, **`#223249`**.
 
 ### These four places must change together
 
@@ -158,7 +156,7 @@ look wrong. So change all four in one commit, or none.
 | `dot_config/ghostty/config` | `selection-background` | quit Ghostty fully and reopen; it does not reload the palette |
 | `dot_tmux.conf` | the `bg=` in `mode-style` | `prefix + r`, or restart the tmux server |
 | `dot_config/nvim/lua/relaxdiego/plugins/colorscheme-kanagawa.lua` | the `Visual` override | restart Neovim |
-| Claude Code | `selectionBg`, hardcoded in the binary | nothing to change — see below |
+| `dot_claude/themes/kanagawa-dragon.json` | the `selectionBg` override | restart Claude Code |
 
 Verifying, after `chezmoi apply`:
 
@@ -171,22 +169,11 @@ nvim --headless \
   -c 'lua local v=vim.api.nvim_get_hl(0,{name="Visual"}); print(string.format("#%06x", v.bg))' \
   -c 'qa!'
 
-# What Claude Code uses. Prints two values: the light theme first, then the
-# dark theme — the dark one is the one that matters here. Re-run this after a
-# Claude Code upgrade if the selection suddenly stops matching.
-grep -ao 'selectionBg:"rgb([0-9, ]*)"' "$(readlink -f "$(command -v claude)")" | sort -u
+# Claude Code
+jq -r '.overrides.selectionBg' ~/.claude/themes/kanagawa-dragon.json
 ```
 
 Ghostty has no equivalent query; check it by eye, or read the config file.
-
-Claude Code is the anchor only because it is the one that cannot be
-configured. If a future version adds a setting for it, the constraint
-disappears and any value will do — including going back to kanagawa. Until
-then, keep the other three equal to it.
-
-The kanagawa selection color is `#223249`, listed in the palette table below.
-It is deliberately overridden and no longer appears anywhere on screen. Do
-not "fix" the deviation by reverting these settings to it.
 
 ## Everything else in the repo that emits color
 
@@ -236,6 +223,40 @@ any terminal and does not follow the terminal palette.
   `~/.local/state/k9s/k9s.log` after changing the skin** — a bad key is
   reported there, not on screen.
 
+### Claude Code (`dot_claude/themes/`)
+
+A kanagawa-dragon theme lives at `dot_claude/themes/kanagawa-dragon.json` and
+is selected by `"theme": "custom:kanagawa-dragon"`, forced by
+`dot_claude/modify_settings.json`. Explicit hex, so it does not follow the
+terminal palette — the same rule as starship, k9s and opencode.
+
+- Custom themes are **undocumented**; the format was read out of the binary.
+  A theme is `{"name", "base", "overrides"}`, where `base` is one of the
+  built-ins (`dark`, `light`, and their `-ansi`/`-daltonized` variants) and
+  `overrides` replaces individual keys of that base. Unknown keys and invalid
+  colors are dropped without an error, so a typo just does nothing. Accepted
+  color forms: `#rgb`, `#rrggbb`, `rgb(r, g, b)`, `ansi256(n)`, `ansi:<name>`.
+- Because overrides are merged onto a base, **an upgrade that adds a new color
+  key silently picks up the stock value**. After a Claude Code upgrade, this
+  lists every key the theme does not set — new names show up here:
+
+  ```sh
+  grep -ao 'autoAccept:"[^}]*' "$(readlink -f "$(command -v claude)")" |
+    head -1 | grep -o '[a-zA-Z0-9_]*:' | tr -d ':' | sort > /tmp/ckeys
+  jq -r '.overrides | keys[]' ~/.claude/themes/kanagawa-dragon.json | sort |
+    comm -23 /tmp/ckeys -
+  ```
+
+  All six bases carry the same key set, so it does not matter which one that
+  first match belongs to.
+- Left deliberately at the stock values, so the list above is not empty:
+  `claude`, `claudeShimmer`, `clawd_body`, `clawd_background` and
+  `briefLabelClaude` (product identity, not palette); the `rainbow_*` ramp
+  (meant to be a spectrum); and `background`, whose stock value is a saturated
+  cyan unlike any surface on screen — left alone until what uses it is known.
+- A `*Shimmer` key is the animated-highlight partner of a base key. These are
+  derived by lightening the base color, not taken from the kanagawa table.
+
 ### opencode (`dot_config/opencode/`)
 
 The opencode TUI theme lives at
@@ -253,8 +274,8 @@ does not follow the terminal palette — the same rule as starship and k9s.
 - Each key is written with `dark`/`light` variants, both holding the same
   value: dragon is dark-only and this setup is always dark, so `light` just
   repeats the dark palette.
-- The theme schema has **no selection key**, so the `#264F78`
-  selection-override rule above does not apply to opencode.
+- The theme schema has **no selection key**, so the four-way selection rule
+  above does not apply to opencode.
 - opencode's config dir was previously unmanaged by chezmoi; `tui.json` and
   `themes/kanagawa-dragon.json` are the only files this repo writes there. The
   `opencode.jsonc`, `package.json`, and `node_modules/` already present in
@@ -314,9 +335,7 @@ nvim --headless \
 ```
 
 - Foreground `#c5c9c5`, Background `#1d1c19`
-- Selection (Visual bg) `#223249` — the theme's own value, overridden to
-  `#264F78`; see the selection section above. The extraction command reports
-  the override, not this number.
+- Selection (Visual bg) `#223249` — see the selection section above.
 - Cursor `#c5c9c5` on `#1d1c19`
 - 16 ANSI colors:
 

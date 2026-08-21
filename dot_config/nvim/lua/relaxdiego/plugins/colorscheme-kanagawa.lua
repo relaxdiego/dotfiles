@@ -50,11 +50,10 @@ return {
                     MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
                     ["@variable.builtin"] = { bg = "none", italic = false },
                     CursorLine = { bg = "#282726" },
-                    -- Not a kanagawa color. Matches the selection highlight
-                    -- used by the terminal, tmux and Claude Code, so a
-                    -- selection looks the same inside and outside Neovim.
-                    -- See docs/color-scheme.md.
-                    Visual = { bg = "#264F78" },
+                    -- Pinned so the selection highlight stays equal to the
+                    -- terminal, tmux and Claude Code ones. Same value as
+                    -- kanagawa's own Visual. See docs/color-scheme.md.
+                    Visual = { bg = "#223249" },
                     ArrangeActAssertComment = { fg = '#DCD7BA', bold = true },
                     -- Don't underline words that vim thinks should be capitalized
                     SpellCap = { underline = false },
