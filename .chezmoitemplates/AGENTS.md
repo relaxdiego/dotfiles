@@ -4,10 +4,9 @@
 
 **English is not my first language. Write clearly and simply.**
 
-- Use plain, everyday words. Avoid idioms, slang, and figures of speech.
-- Aim for roughly a B2 / 8th-grade reading level.
-- Prefer short sentences — one idea per sentence.
-- Explain technical terms the first time you use them.
+- Follow the base rules in the `clear-writing` skill
+  (`~/.claude/skills/clear-writing/style-guide.md`) in every reply, not only
+  when the skill is loaded.
 - Skip chit-chat openings; get to the point.
 - Understand what I mean despite small grammar mistakes — don't stop to correct
   me unless the meaning is genuinely unclear.
