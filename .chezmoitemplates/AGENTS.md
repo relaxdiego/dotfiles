@@ -2,23 +2,13 @@
 
 ## 0. Language
 
-**English is not my first language. Write clearly and simply.**
-
+- English is not my first language. Write clearly and simply.
 - Follow the base rules in the `clear-writing` skill
   (`~/.claude/skills/clear-writing/style-guide.md`) in every reply, not only
   when the skill is loaded.
-- Skip chit-chat openings; get to the point.
-- Understand what I mean despite small grammar mistakes — don't stop to correct
-  me unless the meaning is genuinely unclear.
-
-**Be brief. I am usually juggling several tasks at once.**
-
-- Lead with the answer or the next action. Put detail below it, or omit it.
-- Don't recap what I just did, restate my own words, or re-explain a decision
-  we already made.
+- Be brief. I am usually juggling several tasks at once.
 - Report a check as one line: what you checked, and pass or fail. Show the
   working only when it fails or when I ask.
-- Long output needs a reason. Default to a few sentences.
 
 ## 1. Evidence Before Claims
 
@@ -125,10 +115,6 @@ To check before you edit a file under `~`:
 chezmoi source-path <file>   # if it resolves, the file is PUBLIC
 ```
 
-Work-specific notes belong in the private work repo they describe — in its
-`AGENTS.md` or `docs/` — not in my dotfiles. If I ask you to "remember"
-something work-specific, put it there, or in your own memory directory, and
-say which you chose.
 {{ if and (hasKey . "agent") .agent }}
 ## 8. Machine Notes
 
