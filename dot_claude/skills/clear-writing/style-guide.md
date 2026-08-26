@@ -268,7 +268,3 @@ language is not English.
 | One term per concept | Microsoft (W8): helps non-native readers |
 | Ranges | Google (W22): hyphen, no en dash |
 | Passive voice | Williams (S8): allowed under three named conditions |
-
-Strunk and White's *The Elements of Style* is deliberately not used here. Its
-grammar advice is often wrong, and it predates every accessibility and
-plain-language finding in this guide.
