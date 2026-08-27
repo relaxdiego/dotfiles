@@ -180,6 +180,8 @@ an ID, so a review can say "violates S4".
   "people who are blind". Never use pity words such as "suffering from".
 - **W32** Do not name politically disputed places. When listing regions, use
   one kind of unit.
+- **W33** Use the Oxford comma before the last item in a list of three or
+  more: "vim, tmux, and go".
 
 ### Substitutions
 
