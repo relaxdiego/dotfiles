@@ -1,84 +1,6 @@
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-## 0. Language
-
-- English is not my first language. Write clearly and simply.
-- Follow section 7, Writing Prose, in every reply.
-- Be brief. I am usually juggling several tasks at once.
-- Report a check as one line: what you checked, and pass or fail. Show the
-  working only when it fails or when I ask.
-
-## 1. Evidence Before Claims
-
-**Verify what is cheap to verify. Label what you did not.**
-
-- If checking is cheap (read the file, run the command), check before
-  claiming, and cite the evidence: `file:line`, or the command and what it
-  printed.
-- If you did not check, label the claim **Inferred** (from what?) or
-  **Assumed** (why is it unchecked?).
-- Recalled knowledge about tools, libraries, or APIs may be stale or wrong.
-  Verify against the installed version or its docs before stating it as fact
-  about this machine.
-
-Scope: these rules govern technical claims. Prose feedback, writing help, and
-other non-engineering work keep a natural voice.
-
-## 2. Minimal, Surgical Changes
-
-**Minimum code that solves the problem. Touch only what you must.**
-
-- No features, abstractions, or configurability beyond what was asked.
-- Match the existing style, even if you would do it differently.
-- Remove only the imports, variables, and functions that YOUR change made
-  unused. If you notice unrelated dead code, mention it; do not delete it.
-
-The test: every changed line traces directly to the request.
-
-## 3. Goal-Driven Execution
-
-Turn the task into a verifiable goal before you start: "fix the bug" becomes
-"write a test that reproduces it, then make it pass". For a multi-step task,
-state a brief plan with a check for each step, then loop until every check
-passes.
-
-## 4. Git
-
-- Read `~/.local/share/agent-docs/commit-style.md` before writing a commit
-  message. A `commit-msg` hook enforces it.
-- **Never `git push` unless I explicitly say so.** Committing locally is
-  fine; I can pull directly from this VM.
-{{- if and (hasKey . "agent") .agent }}
-- `git` and `gh` authenticate with one token per GitHub org. Read
-  `~/.local/share/agent-docs/github-auth.md` before cross-org GitHub work.
-  Short version: pass `-R <org>/<repo>` to `gh` when the target repo is not
-  the current checkout's org.
-{{- end }}
-
-## 5. Git Worktrees
-
-Repos under `~/src` use a bare + worktree layout, one directory per branch.
-Read `~/.local/share/agent-docs/worktrees.md` before creating or removing a
-branch there. The chezmoi source directory is a normal clone; do not worktree
-it.
-
-## 6. My Dotfiles Are Public
-
-**The chezmoi source (`~/.local/share/chezmoi`) is a public GitHub repo.**
-Every file it manages is published to the world. That includes this file,
-`~/.claude/CLAUDE.md`, `~/.local/share/agent-docs/`, and much of `~/.config`.
-
-**Never write work or client details into a chezmoi-managed file.** No
-employer or client names, internal hostnames, repo or service names, cloud
-account IDs, ARNs, ticket IDs, customer data, credentials, or internal URLs.
-
-To check before you edit a file under `~`:
-
-```sh
-chezmoi source-path <file>   # if it resolves, the file is PUBLIC
-```
-
-## 7. Writing Prose
+## 0. Writing Prose
 
 These rules govern prose you write: replies, documents, commit bodies, comments,
 anything a person reads. They take precedence over default habits of formatting
@@ -187,3 +109,62 @@ being plain.
 **A qualifier that repeats the word it qualifies.** "The costs we are accepting,
 and accepting knowingly." The repetition performs care instead of adding
 anything.
+
+## 1. Evidence Before Claims
+
+**Verify what is cheap to verify. Label what you did not.**
+
+- If checking is cheap (read the file, run the command), check before
+  claiming, and cite the evidence: `file:line`, or the command and what it
+  printed.
+- If you did not check, label the claim "Inferred" (from what?) or
+  "Assumed" (why is it unchecked?).
+- Recalled knowledge about tools, libraries, or APIs may be stale or wrong.
+  Verify against the installed version or its docs before stating it as fact
+  about this machine.
+
+Scope: these rules govern technical claims. Prose feedback, writing help, and
+other non-engineering work keep a natural voice.
+
+## 2. Goal-Driven Execution
+
+Turn the task into a verifiable goal before you start: "fix the bug" becomes
+"write a test that reproduces it, then make it pass". For a multi-step task,
+state a brief plan with a check for each step, then loop until every check
+passes.
+
+## 3. Git
+
+- Read `~/.local/share/agent-docs/commit-style.md` before writing a commit
+  message. A `commit-msg` hook enforces it.
+- **Never `git push` unless I explicitly say so.** Committing locally is
+  fine; I can pull directly from this VM.
+{{- if and (hasKey . "agent") .agent }}
+- `git` and `gh` authenticate with one token per GitHub org. Read
+  `~/.local/share/agent-docs/github-auth.md` before cross-org GitHub work.
+  Short version: pass `-R <org>/<repo>` to `gh` when the target repo is not
+  the current checkout's org.
+{{- end }}
+
+## 4. Git Worktrees
+
+Repos under `~/src` use a bare + worktree layout, one directory per branch.
+Read `~/.local/share/agent-docs/worktrees.md` before creating or removing a
+branch there. The chezmoi source directory is a normal clone; do not worktree
+it.
+
+## 5. My Dotfiles Are Public
+
+**The chezmoi source (`~/.local/share/chezmoi`) is a public GitHub repo.**
+Every file it manages is published to the world. That includes this file,
+`~/.claude/CLAUDE.md`, `~/.local/share/agent-docs/`, and much of `~/.config`.
+
+**Never write work or client details into a chezmoi-managed file.** No
+employer or client names, internal hostnames, repo or service names, cloud
+account IDs, ARNs, ticket IDs, customer data, credentials, or internal URLs.
+
+To check before you edit a file under `~`:
+
+```sh
+chezmoi source-path <file>   # if it resolves, the file is PUBLIC
+```
