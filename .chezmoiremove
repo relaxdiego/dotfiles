@@ -15,3 +15,10 @@
 .git-template/hooks/post-commit
 .git-template/hooks/post-merge
 .git-template/hooks/post-rewrite
+
+# Retired: the writing skills are replaced by the Writing Prose section of
+# .chezmoitemplates/AGENTS.md. Deleting the source files does not remove the
+# copies already in ~, so list them here.
+.claude/skills/clear-writing
+.claude/skills/tech-writing
+.claude/skills/business-writing
