@@ -23,6 +23,7 @@ group="guests"
 shared_bin=/opt/relaxdiego/usr/local/bin
 shared_helper="$shared_bin/git-credential-gh-org"
 direnv_marker="# guest: direnv hook"
+bashrc_d_marker="# guest: bashrc.d"
 refresh=false   # `sync` sets this; `add` leaves existing files alone
 
 die() { echo "guest: $*" >&2; exit 1; }
@@ -165,6 +166,40 @@ STATUSLINE_EOF
 }
 
 
+# The owner's shell fragments, verbatim from the same files the owner loads.
+# The instructions describe the `~/src` bare + worktree layout and `clone` is
+# the only thing that builds it, so a guest that reads the one needs the
+# other. Interactive shells only, exactly as on the owner's account: the early
+# return in .bashrc for non-interactive shells sits above this loop.
+write_bashrc_d() {  # <guest> <home>
+    local name="$1" home="$2" dir="$2/.bashrc.d" dest tmp
+    install -d -o "$name" -g "$name" -m 0755 "$dir"
+
+    dest="$dir/046_worktree.bashrc"
+    tmp="$(mktemp)"
+    cat > "$tmp" <<'BASHRC_WORKTREE_EOF'
+{{ include "dot_bashrc.d/046_worktree.bashrc" -}}
+BASHRC_WORKTREE_EOF
+    if write_needed "$dest" "$tmp"; then
+        install -o "$name" -g "$name" -m 0644 "$tmp" "$dest"
+        say "wrote .bashrc.d/046_worktree.bashrc."
+    fi
+    rm -f "$tmp"
+
+    # /etc/skel/.bashrc has no such loop. Appending as root keeps the file
+    # owned by the guest, the same as the direnv hook.
+    if ! grep -qF "$bashrc_d_marker" "$home/.bashrc" 2>/dev/null; then
+        cat >> "$home/.bashrc" <<EOF
+
+$bashrc_d_marker
+for file in ~/.bashrc.d/*.bashrc; do
+    if [ -f "\$file" ]; then source "\$file"; fi
+done
+EOF
+        say "added the .bashrc.d loop to .bashrc."
+    fi
+}
+
 # Everything `guest` keeps up to date inside a guest's home. Never secrets,
 # never .gitconfig — those are the guest's own.
 write_managed_files() {  # <guest> <home>
@@ -188,6 +223,7 @@ EOF
     write_agent_md "$name" "$home" "$home/.pi/agent/AGENTS.md"  AGENTS.md 0700
     write_agent_md "$name" "$home" "$home/.config/AGENTS.md"    AGENTS.md 0700
     write_agent_docs "$name" "$home"
+    write_bashrc_d "$name" "$home"
     write_claude_statusline "$name" "$home"
 }
 

@@ -153,8 +153,17 @@ section for that reason, *Keep Work Details Out Of Public Files*, sitting
 outside the guard and ahead of the chezmoi-specific part only the owner sees.
 
 The notes those instructions point at, `~/.local/share/agent-docs/`, go into
-the guest from the owner's source as well. After editing any of these, run
-`chezmoi apply` and then `guest sync` to push it to every guest. If you add a new consumer of the shared template for the
+the guest from the owner's source as well, and so does
+`.bashrc.d/046_worktree.bashrc`, because the *Git Worktrees* section describes
+a layout that only its `clone` function builds. `guest add` appends the
+`.bashrc.d` loop to the guest's `/etc/skel` copy of `.bashrc`, below the early
+return that `.bashrc` takes for non-interactive shells. So `clone` reaches an
+interactive login and not an agent's tool calls, which is exactly its
+behaviour on the owner's account: check with `type -t clone` before assuming
+it is there.
+
+After editing any of these, run `chezmoi apply` and then `guest sync` to push
+it to every guest. If you add a new consumer of the shared template for the
 owner, add it to `write_managed_files` in the guest script too.
 
 ## Conventions
