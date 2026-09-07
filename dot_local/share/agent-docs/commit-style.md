@@ -6,9 +6,9 @@ A `commit-msg` git hook enforces the structure (see "Enforcement" below).
 ## Format
 
 ```
-type(scope): summary
+type(scope): subject
 
-optional body — what and why, wrapped at 72 columns
+body
 
 optional footers
 ```
@@ -19,8 +19,8 @@ optional footers
   max.
 - **Body** (optional): explain *what* and *why*, not *how*. Wrap at 72.
   If the reader can learn it from the diff ("renamed X to Y", "moved A
-  to B"), leave it out — the body carries what the diff cannot show:
-  motivation, context, constraints, tradeoffs. No change-lists.
+  to B"), leave it out. The body should only carry what the diff cannot show:
+  motivation, context, constraints, tradeoffs. Do not add change-lists.
 
 ## Types
 
@@ -44,10 +44,9 @@ feat(api)!: drop v1 auth endpoint
 
 - `Refs:`, `Fixes #123`, `BREAKING CHANGE: ...` as needed.
 - `Signed-off-by:` **only in repos that require DCO** (Developer Certificate of
-  Origin). This is a legal attestation of origin, not the same as the
-  cryptographic signature git already adds. Omit it everywhere else — it is
-  noise. `git commit -s` (alias `git cs`) adds it when you need it.
-- **Never** `Co-Authored-By: Claude` or "Generated with Claude Code". This
+  Origin). Omit it everywhere else. `git commit -s` (alias `git cs`) adds
+  it when you need it.
+- Never add `Co-Authored-By: Claude` or "Generated with Claude Code". This
   applies to all repos and PR bodies.
 
 ## Examples
@@ -78,7 +77,7 @@ newly cloned or `git init`'d repos) checks each message:
 - **Warns** (but allows) on mood: a non-imperative leading word, a capitalized
   description, or a body line over 72.
 - **Defers** entirely in repos that already validate with
-  `conventional-pre-commit` — that repo's config is the authority.
+  `conventional-pre-commit`. That repo's config is the authority.
 
 ## Team repos
 
