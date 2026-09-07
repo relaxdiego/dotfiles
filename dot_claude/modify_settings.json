@@ -5,6 +5,8 @@
 {{- end -}}
 {{- $_ := set $settings "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
 {{- $_ := set $settings "theme" "custom:kanagawa-dragon" -}}
+{{- /* The style file itself comes from .chezmoiexternal.toml; this only selects it */ -}}
+{{- $_ := set $settings "outputStyle" "no-slop" -}}
 {{- $_ := set $settings "statusLine" (dict "type" "command" "command" "~/.claude/statusline.sh") -}}
 {{- /* Never let Claude read .envrc.local (direnv local overrides, often secrets) */ -}}
 {{- $permissions := dict -}}

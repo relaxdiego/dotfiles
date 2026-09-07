@@ -1,0 +1,21 @@
+# Files pulled from another repository at apply time.
+#
+# Same pinning rule as the run_once_ installers: an exact commit and its
+# SHA256, bumped together or not at all. The URL names an immutable commit, so
+# the bytes behind it never change and the default refresh behaviour is moot;
+# the checksum is what makes a silent substitution fail the apply.
+
+# The house writing style for Claude Code. It comes from the experiment
+# harness that measures whether the rules in it actually change the model's
+# output — see styles/no-slop/results.md in that repo.
+#
+# The name is load bearing in three places at once: Claude Code keys a style
+# by the `name:` in the file's own frontmatter, finds the file by its path,
+# and selects it by the `outputStyle` string in settings.json. All three say
+# "no-slop", so renaming means editing dot_claude/modify_settings.json and
+# .chezmoiignore too.
+[".claude/output-styles/no-slop.md"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/relaxdiego/ai-style-guide/e6c392d26c318df7d7b64122222350b7c005131c/styles/no-slop/style.md"
+    [".claude/output-styles/no-slop.md".checksum]
+        sha256 = "9754cb957b0428b54e54eb6f0d08832dc06d2433a9cfce9b818fd49cdbcd568d"

@@ -20,6 +20,12 @@ tags
 !.claude/statusline.sh
 !.claude/themes
 !.claude/themes/**
+# .claude/* is a single-level glob, so it never reaches the style files.
+# Deny the directory's contents outright and re-admit only the one style
+# .chezmoiexternal.toml installs. Last matching pattern wins, so the order
+# of these two lines is what makes it work.
+.claude/output-styles/**
+!.claude/output-styles/no-slop.md
 {{ if (and (hasKey . "agent") .agent) }}
 !.claude/skills
 !.claude/skills/**
