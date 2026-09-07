@@ -41,18 +41,23 @@ Read `~/.local/share/agent-docs/worktrees.md` before creating or removing a
 branch there. The chezmoi source directory is a normal clone; do not worktree
 it.
 
+## Keep Work Details Out Of Public Files
+
+**Never write work or client details into a file that could end up in a
+public repo.** No employer or client names, internal hostnames, repo or
+service names, cloud account IDs, ARNs, ticket IDs, customer data,
+credentials, or internal URLs.
+{{ if not (and (hasKey . "guest") .guest) }}
 ## My Dotfiles Are Public
 
 **The chezmoi source (`~/.local/share/chezmoi`) is a public GitHub repo.**
 Every file it manages is published to the world. That includes this file,
 `~/.claude/CLAUDE.md`, `~/.local/share/agent-docs/`, and much of `~/.config`.
-
-**Never write work or client details into a chezmoi-managed file.** No
-employer or client names, internal hostnames, repo or service names, cloud
-account IDs, ARNs, ticket IDs, customer data, credentials, or internal URLs.
+The rule above covers every one of them.
 
 To check before you edit a file under `~`:
 
 ```sh
 chezmoi source-path <file>   # if it resolves, the file is PUBLIC
 ```
+{{ end -}}

@@ -132,12 +132,29 @@ each mode is defined in one place. **Never put a guest in `sudo`, `docker`,
 or any other root-equivalent group** — a root daemon it can talk to lets the
 guest escape the boundary.
 
-`guest add` also writes the agent instruction files into each guest —
-`.claude/CLAUDE.md`, `.codex/AGENTS.md`, `.pi/agent/AGENTS.md`,
-`.config/AGENTS.md` — from the same `.chezmoitemplates/AGENTS.md` that the
-owner's copies use. It also writes `~/.local/share/agent-docs/` into the
-guest from the owner's source. After editing either source, run `guest sync`
-to push it to every guest. If you add a new consumer of that template for the
+`guest add` also writes the agent instruction files into each guest:
+`.claude/CLAUDE.md`, `.codex/AGENTS.md`, `.pi/agent/AGENTS.md` and
+`.config/AGENTS.md`. It does not build that document. chezmoi renders it
+during the owner's apply, from `.chezmoitemplates/guest-AGENTS.md`, which is
+the guest preamble followed by the same `.chezmoitemplates/AGENTS.md` the
+owner's own copies use. The result lands in `~/.local/share/guest/` as
+`CLAUDE.md` and `AGENTS.md`, differing only in their H1, and the guest script
+copies whichever one a destination wants byte for byte. So a wording change
+goes in one of the two templates, never in the script, and the guest preamble
+names no particular guest: one rendered file serves every account.
+
+That wrapper renders the shared template with `guest` set on a `deepCopy` of
+the context, so a section describing only the owner's machine can be dropped
+from a guest's copy with `{{ if not .guest }}`. *My Dotfiles Are Public* is
+the one that is, since a guest has no chezmoi and no part in the dotfiles
+repo. Before putting anything behind that guard, check that no rule a guest
+still needs is inside it. The rule about work and client details is its own
+section for that reason, *Keep Work Details Out Of Public Files*, sitting
+outside the guard and ahead of the chezmoi-specific part only the owner sees.
+
+The notes those instructions point at, `~/.local/share/agent-docs/`, go into
+the guest from the owner's source as well. After editing any of these, run
+`chezmoi apply` and then `guest sync` to push it to every guest. If you add a new consumer of the shared template for the
 owner, add it to `write_managed_files` in the guest script too.
 
 ## Conventions

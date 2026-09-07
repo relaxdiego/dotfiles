@@ -38,8 +38,10 @@ tags
 .local/bin/git-credential-gh-org
 .local/bin/gh
 .local/bin/guest
+.local/share/guest/**
 .local/share/agent-docs/github-auth.md
 {{ end }}
 {{ if ne .chezmoi.os "linux" }}
 .local/bin/guest
+.local/share/guest/**
 {{ end }}

@@ -121,49 +121,20 @@ DOC_WORKTREES_EOF
 }
 
 
-# The same instructions the owner's agents read, from the same source
-# (.chezmoitemplates/AGENTS.md), plus a short preamble for the parts that are
-# different in a guest account.
-agent_md() {  # <guest> — emits the full document body, no H1
-    cat <<EOF
-## You are a guest user
+# The agent instructions, copied byte for byte from what chezmoi rendered into
+# the owner's home. The guest preamble and the shared AGENTS.md are joined by
+# .chezmoitemplates/guest-AGENTS.md at apply time, not here, so a guest's copy
+# and the owner's own come off one renderer and cannot drift in wording.
+guest_md_dir="{{ .chezmoi.homeDir }}/.local/share/guest"
 
-You are running as the Unix user \`$1\` on \`{{ .chezmoi.hostname }}\`. This
-account exists so that each agent has its own credentials. You cannot read
-the owner's home, and other guests cannot read yours.
-
-What is different here, compared to the sections below:
-
-- **No sudo.** You cannot install host packages. Use
-  \`nix profile install nixpkgs#<pkg>\` or devbox, which install into your own
-  profile. If something really needs root, ask the owner in plain words.
-- **No chezmoi source directory.** Section 7 is about the owner's dotfiles
-  repo; \`chezmoi source-path\` does not exist in this account. Its rule still
-  holds everywhere: never write work or client details into a file that ends
-  up in a public repo.
-- **The GitHub shims live under \`/opt/relaxdiego/usr/local/bin/\`**, not
-  \`~/.local/bin\`, because they are shared by every user on this host. Their
-  behaviour is exactly as described in \`agent-docs/github-auth.md\`, and they
-  read *your* \`~/.config/gh-org-tokens\` — nobody else's.
-- **Your tokens are yours.** Never copy a credential out of this account, and
-  never ask the owner to paste theirs in.
-
-EOF
-    cat <<'SHARED_AGENTS_EOF'
-{{ template "AGENTS.md" . -}}
-SHARED_AGENTS_EOF
-}
-
-write_agent_md() {  # <guest> <home> <dest> <h1> <dir mode>
-    local name="$1" home="$2" dest="$3" tmp
+write_agent_md() {  # <guest> <home> <dest> <source basename> <dir mode>
+    local name="$1" home="$2" dest="$3" src="$guest_md_dir/$4"
+    [ -f "$src" ] || die "$src is missing. Run 'chezmoi apply' as $owner first."
     install -d -o "$name" -g "$name" -m "$5" "$(dirname "$dest")"
-    tmp="$(mktemp)"
-    { printf '# %s\n\n' "$4"; agent_md "$name"; } > "$tmp"
-    if write_needed "$dest" "$tmp"; then
-        install -o "$name" -g "$name" -m 0644 "$tmp" "$dest"
+    if write_needed "$dest" "$src"; then
+        install -o "$name" -g "$name" -m 0644 "$src" "$dest"
         say "wrote ${dest#"$home"/}."
     fi
-    rm -f "$tmp"
 }
 
 # The owner's Claude Code status line, from the same file the owner runs, plus
