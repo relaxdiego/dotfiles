@@ -7,7 +7,7 @@
 
 # The house writing style for Claude Code. It comes from the experiment
 # harness that measures whether the rules in it actually change the model's
-# output — see styles/no-slop-2026.09.07/results.md in that repo.
+# output — see styles/no-slop-2026.09.08/results.md in that repo.
 #
 # The name is load bearing in three places at once: Claude Code keys a style
 # by the `name:` in the file's own frontmatter, finds the file by its path,
@@ -16,6 +16,6 @@
 # .chezmoiignore too.
 [".claude/output-styles/no-slop.md"]
     type = "file"
-    url = "https://raw.githubusercontent.com/relaxdiego/ai-style-guide/db312a9979049d5ada8c910b5db4d33a60dfa377/styles/no-slop-2026.09.07/style.md"
+    url = "https://raw.githubusercontent.com/relaxdiego/ai-style-guide/230c7ccbf4805a9958cb3b3a82a102685224589b/styles/no-slop-2026.09.08/style.md"
     [".claude/output-styles/no-slop.md".checksum]
-        sha256 = "c5e840c2e4d7293c33408e2a51469041e7ac183d45762f90fdf6f1505ec4a5b9"
+        sha256 = "b8cfe4e83174d2319f536c07d00a60b8ce9301bd53d554ff7590db3f72570ddc"
