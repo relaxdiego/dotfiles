@@ -7,7 +7,16 @@
 
 # The house writing style for Claude Code. It comes from the experiment
 # harness that measures whether the rules in it actually change the model's
-# output — see styles/no-slop-2026.09.08/results.md in that repo.
+# output — see styles/no-slop-2026.09.09/results.md in that repo.
+#
+# 2026.09.09 is pinned here deliberately despite failing its own check.
+# It changes one line of 2026.09.08: bullets and tables are now used when
+# the structure is real rather than for every list and comparison. That
+# fixes the bullet inflation it targets (own-output-critique 8.1 to 5.7,
+# tcp-congestion 6.8 to 1.7, against control's 2.1 and 2.3) but costs 22%
+# of own-output-critique's coverage, over the 15% guard. The blind read
+# split 4-4 with one tie, so neither instrument settles it. Installed to
+# be lived with for a day; roll back by restoring the 2026.09.08 pin.
 #
 # The name is load bearing in three places at once: Claude Code keys a style
 # by the `name:` in the file's own frontmatter, finds the file by its path,
@@ -16,6 +25,6 @@
 # .chezmoiignore too.
 [".claude/output-styles/no-slop.md"]
     type = "file"
-    url = "https://raw.githubusercontent.com/relaxdiego/ai-style-guide/230c7ccbf4805a9958cb3b3a82a102685224589b/styles/no-slop-2026.09.08/style.md"
+    url = "https://raw.githubusercontent.com/relaxdiego/ai-style-guide/1a592108a03c02e58656316a563518701f374cee/styles/no-slop-2026.09.09/style.md"
     [".claude/output-styles/no-slop.md".checksum]
-        sha256 = "b8cfe4e83174d2319f536c07d00a60b8ce9301bd53d554ff7590db3f72570ddc"
+        sha256 = "3d1b75c68c7ad7c6a94ed4886911bd1a3c04eefe500e3e6bb1aa27f4245b794e"
