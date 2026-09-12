@@ -6,9 +6,15 @@
        home path into this public repo. The instructions file is pstack's own
        session-start mandate, the same bytes Claude Code's SessionStart hook
        emits, which is how opencode gets the routing mandate it has no hook
-       to deliver. */}}
+       to deliver. Those bytes name the skills by their Claude Code ids, which
+       do not resolve here, so pstack-skill-names.md translates them. It reads
+       as a standalone table, because whether opencode honours the order of
+       this array is not something I measured. */}}
   "skills": { "paths": ["{{ .chezmoi.homeDir }}/.local/share/pstack/skills"] },
-  "instructions": ["{{ .chezmoi.homeDir }}/.local/share/pstack/hooks/session-start-context.md"],
+  "instructions": [
+    "{{ .chezmoi.homeDir }}/.local/share/pstack/hooks/session-start-context.md",
+    "{{ .chezmoi.homeDir }}/.config/opencode/pstack-skill-names.md"
+  ],
   "lsp": {
     "astro": { "disabled": true },
     "bash": { "disabled": true },
