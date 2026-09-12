@@ -16,6 +16,8 @@ tags
 .DS_Store
 .claude/*
 !.claude/CLAUDE.md
+!.claude/commands
+!.claude/commands/**
 !.claude/settings.json
 !.claude/statusline.sh
 !.claude/themes
