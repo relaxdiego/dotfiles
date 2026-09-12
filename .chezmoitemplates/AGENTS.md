@@ -25,8 +25,10 @@ passes.
 
 - Read `~/.local/share/agent-docs/commit-style.md` before writing a commit
   message. A `commit-msg` hook enforces it.
-- **Never `git push` unless I explicitly say so.** Committing locally is
-  fine; I can pull directly from this VM.
+- **Push only a branch you created yourself.** Pushing to `main`, or to any
+  branch that already existed when you started, needs me to say so first.
+  Committing locally is always fine; I can pull directly from this VM.
+- **Never force-push.** Not to your own branch either.
 {{- if and (hasKey . "agent") .agent }}
 - `git` and `gh` authenticate with one token per GitHub org. Read
   `~/.local/share/agent-docs/github-auth.md` before cross-org GitHub work.
