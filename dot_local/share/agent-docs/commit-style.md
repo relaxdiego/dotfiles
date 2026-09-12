@@ -81,8 +81,8 @@ newly cloned or `git init`'d repos) checks each message:
 
 ## Team repos
 
-In a team repo, follow *that repo's* commit config, not this file. Example:
-`LF-Certification/p3-forge` enforces Conventional Commits with
-`conventional-pre-commit` and feeds `git-cliff` for changelogs and semver tags.
-Output that passes this standard also passes those checks, since this standard
-is a stricter superset.
+In a team repo, follow *that repo's* commit config, not this file. A repo that
+enforces Conventional Commits with `conventional-pre-commit` and feeds
+`git-cliff` for changelogs and semver tags is the common case. Output that
+passes this standard also passes those checks, since this standard is a
+stricter superset.
