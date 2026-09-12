@@ -11,8 +11,9 @@
 # the next apply silently puts it back. So this compares the state on disk
 # against a stamp from the previous apply and reports what actually moved.
 #
-# It runs in the "after" phase, so settings.json and the style file are both
-# already written, and it sorts ahead of "final" so the banner sees the note.
+# It runs in the "after" phase, so settings.json and any style file chezmoi
+# installs are already written, and it sorts ahead of "final" so the banner
+# sees the note.
 
 SETTINGS="$HOME/.claude/settings.json"
 STAMP="${XDG_STATE_HOME:-$HOME/.local/state}/chezmoi/claude-output-style"

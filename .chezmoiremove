@@ -22,3 +22,9 @@
 .claude/skills/clear-writing
 .claude/skills/tech-writing
 .claude/skills/business-writing
+
+# Retired: the no-slop output style, replaced by Claude Code's built-in
+# Concise, which ships inside the binary and has no file anywhere. Dropping
+# the .chezmoiexternal.toml entry only stops the download; the copy chezmoi
+# already installed under ~ stays until it is listed here.
+.claude/output-styles/no-slop.md

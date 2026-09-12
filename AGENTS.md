@@ -46,23 +46,19 @@ apply time, so nothing is vendored into this source tree. It follows the same
 rule as the install scripts: an exact commit in the URL and a `sha256`
 checksum beside it, bumped together or not at all.
 
-The one entry today is Claude Code's output style, `no-slop`, from
-`relaxdiego/ai-style-guide`. Three files have to agree on that name:
-`.chezmoiexternal.toml` puts the file at `~/.claude/output-styles/no-slop.md`,
-`dot_claude/modify_settings.json` selects it with `outputStyle`, and
-`.chezmoiignore` admits it by name. That last one is a deny-then-allow pair,
-not the single `!` line the rest of the `.claude` block uses: `.claude/*` is a
-single-level glob and never matches a path two levels down, so the directory's
-contents are denied outright and only `no-slop.md` is re-admitted. Adding a
-second style means adding a second `!` line. Claude Code keys a style by the
-`name:` in the file's own frontmatter, which the upstream file sets, so
-renaming it here alone would break the selection.
+There is no entry today.
+
+`dot_claude/modify_settings.json` selects Claude Code's output style with
+`outputStyle`. It names `Concise`, one of the styles built into the binary, so
+nothing is installed for it and no other file has to agree on the name.
 
 `run_after_995_note_output_style.sh` reports a change in the closing banner. It
 compares the applied state against a stamp in
 `~/.local/state/chezmoi/claude-output-style` rather than hashing the source,
 because `/output-style` inside Claude Code edits `settings.json` and the next
-apply puts it back; a `run_onchange_` script would never see that.
+apply puts it back; a `run_onchange_` script would never see that. The stamp is
+the style's name and the hash of its file, and a built-in has no file, so
+`Concise` stamps as `Concise missing`.
 
 ## Neovim plugins
 
