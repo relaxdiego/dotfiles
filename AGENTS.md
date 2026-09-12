@@ -41,12 +41,31 @@ When you bump a checksum-pinned tool, update BOTH the version and its SHA256.
 
 ## Files pulled from other repos
 
-`.chezmoiexternal.toml` fetches a file straight from another repository at
-apply time, so nothing is vendored into this source tree. It follows the same
-rule as the install scripts: an exact commit in the URL and a `sha256`
-checksum beside it, bumped together or not at all.
+`.chezmoiexternal.toml` fetches a file or an archive straight from another
+repository at apply time, so nothing is vendored into this source tree. It
+follows the same rule as the install scripts: an exact commit in the URL and a
+`sha256` checksum beside it, bumped together or not at all.
 
-There is no entry today.
+The entry today is `pstack`, the skill and agent corpus the agents on this
+machine route through, from `michael-denyer/pstack-claude`. It unpacks to
+`~/.local/share/pstack`. The pin is not free choice: it has to be the same
+commit Claude Code's marketplace install records as its `gitCommitSha` in
+`~/.claude/plugins/installed_plugins.json`, or the two harnesses run different
+corpora. Bump both or neither.
+
+Two things about that entry are easy to get wrong. `include` globs match the
+path as it appears inside the archive, before `stripComponents` is applied, so
+the patterns start `*/plugins/pstack/`; a post-strip pattern like `skills/**`
+matches nothing and fails silently, leaving an empty directory behind a
+successful apply. And `stripComponents = 3` is what drops the
+`pstack-claude-<sha>/plugins/pstack/` prefix so `skills/` lands at the
+destination root.
+
+Claude Code never reads that copy; it has its own from the marketplace. The
+copy exists for opencode, which has no plugin system and points at it by
+absolute path from `dot_config/opencode/opencode.jsonc.tmpl`, through `skills`
+for the corpus and `instructions` for pstack's session-start mandate. Change
+the destination path and that file changes with it.
 
 `dot_claude/modify_settings.json` selects Claude Code's output style with
 `outputStyle`. It names `Concise`, one of the styles built into the binary, so

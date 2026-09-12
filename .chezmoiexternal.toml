@@ -4,3 +4,36 @@
 # SHA256, bumped together or not at all. The URL names an immutable commit, so
 # the bytes behind it never change and the default refresh behaviour is moot;
 # the checksum is what makes a silent substitution fail the apply.
+
+# pstack, the skill and agent corpus this machine's agents route through, from
+# michael-denyer/pstack-claude. Pinned to 5d8752c, which is version 0.9.28 and
+# the same commit Claude Code's marketplace install records as its
+# gitCommitSha in ~/.claude/plugins/installed_plugins.json. Pinning it here
+# means both harnesses run one identical corpus instead of two copies drifting
+# apart; bump this only together with the marketplace install.
+#
+# `include` matches the path as it appears inside the archive, BEFORE
+# stripComponents runs. A post-strip pattern such as "skills/**" matches
+# nothing at all, and the failure is silent: the apply succeeds and leaves an
+# empty directory. stripComponents = 3 then drops the
+# pstack-claude-<sha>/plugins/pstack/ prefix, so skills/ lands at the
+# destination root rather than three levels down.
+#
+# Claude Code reads its own marketplace copy and never looks here. This copy
+# exists for opencode, which has no plugin system and reaches it by absolute
+# path through `skills.paths` and `instructions` in
+# dot_config/opencode/opencode.jsonc.tmpl. Moving this destination means
+# editing that file in the same commit.
+[".local/share/pstack"]
+    type = "archive"
+    url = "https://github.com/michael-denyer/pstack-claude/archive/5d8752c3dd620f344ed8f87ec47fbf3b1fb90b7e.tar.gz"
+    format = "tar.gz"
+    stripComponents = 3
+    include = [
+        "*/plugins/pstack/skills/**",
+        "*/plugins/pstack/agents/**",
+        "*/plugins/pstack/hooks/**",
+        "*/plugins/pstack/models.json",
+    ]
+    [".local/share/pstack".checksum]
+        sha256 = "62ada2e38f5010e7fc56ac9b83e02e92d1a12348bf43f2647a8965b20c1d14a1"
