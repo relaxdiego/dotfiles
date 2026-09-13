@@ -40,6 +40,23 @@ git worktree add ../<branch-dir> <branch>
 Both work from inside any worktree of that repo. The paths are relative, so
 `../` lands in the repo container next to `.bare`.
 
+## The first push
+
+A branch started the way above has `origin/main` as its upstream, because
+that is where it branched from. Its first push therefore has to name the
+branch itself:
+
+```sh
+git push -u origin HEAD
+```
+
+The `-u` repoints the upstream at `origin/<branch>`, so every later
+`git push` and `git pull` in that worktree acts on your own branch.
+
+Without it, git refuses and prints two alternatives. Take
+`git push origin HEAD`, which pushes to the branch of the same name. Do not
+take `git push origin HEAD:main`, which writes your commits to main.
+
 ## Cleaning up
 
 A worktree keeps its files and a git lock even after the branch is merged.
