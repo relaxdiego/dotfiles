@@ -281,6 +281,67 @@ does not follow the terminal palette — the same rule as starship and k9s.
   `opencode.jsonc`, `package.json`, and `node_modules/` already present in
   `~/.config/opencode/` are not managed by this repo.
 
+### Copilot CLI (`dot_copilot/modify_private_settings.json`)
+
+The one agent that **does** follow the terminal palette, on purpose. Copilot
+CLI has no custom-theme mechanism at all: its `theme` setting takes one of five
+built-in names, `default`, `github`, `dim`, `high-contrast`, `colorblind`, and
+there is no way to supply a file. Verified against version 1.0.83 by reading the
+theme resolvers in its bundled JS.
+
+`default` is selected because it computes nearly every semantic token from ANSI
+0-15 (`textPrimary`, `backgroundPrimary`, the status colors, the diff colors,
+the `syntax*` group), leaving only two IDE brand colors as literal hex. So it
+renders kanagawa wherever the emulator palette is the one this repo sets, and
+follows the surrounding terminal everywhere else. The stock `github` theme is
+the opposite: mostly hardcoded GitHub hex, which would be off-palette in every
+terminal including this one.
+
+This is the non-themeable case, the same category as git's own output and the
+`16` base under fzf, not an exception to the explicit-hex rule that Claude Code
+and opencode follow. The rule exists for tools that accept exact colors. Revisit
+this if Copilot CLI ever gains custom themes.
+
+Two things to check after a Copilot CLI upgrade. Whether the built-in list still
+holds those five names. And whether any pair of UI roles has collapsed into two
+near-identical ANSI tones, the failure fzf hit below.
+
+The same file also sets `footer.showContextWindow` and
+`footer.showModelEffort`, the two items the CLI's own footer leaves off by
+default. Everything else in that footer is already on and is left alone,
+including the model name, which no setting hides.
+
+### Agent status lines (one palette, three files)
+
+Three agents draw a status line above the shell prompt, and all three use the
+same muted set of **256-color indices**, not the kanagawa palette: `110` model,
+`108` effort, `144` context, `180` spend, `245` path. Indices above 15 come from
+the emulator's color cube, so a 16-color palette swap cannot move them and the
+line looks the same under any theme setting.
+
+The branch is the exception. It is truecolor `#a292a3`, the mauve from
+`[git_branch]` in `dot_config/starship.toml.tmpl`, so the branch reads the same
+in the status line and in the prompt directly below it.
+
+There is no shared variable. Change one of these and change all of them:
+
+```
+# Claude Code
+dot_claude/executable_statusline.sh
+
+# pi
+dot_pi/agent/extensions/statusline.ts
+
+# omp (as statusLine* tokens in its theme)
+dot_omp/private_agent/themes/relaxdiego.json
+```
+
+Each reads its own host's JSON, so the segments differ where the payload does.
+
+Copilot CLI is deliberately absent. It draws its own two-row footer, and no
+setting hides the model name from it, so a custom status line would always sit
+below that footer and repeat it. See the Copilot CLI section above.
+
 ### git's own colored output (`[color …]` in `dot_gitconfig.tmpl`)
 
 `[color "branch"]`, `[color "diff"]`, and `[color "status"]` set named colors
