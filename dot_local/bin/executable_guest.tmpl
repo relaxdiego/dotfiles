@@ -222,6 +222,7 @@ EOF
     write_agent_md "$name" "$home" "$home/.codex/AGENTS.md"     AGENTS.md 0700
     write_agent_md "$name" "$home" "$home/.pi/agent/AGENTS.md"  AGENTS.md 0700
     write_agent_md "$name" "$home" "$home/.config/AGENTS.md"    AGENTS.md 0700
+    write_agent_md "$name" "$home" "$home/.copilot/copilot-instructions.md" copilot-instructions.md 0700
     write_agent_docs "$name" "$home"
     write_bashrc_d "$name" "$home"
     write_claude_statusline "$name" "$home"

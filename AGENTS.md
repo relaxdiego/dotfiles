@@ -148,12 +148,13 @@ or any other root-equivalent group** — a root daemon it can talk to lets the
 guest escape the boundary.
 
 `guest add` also writes the agent instruction files into each guest:
-`.claude/CLAUDE.md`, `.codex/AGENTS.md`, `.pi/agent/AGENTS.md` and
-`.config/AGENTS.md`. It does not build that document. chezmoi renders it
-during the owner's apply, from `.chezmoitemplates/guest-AGENTS.md`, which is
-the guest preamble followed by the same `.chezmoitemplates/AGENTS.md` the
-owner's own copies use. The result lands in `~/.local/share/guest/` as
-`CLAUDE.md` and `AGENTS.md`, differing only in their H1, and the guest script
+`.claude/CLAUDE.md`, `.codex/AGENTS.md`, `.pi/agent/AGENTS.md`,
+`.config/AGENTS.md` and `.copilot/copilot-instructions.md`. It does not build
+that document. chezmoi renders it during the owner's apply, from
+`.chezmoitemplates/guest-AGENTS.md`, which is the guest preamble followed by
+the same `.chezmoitemplates/AGENTS.md` the owner's own copies use. The result
+lands in `~/.local/share/guest/` as `CLAUDE.md`, `AGENTS.md` and
+`copilot-instructions.md`, differing only in their H1, and the guest script
 copies whichever one a destination wants byte for byte. So a wording change
 goes in one of the two templates, never in the script, and the guest preamble
 names no particular guest: one rendered file serves every account.
