@@ -1,0 +1,19 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $settings := dict -}}
+{{- if .chezmoi.stdin -}}
+{{-   $settings = fromJson .chezmoi.stdin -}}
+{{- end -}}
+{{- /* No custom theme file exists. Of the five built-ins only "default" derives */ -}}
+{{- /* its colors from ANSI 0-15, so it follows the emulator palette this repo */ -}}
+{{- /* sets. See docs/color-scheme.md. */ -}}
+{{- $_ := set $settings "theme" "default" -}}
+{{- /* The built-in footer already shows directory, branch, spend and the model. */ -}}
+{{- /* These two are the only useful items it leaves off by default. */ -}}
+{{- $footer := dict -}}
+{{- if hasKey $settings "footer" -}}
+{{-   $footer = get $settings "footer" -}}
+{{- end -}}
+{{- $_ := set $footer "showContextWindow" true -}}
+{{- $_ := set $footer "showModelEffort" true -}}
+{{- $_ := set $settings "footer" $footer -}}
+{{- $settings | toPrettyJson | trim }}
