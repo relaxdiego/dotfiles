@@ -89,8 +89,20 @@
 [tag]
     gpgsign = true
 
+; `upstream` here was a foot-gun, not a preference. Repos under ~/src use the
+; bare + worktree layout, where a new branch starts from a remote ref:
+;
+;     git worktree add ../<dir> -b <branch> origin/main
+;
+; git's default branch.autoSetupMerge then makes origin/main that branch's
+; upstream, which is what we want for `git pull`. Under `upstream`, a bare
+; `git push` wants the same ref, so the first push on a feature branch wrote
+; straight to main with no prompt. `simple` is git's own default and refuses
+; that push by name, while leaving `git pull` alone; push.default has no say
+; in what pull reads. Proved by scripts/verify-push-safety.sh, which is why
+; that script exists. Do not set this back to `upstream`.
 [push]
-    default = upstream
+    default = simple
     useForceIfIncludes = true
 
 [pull]
