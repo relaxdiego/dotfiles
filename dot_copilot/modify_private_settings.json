@@ -8,13 +8,15 @@
 {{- /* sets. See docs/color-scheme.md. */ -}}
 {{- $_ := set $settings "theme" "default" -}}
 {{- /* The built-in footer already shows directory, branch, spend and the model. */ -}}
-{{- /* These two are the only useful items it leaves off by default. */ -}}
+{{- /* These three are the only useful items it leaves off by default. showYolo */ -}}
+{{- /* appears only while --yolo, --allow-all or /permissions allow-all is on. */ -}}
 {{- $footer := dict -}}
 {{- if hasKey $settings "footer" -}}
 {{-   $footer = get $settings "footer" -}}
 {{- end -}}
 {{- $_ := set $footer "showContextWindow" true -}}
 {{- $_ := set $footer "showModelEffort" true -}}
+{{- $_ := set $footer "showYolo" true -}}
 {{- $_ := set $settings "footer" $footer -}}
 {{- /* Matches Claude Code's empty "attribution" in dot_claude/modify_settings.json. */ -}}
 {{- $_ := set $settings "includeCoAuthoredBy" false -}}
