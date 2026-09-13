@@ -43,9 +43,10 @@ while IFS= read -r line || [ -n "$line" ]; do
     fi
 done < "$msg_file"
 
-# Forbidden attribution (block).
-if grep -qiE 'co-authored-by:[[:space:]]*claude|generated with claude' "$msg_file"; then
-    errors+=('Contains Claude/Anthropic attribution (Co-Authored-By: Claude / "Generated with Claude").')
+# Forbidden AI-agent attribution (block). Human co-authors stay allowed.
+agents='claude|anthropic|copilot|codex|openai|chatgpt|cursor|gemini|google-labs-jules|aider|devin-ai|opencode|ampcode|windsurf|codeium'
+if grep -qiE "^[[:space:]]*co-authored-by:.*($agents)|generated (with|by) .*($agents)" "$msg_file"; then
+    errors+=('Contains AI-agent attribution (a Co-authored-by: trailer or "Generated with" line naming Claude, Copilot, Codex, and the like).')
 fi
 
 # Skip auto-generated commits we do not author by hand.

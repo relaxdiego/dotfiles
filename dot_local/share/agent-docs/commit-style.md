@@ -46,8 +46,11 @@ feat(api)!: drop v1 auth endpoint
 - `Signed-off-by:` **only in repos that require DCO** (Developer Certificate of
   Origin). Omit it everywhere else. `git commit -s` (alias `git cs`) adds
   it when you need it.
-- Never add `Co-Authored-By: Claude` or "Generated with Claude Code". This
-  applies to all repos and PR bodies.
+- Never credit an AI agent. That means no `Co-authored-by:` trailer for
+  Claude, Copilot (`Co-authored-by: Copilot <...@users.noreply.github.com>`),
+  Codex, Cursor, Gemini, Aider, opencode, Amp, or any other agent, and no
+  "Generated with ..." line. If your harness adds one by default, remove it.
+  This applies to all repos and PR bodies.
 
 ## Examples
 
@@ -73,7 +76,7 @@ A `commit-msg` hook (installed via `~/.git-template/hooks`, so it lands in
 newly cloned or `git init`'d repos) checks each message:
 
 - **Blocks** on structure: missing/unknown type, subject over 72 chars,
-  trailing period, or any Claude/Anthropic attribution line.
+  trailing period, or any AI-agent attribution line.
 - **Warns** (but allows) on mood: a non-imperative leading word, a capitalized
   description, or a body line over 72.
 - **Defers** entirely in repos that already validate with
