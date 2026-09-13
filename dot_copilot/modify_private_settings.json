@@ -16,4 +16,6 @@
 {{- $_ := set $footer "showContextWindow" true -}}
 {{- $_ := set $footer "showModelEffort" true -}}
 {{- $_ := set $settings "footer" $footer -}}
+{{- /* Matches Claude Code's empty "attribution" in dot_claude/modify_settings.json. */ -}}
+{{- $_ := set $settings "includeCoAuthoredBy" false -}}
 {{- $settings | toPrettyJson | trim }}
